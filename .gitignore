@@ -1,0 +1,14 @@
+# Local environments and secrets
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+node_modules/
+.DS_Store
+
+# Generated experiment output (keep summaries and manifests in Git)
+runs/
+checkpoints/
