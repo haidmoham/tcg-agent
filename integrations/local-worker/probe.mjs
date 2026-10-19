@@ -12,6 +12,8 @@ const exactHash = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(va
 
 export function verifyLocalInputs(config) {
   if (config?.schema !== 'local-worker-probe-v1') throw new Error('unsupported local probe configuration');
+  const copyMode = config.projectionCopyMode ?? 'native';
+  if (!['native', 'projection-snapshot-v1'].includes(copyMode)) throw new Error('unsupported local projection copy mode');
   for (const key of ['executable', 'worker', 'bundleRoot']) {
     if (typeof config[key] !== 'string' || !isAbsolute(config[key])) throw new Error('explicit absolute local paths required');
   }
@@ -46,7 +48,7 @@ export function verifyLocalInputs(config) {
   const decks = JSON.parse(readFileSync(join(root, 'decks.json')));
   const selected = ['realDeckRows', 'zoroarkDeckRows'].map(key => decks[key]?.orderedSourceIDs);
   if (selected.some(deck => !Array.isArray(deck) || deck.length !== 60 || deck.some(card => typeof card !== 'string'))) throw new Error('expected two pinned 60-card source arrays');
-  return { root, pins, manifest, selected, decisions, maxCommands, maxSeconds };
+  return { root, pins, manifest, selected, decisions, maxCommands, maxSeconds, copyMode };
 }
 
 export class LocalWorker {

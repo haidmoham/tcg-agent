@@ -31,6 +31,8 @@ The [public Twinleaf integration](integrations/twinleaf/README.md) reuses a pinn
 
 The [optional native adapter](docs/native-runtime.md) reuses the existing Indigo Live headless engine and privately supplied card/game programs. A natural seeded modern-deck game completed with 123 accepted commands and zero rejections. Fresh-process semantic replay matched all 124 frames, both player observations and 63 native seed requests with extra reads. This is the primary local extension path; recovered inputs stay private and external. The public Twinleaf work remains an independent comparator. Full Standard, complete observations and exhaustive legal decisions remain open.
 
+The [native copy experiment](docs/native-copy-optimization.md) preserves fresh detached reads while sharing an immutable serialized input within one seat projection. Explicit copy modes remain pinned in new journals. A bounded comparison tool checks every original frame and player observation before alternating identical baseline/candidate workloads. This read optimization does not provide a continuation-safe search branch.
+
 ```sh
 npm run engine:prepare
 npm run engine:smoke

@@ -18,8 +18,54 @@ internal sealed partial class MatchWorker
     private bool offlineBenchmarkMode;
     private long offlineCopyCalls;
     private double offlineCopyMilliseconds;
+    private string offlineCopyMode = "native";
+    private MatchOperation? offlineSnapshotAuthority;
+    private int offlineSnapshotRevision;
+    private string? offlineProjectionSnapshot;
+    private long offlineSerializationCalls;
+    private double offlineSerializationMilliseconds;
+    private long offlineDeserializationCalls;
+    private double offlineDeserializationMilliseconds;
+    private long offlineSnapshotHits;
 
-    private void BeginOfflineProjection() => offlineProjectionRead = null;
+    private IDisposable BeginOfflineProjection()
+    {
+        if (offlineSnapshotAuthority != null) throw new InvalidOperationException("nested offline projection");
+        offlineProjectionRead = null;
+        offlineSnapshotAuthority = authority;
+        offlineSnapshotRevision = revision;
+        return new OfflineProjectionScope(this);
+    }
+
+    private string SerializeOfflineAuthority()
+    {
+        var started = Stopwatch.GetTimestamp();
+        var serialized = JsonConvert.SerializeObject(authority, SerializeResolver.settings);
+        offlineSerializationCalls++;
+        offlineSerializationMilliseconds += Stopwatch.GetElapsedTime(started).TotalMilliseconds;
+        return serialized;
+    }
+
+    private void EndOfflineProjection()
+    {
+        try
+        {
+            if (offlineProjectionSnapshot != null && (authority != offlineSnapshotAuthority
+                || revision != offlineSnapshotRevision || SerializeOfflineAuthority() != offlineProjectionSnapshot))
+                throw new InvalidOperationException("offline projection changed canonical state");
+        }
+        finally
+        {
+            offlineProjectionSnapshot = null;
+            offlineSnapshotAuthority = null;
+            offlineProjectionRead = null;
+        }
+    }
+
+    private sealed class OfflineProjectionScope(MatchWorker worker) : IDisposable
+    {
+        public void Dispose() => worker.EndOfflineProjection();
+    }
 
     private void RegisterOfflineIdentities()
     {
@@ -60,6 +106,8 @@ internal sealed partial class MatchWorker
     {
         if (offlineRng != null) throw new InvalidOperationException("offline seed already configured");
         var options = input["offline"] as JObject ?? throw new InvalidDataException("explicit offline seed required");
+        offlineCopyMode = options.Value<string>("projectionCopyMode") ?? "native";
+        if (offlineCopyMode is not ("native" or "projection-snapshot-v1")) throw new InvalidDataException("unknown offline copy mode");
         var seed = options.Value<long?>("seed");
         if (seed is null or < 0 or > uint.MaxValue) throw new InvalidDataException("uint32 offline seed required");
         offlineRng = new OfflineSeeds((uint)seed.Value);
@@ -70,7 +118,20 @@ internal sealed partial class MatchWorker
     {
         if (authority == null) throw new InvalidOperationException("offline authority missing");
         var started = Stopwatch.GetTimestamp();
-        var copy = authority.CopyOperation();
+        MatchOperation copy;
+        if (offlineCopyMode == "projection-snapshot-v1" && offlineSnapshotAuthority != null)
+        {
+            if (authority != offlineSnapshotAuthority || revision != offlineSnapshotRevision)
+                throw new InvalidOperationException("offline projection authority changed");
+            if (offlineProjectionSnapshot == null) offlineProjectionSnapshot = SerializeOfflineAuthority();
+            else offlineSnapshotHits++;
+            var deserializeStarted = Stopwatch.GetTimestamp();
+            copy = JsonConvert.DeserializeObject<MatchOperation>(offlineProjectionSnapshot, DeserializeResolver.settings)
+                ?? throw new InvalidDataException("offline read copy missing");
+            offlineDeserializationCalls++;
+            offlineDeserializationMilliseconds += Stopwatch.GetElapsedTime(deserializeStarted).TotalMilliseconds;
+        }
+        else copy = authority.CopyOperation();
         typeof(MatchOperation).GetField("_randomSeedGenerator", BindingFlags.Instance | BindingFlags.NonPublic)!
             .SetValue(copy, offlineReadRng);
         offlineCopyCalls++;
@@ -87,6 +148,7 @@ internal sealed partial class MatchWorker
             ["rngVersion"] = "counter-mix32/1", ["seed"] = offlineRng.Seed,
             ["emittedSeeds"] = new JArray(offlineRng.Emitted),
             ["readChanceAttempts"] = offlineReadRng.Attempts,
+            ["projectionCopyMode"] = offlineCopyMode,
             ["fixedClock"] = "2026-10-11T00:00:00Z",
             ["authority"] = JToken.Parse(JsonConvert.SerializeObject(authority, SerializeResolver.settings)),
         };
@@ -171,6 +233,9 @@ internal sealed partial class MatchWorker
             ["nativeSeedCalls"] = offlineRng!.Emitted.Count,
             ["batchMilliseconds"] = Stopwatch.GetElapsedTime(started).TotalMilliseconds,
             ["readCopyCalls"] = offlineCopyCalls, ["readCopyMilliseconds"] = offlineCopyMilliseconds,
+            ["projectionCopyMode"] = offlineCopyMode, ["snapshotHits"] = offlineSnapshotHits,
+            ["serializationCalls"] = offlineSerializationCalls, ["serializationMilliseconds"] = offlineSerializationMilliseconds,
+            ["deserializationCalls"] = offlineDeserializationCalls, ["deserializationMilliseconds"] = offlineDeserializationMilliseconds,
         };
     }
 

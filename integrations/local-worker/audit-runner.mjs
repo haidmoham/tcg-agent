@@ -24,6 +24,7 @@ export async function runAuditedEpisode(config, { seed = 1729, replay = null, ex
   const projectors = { human: new PolicyView(), opponent: new PolicyView() };
   const identity = { id: inputs.manifest.bundleId, cardsHash: inputs.pins.get('cardData.json'), rulesHash: inputs.pins.get('gameData.json'), runtimeHash: inputs.pins.get('MatchLogic.dll') };
   const header = { schema: 'local-semantic-replay-v1', seed, normalization: 'runtime-identity-minus-lastCheckedState/3', manifestSha256: config.manifestSha256, workerSha256: config.workerSha256, executableSha256: config.executableSha256, policySha256: config.policySha256, deckHashes: selected.map(digest) };
+  if (config.projectionCopyMode !== undefined) header.projectionCopyMode = inputs.copyMode;
   if (replay && !isDeepStrictEqual(replay.header, header)) throw new Error('replay pins or seed mismatch');
   const journal = { header, frames: [], commands: [] };
   const boundaryChecks = [];
@@ -33,10 +34,11 @@ export async function runAuditedEpisode(config, { seed = 1729, replay = null, ex
   let previews = 0; let rejected = 0;
   try {
     const seats = Object.fromEntries(['human', 'opponent'].map((seat, index) => [seat, { accountId: `offline-${seat}`, name: `Offline ${seat}`, cards: selected[index] }]));
-    let frame = await worker.request('create', { bundle: identity, seats, offline: { seed } });
+    let frame = await worker.request('create', { bundle: identity, seats, offline: { seed, projectionCopyMode: inputs.copyMode } });
     for (;;) {
       const audit = await worker.request('audit', {});
       if (audit.schema !== 'indigo-offline-audit/1' || audit.seed !== seed || audit.fixedClock !== '2026-10-11T00:00:00Z' || audit.readChanceAttempts !== 0) throw new Error('offline RNG/read contract failed');
+      if (config.projectionCopyMode !== undefined && audit.projectionCopyMode !== inputs.copyMode) throw new Error('offline copy mode not honored');
       verifySeedTranscript(seed, audit.emittedSeeds);
       const normalized = state.normalize(audit.authority);
       const actorViews = Object.fromEntries(['human', 'opponent'].map(seat => [seat, projectors[seat].project(frame.views[seat])]));

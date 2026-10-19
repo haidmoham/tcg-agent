@@ -19,7 +19,7 @@ export async function verifyNativeContracts(config, original) {
   const seats = Object.fromEntries(['human', 'opponent'].map((seat, index) => [seat, { accountId: `offline-${seat}`, name: `Offline ${seat}`, cards: selected[index] }]));
   assert.ok(original.frames[1]?.emittedSeeds.length > 0, 'first recorded command must request native chance');
   const begin = async (worker, rootSeed) => {
-    const frame = await worker.request('create', { bundle, seats, offline: { seed: rootSeed } });
+    const frame = await worker.request('create', { bundle, seats, offline: { seed: rootSeed, projectionCopyMode: inputs.copyMode } });
     const first = original.commands[0];
     const projector = new PolicyView(); projector.project(frame.views[first.seat]);
     const reply = await worker.request('command', { seat: first.seat, command: { ...projector.resolve(first.decision), commandId: randomUUID(), expectedRevision: 0 } });

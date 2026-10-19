@@ -15,6 +15,7 @@ export function benchmarkDeckOrder(selected, header) {
 export async function benchmarkNative(config, journal, { repeats = 3, maxSeconds = 180, onRepeat = () => {} } = {}) {
   if (!Number.isSafeInteger(repeats) || repeats < 1 || repeats > 5 || !Number.isSafeInteger(maxSeconds) || maxSeconds < 1 || maxSeconds > 180) throw new TypeError('bounded native benchmark required');
   const inputs = verifyLocalInputs(config);
+  if ((journal.header.projectionCopyMode ?? 'native') !== inputs.copyMode) throw new Error('benchmark copy mode differs from recorded execution');
   if (journal.header.workerSha256 !== config.workerSha256 || journal.header.manifestSha256 !== config.manifestSha256 || journal.header.executableSha256 !== config.executableSha256 || journal.header.policySha256 !== config.policySha256 || journal.header.normalization !== 'runtime-identity-minus-lastCheckedState/3' || journal.header.schema !== 'local-semantic-replay-v1' || journal.commands.length < 1 || journal.commands.length > 2000 || journal.frames.length !== journal.commands.length + 1) throw new Error('verified replay pins required for benchmark');
   const selected = benchmarkDeckOrder(inputs.selected, journal.header);
   const identity = { id: inputs.manifest.bundleId, cardsHash: inputs.pins.get('cardData.json'), rulesHash: inputs.pins.get('gameData.json'), runtimeHash: inputs.pins.get('MatchLogic.dll') };
@@ -26,14 +27,16 @@ export async function benchmarkNative(config, journal, { repeats = 3, maxSeconds
     const budget = setTimeout(() => worker.close(new Error('native benchmark budget exhausted')), maxSeconds * 1000);
     try {
       const seats = Object.fromEntries(['human', 'opponent'].map((seat, index) => [seat, { accountId: `offline-${seat}`, name: `Offline ${seat}`, cards: selected[index] }]));
-      await worker.request('create', { bundle: identity, seats, offline: { seed: journal.header.seed } });
+      await worker.request('create', { bundle: identity, seats, offline: { seed: journal.header.seed, projectionCopyMode: inputs.copyMode } });
       const batch = await worker.request('offline-batch', { commands: journal.commands });
       const elapsedMs = performance.now() - start;
       if (!batch.terminal || batch.commands !== journal.commands.length || batch.revision !== journal.frames.at(-1).revision) throw new Error('benchmark did not complete the verified workload');
       const audit = await worker.request('audit', {});
+      if (config.projectionCopyMode !== undefined && (audit.projectionCopyMode !== inputs.copyMode || batch.projectionCopyMode !== inputs.copyMode)) throw new Error('benchmark copy mode not honored');
       verifySeedTranscript(journal.header.seed, audit.emittedSeeds);
       if (audit.readChanceAttempts !== 0 || !isDeepStrictEqual(audit.emittedSeeds, journal.frames.at(-1).emittedSeeds) || new SemanticState(knownIds).hash(audit.authority) !== journal.frames.at(-1).snapshotHash) throw new Error('benchmark terminal state diverged from replay');
       const result = { repeat: repeat + 1, games: 1, elapsedMs, gamesPerSecond: 1000 / elapsedMs, commands: batch.commands, commandsPerSecond: batch.commands * 1000 / elapsedMs, batchMilliseconds: batch.batchMilliseconds, readCopyCalls: batch.readCopyCalls, readCopyMilliseconds: batch.readCopyMilliseconds, nativeSeedCalls: batch.nativeSeedCalls, terminalStateHash: journal.frames.at(-1).snapshotHash, errors: 0, truncations: 0 };
+      if (batch.projectionCopyMode !== undefined) for (const key of ['projectionCopyMode', 'snapshotHits', 'serializationCalls', 'serializationMilliseconds', 'deserializationCalls', 'deserializationMilliseconds']) result[key] = batch[key];
       runs.push(result); onRepeat(result);
     } finally { clearTimeout(budget); worker.close(); }
   }

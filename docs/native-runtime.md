@@ -66,3 +66,5 @@ An additional fresh-process replay of the swapped-seat seed-3141 game matched al
 | Evaluation | Two exact decks and one frozen heuristic. Designed equal weights have null observed metagame coverage. Four games cannot establish policy improvement or competitive strength. |
 
 The next extension is complete player history and decision coverage, followed by a bounded branch mechanism that preserves continuations/RNG. Search may sample plausible worlds from player information; it must never receive the actual hidden state as a shortcut. The [data and baseline research](training-data-and-baselines.md) records suitable source boundaries and the later search/model sequence.
+
+The [native copy experiment](native-copy-optimization.md) addresses the measured repeated serialization cost without sharing mutable validation graphs. Its explicit execution mode and cross-build conformance comparison retain the original replay and information boundaries. It does not close the observation, decision or branch gates above.

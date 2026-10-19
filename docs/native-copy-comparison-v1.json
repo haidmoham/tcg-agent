@@ -1,0 +1,451 @@
+{
+  "schema": "native-copy-comparison-v1",
+  "timestamp": "2026-10-19T22:57:06.724Z",
+  "fullStandardClaim": false,
+  "pairs": 5,
+  "concurrency": 1,
+  "order": "AB, BA, AB, BA, AB; truncated to pair count",
+  "baselineWorkerSha256": "01100ec6a6e5318ab3f57a88b6d769612fd50b126c5b4eb677e1f3d9752aa58b",
+  "candidateWorkerSha256": "4f0f24e14ac187267321de35795c5a087938147de5a8b29125aa5935d32d5d2f",
+  "baselineCopyMode": "native",
+  "candidateCopyMode": "projection-snapshot-v1",
+  "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+  "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+  "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+  "seed": 1729,
+  "deckHashes": [
+    "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+    "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+  ],
+  "workloadSha256": "033768b0c7e920f6def194b18b48cdb78d46acf6e8dcd9600818507669d8c43a",
+  "proof": {
+    "schema": "audited-native-episode-v1",
+    "completedNaturally": true,
+    "seed": 1729,
+    "seatOrder": [
+      0,
+      1
+    ],
+    "winnerSeat": "human",
+    "turns": 12,
+    "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+    "commands": 123,
+    "frames": 124,
+    "previews": 44,
+    "rejected": 0,
+    "boundaryChecks": [
+      {
+        "revision": 0,
+        "seat": "human",
+        "permutedSlots": 120,
+        "opponentHandExchanged": false
+      },
+      {
+        "revision": 0,
+        "seat": "human",
+        "decisionDomain": {
+          "kind": "select",
+          "checked": 2,
+          "legalAnswers": 2,
+          "complete": true
+        }
+      },
+      {
+        "revision": 0,
+        "seat": "opponent",
+        "permutedSlots": 120,
+        "opponentHandExchanged": false
+      },
+      {
+        "revision": 0,
+        "useAudit": {
+          "checked": false,
+          "reason": "pending native decision"
+        }
+      },
+      {
+        "revision": 25,
+        "seat": "human",
+        "permutedSlots": 98,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 25,
+        "seat": "opponent",
+        "permutedSlots": 98,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 25,
+        "useAudit": {
+          "checked": true,
+          "tested": 124,
+          "legal": 1,
+          "offered": 1,
+          "missing": [],
+          "extra": []
+        }
+      },
+      {
+        "revision": 50,
+        "seat": "human",
+        "permutedSlots": 82,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 50,
+        "seat": "opponent",
+        "permutedSlots": 82,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 50,
+        "useAudit": {
+          "checked": true,
+          "tested": 124,
+          "legal": 3,
+          "offered": 3,
+          "missing": [],
+          "extra": []
+        }
+      },
+      {
+        "revision": 75,
+        "seat": "human",
+        "permutedSlots": 64,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 75,
+        "seat": "opponent",
+        "permutedSlots": 64,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 75,
+        "seat": "opponent",
+        "decisionDomain": {
+          "kind": "cards",
+          "checked": 1,
+          "legalAnswers": 1,
+          "complete": true
+        }
+      },
+      {
+        "revision": 75,
+        "useAudit": {
+          "checked": false,
+          "reason": "pending native decision"
+        }
+      },
+      {
+        "revision": 100,
+        "seat": "human",
+        "permutedSlots": 58,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 100,
+        "seat": "human",
+        "decisionDomain": {
+          "kind": "cards",
+          "checked": 2,
+          "legalAnswers": 2,
+          "complete": true
+        }
+      },
+      {
+        "revision": 100,
+        "seat": "opponent",
+        "permutedSlots": 58,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 100,
+        "useAudit": {
+          "checked": false,
+          "reason": "pending native decision"
+        }
+      }
+    ],
+    "nativeSeedCalls": 63,
+    "elapsedMs": 49315.8936,
+    "replayVerified": true,
+    "fullStandardClaim": false
+  },
+  "baseline": {
+    "games": 5,
+    "medianMilliseconds": 54575.167799999996,
+    "minMilliseconds": 47304.74669999999,
+    "maxMilliseconds": 55947.77529999998,
+    "medianGamesPerSecond": 0.018323351815695197,
+    "medianCommandsPerSecond": 2.2537722733305094
+  },
+  "candidate": {
+    "games": 5,
+    "medianMilliseconds": 43017.532999999996,
+    "minMilliseconds": 39035.641,
+    "maxMilliseconds": 45369.35209999996,
+    "medianGamesPerSecond": 0.02324633539538402,
+    "medianCommandsPerSecond": 2.8592992536322344
+  },
+  "speedup": 1.2686726549381622,
+  "runs": [
+    {
+      "pair": 1,
+      "side": "baseline",
+      "repeat": 1,
+      "games": 1,
+      "elapsedMs": 48904.369699999996,
+      "gamesPerSecond": 0.020448070512602886,
+      "commands": 123,
+      "commandsPerSecond": 2.515112673050155,
+      "batchMilliseconds": 48058.7139,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 33007.01799999998,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0
+    },
+    {
+      "pair": 1,
+      "side": "candidate",
+      "repeat": 1,
+      "games": 1,
+      "elapsedMs": 39035.641,
+      "gamesPerSecond": 0.025617614425750047,
+      "commands": 123,
+      "commandsPerSecond": 3.1509665743672555,
+      "batchMilliseconds": 38147.8387,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 21751.216199999973,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0,
+      "projectionCopyMode": "projection-snapshot-v1",
+      "snapshotHits": 5225,
+      "serializationCalls": 496,
+      "serializationMilliseconds": 1361.0145999999995,
+      "deserializationCalls": 5473,
+      "deserializationMilliseconds": 20501.403200000066
+    },
+    {
+      "pair": 2,
+      "side": "candidate",
+      "repeat": 1,
+      "games": 1,
+      "elapsedMs": 39883.11180000001,
+      "gamesPerSecond": 0.025073269232718187,
+      "commands": 123,
+      "commandsPerSecond": 3.084012115624337,
+      "batchMilliseconds": 39014.4088,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 22965.70139999991,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0,
+      "projectionCopyMode": "projection-snapshot-v1",
+      "snapshotHits": 5225,
+      "serializationCalls": 496,
+      "serializationMilliseconds": 1446.4664999999993,
+      "deserializationCalls": 5473,
+      "deserializationMilliseconds": 21647.143299999974
+    },
+    {
+      "pair": 2,
+      "side": "baseline",
+      "repeat": 1,
+      "games": 1,
+      "elapsedMs": 47304.74669999999,
+      "gamesPerSecond": 0.021139527632223855,
+      "commands": 123,
+      "commandsPerSecond": 2.600161898763534,
+      "batchMilliseconds": 46451.4592,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 31736.388100000015,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0
+    },
+    {
+      "pair": 3,
+      "side": "baseline",
+      "repeat": 1,
+      "games": 1,
+      "elapsedMs": 55947.77529999998,
+      "gamesPerSecond": 0.01787381168666416,
+      "commands": 123,
+      "commandsPerSecond": 2.1984788374596915,
+      "batchMilliseconds": 55066.8198,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 38196.951199999894,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0
+    },
+    {
+      "pair": 3,
+      "side": "candidate",
+      "repeat": 1,
+      "games": 1,
+      "elapsedMs": 45369.35209999996,
+      "gamesPerSecond": 0.022041311010919218,
+      "commands": 123,
+      "commandsPerSecond": 2.7110812543430636,
+      "batchMilliseconds": 44503.104,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 26160.09319999999,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0,
+      "projectionCopyMode": "projection-snapshot-v1",
+      "snapshotHits": 5225,
+      "serializationCalls": 496,
+      "serializationMilliseconds": 1507.6856999999998,
+      "deserializationCalls": 5473,
+      "deserializationMilliseconds": 24750.448900000003
+    },
+    {
+      "pair": 4,
+      "side": "candidate",
+      "repeat": 1,
+      "games": 1,
+      "elapsedMs": 43775.3383,
+      "gamesPerSecond": 0.022843912550642696,
+      "commands": 123,
+      "commandsPerSecond": 2.809801243729052,
+      "batchMilliseconds": 42872.2186,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 25227.989199999975,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0,
+      "projectionCopyMode": "projection-snapshot-v1",
+      "snapshotHits": 5225,
+      "serializationCalls": 496,
+      "serializationMilliseconds": 1543.2991000000015,
+      "deserializationCalls": 5473,
+      "deserializationMilliseconds": 23804.60320000003
+    },
+    {
+      "pair": 4,
+      "side": "baseline",
+      "repeat": 1,
+      "games": 1,
+      "elapsedMs": 54575.167799999996,
+      "gamesPerSecond": 0.018323351815695197,
+      "commands": 123,
+      "commandsPerSecond": 2.2537722733305094,
+      "batchMilliseconds": 53753.1415,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 37188.25540000002,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0
+    },
+    {
+      "pair": 5,
+      "side": "baseline",
+      "repeat": 1,
+      "games": 1,
+      "elapsedMs": 55603.0024,
+      "gamesPerSecond": 0.017984640340212996,
+      "commands": 123,
+      "commandsPerSecond": 2.2121107618461986,
+      "batchMilliseconds": 54799.3722,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 37584.55009999994,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0
+    },
+    {
+      "pair": 5,
+      "side": "candidate",
+      "repeat": 1,
+      "games": 1,
+      "elapsedMs": 43017.532999999996,
+      "gamesPerSecond": 0.02324633539538402,
+      "commands": 123,
+      "commandsPerSecond": 2.8592992536322344,
+      "batchMilliseconds": 42155.8712,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 24668.405400000058,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0,
+      "projectionCopyMode": "projection-snapshot-v1",
+      "snapshotHits": 5225,
+      "serializationCalls": 496,
+      "serializationMilliseconds": 1527.7366000000018,
+      "deserializationCalls": 5473,
+      "deserializationMilliseconds": 23247.17689999997
+    }
+  ],
+  "host": {
+    "node": "v24.18.0",
+    "platform": "win32 10.0.26300 x64",
+    "cpu": "AMD Ryzen 7 5800X 8-Core Processor",
+    "logicalCpus": 16,
+    "factsCapturedAfterTiming": true
+  },
+  "measurementNotes": [
+    "Five alternating paired repetitions on the same recorded trace. Cold processes, shared OS caches and uncontrolled host load. Same default SDK build options.",
+    "Every candidate still deserializes a fresh scoped read. The native privacy transform and command revalidation remain unchanged.",
+    "Phase counters overlap. readCopyMilliseconds includes first snapshot serialization but excludes the end-of-scope integrity serialization; serializationMilliseconds includes both. Do not add these totals.",
+    "No policy inference, previews, persisted per-step snapshots or optional batch presentation details are timed. Post-timing terminal/seed verification is excluded.",
+    "Semantic UUID-normalized replay retains its documented lastCheckedState cache exclusion. No broad Standard or competitive claim."
+  ],
+  "separatePhaseProbe": {
+    "repeat": 1,
+    "games": 1,
+    "elapsedMs": 39621.4959,
+    "gamesPerSecond": 0.025238824968241542,
+    "commands": 123,
+    "commandsPerSecond": 3.10437547109371,
+    "batchMilliseconds": 38928.9357,
+    "readCopyCalls": 5552,
+    "readCopyMilliseconds": 22548.593700000023,
+    "nativeSeedCalls": 63,
+    "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+    "errors": 0,
+    "truncations": 0,
+    "projectionCopyMode": "projection-snapshot-v1",
+    "snapshotHits": 5225,
+    "serializationCalls": 496,
+    "serializationMilliseconds": 1313.8618,
+    "deserializationCalls": 5473,
+    "deserializationMilliseconds": 21356.079599999997
+  },
+  "swappedSeatProof": {
+    "schema": "audited-native-episode-v1",
+    "completedNaturally": true,
+    "seed": 3141,
+    "seatOrder": [
+      1,
+      0
+    ],
+    "winnerSeat": "human",
+    "turns": 5,
+    "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+    "commands": 52,
+    "frames": 53,
+    "previews": 19,
+    "rejected": 0,
+    "boundaryChecks": [],
+    "nativeSeedCalls": 33,
+    "elapsedMs": 18180.374600000003,
+    "replayVerified": true,
+    "fullStandardClaim": false
+  }
+}

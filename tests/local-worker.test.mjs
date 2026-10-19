@@ -88,6 +88,7 @@ test('local input audit rejects changed programs and worker dependencies', t => 
 
 test('local input audit rejects unpinned execution and unbounded work', t => {
   const config = pinnedFixture(t);
+  assert.throws(() => verifyLocalInputs({ ...config, projectionCopyMode: 'unknown' }), /copy mode/);
   assert.throws(() => verifyLocalInputs({ ...config, workerSha256: '0'.repeat(64) }), /pin mismatch/);
   assert.throws(() => verifyLocalInputs({ ...config, maxCommands: 2001 }), /budget/);
 });

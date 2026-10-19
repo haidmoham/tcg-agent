@@ -51,6 +51,8 @@ The [seeded native runtime](../../docs/native-runtime.md) now adds an isolated o
 
 `scripts/native.mjs` provides `record`, `replay`, `verify`, `benchmark` and `gauntlet` commands. Exact local configuration and programs are still required. The [runtime document](../../docs/native-runtime.md) gives commands, the semantic cache exclusion and an explicit remaining-gate table.
 
+The [copy optimization experiment](../../docs/native-copy-optimization.md) adds optional `projectionCopyMode: "projection-snapshot-v1"` for newly prepared workers. It caches only immutable serialized authority during one seat projection and still creates a fresh read graph for every validation. Without that field, mode remains `native`. New journal headers pin the explicit mode; runners reject a worker that does not honor it. Keep the old config and worker for exact replay of older pinned journals. The separate comparison tool permits a reviewed worker/mode change while preserving every expected frame, actor, seed and command.
+
 ## Retained adapter contract
 
 Retain the canonical pending operation. Disposable copies serve reads and previews; replacing authority with a serialized board can lose continuations or RNG state. Preserve strict polymorphic loading, independently projected seat views, opaque choices and group-local physical-card uniqueness. A successful native preview alone does not establish every selection invariant.
