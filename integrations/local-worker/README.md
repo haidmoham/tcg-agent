@@ -55,6 +55,8 @@ The [copy optimization experiment](../../docs/native-copy-optimization.md) adds 
 
 ## Retained adapter contract
 
+Prepared workers also support `projectionCopyMode: "projection-turn-v1"` for the exact inspected runtime/card/rule hashes. It keeps snapshot copying and skips graphs for proposals necessarily rejected by the fixed IsTurn rules. Unknown profiles and exceptions fall through to native validation. `proveNativeWarm` enables the private rejection oracle and requires every shortcut to agree with original native validation. Timed batches refuse that oracle mode. [The campaign receipt](../../docs/native-performance-hillclimb.md) records the five-pair Release result and remaining coverage gates. Keep all journal execution pins exact.
+
 Retain the canonical pending operation. Disposable copies serve reads and previews; replacing authority with a serialized board can lose continuations or RNG state. Preserve strict polymorphic loading, independently projected seat views, opaque choices and group-local physical-card uniqueness. A successful native preview alone does not establish every selection invariant.
 
 Before this path enters learning, complete legal decision enumeration, independently audit all zones/history, and certify whole-game and card-interaction coverage for a dated legality profile. The new actor DTO removes account-shaped dummy fields. Public Lost Zone, pending/revealed cards and cumulative history remain incomplete. Some allocation domains explicitly refuse admission. Reconcile the broader existing program corpus locally rather than publishing it. The public coverage ledger must continue to reject full Standard admission until evidence closes those gates.

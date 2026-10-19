@@ -9,6 +9,7 @@ import { PolicyView } from './policy-view.mjs';
 import { SemanticState, staticProgramIds, verifySeedTranscript } from './semantic-state.mjs';
 
 const digest = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
+const turnPreflightProfile = 'private-two-deck-2026-10-11/is-turn-v1';
 const median = values => {
   const ordered = [...values].sort((a, b) => a - b), middle = Math.floor(ordered.length / 2);
   return ordered.length % 2 ? ordered[middle] : (ordered[middle - 1] + ordered[middle]) / 2;
@@ -62,7 +63,19 @@ function auditContract(audit, context, journal) {
   if (audit.schema !== 'indigo-offline-audit/1' || audit.seed !== journal.header.seed
       || audit.fixedClock !== '2026-10-11T00:00:00Z' || audit.readChanceAttempts !== 0
       || audit.projectionCopyMode !== context.copyMode) throw new Error('warm session RNG or read contract failed');
+  if (context.copyMode === 'projection-turn-v1') {
+    if (audit.turnPreflightProfile !== turnPreflightProfile) throw new Error('turn preflight execution profile not admitted');
+    if (audit.verifyTurnPreflight !== (context.proofMode ?? false)) throw new Error('turn preflight verification mode not honored');
+  }
   verifySeedTranscript(journal.header.seed, audit.emittedSeeds);
+}
+
+function turnPreflightCounts(stats, proof) {
+  const { validationProposals, turnPreflightRejections, turnPreflightVerifiedRejections } = stats;
+  if (![validationProposals, turnPreflightRejections, turnPreflightVerifiedRejections].every(Number.isSafeInteger)
+      || validationProposals < turnPreflightRejections || turnPreflightRejections <= 0
+      || turnPreflightVerifiedRejections !== (proof ? turnPreflightRejections : 0)) throw new Error('turn preflight work counters invalid');
+  return { validationProposals, turnPreflightRejections, turnPreflightVerifiedRejections };
 }
 
 function verifyTerminal(audit, context, journal) {
@@ -106,12 +119,13 @@ export async function benchmarkNativeWarm(config, cases, { repeats = 3, warmups 
         if (!batch.terminal || batch.commands !== workload.journal.commands.length
             || batch.revision !== workload.journal.frames.at(-1).revision || batch.projectionCopyMode !== context.copyMode) throw new Error('warm benchmark did not complete the fixed workload');
         verifyTerminal(await worker.request('audit', {}), context, workload.journal);
+        if (context.copyMode === 'projection-turn-v1') turnPreflightCounts(batch, false);
         const run = { id: workload.id, round, stage, cold: first,
           games: 1, commands: batch.commands, elapsedMilliseconds, resetMilliseconds,
           batchMilliseconds: batch.batchMilliseconds, verificationMilliseconds: performance.now() - verificationStarted,
           gamesPerSecond: 1000 / elapsedMilliseconds, commandsPerSecond: batch.commands * 1000 / elapsedMilliseconds,
           nativeSeedCalls: batch.nativeSeedCalls, terminalStateHash: workload.journal.frames.at(-1).snapshotHash, errors: 0, truncations: 0 };
-        for (const key of ['readCopyCalls', 'readCopyMilliseconds', 'snapshotHits', 'serializationCalls', 'serializationMilliseconds', 'deserializationCalls', 'deserializationMilliseconds', 'commandLatencyMilliseconds', 'managedCurrentThreadAllocatedBytes', 'gcCollections']) {
+        for (const key of ['readCopyCalls', 'readCopyMilliseconds', 'snapshotHits', 'serializationCalls', 'serializationMilliseconds', 'deserializationCalls', 'deserializationMilliseconds', 'commandLatencyMilliseconds', 'managedCurrentThreadAllocatedBytes', 'gcCollections', 'validationProposals', 'validationByOperation', 'turnPreflightRejections', 'turnPreflightVerifiedRejections', 'batchProcessCpuMilliseconds', 'processPeakWorkingSetBytes']) {
           if (batch[key] !== undefined) run[key] = batch[key];
         }
         (stage === 'warmup' ? warmupRuns : runs).push(run);
@@ -135,7 +149,7 @@ export async function benchmarkNativeWarm(config, cases, { repeats = 3, warmups 
 }
 
 export async function proveNativeWarm(config, cases, { maxSeconds = 180, totalSeconds = 900, onGame = () => {} } = {}) {
-  const context = sessionInputs(config, cases, { maxSeconds, totalSeconds });
+  const context = { ...sessionInputs(config, cases, { maxSeconds, totalSeconds }), proofMode: true };
   const started = performance.now(), worker = new LocalWorker(config, { timeoutMs: maxSeconds * 1000 });
   const budget = setTimeout(() => worker.close(new Error('warm proof session budget exhausted')), totalSeconds * 1000);
   const runs = [];
@@ -173,10 +187,17 @@ export async function proveNativeWarm(config, cases, { maxSeconds = 180, totalSe
           if (result.receipt?.status !== 'accepted' || result.frame?.revision !== frame.revision + 1) throw new Error('warm reset proof command rejected');
           frame = result.frame;
         }
+        let turnPreflight;
+        if (context.copyMode === 'projection-turn-v1') {
+          const stats = await worker.request('audit-preflight', {});
+          if (stats.profile !== turnPreflightProfile || stats.verifyTurnPreflight !== true) throw new Error('turn preflight proof profile or verification mode not honored');
+          turnPreflight = { profile: stats.profile, verifyTurnPreflight: stats.verifyTurnPreflight, ...turnPreflightCounts(stats, true) };
+        }
         const run = { id: workload.id, sequence: runs.length + 1, reset: runs.length > 0, commands: journal.commands.length,
           frames: journal.frames.length, nativeSeedCalls: journal.frames.at(-1).emittedSeeds.length,
           terminalStateHash: journal.frames.at(-1).snapshotHash, elapsedMilliseconds: performance.now() - gameStarted,
           commandLatency: latency(commandLatencies), errors: 0, truncations: 0 };
+        if (turnPreflight) run.turnPreflight = turnPreflight;
         runs.push(run); onGame(run);
       } finally { clearTimeout(gameBudget); }
     }

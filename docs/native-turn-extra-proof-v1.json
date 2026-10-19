@@ -1,0 +1,181 @@
+{
+  "schema": "native-turn-extra-proof-v1",
+  "workerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+  "fullStandardClaim": false,
+  "long": {
+    "schema": "audited-native-episode-v1",
+    "completedNaturally": true,
+    "seed": 2718,
+    "seatOrder": [
+      0,
+      1
+    ],
+    "winnerSeat": "human",
+    "turns": 22,
+    "terminalStateHash": "41c578b189d13cb290c76ec5dbb128afa3fb68a7f4491885e9cf6f49630f1f45",
+    "commands": 191,
+    "frames": 192,
+    "previews": 76,
+    "rejected": 0,
+    "boundaryChecks": [],
+    "nativeSeedCalls": 87,
+    "elapsedMs": 82881.12939999999,
+    "replayVerified": true,
+    "fullStandardClaim": false
+  },
+  "privacy": {
+    "schema": "audited-native-episode-v1",
+    "completedNaturally": true,
+    "seed": 1729,
+    "seatOrder": [
+      0,
+      1
+    ],
+    "winnerSeat": "human",
+    "turns": 12,
+    "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+    "commands": 123,
+    "frames": 124,
+    "previews": 44,
+    "rejected": 0,
+    "boundaryChecks": [
+      {
+        "revision": 0,
+        "seat": "human",
+        "permutedSlots": 120,
+        "opponentHandExchanged": false
+      },
+      {
+        "revision": 0,
+        "seat": "human",
+        "decisionDomain": {
+          "kind": "select",
+          "checked": 2,
+          "legalAnswers": 2,
+          "complete": true
+        }
+      },
+      {
+        "revision": 0,
+        "seat": "opponent",
+        "permutedSlots": 120,
+        "opponentHandExchanged": false
+      },
+      {
+        "revision": 0,
+        "useAudit": {
+          "checked": false,
+          "reason": "pending native decision"
+        }
+      },
+      {
+        "revision": 25,
+        "seat": "human",
+        "permutedSlots": 98,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 25,
+        "seat": "opponent",
+        "permutedSlots": 98,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 25,
+        "useAudit": {
+          "checked": true,
+          "tested": 124,
+          "legal": 1,
+          "offered": 1,
+          "missing": [],
+          "extra": []
+        }
+      },
+      {
+        "revision": 50,
+        "seat": "human",
+        "permutedSlots": 82,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 50,
+        "seat": "opponent",
+        "permutedSlots": 82,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 50,
+        "useAudit": {
+          "checked": true,
+          "tested": 124,
+          "legal": 3,
+          "offered": 3,
+          "missing": [],
+          "extra": []
+        }
+      },
+      {
+        "revision": 75,
+        "seat": "human",
+        "permutedSlots": 64,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 75,
+        "seat": "opponent",
+        "permutedSlots": 64,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 75,
+        "seat": "opponent",
+        "decisionDomain": {
+          "kind": "cards",
+          "checked": 1,
+          "legalAnswers": 1,
+          "complete": true
+        }
+      },
+      {
+        "revision": 75,
+        "useAudit": {
+          "checked": false,
+          "reason": "pending native decision"
+        }
+      },
+      {
+        "revision": 100,
+        "seat": "human",
+        "permutedSlots": 58,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 100,
+        "seat": "human",
+        "decisionDomain": {
+          "kind": "cards",
+          "checked": 2,
+          "legalAnswers": 2,
+          "complete": true
+        }
+      },
+      {
+        "revision": 100,
+        "seat": "opponent",
+        "permutedSlots": 58,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 100,
+        "useAudit": {
+          "checked": false,
+          "reason": "pending native decision"
+        }
+      }
+    ],
+    "nativeSeedCalls": 63,
+    "elapsedMs": 46976.55039999999,
+    "replayVerified": true,
+    "fullStandardClaim": false
+  }
+}

@@ -107,7 +107,8 @@ internal sealed partial class MatchWorker
         if (offlineRng != null) throw new InvalidOperationException("offline seed already configured");
         var options = input["offline"] as JObject ?? throw new InvalidDataException("explicit offline seed required");
         offlineCopyMode = options.Value<string>("projectionCopyMode") ?? "native";
-        if (offlineCopyMode is not ("native" or "projection-snapshot-v1")) throw new InvalidDataException("unknown offline copy mode");
+        if (offlineCopyMode is not ("native" or "projection-snapshot-v1" or "projection-turn-v1")) throw new InvalidDataException("unknown offline copy mode");
+        ConfigureOfflineTurnPreflight(options.Value<bool?>("verifyTurnPreflight") ?? false);
         var seed = options.Value<long?>("seed");
         if (seed is null or < 0 or > uint.MaxValue) throw new InvalidDataException("uint32 offline seed required");
         offlineRng = new OfflineSeeds((uint)seed.Value);
@@ -119,7 +120,7 @@ internal sealed partial class MatchWorker
         if (authority == null) throw new InvalidOperationException("offline authority missing");
         var started = Stopwatch.GetTimestamp();
         MatchOperation copy;
-        if (offlineCopyMode == "projection-snapshot-v1" && offlineSnapshotAuthority != null)
+        if ((offlineCopyMode is "projection-snapshot-v1" or "projection-turn-v1") && offlineSnapshotAuthority != null)
         {
             if (authority != offlineSnapshotAuthority || revision != offlineSnapshotRevision)
                 throw new InvalidOperationException("offline projection authority changed");
@@ -149,6 +150,8 @@ internal sealed partial class MatchWorker
             ["emittedSeeds"] = new JArray(offlineRng.Emitted),
             ["readChanceAttempts"] = offlineReadRng.Attempts,
             ["projectionCopyMode"] = offlineCopyMode,
+            ["turnPreflightProfile"] = offlineTurnProfileAdmitted ? OfflineTurnProfile : null,
+            ["verifyTurnPreflight"] = offlineVerifyTurnPreflight,
             ["fixedClock"] = "2026-10-11T00:00:00Z",
             ["authority"] = JToken.Parse(JsonConvert.SerializeObject(authority, SerializeResolver.settings)),
         };
@@ -185,9 +188,12 @@ internal sealed partial class MatchWorker
 
     private JObject OfflineBatch(JObject input)
     {
+        if (offlineVerifyTurnPreflight) throw new InvalidOperationException("proof-mode turn verification cannot run a timed offline batch");
         var rows = input["commands"] as JArray ?? throw new InvalidDataException("offline commands required");
         if (rows.Count is < 1 or > 2000 || revision != 0) throw new InvalidDataException("bounded fresh offline batch required");
         offlineBenchmarkMode = true;
+        using var process = Process.GetCurrentProcess();
+        var cpuBefore = process.TotalProcessorTime;
         var allocationsBefore = GC.GetAllocatedBytesForCurrentThread();
         var collectionsBefore = Enumerable.Range(0, 3).Select(GC.CollectionCount).ToArray();
         var commandTimes = new List<double>(rows.Count);
@@ -234,6 +240,8 @@ internal sealed partial class MatchWorker
         }
         var batchMilliseconds = Stopwatch.GetElapsedTime(started).TotalMilliseconds;
         var allocatedBytes = GC.GetAllocatedBytesForCurrentThread() - allocationsBefore;
+        process.Refresh();
+        var cpuMilliseconds = (process.TotalProcessorTime - cpuBefore).TotalMilliseconds;
         commandTimes.Sort();
         double Percentile(double quantile) => commandTimes[Math.Clamp((int)Math.Ceiling(commandTimes.Count * quantile) - 1, 0, commandTimes.Count - 1)];
         return new JObject
@@ -243,11 +251,16 @@ internal sealed partial class MatchWorker
             ["batchMilliseconds"] = batchMilliseconds,
             ["commandLatencyMilliseconds"] = new JObject { ["mean"] = commandTimes.Average(), ["p50"] = Percentile(0.5), ["p95"] = Percentile(0.95), ["max"] = commandTimes[^1] },
             ["managedCurrentThreadAllocatedBytes"] = allocatedBytes,
+            ["batchProcessCpuMilliseconds"] = cpuMilliseconds,
+            ["processPeakWorkingSetBytes"] = process.PeakWorkingSet64,
             ["gcCollections"] = new JArray(Enumerable.Range(0, 3).Select(generation => GC.CollectionCount(generation) - collectionsBefore[generation])),
             ["readCopyCalls"] = offlineCopyCalls, ["readCopyMilliseconds"] = offlineCopyMilliseconds,
             ["projectionCopyMode"] = offlineCopyMode, ["snapshotHits"] = offlineSnapshotHits,
             ["serializationCalls"] = offlineSerializationCalls, ["serializationMilliseconds"] = offlineSerializationMilliseconds,
             ["deserializationCalls"] = offlineDeserializationCalls, ["deserializationMilliseconds"] = offlineDeserializationMilliseconds,
+            ["validationProposals"] = offlineValidationProposals, ["turnPreflightRejections"] = offlineTurnRejections,
+            ["validationByOperation"] = new JObject(offlineValidationByOperation.OrderBy(row => row.Key).Select(row => new JProperty(row.Key.ToString(), row.Value))),
+            ["turnPreflightVerifiedRejections"] = offlineTurnVerifiedRejections,
         };
     }
 

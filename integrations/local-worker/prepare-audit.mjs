@@ -37,13 +37,14 @@ replaceOnce('MatchWorker.cs', 'if (authority != null || epoch != null)', 'Config
 replaceOnce('MatchWorker.cs', 'new DateBasedVersion(new DateTime(2026, 10, 11, 0, 0, 0, DateTimeKind.Utc)));', 'new DateBasedVersion(new DateTime(2026, 10, 11, 0, 0, 0, DateTimeKind.Utc)), randomSeedGenerator: offlineRng);');
 replaceOnce('MatchWorker.cs', 'new MatchOperation(nativeAction, authority);', 'new MatchOperation(nativeAction, authority, randomSeedGenerator: offlineRng);');
 replaceOnce('MatchWorker.cs', '"view" => View(RequireObject(payload)),', '"audit" => OfflineAudit(RequireObject(payload)),\n            "view" => View(RequireObject(payload)),');
-replaceOnce('MatchWorker.cs', '"audit" => OfflineAudit(RequireObject(payload)),', '"audit" => OfflineAudit(RequireObject(payload)),\n            "audit-use" => OfflineUseAudit(RequireObject(payload)),\n            "audit-privacy" => OfflinePrivacyProbe(RequireObject(payload)),\n            "offline-batch" => OfflineBatch(RequireObject(payload)),');
+replaceOnce('MatchWorker.cs', '"audit" => OfflineAudit(RequireObject(payload)),', '"audit" => OfflineAudit(RequireObject(payload)),\n            "audit-preflight" => OfflineTurnStatistics(),\n            "audit-use" => OfflineUseAudit(RequireObject(payload)),\n            "audit-privacy" => OfflinePrivacyProbe(RequireObject(payload)),\n            "offline-batch" => OfflineBatch(RequireObject(payload)),');
 replaceOnce('MatchWorker.cs', 'RecordPresentation(commandId, previousFrame, seat, acceptedOffer, acceptedTrainerUse,', 'if (!offlineBenchmarkMode) RecordPresentation(commandId, previousFrame, seat, acceptedOffer, acceptedTrainerUse,');
 replaceOnce('MatchWorker.Projection.cs', 'bool viewerOne = seat == "human";', 'using var offlineProjectionScope = BeginOfflineProjection();\n        bool viewerOne = seat == "human";');
 replaceOnce('MatchWorker.Projection.cs', '["cardDetails"] = CardDetails(board, viewerOne, offered),', '["cardDetails"] = offlineBenchmarkMode ? new JArray() : CardDetails(board, viewerOne, offered),');
 replaceOnce('MatchWorker.Projection.cs', '["activeDetails"] = ActiveDetails(board, read, viewerOne, offered),', '["activeDetails"] = offlineBenchmarkMode ? new JArray() : ActiveDetails(board, read, viewerOne, offered),');
 replaceOnce('MatchWorker.cs', 'authority.workingBoard.RebuildEntityList();', 'authority.workingBoard.RebuildEntityList();\n        RegisterOfflineIdentities();');
 for (const name of ['MatchWorker.cs', 'MatchWorker.Projection.cs']) replaceOnce(name, 'authority!.CopyOperation()', 'OfflineReadCopy()');
+replaceOnce('MatchWorker.cs', 'private bool CanPerform(PlayerOperation operation)', 'private bool NativeCanPerform(PlayerOperation operation)');
 replaceOnce('MatchWorker.Offers.cs', 'card.GetUseActions(onlyActionsOnEntity: true)', 'OfflineUseActions(card)');
 replaceOnce('MatchWorker.Offers.cs', 'card!.GetUseActions(onlyActionsOnEntity: false)', 'OfflineUseActions(card!)');
 if (files.get('MatchWorker.Offers.cs').split('.Where(x => x != null)').length !== 4) throw new Error('isolated card filtering hook changed');
@@ -65,6 +66,7 @@ mkdirSync(project, { recursive: true });
 for (const [name, text] of files) writeFileSync(join(project, name), text);
 writeFileSync(join(project, 'OfflineAudit.cs'), readFileSync(new URL('OfflineAudit.cs', import.meta.url)));
 writeFileSync(join(project, 'OfflineSession.cs'), readFileSync(new URL('OfflineSession.cs', import.meta.url)));
+writeFileSync(join(project, 'OfflineTurnPreflight.cs'), readFileSync(new URL('OfflineTurnPreflight.cs', import.meta.url)));
 const output = resolve('.cache', buildId, 'bin');
 const result = spawnSync(config.executable, ['build', 'Indigo.Live.Engine.csproj', '--configuration', buildConfiguration, '--configfile', 'NuGet.Config', `-p:LiveRuntimeRoot=${config.bundleRoot}`, '-o', output, '--nologo'], { cwd: project, windowsHide: true, timeout: 60000, encoding: 'utf8', env: { ...process.env, DOTNET_CLI_HOME: resolve('.cache/dotnet-home'), DOTNET_CLI_TELEMETRY_OPTOUT: '1', DOTNET_GENERATE_ASPNET_CERTIFICATE: 'false', NUGET_PACKAGES: resolve('.cache/nuget') } });
 if (result.status !== 0) { console.error(result.stdout, result.stderr); process.exit(1); }

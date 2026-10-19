@@ -1,0 +1,3134 @@
+{
+  "schema": "native-warm-comparison-v1",
+  "timestamp": "2026-10-19T23:48:53.460Z",
+  "fullStandardClaim": false,
+  "pairs": 5,
+  "concurrency": 1,
+  "order": "AB, BA, AB, BA, AB; truncated to pair count",
+  "buildConfiguration": "Release",
+  "measurementBudgetSeconds": 900,
+  "proofBudgetSeconds": 900,
+  "endpoint": "ratio of side medians of the two-game warm suite; aggregate games per second equals 2000 divided by median timed suite milliseconds",
+  "includes": "each measured game includes fresh worker-object reset, seeded setup, all fixed commands, native legal enumeration and compact projections",
+  "excludes": "timed suite excludes process startup, one verified warm-up game and terminal audit verification; raw receipts retain all session and warm-up costs; no policy inference or disk writes inside a game",
+  "limitation": "fixed pinned two-deck traces only; no full Standard, agent strength or training throughput claim",
+  "baselineWorkerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+  "candidateWorkerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+  "baselineCopyMode": "projection-snapshot-v1",
+  "candidateCopyMode": "projection-turn-v1",
+  "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+  "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+  "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+  "workloads": [
+    {
+      "id": "short",
+      "seed": 3141,
+      "deckHashes": [
+        "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+        "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+      ],
+      "commands": 52,
+      "frames": 53,
+      "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+    },
+    {
+      "id": "developed",
+      "seed": 1729,
+      "deckHashes": [
+        "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+        "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+      ],
+      "commands": 123,
+      "frames": 124,
+      "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+    }
+  ],
+  "proof": {
+    "schema": "native-warm-proof-v1",
+    "timestamp": "2026-10-19T23:37:38.890Z",
+    "executionProfile": "private-two-deck-2026-10-11",
+    "fullStandardClaim": false,
+    "node": "v24.18.0",
+    "platform": "win32 10.0.26300 x64",
+    "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+    "logicalCpus": 16,
+    "concurrency": 1,
+    "workerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+    "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+    "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+    "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+    "projectionCopyMode": "projection-turn-v1",
+    "buildConfiguration": "Release",
+    "maxSecondsPerGame": 180,
+    "totalBudgetSeconds": 900,
+    "workloads": [
+      {
+        "id": "short",
+        "seed": 3141,
+        "deckHashes": [
+          "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+          "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+        ],
+        "commands": 52,
+        "frames": 53,
+        "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+      },
+      {
+        "id": "developed",
+        "seed": 1729,
+        "deckHashes": [
+          "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+          "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+        ],
+        "commands": 123,
+        "frames": 124,
+        "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+      }
+    ],
+    "complete": true,
+    "errors": 0,
+    "truncations": 0,
+    "sequence": "all fixed cases in order, then first case again; fresh worker object, policy aliases and state normalizer per game",
+    "verification": "all normalized authority frames, both actor observation hashes, every emitted seed, extra cached reads and preview immutability; same fixed commands and natural terminal state",
+    "limitation": "finite pinned two-deck traces only; does not certify all native global state or full Standard behavior; command latencies include full presentation and IPC and are diagnostic, not batch throughput",
+    "sessionMilliseconds": 79788.7274,
+    "runs": [
+      {
+        "id": "short",
+        "sequence": 1,
+        "reset": false,
+        "commands": 52,
+        "frames": 53,
+        "nativeSeedCalls": 33,
+        "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+        "elapsedMilliseconds": 17811.1185,
+        "commandLatency": {
+          "count": 52,
+          "medianMilliseconds": 292.2979,
+          "p95Milliseconds": 567.9126000000001,
+          "minMilliseconds": 34.25529999999981,
+          "maxMilliseconds": 795.8235999999997
+        },
+        "errors": 0,
+        "truncations": 0,
+        "turnPreflight": {
+          "profile": "private-two-deck-2026-10-11/is-turn-v1",
+          "verifyTurnPreflight": true,
+          "validationProposals": 1653,
+          "turnPreflightRejections": 696,
+          "turnPreflightVerifiedRejections": 696
+        }
+      },
+      {
+        "id": "developed",
+        "sequence": 2,
+        "reset": true,
+        "commands": 123,
+        "frames": 124,
+        "nativeSeedCalls": 63,
+        "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+        "elapsedMilliseconds": 47399.5996,
+        "commandLatency": {
+          "count": 123,
+          "medianMilliseconds": 309.0144,
+          "p95Milliseconds": 779.258600000001,
+          "minMilliseconds": 52.11119999999937,
+          "maxMilliseconds": 1024.0385000000024
+        },
+        "errors": 0,
+        "truncations": 0,
+        "turnPreflight": {
+          "profile": "private-two-deck-2026-10-11/is-turn-v1",
+          "verifyTurnPreflight": true,
+          "validationProposals": 5146,
+          "turnPreflightRejections": 2420,
+          "turnPreflightVerifiedRejections": 2420
+        }
+      },
+      {
+        "id": "short",
+        "sequence": 3,
+        "reset": true,
+        "commands": 52,
+        "frames": 53,
+        "nativeSeedCalls": 33,
+        "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+        "elapsedMilliseconds": 14563.445800000001,
+        "commandLatency": {
+          "count": 52,
+          "medianMilliseconds": 254.10020000000077,
+          "p95Milliseconds": 548.5297999999893,
+          "minMilliseconds": 34.65210000000661,
+          "maxMilliseconds": 574.2897000000085
+        },
+        "errors": 0,
+        "truncations": 0,
+        "turnPreflight": {
+          "profile": "private-two-deck-2026-10-11/is-turn-v1",
+          "verifyTurnPreflight": true,
+          "validationProposals": 1653,
+          "turnPreflightRejections": 696,
+          "turnPreflightVerifiedRejections": 696
+        }
+      }
+    ]
+  },
+  "baseline": {
+    "sessions": 5,
+    "measuredGames": 10,
+    "warmupGames": 5,
+    "gamesPerSession": 2,
+    "commandsPerSession": 175,
+    "medianTimedMilliseconds": 58213.37729999982,
+    "minTimedMilliseconds": 57369.4973,
+    "maxTimedMilliseconds": 60053.52420000004,
+    "aggregateGamesPerSecond": 0.034356364340331895,
+    "aggregateCommandsPerSecond": 3.006181879779041
+  },
+  "candidate": {
+    "sessions": 5,
+    "measuredGames": 10,
+    "warmupGames": 5,
+    "gamesPerSession": 2,
+    "commandsPerSession": 175,
+    "medianTimedMilliseconds": 44778.994599999976,
+    "minTimedMilliseconds": 44032.58519999997,
+    "maxTimedMilliseconds": 45949.3842,
+    "aggregateGamesPerSecond": 0.044663798682072264,
+    "aggregateCommandsPerSecond": 3.908082384681323
+  },
+  "speedup": 1.3000152821653537,
+  "measurementMilliseconds": 674565.6877,
+  "runs": [
+    {
+      "pair": 1,
+      "side": "baseline",
+      "schema": "native-warm-benchmark-v1",
+      "timestamp": "2026-10-19T23:38:53.162Z",
+      "executionProfile": "private-two-deck-2026-10-11",
+      "fullStandardClaim": false,
+      "node": "v24.18.0",
+      "platform": "win32 10.0.26300 x64",
+      "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "logicalCpus": 16,
+      "concurrency": 1,
+      "workerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+      "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+      "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+      "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+      "projectionCopyMode": "projection-snapshot-v1",
+      "buildConfiguration": "Release",
+      "maxSecondsPerGame": 180,
+      "totalBudgetSeconds": 899,
+      "workloads": [
+        {
+          "id": "short",
+          "seed": 3141,
+          "deckHashes": [
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+          ],
+          "commands": 52,
+          "frames": 53,
+          "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+        },
+        {
+          "id": "developed",
+          "seed": 1729,
+          "deckHashes": [
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+          ],
+          "commands": 123,
+          "frames": 124,
+          "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+        }
+      ],
+      "repeats": 1,
+      "warmups": 1,
+      "complete": true,
+      "errors": 0,
+      "truncations": 0,
+      "includes": "every timed game includes fresh worker-object reset, fresh seeded setup, all recorded commands, native legal enumeration and compact projections; one retained process and pinned program bundle",
+      "excludes": "timed warm aggregate excludes startup, verified warm-up games and terminal audit verification; worker session time includes these. No policy inference, previews, GUI or disk writes run inside this harness; optional presentation details are disabled during batch",
+      "limitation": "terminal state and seed verification per timed game; run warm proof separately for every-frame and both-player observation equivalence across reset; no broad Standard cache-safety claim",
+      "sessionMilliseconds": 74230.5844,
+      "sessionGames": 3,
+      "sessionGamesPerSecond": 0.04041460840230162,
+      "coldGameMilliseconds": 16778.613599999997,
+      "timedMilliseconds": 57369.4973,
+      "warmGamesPerSecond": 0.034861731305426656,
+      "games": 2,
+      "commands": 175,
+      "latency": {
+        "count": 2,
+        "medianMilliseconds": 28684.74865,
+        "p95Milliseconds": 44192.4614,
+        "minMilliseconds": 13177.035900000003,
+        "maxMilliseconds": 44192.4614
+      },
+      "medianGamesPerSecond": 0.04925894751746086,
+      "resetLatency": {
+        "count": 2,
+        "medianMilliseconds": 83.23240000000078,
+        "p95Milliseconds": 100.17789999999513,
+        "minMilliseconds": 66.28690000000643,
+        "maxMilliseconds": 100.17789999999513
+      },
+      "batchLatency": {
+        "count": 2,
+        "medianMilliseconds": 28599.74325,
+        "p95Milliseconds": 44124.3212,
+        "minMilliseconds": 13075.1653,
+        "maxMilliseconds": 44124.3212
+      },
+      "byWorkload": [
+        {
+          "id": "short",
+          "games": 1,
+          "commands": 52,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 13177.035900000003,
+            "p95Milliseconds": 13177.035900000003,
+            "minMilliseconds": 13177.035900000003,
+            "maxMilliseconds": 13177.035900000003
+          },
+          "medianGamesPerSecond": 0.07588960124180885,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 100.17789999999513,
+            "p95Milliseconds": 100.17789999999513,
+            "minMilliseconds": 100.17789999999513,
+            "maxMilliseconds": 100.17789999999513
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 13075.1653,
+            "p95Milliseconds": 13075.1653,
+            "minMilliseconds": 13075.1653,
+            "maxMilliseconds": 13075.1653
+          }
+        },
+        {
+          "id": "developed",
+          "games": 1,
+          "commands": 123,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 44192.4614,
+            "p95Milliseconds": 44192.4614,
+            "minMilliseconds": 44192.4614,
+            "maxMilliseconds": 44192.4614
+          },
+          "medianGamesPerSecond": 0.022628293793112868,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 66.28690000000643,
+            "p95Milliseconds": 66.28690000000643,
+            "minMilliseconds": 66.28690000000643,
+            "maxMilliseconds": 66.28690000000643
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 44124.3212,
+            "p95Milliseconds": 44124.3212,
+            "minMilliseconds": 44124.3212,
+            "maxMilliseconds": 44124.3212
+          }
+        }
+      ],
+      "warmupRuns": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "warmup",
+          "cold": true,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 16778.613599999997,
+          "resetMilliseconds": 906.5092000000004,
+          "batchMilliseconds": 15850.1694,
+          "verificationMilliseconds": 27.113799999991897,
+          "gamesPerSecond": 0.05959967991634304,
+          "commandsPerSecond": 3.099183355649838,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1825,
+          "readCopyMilliseconds": 9717.895399999983,
+          "snapshotHits": 1686,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 927.4194000000003,
+          "deserializationCalls": 1792,
+          "deserializationMilliseconds": 8899.74160000001,
+          "commandLatencyMilliseconds": {
+            "mean": 304.7584673076923,
+            "p50": 307.7052,
+            "p95": 572.3214,
+            "max": 933.179
+          },
+          "managedCurrentThreadAllocatedBytes": 5248470184,
+          "gcCollections": [
+            320,
+            27,
+            11
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 16843.75,
+          "processPeakWorkingSetBytes": 117899264
+        }
+      ],
+      "runs": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 13177.035900000003,
+          "resetMilliseconds": 100.17789999999513,
+          "batchMilliseconds": 13075.1653,
+          "verificationMilliseconds": 30.87489999999525,
+          "gamesPerSecond": 0.07588960124180885,
+          "commandsPerSecond": 3.9462592645740604,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1825,
+          "readCopyMilliseconds": 7462.023700000007,
+          "snapshotHits": 1686,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 511.09709999999967,
+          "deserializationCalls": 1792,
+          "deserializationMilliseconds": 6974.271500000008,
+          "commandLatencyMilliseconds": {
+            "mean": 251.42638269230773,
+            "p50": 272.3018,
+            "p95": 504.967,
+            "max": 546.1249
+          },
+          "managedCurrentThreadAllocatedBytes": 5241285208,
+          "gcCollections": [
+            313,
+            21,
+            5
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 12593.75,
+          "processPeakWorkingSetBytes": 143896576
+        },
+        {
+          "id": "developed",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 123,
+          "elapsedMilliseconds": 44192.4614,
+          "resetMilliseconds": 66.28690000000643,
+          "batchMilliseconds": 44124.3212,
+          "verificationMilliseconds": 24.234700000000885,
+          "gamesPerSecond": 0.022628293793112868,
+          "commandsPerSecond": 2.7832801365528828,
+          "nativeSeedCalls": 63,
+          "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 5552,
+          "readCopyMilliseconds": 25579.5947,
+          "snapshotHits": 5225,
+          "serializationCalls": 496,
+          "serializationMilliseconds": 1160.0058000000001,
+          "deserializationCalls": 5473,
+          "deserializationMilliseconds": 24478.27529999999,
+          "commandLatencyMilliseconds": {
+            "mean": 358.7153284552845,
+            "p50": 323.0458,
+            "p95": 783.9086,
+            "max": 979.7265
+          },
+          "managedCurrentThreadAllocatedBytes": 18259184184,
+          "gcCollections": [
+            1088,
+            60,
+            8
+          ],
+          "validationProposals": 5146,
+          "validationByOperation": {
+            "Use": 3762,
+            "Place": 163,
+            "Evolve": 389,
+            "Attach": 514,
+            "Retreat": 153,
+            "End": 165
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 42468.75,
+          "processPeakWorkingSetBytes": 210395136
+        }
+      ]
+    },
+    {
+      "pair": 1,
+      "side": "candidate",
+      "schema": "native-warm-benchmark-v1",
+      "timestamp": "2026-10-19T23:39:53.959Z",
+      "executionProfile": "private-two-deck-2026-10-11",
+      "fullStandardClaim": false,
+      "node": "v24.18.0",
+      "platform": "win32 10.0.26300 x64",
+      "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "logicalCpus": 16,
+      "concurrency": 1,
+      "workerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+      "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+      "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+      "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+      "projectionCopyMode": "projection-turn-v1",
+      "buildConfiguration": "Release",
+      "maxSecondsPerGame": 180,
+      "totalBudgetSeconds": 825,
+      "workloads": [
+        {
+          "id": "short",
+          "seed": 3141,
+          "deckHashes": [
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+          ],
+          "commands": 52,
+          "frames": 53,
+          "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+        },
+        {
+          "id": "developed",
+          "seed": 1729,
+          "deckHashes": [
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+          ],
+          "commands": 123,
+          "frames": 124,
+          "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+        }
+      ],
+      "repeats": 1,
+      "warmups": 1,
+      "complete": true,
+      "errors": 0,
+      "truncations": 0,
+      "includes": "every timed game includes fresh worker-object reset, fresh seeded setup, all recorded commands, native legal enumeration and compact projections; one retained process and pinned program bundle",
+      "excludes": "timed warm aggregate excludes startup, verified warm-up games and terminal audit verification; worker session time includes these. No policy inference, previews, GUI or disk writes run inside this harness; optional presentation details are disabled during batch",
+      "limitation": "terminal state and seed verification per timed game; run warm proof separately for every-frame and both-player observation equivalence across reset; no broad Standard cache-safety claim",
+      "sessionMilliseconds": 60750.12910000002,
+      "sessionGames": 3,
+      "sessionGamesPerSecond": 0.04938261110625358,
+      "coldGameMilliseconds": 14721.638200000016,
+      "timedMilliseconds": 45949.3842,
+      "warmGamesPerSecond": 0.04352615458990199,
+      "games": 2,
+      "commands": 175,
+      "latency": {
+        "count": 2,
+        "medianMilliseconds": 22974.6921,
+        "p95Milliseconds": 34082.97510000001,
+        "minMilliseconds": 11866.40909999999,
+        "maxMilliseconds": 34082.97510000001
+      },
+      "medianGamesPerSecond": 0.05680582685985741,
+      "resetLatency": {
+        "count": 2,
+        "medianMilliseconds": 83.96065000000817,
+        "p95Milliseconds": 84.43000000002212,
+        "minMilliseconds": 83.49129999999423,
+        "maxMilliseconds": 84.43000000002212
+      },
+      "batchLatency": {
+        "count": 2,
+        "medianMilliseconds": 22889.1021,
+        "p95Milliseconds": 33996.995,
+        "minMilliseconds": 11781.2092,
+        "maxMilliseconds": 33996.995
+      },
+      "byWorkload": [
+        {
+          "id": "short",
+          "games": 1,
+          "commands": 52,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 11866.40909999999,
+            "p95Milliseconds": 11866.40909999999,
+            "minMilliseconds": 11866.40909999999,
+            "maxMilliseconds": 11866.40909999999
+          },
+          "medianGamesPerSecond": 0.08427149203881744,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 83.49129999999423,
+            "p95Milliseconds": 83.49129999999423,
+            "minMilliseconds": 83.49129999999423,
+            "maxMilliseconds": 83.49129999999423
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 11781.2092,
+            "p95Milliseconds": 11781.2092,
+            "minMilliseconds": 11781.2092,
+            "maxMilliseconds": 11781.2092
+          }
+        },
+        {
+          "id": "developed",
+          "games": 1,
+          "commands": 123,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 34082.97510000001,
+            "p95Milliseconds": 34082.97510000001,
+            "minMilliseconds": 34082.97510000001,
+            "maxMilliseconds": 34082.97510000001
+          },
+          "medianGamesPerSecond": 0.029340161680897384,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 84.43000000002212,
+            "p95Milliseconds": 84.43000000002212,
+            "minMilliseconds": 84.43000000002212,
+            "maxMilliseconds": 84.43000000002212
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 33996.995,
+            "p95Milliseconds": 33996.995,
+            "minMilliseconds": 33996.995,
+            "maxMilliseconds": 33996.995
+          }
+        }
+      ],
+      "warmupRuns": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "warmup",
+          "cold": true,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 14721.638200000016,
+          "resetMilliseconds": 941.6706000000122,
+          "batchMilliseconds": 13745.3924,
+          "verificationMilliseconds": 34.579999999987194,
+          "gamesPerSecond": 0.06792722293637124,
+          "commandsPerSecond": 3.5322155926913044,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1129,
+          "readCopyMilliseconds": 7421.705200000003,
+          "snapshotHits": 990,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 861.8608000000004,
+          "deserializationCalls": 1096,
+          "deserializationMilliseconds": 6608.530799999997,
+          "commandLatencyMilliseconds": {
+            "mean": 264.28469807692306,
+            "p50": 236.6557,
+            "p95": 490.6014,
+            "max": 823.0855
+          },
+          "managedCurrentThreadAllocatedBytes": 4253894648,
+          "gcCollections": [
+            260,
+            26,
+            11
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 696,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 14640.625,
+          "processPeakWorkingSetBytes": 124583936
+        }
+      ],
+      "runs": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 11866.40909999999,
+          "resetMilliseconds": 83.49129999999423,
+          "batchMilliseconds": 11781.2092,
+          "verificationMilliseconds": 21.757199999992736,
+          "gamesPerSecond": 0.08427149203881744,
+          "commandsPerSecond": 4.382117586018507,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1129,
+          "readCopyMilliseconds": 5499.407900000003,
+          "snapshotHits": 990,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 592.1042000000004,
+          "deserializationCalls": 1096,
+          "deserializationMilliseconds": 4947.875499999997,
+          "commandLatencyMilliseconds": {
+            "mean": 226.53956346153848,
+            "p50": 221.7707,
+            "p95": 417.913,
+            "max": 584.2468
+          },
+          "managedCurrentThreadAllocatedBytes": 4246635384,
+          "gcCollections": [
+            254,
+            19,
+            5
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 696,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 10703.125,
+          "processPeakWorkingSetBytes": 141627392
+        },
+        {
+          "id": "developed",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 123,
+          "elapsedMilliseconds": 34082.97510000001,
+          "resetMilliseconds": 84.43000000002212,
+          "batchMilliseconds": 33996.995,
+          "verificationMilliseconds": 22.530200000008335,
+          "gamesPerSecond": 0.029340161680897384,
+          "commandsPerSecond": 3.608839886750378,
+          "nativeSeedCalls": 63,
+          "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 3132,
+          "readCopyMilliseconds": 15480.94129999999,
+          "snapshotHits": 2805,
+          "serializationCalls": 496,
+          "serializationMilliseconds": 1257.8559000000005,
+          "deserializationCalls": 3053,
+          "deserializationMilliseconds": 14286.420000000018,
+          "commandLatencyMilliseconds": {
+            "mean": 276.3764455284553,
+            "p50": 270.769,
+            "p95": 604.8906,
+            "max": 814.1269
+          },
+          "managedCurrentThreadAllocatedBytes": 13975993192,
+          "gcCollections": [
+            832,
+            55,
+            8
+          ],
+          "validationProposals": 5146,
+          "validationByOperation": {
+            "Use": 3762,
+            "Place": 163,
+            "Evolve": 389,
+            "Attach": 514,
+            "Retreat": 153,
+            "End": 165
+          },
+          "turnPreflightRejections": 2420,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 32390.625,
+          "processPeakWorkingSetBytes": 198946816
+        }
+      ]
+    },
+    {
+      "pair": 2,
+      "side": "candidate",
+      "schema": "native-warm-benchmark-v1",
+      "timestamp": "2026-10-19T23:40:54.370Z",
+      "executionProfile": "private-two-deck-2026-10-11",
+      "fullStandardClaim": false,
+      "node": "v24.18.0",
+      "platform": "win32 10.0.26300 x64",
+      "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "logicalCpus": 16,
+      "concurrency": 1,
+      "workerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+      "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+      "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+      "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+      "projectionCopyMode": "projection-turn-v1",
+      "buildConfiguration": "Release",
+      "maxSecondsPerGame": 180,
+      "totalBudgetSeconds": 764,
+      "workloads": [
+        {
+          "id": "short",
+          "seed": 3141,
+          "deckHashes": [
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+          ],
+          "commands": 52,
+          "frames": 53,
+          "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+        },
+        {
+          "id": "developed",
+          "seed": 1729,
+          "deckHashes": [
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+          ],
+          "commands": 123,
+          "frames": 124,
+          "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+        }
+      ],
+      "repeats": 1,
+      "warmups": 1,
+      "complete": true,
+      "errors": 0,
+      "truncations": 0,
+      "includes": "every timed game includes fresh worker-object reset, fresh seeded setup, all recorded commands, native legal enumeration and compact projections; one retained process and pinned program bundle",
+      "excludes": "timed warm aggregate excludes startup, verified warm-up games and terminal audit verification; worker session time includes these. No policy inference, previews, GUI or disk writes run inside this harness; optional presentation details are disabled during batch",
+      "limitation": "terminal state and seed verification per timed game; run warm proof separately for every-frame and both-player observation equivalence across reset; no broad Standard cache-safety claim",
+      "sessionMilliseconds": 60366.10710000002,
+      "sessionGames": 3,
+      "sessionGamesPerSecond": 0.04969676104888332,
+      "coldGameMilliseconds": 14380.864900000015,
+      "timedMilliseconds": 45917.75229999999,
+      "warmGamesPerSecond": 0.043556138961967444,
+      "games": 2,
+      "commands": 175,
+      "latency": {
+        "count": 2,
+        "medianMilliseconds": 22958.876149999996,
+        "p95Milliseconds": 34764.784199999995,
+        "minMilliseconds": 11152.968099999998,
+        "maxMilliseconds": 34764.784199999995
+      },
+      "medianGamesPerSecond": 0.059213485711844066,
+      "resetLatency": {
+        "count": 2,
+        "medianMilliseconds": 80.05215000000317,
+        "p95Milliseconds": 87.22450000001118,
+        "minMilliseconds": 72.87979999999516,
+        "maxMilliseconds": 87.22450000001118
+      },
+      "batchLatency": {
+        "count": 2,
+        "medianMilliseconds": 22877.162350000002,
+        "p95Milliseconds": 34675.9325,
+        "minMilliseconds": 11078.3922,
+        "maxMilliseconds": 34675.9325
+      },
+      "byWorkload": [
+        {
+          "id": "short",
+          "games": 1,
+          "commands": 52,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 11152.968099999998,
+            "p95Milliseconds": 11152.968099999998,
+            "minMilliseconds": 11152.968099999998,
+            "maxMilliseconds": 11152.968099999998
+          },
+          "medianGamesPerSecond": 0.08966223081011056,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 72.87979999999516,
+            "p95Milliseconds": 72.87979999999516,
+            "minMilliseconds": 72.87979999999516,
+            "maxMilliseconds": 72.87979999999516
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 11078.3922,
+            "p95Milliseconds": 11078.3922,
+            "minMilliseconds": 11078.3922,
+            "maxMilliseconds": 11078.3922
+          }
+        },
+        {
+          "id": "developed",
+          "games": 1,
+          "commands": 123,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 34764.784199999995,
+            "p95Milliseconds": 34764.784199999995,
+            "minMilliseconds": 34764.784199999995,
+            "maxMilliseconds": 34764.784199999995
+          },
+          "medianGamesPerSecond": 0.02876474061357758,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 87.22450000001118,
+            "p95Milliseconds": 87.22450000001118,
+            "minMilliseconds": 87.22450000001118,
+            "maxMilliseconds": 87.22450000001118
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 34675.9325,
+            "p95Milliseconds": 34675.9325,
+            "minMilliseconds": 34675.9325,
+            "maxMilliseconds": 34675.9325
+          }
+        }
+      ],
+      "warmupRuns": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "warmup",
+          "cold": true,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 14380.864900000015,
+          "resetMilliseconds": 937.3497999999963,
+          "batchMilliseconds": 13421.5951,
+          "verificationMilliseconds": 26.416499999992084,
+          "gamesPerSecond": 0.06953684684152751,
+          "commandsPerSecond": 3.615916035759431,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1129,
+          "readCopyMilliseconds": 7231.977800000007,
+          "snapshotHits": 990,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 814.4407999999997,
+          "deserializationCalls": 1096,
+          "deserializationMilliseconds": 6447.2870000000075,
+          "commandLatencyMilliseconds": {
+            "mean": 258.05517115384623,
+            "p50": 235.2269,
+            "p95": 532.1247,
+            "max": 842.785
+          },
+          "managedCurrentThreadAllocatedBytes": 4253890920,
+          "gcCollections": [
+            260,
+            26,
+            11
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 696,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 14250,
+          "processPeakWorkingSetBytes": 122384384
+        }
+      ],
+      "runs": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 11152.968099999998,
+          "resetMilliseconds": 72.87979999999516,
+          "batchMilliseconds": 11078.3922,
+          "verificationMilliseconds": 20.82200000001467,
+          "gamesPerSecond": 0.08966223081011056,
+          "commandsPerSecond": 4.662436002125749,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1129,
+          "readCopyMilliseconds": 5174.424099999991,
+          "snapshotHits": 990,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 511.2437999999997,
+          "deserializationCalls": 1096,
+          "deserializationMilliseconds": 4705.592100000002,
+          "commandLatencyMilliseconds": {
+            "mean": 213.0265519230769,
+            "p50": 186.7148,
+            "p95": 468.8544,
+            "max": 637.5248
+          },
+          "managedCurrentThreadAllocatedBytes": 4246553416,
+          "gcCollections": [
+            254,
+            19,
+            5
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 696,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 10437.5,
+          "processPeakWorkingSetBytes": 138256384
+        },
+        {
+          "id": "developed",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 123,
+          "elapsedMilliseconds": 34764.784199999995,
+          "resetMilliseconds": 87.22450000001118,
+          "batchMilliseconds": 34675.9325,
+          "verificationMilliseconds": 19.962100000004284,
+          "gamesPerSecond": 0.02876474061357758,
+          "commandsPerSecond": 3.5380630954700423,
+          "nativeSeedCalls": 63,
+          "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 3132,
+          "readCopyMilliseconds": 15824.093400000005,
+          "snapshotHits": 2805,
+          "serializationCalls": 496,
+          "serializationMilliseconds": 1296.107,
+          "deserializationCalls": 3053,
+          "deserializationMilliseconds": 14625.430199999999,
+          "commandLatencyMilliseconds": {
+            "mean": 281.8982967479675,
+            "p50": 256.8142,
+            "p95": 609.8835,
+            "max": 983.1523
+          },
+          "managedCurrentThreadAllocatedBytes": 13975033632,
+          "gcCollections": [
+            832,
+            55,
+            9
+          ],
+          "validationProposals": 5146,
+          "validationByOperation": {
+            "Use": 3762,
+            "Place": 163,
+            "Evolve": 389,
+            "Attach": 514,
+            "Retreat": 153,
+            "End": 165
+          },
+          "turnPreflightRejections": 2420,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 32875,
+          "processPeakWorkingSetBytes": 211431424
+        }
+      ]
+    },
+    {
+      "pair": 2,
+      "side": "baseline",
+      "schema": "native-warm-benchmark-v1",
+      "timestamp": "2026-10-19T23:42:12.394Z",
+      "executionProfile": "private-two-deck-2026-10-11",
+      "fullStandardClaim": false,
+      "node": "v24.18.0",
+      "platform": "win32 10.0.26300 x64",
+      "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "logicalCpus": 16,
+      "concurrency": 1,
+      "workerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+      "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+      "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+      "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+      "projectionCopyMode": "projection-snapshot-v1",
+      "buildConfiguration": "Release",
+      "maxSecondsPerGame": 180,
+      "totalBudgetSeconds": 704,
+      "workloads": [
+        {
+          "id": "short",
+          "seed": 3141,
+          "deckHashes": [
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+          ],
+          "commands": 52,
+          "frames": 53,
+          "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+        },
+        {
+          "id": "developed",
+          "seed": 1729,
+          "deckHashes": [
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+          ],
+          "commands": 123,
+          "frames": 124,
+          "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+        }
+      ],
+      "repeats": 1,
+      "warmups": 1,
+      "complete": true,
+      "errors": 0,
+      "truncations": 0,
+      "includes": "every timed game includes fresh worker-object reset, fresh seeded setup, all recorded commands, native legal enumeration and compact projections; one retained process and pinned program bundle",
+      "excludes": "timed warm aggregate excludes startup, verified warm-up games and terminal audit verification; worker session time includes these. No policy inference, previews, GUI or disk writes run inside this harness; optional presentation details are disabled during batch",
+      "limitation": "terminal state and seed verification per timed game; run warm proof separately for every-frame and both-player observation equivalence across reset; no broad Standard cache-safety claim",
+      "sessionMilliseconds": 77982.05099999998,
+      "sessionGames": 3,
+      "sessionGamesPerSecond": 0.03847039109038054,
+      "coldGameMilliseconds": 17787.209600000002,
+      "timedMilliseconds": 60053.52420000004,
+      "warmGamesPerSecond": 0.03330362416932058,
+      "games": 2,
+      "commands": 175,
+      "latency": {
+        "count": 2,
+        "medianMilliseconds": 30026.76210000002,
+        "p95Milliseconds": 46493.975000000035,
+        "minMilliseconds": 13559.549200000009,
+        "maxMilliseconds": 46493.975000000035
+      },
+      "medianGamesPerSecond": 0.04762846380227398,
+      "resetLatency": {
+        "count": 2,
+        "medianMilliseconds": 86.01155000002473,
+        "p95Milliseconds": 90.88960000005318,
+        "minMilliseconds": 81.13349999999627,
+        "maxMilliseconds": 90.88960000005318
+      },
+      "batchLatency": {
+        "count": 2,
+        "medianMilliseconds": 29938.72965,
+        "p95Milliseconds": 46401.2017,
+        "minMilliseconds": 13476.2576,
+        "maxMilliseconds": 46401.2017
+      },
+      "byWorkload": [
+        {
+          "id": "short",
+          "games": 1,
+          "commands": 52,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 13559.549200000009,
+            "p95Milliseconds": 13559.549200000009,
+            "minMilliseconds": 13559.549200000009,
+            "maxMilliseconds": 13559.549200000009
+          },
+          "medianGamesPerSecond": 0.07374876445007474,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 81.13349999999627,
+            "p95Milliseconds": 81.13349999999627,
+            "minMilliseconds": 81.13349999999627,
+            "maxMilliseconds": 81.13349999999627
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 13476.2576,
+            "p95Milliseconds": 13476.2576,
+            "minMilliseconds": 13476.2576,
+            "maxMilliseconds": 13476.2576
+          }
+        },
+        {
+          "id": "developed",
+          "games": 1,
+          "commands": 123,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 46493.975000000035,
+            "p95Milliseconds": 46493.975000000035,
+            "minMilliseconds": 46493.975000000035,
+            "maxMilliseconds": 46493.975000000035
+          },
+          "medianGamesPerSecond": 0.021508163154473226,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 90.88960000005318,
+            "p95Milliseconds": 90.88960000005318,
+            "minMilliseconds": 90.88960000005318,
+            "maxMilliseconds": 90.88960000005318
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 46401.2017,
+            "p95Milliseconds": 46401.2017,
+            "minMilliseconds": 46401.2017,
+            "maxMilliseconds": 46401.2017
+          }
+        }
+      ],
+      "warmupRuns": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "warmup",
+          "cold": true,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 17787.209600000002,
+          "resetMilliseconds": 977.6275000000023,
+          "batchMilliseconds": 16780.3227,
+          "verificationMilliseconds": 21.26679999998305,
+          "gamesPerSecond": 0.0562201729494434,
+          "commandsPerSecond": 2.9234489933710566,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1825,
+          "readCopyMilliseconds": 10286.120299999993,
+          "snapshotHits": 1686,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 933.9413999999994,
+          "deserializationCalls": 1792,
+          "deserializationMilliseconds": 9485.839599999983,
+          "commandLatencyMilliseconds": {
+            "mean": 322.62222115384617,
+            "p50": 343.6688,
+            "p95": 626.9773,
+            "max": 863.167
+          },
+          "managedCurrentThreadAllocatedBytes": 5248510424,
+          "gcCollections": [
+            320,
+            32,
+            11
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 17531.25,
+          "processPeakWorkingSetBytes": 122966016
+        }
+      ],
+      "runs": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 13559.549200000009,
+          "resetMilliseconds": 81.13349999999627,
+          "batchMilliseconds": 13476.2576,
+          "verificationMilliseconds": 38.788600000028964,
+          "gamesPerSecond": 0.07374876445007474,
+          "commandsPerSecond": 3.8349357514038864,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1825,
+          "readCopyMilliseconds": 7682.623800000004,
+          "snapshotHits": 1686,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 521.2543999999997,
+          "deserializationCalls": 1792,
+          "deserializationMilliseconds": 7210.198100000008,
+          "commandLatencyMilliseconds": {
+            "mean": 259.13741346153853,
+            "p50": 284.3363,
+            "p95": 520.9009,
+            "max": 558.1099
+          },
+          "managedCurrentThreadAllocatedBytes": 5241286640,
+          "gcCollections": [
+            313,
+            25,
+            5
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 12921.875,
+          "processPeakWorkingSetBytes": 149274624
+        },
+        {
+          "id": "developed",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 123,
+          "elapsedMilliseconds": 46493.975000000035,
+          "resetMilliseconds": 90.88960000005318,
+          "batchMilliseconds": 46401.2017,
+          "verificationMilliseconds": 81.11650000000373,
+          "gamesPerSecond": 0.021508163154473226,
+          "commandsPerSecond": 2.6455040680002067,
+          "nativeSeedCalls": 63,
+          "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 5552,
+          "readCopyMilliseconds": 27101.703899999917,
+          "snapshotHits": 5225,
+          "serializationCalls": 496,
+          "serializationMilliseconds": 1263.5074000000004,
+          "deserializationCalls": 5473,
+          "deserializationMilliseconds": 25885.84880000007,
+          "commandLatencyMilliseconds": {
+            "mean": 377.22317560975597,
+            "p50": 336.065,
+            "p95": 861.4241,
+            "max": 1016.2117
+          },
+          "managedCurrentThreadAllocatedBytes": 18259135296,
+          "gcCollections": [
+            1087,
+            61,
+            7
+          ],
+          "validationProposals": 5146,
+          "validationByOperation": {
+            "Use": 3762,
+            "Place": 163,
+            "Evolve": 389,
+            "Attach": 514,
+            "Retreat": 153,
+            "End": 165
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 44171.875,
+          "processPeakWorkingSetBytes": 222556160
+        }
+      ]
+    },
+    {
+      "pair": 3,
+      "side": "baseline",
+      "schema": "native-warm-benchmark-v1",
+      "timestamp": "2026-10-19T23:43:27.073Z",
+      "executionProfile": "private-two-deck-2026-10-11",
+      "fullStandardClaim": false,
+      "node": "v24.18.0",
+      "platform": "win32 10.0.26300 x64",
+      "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "logicalCpus": 16,
+      "concurrency": 1,
+      "workerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+      "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+      "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+      "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+      "projectionCopyMode": "projection-snapshot-v1",
+      "buildConfiguration": "Release",
+      "maxSecondsPerGame": 180,
+      "totalBudgetSeconds": 626,
+      "workloads": [
+        {
+          "id": "short",
+          "seed": 3141,
+          "deckHashes": [
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+          ],
+          "commands": 52,
+          "frames": 53,
+          "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+        },
+        {
+          "id": "developed",
+          "seed": 1729,
+          "deckHashes": [
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+          ],
+          "commands": 123,
+          "frames": 124,
+          "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+        }
+      ],
+      "repeats": 1,
+      "warmups": 1,
+      "complete": true,
+      "errors": 0,
+      "truncations": 0,
+      "includes": "every timed game includes fresh worker-object reset, fresh seeded setup, all recorded commands, native legal enumeration and compact projections; one retained process and pinned program bundle",
+      "excludes": "timed warm aggregate excludes startup, verified warm-up games and terminal audit verification; worker session time includes these. No policy inference, previews, GUI or disk writes run inside this harness; optional presentation details are disabled during batch",
+      "limitation": "terminal state and seed verification per timed game; run warm proof separately for every-frame and both-player observation equivalence across reset; no broad Standard cache-safety claim",
+      "sessionMilliseconds": 74641.24910000002,
+      "sessionGames": 3,
+      "sessionGamesPerSecond": 0.04019225342787035,
+      "coldGameMilliseconds": 16770.592600000033,
+      "timedMilliseconds": 57792.41149999999,
+      "warmGamesPerSecond": 0.03460661959053223,
+      "games": 2,
+      "commands": 175,
+      "latency": {
+        "count": 2,
+        "medianMilliseconds": 28896.205749999994,
+        "p95Milliseconds": 44507.97399999999,
+        "minMilliseconds": 13284.4375,
+        "maxMilliseconds": 44507.97399999999
+      },
+      "medianGamesPerSecond": 0.048871967732108446,
+      "resetLatency": {
+        "count": 2,
+        "medianMilliseconds": 89.13184999997611,
+        "p95Milliseconds": 95.39559999998892,
+        "minMilliseconds": 82.8680999999633,
+        "maxMilliseconds": 95.39559999998892
+      },
+      "batchLatency": {
+        "count": 2,
+        "medianMilliseconds": 28805.403599999998,
+        "p95Milliseconds": 44423.4695,
+        "minMilliseconds": 13187.3377,
+        "maxMilliseconds": 44423.4695
+      },
+      "byWorkload": [
+        {
+          "id": "short",
+          "games": 1,
+          "commands": 52,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 13284.4375,
+            "p95Milliseconds": 13284.4375,
+            "minMilliseconds": 13284.4375,
+            "maxMilliseconds": 13284.4375
+          },
+          "medianGamesPerSecond": 0.07527605139472408,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 95.39559999998892,
+            "p95Milliseconds": 95.39559999998892,
+            "minMilliseconds": 95.39559999998892,
+            "maxMilliseconds": 95.39559999998892
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 13187.3377,
+            "p95Milliseconds": 13187.3377,
+            "minMilliseconds": 13187.3377,
+            "maxMilliseconds": 13187.3377
+          }
+        },
+        {
+          "id": "developed",
+          "games": 1,
+          "commands": 123,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 44507.97399999999,
+            "p95Milliseconds": 44507.97399999999,
+            "minMilliseconds": 44507.97399999999,
+            "maxMilliseconds": 44507.97399999999
+          },
+          "medianGamesPerSecond": 0.02246788406949281,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 82.8680999999633,
+            "p95Milliseconds": 82.8680999999633,
+            "minMilliseconds": 82.8680999999633,
+            "maxMilliseconds": 82.8680999999633
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 44423.4695,
+            "p95Milliseconds": 44423.4695,
+            "minMilliseconds": 44423.4695,
+            "maxMilliseconds": 44423.4695
+          }
+        }
+      ],
+      "warmupRuns": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "warmup",
+          "cold": true,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 16770.592600000033,
+          "resetMilliseconds": 917.2537000000011,
+          "batchMilliseconds": 15827.5495,
+          "verificationMilliseconds": 28.803700000047684,
+          "gamesPerSecond": 0.0596281851125522,
+          "commandsPerSecond": 3.1006656258527143,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1825,
+          "readCopyMilliseconds": 9648.781199999996,
+          "snapshotHits": 1686,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 944.4899000000001,
+          "deserializationCalls": 1792,
+          "deserializationMilliseconds": 8831.317200000012,
+          "commandLatencyMilliseconds": {
+            "mean": 304.3256807692307,
+            "p50": 297.7638,
+            "p95": 581.4216,
+            "max": 883.0821
+          },
+          "managedCurrentThreadAllocatedBytes": 5248452424,
+          "gcCollections": [
+            320,
+            27,
+            11
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 16734.375,
+          "processPeakWorkingSetBytes": 123985920
+        }
+      ],
+      "runs": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 13284.4375,
+          "resetMilliseconds": 95.39559999998892,
+          "batchMilliseconds": 13187.3377,
+          "verificationMilliseconds": 28.708500000007916,
+          "gamesPerSecond": 0.07527605139472408,
+          "commandsPerSecond": 3.914354672525653,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1825,
+          "readCopyMilliseconds": 7538.820599999996,
+          "snapshotHits": 1686,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 506.73380000000014,
+          "deserializationCalls": 1792,
+          "deserializationMilliseconds": 7079.293700000022,
+          "commandLatencyMilliseconds": {
+            "mean": 253.58322692307686,
+            "p50": 275.3868,
+            "p95": 486.3093,
+            "max": 598.1642
+          },
+          "managedCurrentThreadAllocatedBytes": 5241251824,
+          "gcCollections": [
+            313,
+            21,
+            5
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 12875,
+          "processPeakWorkingSetBytes": 144932864
+        },
+        {
+          "id": "developed",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 123,
+          "elapsedMilliseconds": 44507.97399999999,
+          "resetMilliseconds": 82.8680999999633,
+          "batchMilliseconds": 44423.4695,
+          "verificationMilliseconds": 20.587400000018533,
+          "gamesPerSecond": 0.02246788406949281,
+          "commandsPerSecond": 2.763549740547616,
+          "nativeSeedCalls": 63,
+          "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 5552,
+          "readCopyMilliseconds": 25992.669900000034,
+          "snapshotHits": 5225,
+          "serializationCalls": 496,
+          "serializationMilliseconds": 1299.6683000000007,
+          "deserializationCalls": 5473,
+          "deserializationMilliseconds": 24744.866899999997,
+          "commandLatencyMilliseconds": {
+            "mean": 361.14509918699184,
+            "p50": 338.9284,
+            "p95": 803.5193,
+            "max": 913.1855
+          },
+          "managedCurrentThreadAllocatedBytes": 18259117640,
+          "gcCollections": [
+            1087,
+            62,
+            8
+          ],
+          "validationProposals": 5146,
+          "validationByOperation": {
+            "Use": 3762,
+            "Place": 163,
+            "Evolve": 389,
+            "Attach": 514,
+            "Retreat": 153,
+            "End": 165
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 42515.625,
+          "processPeakWorkingSetBytes": 210894848
+        }
+      ]
+    },
+    {
+      "pair": 3,
+      "side": "candidate",
+      "schema": "native-warm-benchmark-v1",
+      "timestamp": "2026-10-19T23:44:25.439Z",
+      "executionProfile": "private-two-deck-2026-10-11",
+      "fullStandardClaim": false,
+      "node": "v24.18.0",
+      "platform": "win32 10.0.26300 x64",
+      "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "logicalCpus": 16,
+      "concurrency": 1,
+      "workerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+      "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+      "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+      "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+      "projectionCopyMode": "projection-turn-v1",
+      "buildConfiguration": "Release",
+      "maxSecondsPerGame": 180,
+      "totalBudgetSeconds": 551,
+      "workloads": [
+        {
+          "id": "short",
+          "seed": 3141,
+          "deckHashes": [
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+          ],
+          "commands": 52,
+          "frames": 53,
+          "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+        },
+        {
+          "id": "developed",
+          "seed": 1729,
+          "deckHashes": [
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+          ],
+          "commands": 123,
+          "frames": 124,
+          "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+        }
+      ],
+      "repeats": 1,
+      "warmups": 1,
+      "complete": true,
+      "errors": 0,
+      "truncations": 0,
+      "includes": "every timed game includes fresh worker-object reset, fresh seeded setup, all recorded commands, native legal enumeration and compact projections; one retained process and pinned program bundle",
+      "excludes": "timed warm aggregate excludes startup, verified warm-up games and terminal audit verification; worker session time includes these. No policy inference, previews, GUI or disk writes run inside this harness; optional presentation details are disabled during batch",
+      "limitation": "terminal state and seed verification per timed game; run warm proof separately for every-frame and both-player observation equivalence across reset; no broad Standard cache-safety claim",
+      "sessionMilliseconds": 58328.55979999999,
+      "sessionGames": 3,
+      "sessionGamesPerSecond": 0.051432780275846975,
+      "coldGameMilliseconds": 13807.531900000002,
+      "timedMilliseconds": 44446.63660000003,
+      "warmGamesPerSecond": 0.044997780551970915,
+      "games": 2,
+      "commands": 175,
+      "latency": {
+        "count": 2,
+        "medianMilliseconds": 22223.318300000014,
+        "p95Milliseconds": 33867.76520000002,
+        "minMilliseconds": 10578.871400000004,
+        "maxMilliseconds": 33867.76520000002
+      },
+      "medianGamesPerSecond": 0.06202732164970193,
+      "resetLatency": {
+        "count": 2,
+        "medianMilliseconds": 72.28450000000885,
+        "p95Milliseconds": 76.17380000004778,
+        "minMilliseconds": 68.39519999996992,
+        "maxMilliseconds": 76.17380000004778
+      },
+      "batchLatency": {
+        "count": 2,
+        "medianMilliseconds": 22149.384,
+        "p95Milliseconds": 33790.1265,
+        "minMilliseconds": 10508.6415,
+        "maxMilliseconds": 33790.1265
+      },
+      "byWorkload": [
+        {
+          "id": "short",
+          "games": 1,
+          "commands": 52,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 10578.871400000004,
+            "p95Milliseconds": 10578.871400000004,
+            "minMilliseconds": 10578.871400000004,
+            "maxMilliseconds": 10578.871400000004
+          },
+          "medianGamesPerSecond": 0.09452804199888465,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 68.39519999996992,
+            "p95Milliseconds": 68.39519999996992,
+            "minMilliseconds": 68.39519999996992,
+            "maxMilliseconds": 68.39519999996992
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 10508.6415,
+            "p95Milliseconds": 10508.6415,
+            "minMilliseconds": 10508.6415,
+            "maxMilliseconds": 10508.6415
+          }
+        },
+        {
+          "id": "developed",
+          "games": 1,
+          "commands": 123,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 33867.76520000002,
+            "p95Milliseconds": 33867.76520000002,
+            "minMilliseconds": 33867.76520000002,
+            "maxMilliseconds": 33867.76520000002
+          },
+          "medianGamesPerSecond": 0.029526601300519213,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 76.17380000004778,
+            "p95Milliseconds": 76.17380000004778,
+            "minMilliseconds": 76.17380000004778,
+            "maxMilliseconds": 76.17380000004778
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 33790.1265,
+            "p95Milliseconds": 33790.1265,
+            "minMilliseconds": 33790.1265,
+            "maxMilliseconds": 33790.1265
+          }
+        }
+      ],
+      "warmupRuns": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "warmup",
+          "cold": true,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 13807.531900000002,
+          "resetMilliseconds": 897.0879999999888,
+          "batchMilliseconds": 12873.1496,
+          "verificationMilliseconds": 26.787700000044424,
+          "gamesPerSecond": 0.07242423970065207,
+          "commandsPerSecond": 3.7660604644339073,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1129,
+          "readCopyMilliseconds": 6868.139199999989,
+          "snapshotHits": 990,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 957.5552000000007,
+          "deserializationCalls": 1096,
+          "deserializationMilliseconds": 6018.658099999992,
+          "commandLatencyMilliseconds": {
+            "mean": 247.51065961538464,
+            "p50": 221.3459,
+            "p95": 559.8242,
+            "max": 953.3725
+          },
+          "managedCurrentThreadAllocatedBytes": 4253883104,
+          "gcCollections": [
+            260,
+            28,
+            11
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 696,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 13812.5,
+          "processPeakWorkingSetBytes": 122167296
+        }
+      ],
+      "runs": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 10578.871400000004,
+          "resetMilliseconds": 68.39519999996992,
+          "batchMilliseconds": 10508.6415,
+          "verificationMilliseconds": 25.82600000000093,
+          "gamesPerSecond": 0.09452804199888465,
+          "commandsPerSecond": 4.915458183942002,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1129,
+          "readCopyMilliseconds": 4997.448299999995,
+          "snapshotHits": 990,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 523.2255999999999,
+          "deserializationCalls": 1096,
+          "deserializationMilliseconds": 4510.096800000004,
+          "commandLatencyMilliseconds": {
+            "mean": 202.0691403846154,
+            "p50": 190.3513,
+            "p95": 381.5732,
+            "max": 496.3187
+          },
+          "managedCurrentThreadAllocatedBytes": 4246576240,
+          "gcCollections": [
+            254,
+            19,
+            5
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 696,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 10156.25,
+          "processPeakWorkingSetBytes": 141385728
+        },
+        {
+          "id": "developed",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 123,
+          "elapsedMilliseconds": 33867.76520000002,
+          "resetMilliseconds": 76.17380000004778,
+          "batchMilliseconds": 33790.1265,
+          "verificationMilliseconds": 21.63929999998072,
+          "gamesPerSecond": 0.029526601300519213,
+          "commandsPerSecond": 3.631771959963863,
+          "nativeSeedCalls": 63,
+          "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 3132,
+          "readCopyMilliseconds": 15733.356600000017,
+          "snapshotHits": 2805,
+          "serializationCalls": 496,
+          "serializationMilliseconds": 1254.8175999999983,
+          "deserializationCalls": 3053,
+          "deserializationMilliseconds": 14510.18170000002,
+          "commandLatencyMilliseconds": {
+            "mean": 274.69587398373994,
+            "p50": 255.7999,
+            "p95": 590.4895,
+            "max": 825.0069
+          },
+          "managedCurrentThreadAllocatedBytes": 13974963512,
+          "gcCollections": [
+            831,
+            51,
+            8
+          ],
+          "validationProposals": 5146,
+          "validationByOperation": {
+            "Use": 3762,
+            "Place": 163,
+            "Evolve": 389,
+            "Attach": 514,
+            "Retreat": 153,
+            "End": 165
+          },
+          "turnPreflightRejections": 2420,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 32281.25,
+          "processPeakWorkingSetBytes": 207380480
+        }
+      ]
+    },
+    {
+      "pair": 4,
+      "side": "candidate",
+      "schema": "native-warm-benchmark-v1",
+      "timestamp": "2026-10-19T23:45:23.535Z",
+      "executionProfile": "private-two-deck-2026-10-11",
+      "fullStandardClaim": false,
+      "node": "v24.18.0",
+      "platform": "win32 10.0.26300 x64",
+      "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "logicalCpus": 16,
+      "concurrency": 1,
+      "workerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+      "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+      "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+      "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+      "projectionCopyMode": "projection-turn-v1",
+      "buildConfiguration": "Release",
+      "maxSecondsPerGame": 180,
+      "totalBudgetSeconds": 493,
+      "workloads": [
+        {
+          "id": "short",
+          "seed": 3141,
+          "deckHashes": [
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+          ],
+          "commands": 52,
+          "frames": 53,
+          "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+        },
+        {
+          "id": "developed",
+          "seed": 1729,
+          "deckHashes": [
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+          ],
+          "commands": 123,
+          "frames": 124,
+          "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+        }
+      ],
+      "repeats": 1,
+      "warmups": 1,
+      "complete": true,
+      "errors": 0,
+      "truncations": 0,
+      "includes": "every timed game includes fresh worker-object reset, fresh seeded setup, all recorded commands, native legal enumeration and compact projections; one retained process and pinned program bundle",
+      "excludes": "timed warm aggregate excludes startup, verified warm-up games and terminal audit verification; worker session time includes these. No policy inference, previews, GUI or disk writes run inside this harness; optional presentation details are disabled during batch",
+      "limitation": "terminal state and seed verification per timed game; run warm proof separately for every-frame and both-player observation equivalence across reset; no broad Standard cache-safety claim",
+      "sessionMilliseconds": 58061.185600000026,
+      "sessionGames": 3,
+      "sessionGamesPerSecond": 0.0516696303907373,
+      "coldGameMilliseconds": 13927.779099999985,
+      "timedMilliseconds": 44032.58519999997,
+      "warmGamesPerSecond": 0.045420907968855784,
+      "games": 2,
+      "commands": 175,
+      "latency": {
+        "count": 2,
+        "medianMilliseconds": 22016.292599999986,
+        "p95Milliseconds": 33426.8492,
+        "minMilliseconds": 10605.735999999975,
+        "maxMilliseconds": 33426.8492
+      },
+      "medianGamesPerSecond": 0.06210233561797881,
+      "resetLatency": {
+        "count": 2,
+        "medianMilliseconds": 78.59914999999455,
+        "p95Milliseconds": 86.06179999996675,
+        "minMilliseconds": 71.13650000002235,
+        "maxMilliseconds": 86.06179999996675
+      },
+      "batchLatency": {
+        "count": 2,
+        "medianMilliseconds": 21936.1212,
+        "p95Milliseconds": 33354.2185,
+        "minMilliseconds": 10518.0239,
+        "maxMilliseconds": 33354.2185
+      },
+      "byWorkload": [
+        {
+          "id": "short",
+          "games": 1,
+          "commands": 52,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 10605.735999999975,
+            "p95Milliseconds": 10605.735999999975,
+            "minMilliseconds": 10605.735999999975,
+            "maxMilliseconds": 10605.735999999975
+          },
+          "medianGamesPerSecond": 0.0942886000556682,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 86.06179999996675,
+            "p95Milliseconds": 86.06179999996675,
+            "minMilliseconds": 86.06179999996675,
+            "maxMilliseconds": 86.06179999996675
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 10518.0239,
+            "p95Milliseconds": 10518.0239,
+            "minMilliseconds": 10518.0239,
+            "maxMilliseconds": 10518.0239
+          }
+        },
+        {
+          "id": "developed",
+          "games": 1,
+          "commands": 123,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 33426.8492,
+            "p95Milliseconds": 33426.8492,
+            "minMilliseconds": 33426.8492,
+            "maxMilliseconds": 33426.8492
+          },
+          "medianGamesPerSecond": 0.02991607118028941,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 71.13650000002235,
+            "p95Milliseconds": 71.13650000002235,
+            "minMilliseconds": 71.13650000002235,
+            "maxMilliseconds": 71.13650000002235
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 33354.2185,
+            "p95Milliseconds": 33354.2185,
+            "minMilliseconds": 33354.2185,
+            "maxMilliseconds": 33354.2185
+          }
+        }
+      ],
+      "warmupRuns": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "warmup",
+          "cold": true,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 13927.779099999985,
+          "resetMilliseconds": 989.110400000005,
+          "batchMilliseconds": 12915.5337,
+          "verificationMilliseconds": 21.29769999999553,
+          "gamesPerSecond": 0.07179895608769392,
+          "commandsPerSecond": 3.7335457165600836,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1129,
+          "readCopyMilliseconds": 6883.095600000002,
+          "snapshotHits": 990,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 1001.5308000000001,
+          "deserializationCalls": 1096,
+          "deserializationMilliseconds": 6017.35070000001,
+          "commandLatencyMilliseconds": {
+            "mean": 248.32487692307683,
+            "p50": 234.1903,
+            "p95": 491.5482,
+            "max": 795.8766
+          },
+          "managedCurrentThreadAllocatedBytes": 4254147208,
+          "gcCollections": [
+            260,
+            26,
+            11
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 696,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 13859.375,
+          "processPeakWorkingSetBytes": 122400768
+        }
+      ],
+      "runs": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 10605.735999999975,
+          "resetMilliseconds": 86.06179999996675,
+          "batchMilliseconds": 10518.0239,
+          "verificationMilliseconds": 19.789799999969546,
+          "gamesPerSecond": 0.0942886000556682,
+          "commandsPerSecond": 4.903007202894747,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1129,
+          "readCopyMilliseconds": 4968.620399999993,
+          "snapshotHits": 990,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 509.87049999999994,
+          "deserializationCalls": 1096,
+          "deserializationMilliseconds": 4520.623500000001,
+          "commandLatencyMilliseconds": {
+            "mean": 202.25006923076924,
+            "p50": 188.5908,
+            "p95": 409.9546,
+            "max": 488.6473
+          },
+          "managedCurrentThreadAllocatedBytes": 4246605272,
+          "gcCollections": [
+            254,
+            20,
+            5
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 696,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 10250,
+          "processPeakWorkingSetBytes": 139231232
+        },
+        {
+          "id": "developed",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 123,
+          "elapsedMilliseconds": 33426.8492,
+          "resetMilliseconds": 71.13650000002235,
+          "batchMilliseconds": 33354.2185,
+          "verificationMilliseconds": 59.62529999995604,
+          "gamesPerSecond": 0.02991607118028941,
+          "commandsPerSecond": 3.6796767551755973,
+          "nativeSeedCalls": 63,
+          "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 3132,
+          "readCopyMilliseconds": 15473.675600000031,
+          "snapshotHits": 2805,
+          "serializationCalls": 496,
+          "serializationMilliseconds": 1199.0945999999988,
+          "deserializationCalls": 3053,
+          "deserializationMilliseconds": 14328.553000000024,
+          "commandLatencyMilliseconds": {
+            "mean": 271.1525243902439,
+            "p50": 254.7598,
+            "p95": 602.6784,
+            "max": 926.5071
+          },
+          "managedCurrentThreadAllocatedBytes": 13975066208,
+          "gcCollections": [
+            832,
+            51,
+            9
+          ],
+          "validationProposals": 5146,
+          "validationByOperation": {
+            "Use": 3762,
+            "Place": 163,
+            "Evolve": 389,
+            "Attach": 514,
+            "Retreat": 153,
+            "End": 165
+          },
+          "turnPreflightRejections": 2420,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 32031.25,
+          "processPeakWorkingSetBytes": 210370560
+        }
+      ]
+    },
+    {
+      "pair": 4,
+      "side": "baseline",
+      "schema": "native-warm-benchmark-v1",
+      "timestamp": "2026-10-19T23:46:39.152Z",
+      "executionProfile": "private-two-deck-2026-10-11",
+      "fullStandardClaim": false,
+      "node": "v24.18.0",
+      "platform": "win32 10.0.26300 x64",
+      "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "logicalCpus": 16,
+      "concurrency": 1,
+      "workerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+      "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+      "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+      "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+      "projectionCopyMode": "projection-snapshot-v1",
+      "buildConfiguration": "Release",
+      "maxSecondsPerGame": 180,
+      "totalBudgetSeconds": 435,
+      "workloads": [
+        {
+          "id": "short",
+          "seed": 3141,
+          "deckHashes": [
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+          ],
+          "commands": 52,
+          "frames": 53,
+          "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+        },
+        {
+          "id": "developed",
+          "seed": 1729,
+          "deckHashes": [
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+          ],
+          "commands": 123,
+          "frames": 124,
+          "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+        }
+      ],
+      "repeats": 1,
+      "warmups": 1,
+      "complete": true,
+      "errors": 0,
+      "truncations": 0,
+      "includes": "every timed game includes fresh worker-object reset, fresh seeded setup, all recorded commands, native legal enumeration and compact projections; one retained process and pinned program bundle",
+      "excludes": "timed warm aggregate excludes startup, verified warm-up games and terminal audit verification; worker session time includes these. No policy inference, previews, GUI or disk writes run inside this harness; optional presentation details are disabled during batch",
+      "limitation": "terminal state and seed verification per timed game; run warm proof separately for every-frame and both-player observation equivalence across reset; no broad Standard cache-safety claim",
+      "sessionMilliseconds": 75577.29879999999,
+      "sessionGames": 3,
+      "sessionGamesPerSecond": 0.0396944591515356,
+      "coldGameMilliseconds": 17283.24820000003,
+      "timedMilliseconds": 58213.37729999982,
+      "warmGamesPerSecond": 0.034356364340331895,
+      "games": 2,
+      "commands": 175,
+      "latency": {
+        "count": 2,
+        "medianMilliseconds": 29106.68864999991,
+        "p95Milliseconds": 45066.70289999992,
+        "minMilliseconds": 13146.674399999902,
+        "maxMilliseconds": 45066.70289999992
+      },
+      "medianGamesPerSecond": 0.04912709762520375,
+      "resetLatency": {
+        "count": 2,
+        "medianMilliseconds": 74.06104999996023,
+        "p95Milliseconds": 79.33089999994263,
+        "minMilliseconds": 68.79119999997783,
+        "maxMilliseconds": 79.33089999994263
+      },
+      "batchLatency": {
+        "count": 2,
+        "medianMilliseconds": 29031.0189,
+        "p95Milliseconds": 44996.2775,
+        "minMilliseconds": 13065.7603,
+        "maxMilliseconds": 44996.2775
+      },
+      "byWorkload": [
+        {
+          "id": "short",
+          "games": 1,
+          "commands": 52,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 13146.674399999902,
+            "p95Milliseconds": 13146.674399999902,
+            "minMilliseconds": 13146.674399999902,
+            "maxMilliseconds": 13146.674399999902
+          },
+          "medianGamesPerSecond": 0.07606486397807247,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 79.33089999994263,
+            "p95Milliseconds": 79.33089999994263,
+            "minMilliseconds": 79.33089999994263,
+            "maxMilliseconds": 79.33089999994263
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 13065.7603,
+            "p95Milliseconds": 13065.7603,
+            "minMilliseconds": 13065.7603,
+            "maxMilliseconds": 13065.7603
+          }
+        },
+        {
+          "id": "developed",
+          "games": 1,
+          "commands": 123,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 45066.70289999992,
+            "p95Milliseconds": 45066.70289999992,
+            "minMilliseconds": 45066.70289999992,
+            "maxMilliseconds": 45066.70289999992
+          },
+          "medianGamesPerSecond": 0.022189331272335033,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 68.79119999997783,
+            "p95Milliseconds": 68.79119999997783,
+            "minMilliseconds": 68.79119999997783,
+            "maxMilliseconds": 68.79119999997783
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 44996.2775,
+            "p95Milliseconds": 44996.2775,
+            "minMilliseconds": 44996.2775,
+            "maxMilliseconds": 44996.2775
+          }
+        }
+      ],
+      "warmupRuns": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "warmup",
+          "cold": true,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 17283.24820000003,
+          "resetMilliseconds": 1001.9161000000313,
+          "batchMilliseconds": 16258.3017,
+          "verificationMilliseconds": 24.02620000008028,
+          "gamesPerSecond": 0.05785949425872378,
+          "commandsPerSecond": 3.008693701453637,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1825,
+          "readCopyMilliseconds": 10061.094900000016,
+          "snapshotHits": 1686,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 957.9234999999999,
+          "deserializationCalls": 1792,
+          "deserializationMilliseconds": 9224.604199999992,
+          "commandLatencyMilliseconds": {
+            "mean": 312.6058557692308,
+            "p50": 308.1112,
+            "p95": 723.5804,
+            "max": 1061.0319
+          },
+          "managedCurrentThreadAllocatedBytes": 5248502624,
+          "gcCollections": [
+            320,
+            33,
+            11
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 17234.375,
+          "processPeakWorkingSetBytes": 124338176
+        }
+      ],
+      "runs": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 13146.674399999902,
+          "resetMilliseconds": 79.33089999994263,
+          "batchMilliseconds": 13065.7603,
+          "verificationMilliseconds": 31.365400000009686,
+          "gamesPerSecond": 0.07606486397807247,
+          "commandsPerSecond": 3.955372926859768,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1825,
+          "readCopyMilliseconds": 7470.5785,
+          "snapshotHits": 1686,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 526.5729000000002,
+          "deserializationCalls": 1792,
+          "deserializationMilliseconds": 6993.6197999999995,
+          "commandLatencyMilliseconds": {
+            "mean": 251.23844807692313,
+            "p50": 269.9554,
+            "p95": 497.7275,
+            "max": 644.8251
+          },
+          "managedCurrentThreadAllocatedBytes": 5241314120,
+          "gcCollections": [
+            313,
+            22,
+            5
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 12515.625,
+          "processPeakWorkingSetBytes": 147546112
+        },
+        {
+          "id": "developed",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 123,
+          "elapsedMilliseconds": 45066.70289999992,
+          "resetMilliseconds": 68.79119999997783,
+          "batchMilliseconds": 44996.2775,
+          "verificationMilliseconds": 24.99780000001192,
+          "gamesPerSecond": 0.022189331272335033,
+          "commandsPerSecond": 2.7292877464972087,
+          "nativeSeedCalls": 63,
+          "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 5552,
+          "readCopyMilliseconds": 26279.191899999933,
+          "snapshotHits": 5225,
+          "serializationCalls": 496,
+          "serializationMilliseconds": 1201.4208000000006,
+          "deserializationCalls": 5473,
+          "deserializationMilliseconds": 25117.951199999898,
+          "commandLatencyMilliseconds": {
+            "mean": 365.80255609756114,
+            "p50": 352.4624,
+            "p95": 783.1448,
+            "max": 1040.2041
+          },
+          "managedCurrentThreadAllocatedBytes": 18259104776,
+          "gcCollections": [
+            1086,
+            63,
+            7
+          ],
+          "validationProposals": 5146,
+          "validationByOperation": {
+            "Use": 3762,
+            "Place": 163,
+            "Evolve": 389,
+            "Attach": 514,
+            "Retreat": 153,
+            "End": 165
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 43359.375,
+          "processPeakWorkingSetBytes": 210862080
+        }
+      ]
+    },
+    {
+      "pair": 5,
+      "side": "baseline",
+      "schema": "native-warm-benchmark-v1",
+      "timestamp": "2026-10-19T23:47:53.886Z",
+      "executionProfile": "private-two-deck-2026-10-11",
+      "fullStandardClaim": false,
+      "node": "v24.18.0",
+      "platform": "win32 10.0.26300 x64",
+      "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "logicalCpus": 16,
+      "concurrency": 1,
+      "workerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+      "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+      "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+      "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+      "projectionCopyMode": "projection-snapshot-v1",
+      "buildConfiguration": "Release",
+      "maxSecondsPerGame": 180,
+      "totalBudgetSeconds": 359,
+      "workloads": [
+        {
+          "id": "short",
+          "seed": 3141,
+          "deckHashes": [
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+          ],
+          "commands": 52,
+          "frames": 53,
+          "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+        },
+        {
+          "id": "developed",
+          "seed": 1729,
+          "deckHashes": [
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+          ],
+          "commands": 123,
+          "frames": 124,
+          "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+        }
+      ],
+      "repeats": 1,
+      "warmups": 1,
+      "complete": true,
+      "errors": 0,
+      "truncations": 0,
+      "includes": "every timed game includes fresh worker-object reset, fresh seeded setup, all recorded commands, native legal enumeration and compact projections; one retained process and pinned program bundle",
+      "excludes": "timed warm aggregate excludes startup, verified warm-up games and terminal audit verification; worker session time includes these. No policy inference, previews, GUI or disk writes run inside this harness; optional presentation details are disabled during batch",
+      "limitation": "terminal state and seed verification per timed game; run warm proof separately for every-frame and both-player observation equivalence across reset; no broad Standard cache-safety claim",
+      "sessionMilliseconds": 74695.92619999999,
+      "sessionGames": 3,
+      "sessionGamesPerSecond": 0.040162832869458424,
+      "coldGameMilliseconds": 16089.621900000027,
+      "timedMilliseconds": 58545.93739999994,
+      "warmGamesPerSecond": 0.03416120893812868,
+      "games": 2,
+      "commands": 175,
+      "latency": {
+        "count": 2,
+        "medianMilliseconds": 29272.96869999997,
+        "p95Milliseconds": 45933.27909999993,
+        "minMilliseconds": 12612.65830000001,
+        "maxMilliseconds": 45933.27909999993
+      },
+      "medianGamesPerSecond": 0.050528067469111926,
+      "resetLatency": {
+        "count": 2,
+        "medianMilliseconds": 86.92794999992475,
+        "p95Milliseconds": 93.87789999996312,
+        "minMilliseconds": 79.97799999988638,
+        "maxMilliseconds": 93.87789999996312
+      },
+      "batchLatency": {
+        "count": 2,
+        "medianMilliseconds": 29184.134700000002,
+        "p95Milliseconds": 45851.548,
+        "minMilliseconds": 12516.7214,
+        "maxMilliseconds": 45851.548
+      },
+      "byWorkload": [
+        {
+          "id": "short",
+          "games": 1,
+          "commands": 52,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 12612.65830000001,
+            "p95Milliseconds": 12612.65830000001,
+            "minMilliseconds": 12612.65830000001,
+            "maxMilliseconds": 12612.65830000001
+          },
+          "medianGamesPerSecond": 0.07928542708558109,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 93.87789999996312,
+            "p95Milliseconds": 93.87789999996312,
+            "minMilliseconds": 93.87789999996312,
+            "maxMilliseconds": 93.87789999996312
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 12516.7214,
+            "p95Milliseconds": 12516.7214,
+            "minMilliseconds": 12516.7214,
+            "maxMilliseconds": 12516.7214
+          }
+        },
+        {
+          "id": "developed",
+          "games": 1,
+          "commands": 123,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 45933.27909999993,
+            "p95Milliseconds": 45933.27909999993,
+            "minMilliseconds": 45933.27909999993,
+            "maxMilliseconds": 45933.27909999993
+          },
+          "medianGamesPerSecond": 0.021770707852642762,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 79.97799999988638,
+            "p95Milliseconds": 79.97799999988638,
+            "minMilliseconds": 79.97799999988638,
+            "maxMilliseconds": 79.97799999988638
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 45851.548,
+            "p95Milliseconds": 45851.548,
+            "minMilliseconds": 45851.548,
+            "maxMilliseconds": 45851.548
+          }
+        }
+      ],
+      "warmupRuns": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "warmup",
+          "cold": true,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 16089.621900000027,
+          "resetMilliseconds": 922.2083000000566,
+          "batchMilliseconds": 15144.5019,
+          "verificationMilliseconds": 18.74880000005942,
+          "gamesPerSecond": 0.062151864488499776,
+          "commandsPerSecond": 3.2318969534019883,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1825,
+          "readCopyMilliseconds": 9420.167300000017,
+          "snapshotHits": 1686,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 804.7365000000004,
+          "deserializationCalls": 1792,
+          "deserializationMilliseconds": 8710.536100000001,
+          "commandLatencyMilliseconds": {
+            "mean": 291.1918038461539,
+            "p50": 280.9143,
+            "p95": 623.6743,
+            "max": 974.1534
+          },
+          "managedCurrentThreadAllocatedBytes": 5248453976,
+          "gcCollections": [
+            320,
+            28,
+            11
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 15890.625,
+          "processPeakWorkingSetBytes": 121753600
+        }
+      ],
+      "runs": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 12612.65830000001,
+          "resetMilliseconds": 93.87789999996312,
+          "batchMilliseconds": 12516.7214,
+          "verificationMilliseconds": 23.346000000019558,
+          "gamesPerSecond": 0.07928542708558109,
+          "commandsPerSecond": 4.1228422084502165,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1825,
+          "readCopyMilliseconds": 7075.451100000011,
+          "snapshotHits": 1686,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 492.8930999999999,
+          "deserializationCalls": 1792,
+          "deserializationMilliseconds": 6617.242900000002,
+          "commandLatencyMilliseconds": {
+            "mean": 240.689101923077,
+            "p50": 259.1835,
+            "p95": 499.2153,
+            "max": 509.1877
+          },
+          "managedCurrentThreadAllocatedBytes": 5241256248,
+          "gcCollections": [
+            313,
+            26,
+            5
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 12234.375,
+          "processPeakWorkingSetBytes": 144572416
+        },
+        {
+          "id": "developed",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 123,
+          "elapsedMilliseconds": 45933.27909999993,
+          "resetMilliseconds": 79.97799999988638,
+          "batchMilliseconds": 45851.548,
+          "verificationMilliseconds": 18.150900000007823,
+          "gamesPerSecond": 0.021770707852642762,
+          "commandsPerSecond": 2.6777970658750596,
+          "nativeSeedCalls": 63,
+          "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 5552,
+          "readCopyMilliseconds": 26680.650099999963,
+          "snapshotHits": 5225,
+          "serializationCalls": 496,
+          "serializationMilliseconds": 1290.1415999999997,
+          "deserializationCalls": 5473,
+          "deserializationMilliseconds": 25475.814699999944,
+          "commandLatencyMilliseconds": {
+            "mean": 372.7574723577237,
+            "p50": 303.639,
+            "p95": 823.0607,
+            "max": 1076.3769
+          },
+          "managedCurrentThreadAllocatedBytes": 18259152376,
+          "gcCollections": [
+            1088,
+            63,
+            8
+          ],
+          "validationProposals": 5146,
+          "validationByOperation": {
+            "Use": 3762,
+            "Place": 163,
+            "Evolve": 389,
+            "Attach": 514,
+            "Retreat": 153,
+            "End": 165
+          },
+          "turnPreflightRejections": 0,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 43281.25,
+          "processPeakWorkingSetBytes": 206032896
+        }
+      ]
+    },
+    {
+      "pair": 5,
+      "side": "candidate",
+      "schema": "native-warm-benchmark-v1",
+      "timestamp": "2026-10-19T23:48:53.457Z",
+      "executionProfile": "private-two-deck-2026-10-11",
+      "fullStandardClaim": false,
+      "node": "v24.18.0",
+      "platform": "win32 10.0.26300 x64",
+      "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+      "logicalCpus": 16,
+      "concurrency": 1,
+      "workerSha256": "6256363cde39369a58a75ac6ff9bd520fa5e7f5a9a75c11fc737baf5fe36a19d",
+      "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+      "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+      "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+      "projectionCopyMode": "projection-turn-v1",
+      "buildConfiguration": "Release",
+      "maxSecondsPerGame": 180,
+      "totalBudgetSeconds": 285,
+      "workloads": [
+        {
+          "id": "short",
+          "seed": 3141,
+          "deckHashes": [
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+          ],
+          "commands": 52,
+          "frames": 53,
+          "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+        },
+        {
+          "id": "developed",
+          "seed": 1729,
+          "deckHashes": [
+            "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+            "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+          ],
+          "commands": 123,
+          "frames": 124,
+          "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+        }
+      ],
+      "repeats": 1,
+      "warmups": 1,
+      "complete": true,
+      "errors": 0,
+      "truncations": 0,
+      "includes": "every timed game includes fresh worker-object reset, fresh seeded setup, all recorded commands, native legal enumeration and compact projections; one retained process and pinned program bundle",
+      "excludes": "timed warm aggregate excludes startup, verified warm-up games and terminal audit verification; worker session time includes these. No policy inference, previews, GUI or disk writes run inside this harness; optional presentation details are disabled during batch",
+      "limitation": "terminal state and seed verification per timed game; run warm proof separately for every-frame and both-player observation equivalence across reset; no broad Standard cache-safety claim",
+      "sessionMilliseconds": 59538.670199999935,
+      "sessionGames": 3,
+      "sessionGamesPerSecond": 0.050387420308893684,
+      "coldGameMilliseconds": 14649.413500000024,
+      "timedMilliseconds": 44778.994599999976,
+      "warmGamesPerSecond": 0.044663798682072264,
+      "games": 2,
+      "commands": 175,
+      "latency": {
+        "count": 2,
+        "medianMilliseconds": 22389.497299999988,
+        "p95Milliseconds": 34349.479700000025,
+        "minMilliseconds": 10429.514899999951,
+        "maxMilliseconds": 34349.479700000025
+      },
+      "medianGamesPerSecond": 0.06249712951650282,
+      "resetLatency": {
+        "count": 2,
+        "medianMilliseconds": 87.69900000002235,
+        "p95Milliseconds": 90.02430000004824,
+        "minMilliseconds": 85.37369999999646,
+        "maxMilliseconds": 90.02430000004824
+      },
+      "batchLatency": {
+        "count": 2,
+        "medianMilliseconds": 22299.650500000003,
+        "p95Milliseconds": 34257.2283,
+        "minMilliseconds": 10342.0727,
+        "maxMilliseconds": 34257.2283
+      },
+      "byWorkload": [
+        {
+          "id": "short",
+          "games": 1,
+          "commands": 52,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 10429.514899999951,
+            "p95Milliseconds": 10429.514899999951,
+            "minMilliseconds": 10429.514899999951,
+            "maxMilliseconds": 10429.514899999951
+          },
+          "medianGamesPerSecond": 0.09588173655133325,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 85.37369999999646,
+            "p95Milliseconds": 85.37369999999646,
+            "minMilliseconds": 85.37369999999646,
+            "maxMilliseconds": 85.37369999999646
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 10342.0727,
+            "p95Milliseconds": 10342.0727,
+            "minMilliseconds": 10342.0727,
+            "maxMilliseconds": 10342.0727
+          }
+        },
+        {
+          "id": "developed",
+          "games": 1,
+          "commands": 123,
+          "latency": {
+            "count": 1,
+            "medianMilliseconds": 34349.479700000025,
+            "p95Milliseconds": 34349.479700000025,
+            "minMilliseconds": 34349.479700000025,
+            "maxMilliseconds": 34349.479700000025
+          },
+          "medianGamesPerSecond": 0.029112522481672388,
+          "resetLatency": {
+            "count": 1,
+            "medianMilliseconds": 90.02430000004824,
+            "p95Milliseconds": 90.02430000004824,
+            "minMilliseconds": 90.02430000004824,
+            "maxMilliseconds": 90.02430000004824
+          },
+          "batchLatency": {
+            "count": 1,
+            "medianMilliseconds": 34257.2283,
+            "p95Milliseconds": 34257.2283,
+            "minMilliseconds": 34257.2283,
+            "maxMilliseconds": 34257.2283
+          }
+        }
+      ],
+      "warmupRuns": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "warmup",
+          "cold": true,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 14649.413500000024,
+          "resetMilliseconds": 905.5100000000093,
+          "batchMilliseconds": 13718.5787,
+          "verificationMilliseconds": 26.60660000005737,
+          "gamesPerSecond": 0.06826211848003323,
+          "commandsPerSecond": 3.549630160961728,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1129,
+          "readCopyMilliseconds": 7468.975200000002,
+          "snapshotHits": 990,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 953.9110000000002,
+          "deserializationCalls": 1096,
+          "deserializationMilliseconds": 6579.075200000007,
+          "commandLatencyMilliseconds": {
+            "mean": 263.76701538461543,
+            "p50": 259.7689,
+            "p95": 516.6689,
+            "max": 871.9014
+          },
+          "managedCurrentThreadAllocatedBytes": 4253895000,
+          "gcCollections": [
+            260,
+            26,
+            11
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 696,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 14843.75,
+          "processPeakWorkingSetBytes": 122961920
+        }
+      ],
+      "runs": [
+        {
+          "id": "short",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 52,
+          "elapsedMilliseconds": 10429.514899999951,
+          "resetMilliseconds": 85.37369999999646,
+          "batchMilliseconds": 10342.0727,
+          "verificationMilliseconds": 23.122200000099838,
+          "gamesPerSecond": 0.09588173655133325,
+          "commandsPerSecond": 4.985850300669329,
+          "nativeSeedCalls": 33,
+          "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 1129,
+          "readCopyMilliseconds": 4779.511400000002,
+          "snapshotHits": 990,
+          "serializationCalls": 212,
+          "serializationMilliseconds": 517.3693999999998,
+          "deserializationCalls": 1096,
+          "deserializationMilliseconds": 4328.611099999997,
+          "commandLatencyMilliseconds": {
+            "mean": 198.86649230769237,
+            "p50": 184.2095,
+            "p95": 379.8752,
+            "max": 504.3423
+          },
+          "managedCurrentThreadAllocatedBytes": 4246572968,
+          "gcCollections": [
+            254,
+            19,
+            5
+          ],
+          "validationProposals": 1653,
+          "validationByOperation": {
+            "Use": 1228,
+            "Place": 25,
+            "Evolve": 145,
+            "Attach": 121,
+            "Retreat": 62,
+            "End": 72
+          },
+          "turnPreflightRejections": 696,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 9937.5,
+          "processPeakWorkingSetBytes": 141922304
+        },
+        {
+          "id": "developed",
+          "round": 1,
+          "stage": "measured",
+          "cold": false,
+          "games": 1,
+          "commands": 123,
+          "elapsedMilliseconds": 34349.479700000025,
+          "resetMilliseconds": 90.02430000004824,
+          "batchMilliseconds": 34257.2283,
+          "verificationMilliseconds": 60.42669999995269,
+          "gamesPerSecond": 0.029112522481672388,
+          "commandsPerSecond": 3.5808402652457034,
+          "nativeSeedCalls": 63,
+          "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+          "errors": 0,
+          "truncations": 0,
+          "readCopyCalls": 3132,
+          "readCopyMilliseconds": 15409.816500000015,
+          "snapshotHits": 2805,
+          "serializationCalls": 496,
+          "serializationMilliseconds": 1309.9552999999996,
+          "deserializationCalls": 3053,
+          "deserializationMilliseconds": 14244.49559999998,
+          "commandLatencyMilliseconds": {
+            "mean": 278.49084065040654,
+            "p50": 253.1472,
+            "p95": 591.436,
+            "max": 774.2276
+          },
+          "managedCurrentThreadAllocatedBytes": 13976048832,
+          "gcCollections": [
+            833,
+            54,
+            9
+          ],
+          "validationProposals": 5146,
+          "validationByOperation": {
+            "Use": 3762,
+            "Place": 163,
+            "Evolve": 389,
+            "Attach": 514,
+            "Retreat": 153,
+            "End": 165
+          },
+          "turnPreflightRejections": 2420,
+          "turnPreflightVerifiedRejections": 0,
+          "batchProcessCpuMilliseconds": 32828.125,
+          "processPeakWorkingSetBytes": 212905984
+        }
+      ]
+    }
+  ]
+}

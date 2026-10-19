@@ -9,7 +9,7 @@ export function referenceForCopyMode(reference, baseline, candidate) {
     if (typeof baseline[key] !== 'string' || reference.header[key] !== baseline[key] || candidate[key] !== baseline[key]) throw new Error(`copy comparison changes ${key}`);
   }
   if (reference.header.workerSha256 !== baseline.workerSha256 || (reference.header.projectionCopyMode ?? 'native') !== (baseline.projectionCopyMode ?? 'native')) throw new Error('copy comparison baseline pin mismatch');
-  if (!['native', 'projection-snapshot-v1'].includes(candidate.projectionCopyMode)) throw new Error('explicit candidate copy mode required');
+  if (!['native', 'projection-snapshot-v1', 'projection-turn-v1'].includes(candidate.projectionCopyMode)) throw new Error('explicit candidate copy mode required');
   const result = structuredClone(reference);
   result.header.workerSha256 = candidate.workerSha256;
   result.header.projectionCopyMode = candidate.projectionCopyMode;

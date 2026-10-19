@@ -13,7 +13,7 @@ const exactHash = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(va
 export function verifyLocalInputs(config) {
   if (config?.schema !== 'local-worker-probe-v1') throw new Error('unsupported local probe configuration');
   const copyMode = config.projectionCopyMode ?? 'native';
-  if (!['native', 'projection-snapshot-v1'].includes(copyMode)) throw new Error('unsupported local projection copy mode');
+  if (!['native', 'projection-snapshot-v1', 'projection-turn-v1'].includes(copyMode)) throw new Error('unsupported local projection copy mode');
   for (const key of ['executable', 'worker', 'bundleRoot']) {
     if (typeof config[key] !== 'string' || !isAbsolute(config[key])) throw new Error('explicit absolute local paths required');
   }
