@@ -1,0 +1,111 @@
+{
+  "source": "separate Node V8 CPU sampling run; never use profiled timings as benchmark throughput",
+  "totalSampledMicros": 767192,
+  "top": [
+    {
+      "file": "environment.mjs",
+      "functionName": "",
+      "line": 81,
+      "selfMicros": 119684,
+      "fraction": 0.15600266947517702
+    },
+    {
+      "file": "policies.mjs",
+      "functionName": "greedyPolicy",
+      "line": 9,
+      "selfMicros": 83263,
+      "fraction": 0.10852954671060178
+    },
+    {
+      "file": "environment.mjs",
+      "functionName": "uniqueHand",
+      "line": 6,
+      "selfMicros": 76663,
+      "fraction": 0.0999267458471934
+    },
+    {
+      "file": "policies.mjs",
+      "functionName": "runEpisode",
+      "line": 31,
+      "selfMicros": 70617,
+      "fraction": 0.09204605887444081
+    },
+    {
+      "file": "environment.mjs",
+      "functionName": "legalActions",
+      "line": 51,
+      "selfMicros": 65986,
+      "fraction": 0.08600976026861594
+    },
+    {
+      "file": "environment.mjs",
+      "functionName": "step",
+      "line": 101,
+      "selfMicros": 55710,
+      "fraction": 0.07261546001522436
+    },
+    {
+      "file": "",
+      "functionName": "(garbage collector)",
+      "line": 0,
+      "selfMicros": 42243,
+      "fraction": 0.05506183588984244
+    },
+    {
+      "file": "environment.mjs",
+      "functionName": "",
+      "line": 6,
+      "selfMicros": 41396,
+      "fraction": 0.053957809779038364
+    },
+    {
+      "file": "environment.mjs",
+      "functionName": "observe",
+      "line": 84,
+      "selfMicros": 38302,
+      "fraction": 0.04992492101064662
+    },
+    {
+      "file": "policies.mjs",
+      "functionName": "delayedAttackPolicy",
+      "line": 25,
+      "selfMicros": 31928,
+      "fraction": 0.04161670090407616
+    },
+    {
+      "file": "benchmark.mjs",
+      "functionName": "trial",
+      "line": 21,
+      "selfMicros": 18141,
+      "fraction": 0.02364597128228657
+    },
+    {
+      "file": "environment.mjs",
+      "functionName": "#beginTurn",
+      "line": 185,
+      "selfMicros": 10710,
+      "fraction": 0.013959999582894504
+    },
+    {
+      "file": "",
+      "functionName": "(program)",
+      "line": 0,
+      "selfMicros": 10049,
+      "fraction": 0.013098416041877392
+    },
+    {
+      "file": "environment.mjs",
+      "functionName": "#emit",
+      "line": 194,
+      "selfMicros": 9181,
+      "fraction": 0.011967017382871563
+    },
+    {
+      "file": "environment.mjs",
+      "functionName": "",
+      "line": 89,
+      "selfMicros": 9090,
+      "fraction": 0.01184840300733063
+    }
+  ]
+}

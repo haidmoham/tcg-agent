@@ -1,0 +1,17 @@
+{
+  "name": "tcg-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline, restricted-profile Pokemon TCG simulation research",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test",
+    "demo": "node scripts/demo.mjs",
+    "eval": "node scripts/evaluate.mjs",
+    "bench": "node scripts/benchmark.mjs",
+    "tutorial": "node scripts/serve-tutorial.mjs",
+    "profile": "node --cpu-prof --cpu-prof-dir=runs scripts/benchmark.mjs --games 1000 --repeats 1 --output runs/profile-benchmark.json"
+  },
+  "license": "MIT"
+}
