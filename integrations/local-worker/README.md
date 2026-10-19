@@ -45,8 +45,14 @@ This is one execution receipt, not a throughput benchmark, deterministic replay 
 
 Eight synthetic tests separately check transport correlation, serialization, malformed replies, uncertain timeouts and changed-input rejection. They are not counted as real card gameplay. The original Indigo implementation and its prior natural-game evidence remain separate from this new execution.
 
-## Next adapter contract
+## Seeded adapter follow-up
+
+The [seeded native runtime](../../docs/native-runtime.md) now adds an isolated original hook build, per-game seed injection, chance transcripts, semantic replay, frozen player DTOs, bounded decision-domain enumeration, native Use/hidden-world probes and renderer-free batch measurement. The seed-1729 record completed 123 commands, 44 previews and 63 native seed requests. A fresh-process replay matched all 124 frames with additional seat reads. Ten hidden-world probes preserved player DTOs, including eight opposing-hand/deck exchanges. These follow-up results supersede the unseeded probe's replay limit; they do not expand its two-deck coverage claim.
+
+`scripts/native.mjs` provides `record`, `replay`, `verify`, `benchmark` and `gauntlet` commands. Exact local configuration and programs are still required. The [runtime document](../../docs/native-runtime.md) gives commands, the semantic cache exclusion and an explicit remaining-gate table.
+
+## Retained adapter contract
 
 Retain the canonical pending operation. Disposable copies serve reads and previews; replacing authority with a serialized board can lose continuations or RNG state. Preserve strict polymorphic loading, independently projected seat views, opaque choices and group-local physical-card uniqueness. A successful native preview alone does not establish every selection invariant.
 
-Before this path enters learning/evaluation, expose per-game RNG and replayable chance, document complete legal decision enumeration, independently audit all private zones/history, replace account-shaped dummy fields with an offline interface, and certify whole-game and card-interaction coverage for a dated legality profile. Reconcile the broader existing program corpus locally rather than publishing it. The public coverage ledger must continue to reject full Standard admission until evidence closes those gates.
+Before this path enters learning, complete legal decision enumeration, independently audit all zones/history, and certify whole-game and card-interaction coverage for a dated legality profile. The new actor DTO removes account-shaped dummy fields. Public Lost Zone, pending/revealed cards and cumulative history remain incomplete. Some allocation domains explicitly refuse admission. Reconcile the broader existing program corpus locally rather than publishing it. The public coverage ledger must continue to reject full Standard admission until evidence closes those gates.

@@ -1,0 +1,236 @@
+{
+  "schema": "native-replay-proof-v1",
+  "profile": "private-two-deck-2026-10-11",
+  "fullStandardClaim": false,
+  "normalization": "runtime-identity-minus-lastCheckedState/3",
+  "record": {
+    "schema": "audited-native-episode-v1",
+    "completedNaturally": true,
+    "seed": 1729,
+    "seatOrder": [
+      0,
+      1
+    ],
+    "winnerSeat": "human",
+    "turns": 12,
+    "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+    "commands": 123,
+    "frames": 124,
+    "previews": 44,
+    "rejected": 0,
+    "boundaryChecks": [
+      {
+        "revision": 0,
+        "seat": "human",
+        "permutedSlots": 120,
+        "opponentHandExchanged": false
+      },
+      {
+        "revision": 0,
+        "seat": "human",
+        "decisionDomain": {
+          "kind": "select",
+          "checked": 2,
+          "legalAnswers": 2,
+          "complete": true
+        }
+      },
+      {
+        "revision": 0,
+        "seat": "opponent",
+        "permutedSlots": 120,
+        "opponentHandExchanged": false
+      },
+      {
+        "revision": 0,
+        "useAudit": {
+          "checked": false,
+          "reason": "pending native decision"
+        }
+      },
+      {
+        "revision": 25,
+        "seat": "human",
+        "permutedSlots": 98,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 25,
+        "seat": "opponent",
+        "permutedSlots": 98,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 25,
+        "useAudit": {
+          "checked": true,
+          "tested": 124,
+          "legal": 1,
+          "offered": 1,
+          "missing": [],
+          "extra": []
+        }
+      },
+      {
+        "revision": 50,
+        "seat": "human",
+        "permutedSlots": 82,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 50,
+        "seat": "opponent",
+        "permutedSlots": 82,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 50,
+        "useAudit": {
+          "checked": true,
+          "tested": 124,
+          "legal": 3,
+          "offered": 3,
+          "missing": [],
+          "extra": []
+        }
+      },
+      {
+        "revision": 75,
+        "seat": "human",
+        "permutedSlots": 64,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 75,
+        "seat": "opponent",
+        "permutedSlots": 64,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 75,
+        "seat": "opponent",
+        "decisionDomain": {
+          "kind": "cards",
+          "checked": 1,
+          "legalAnswers": 1,
+          "complete": true
+        }
+      },
+      {
+        "revision": 75,
+        "useAudit": {
+          "checked": false,
+          "reason": "pending native decision"
+        }
+      },
+      {
+        "revision": 100,
+        "seat": "human",
+        "permutedSlots": 58,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 100,
+        "seat": "human",
+        "decisionDomain": {
+          "kind": "cards",
+          "checked": 2,
+          "legalAnswers": 2,
+          "complete": true
+        }
+      },
+      {
+        "revision": 100,
+        "seat": "opponent",
+        "permutedSlots": 58,
+        "opponentHandExchanged": true
+      },
+      {
+        "revision": 100,
+        "useAudit": {
+          "checked": false,
+          "reason": "pending native decision"
+        }
+      }
+    ],
+    "nativeSeedCalls": 63,
+    "elapsedMs": 75538.52020000001,
+    "replayVerified": false,
+    "fullStandardClaim": false
+  },
+  "replay": {
+    "schema": "audited-native-episode-v1",
+    "completedNaturally": true,
+    "seed": 1729,
+    "seatOrder": [
+      0,
+      1
+    ],
+    "winnerSeat": "human",
+    "turns": 12,
+    "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+    "commands": 123,
+    "frames": 124,
+    "previews": 44,
+    "rejected": 0,
+    "boundaryChecks": [],
+    "nativeSeedCalls": 63,
+    "elapsedMs": 67275.3997,
+    "replayVerified": true,
+    "fullStandardClaim": false
+  },
+  "adversarial": {
+    "schema": "native-adversarial-receipt-v1",
+    "seed": 3141,
+    "otherSeed": 3142,
+    "baselineReplayVerified": true,
+    "baselineCommands": 52,
+    "baselineFrames": 53,
+    "interleavedIndependentProcesses": 2,
+    "sameSeedFreshProcessState": true,
+    "differentSeedTranscript": true,
+    "readMutation": false,
+    "rejectedCases": [
+      "frame-tamper",
+      "seed-underflow",
+      "seed-leftover",
+      "commands-exhausted",
+      "wrong-pin"
+    ]
+  },
+  "header": {
+    "schema": "local-semantic-replay-v1",
+    "seed": 1729,
+    "normalization": "runtime-identity-minus-lastCheckedState/3",
+    "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+    "workerSha256": "01100ec6a6e5318ab3f57a88b6d769612fd50b126c5b4eb677e1f3d9752aa58b",
+    "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+    "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+    "deckHashes": [
+      "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+      "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+    ]
+  },
+  "swappedSeatReplay": {
+    "schema": "audited-native-episode-v1",
+    "completedNaturally": true,
+    "seed": 3141,
+    "seatOrder": [
+      1,
+      0
+    ],
+    "winnerSeat": "human",
+    "turns": 5,
+    "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+    "commands": 52,
+    "frames": 53,
+    "previews": 19,
+    "rejected": 0,
+    "boundaryChecks": [],
+    "nativeSeedCalls": 33,
+    "elapsedMs": 19805.982799999998,
+    "replayVerified": true,
+    "fullStandardClaim": false
+  },
+  "corruptControlRejected": true
+}

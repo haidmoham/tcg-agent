@@ -45,3 +45,28 @@ Full Standard is incomplete. The reference kernel has zero verified Standard pri
 The existing Indigo Live worker built with .NET 8.0.425 and zero warnings/errors into ignored task output. An original opt-in [headless process probe](../integrations/local-worker/README.md) verified all eight external private bundle files, executable/worker/dependency pins and the existing local strategy module. One natural modern-deck game completed with 82 accepted commands, 30 previews, zero rejections and final revision 82 in 25,560 ms. It used no authored board or winner. Native randomness was not controlled. The compact pinned receipt remains local; this elapsed time is not a throughput estimate.
 
 The eight new synthetic tests check transport and input integrity independently of that real game. Independent review caught a valid-JSON-null reply crashing the callback; object validation and a regression test fixed it. The final complete suite passes 57 tests, zero failures/skips. Local card/program coverage and original worker evidence change the primary extension path, while all full Standard admission gates remain open. No private raw data or recovered code is redistributed.
+
+## Seeded native follow-up
+
+The latest full `npm.cmd test` run passes **88 tests**, zero failures or skips, including the prepared public engine's seven assertions. The native integration additionally executed actual private-input checks, separate from those synthetic tests.
+
+| Check | Observed result |
+|---|---|
+| Seeded natural record, root 1729 | 123 accepted commands, 44 previews, 63 native seed calls, zero rejections. |
+| Fresh-process replay with extra seat reads | All 124 semantic authority frames, both actor DTOs and every seed request match. |
+| Swapped-seat replay, root 3141 | All 53 frames and 33 seed requests match across 52 commands. |
+| Hidden-world probes | Ten equal actor DTOs, including eight opposing-hand/deck exchanges. |
+| Native decision audits | Two settled Use comparisons have no missing/extra tuple; three pending-decision probes skipped explicitly. Three small nonallocation domains exhausted. |
+| Native adversarial verification | Independent interleaved streams/reset, positive replay control and five corrupted replay rejections pass. An already-corrupt input fails without a success receipt. |
+| Headless fixed-trace benchmark | Three complete cold-process games; median 0.0201 games/s, range 0.01995-0.02277; zero errors/truncations. |
+| Frozen paired-deck gauntlet | Four natural games, 521 commands, 207 previews, zero errors/truncations/rejections. Dragapult fixture score 0.75, paired-seed interval [0.5, 1]. |
+| Direct coverage CLI | Child exit code 2, full Standard admission remains incomplete. |
+| Original Indigo checkout | Read-only Git status remains clean. |
+
+[The runtime contract](native-runtime.md), [safe replay proof](native-replay-proof-v1.json), [raw benchmark receipt](native-benchmark-v1.json), [frozen manifest](../experiments/native-gauntlet-v1.json) and [gauntlet receipt](native-gauntlet-v1-receipt.json) retain exact scope and provenance. The native semantic comparison normalizes runtime identities and excludes the named `lastCheckedState` cache, including serialized history snapshots. It is not a byte-identical native save-state claim.
+
+The native timer measures real transition, legal-action and compact-projection work with a fresh process per game. It excludes previews, actor inference, persisted per-step audits, optional presentation details and final verification. Instrumented native read copies consumed 66.4-67.3% of elapsed time. No speedup, optimized-build or Standard-general throughput claim follows. Gauntlet games are separately audited policy runs and are not the benchmark.
+
+Independent reviews exercised focused JS tests and found swapped-seat admission and existing-output preservation defects; both were fixed and checked. Comments defining external ownership/selection constraints were retained. Original private sources and programs remain unchanged and external. The tutorial text was updated and its inline script syntax checked. No browser was opened during this follow-up, preserving the other desktop task's session.
+
+Remaining gates include the dated legal denominator, per-card/mechanics interactions, all operation families, public Lost Zone and authorized reveal/history projection, and a continuation/RNG-safe branch mechanism before native search. No native search, learned policy, sustained training or Live interaction occurred.

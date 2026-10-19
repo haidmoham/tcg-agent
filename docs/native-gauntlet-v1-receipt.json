@@ -1,0 +1,130 @@
+{
+  "schema": "native-gauntlet-receipt-v1",
+  "suite": "balanced-two-deck-heldout-v1",
+  "manifestSha256": "f59fc622f75be3ca0bd3f76a35e12bdf1795840b54128ee224de6e8df196daa2",
+  "profile": "private-two-deck-2026-10-11",
+  "fullStandardClaim": false,
+  "weightSource": "designed-balanced-fixture",
+  "observedMetagameCoverage": null,
+  "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+  "workerSha256": "01100ec6a6e5318ab3f57a88b6d769612fd50b126c5b4eb677e1f3d9752aa58b",
+  "complete": true,
+  "errors": 0,
+  "truncations": 0,
+  "games": [
+    {
+      "seed": 2718,
+      "seatOrder": [
+        0,
+        1
+      ],
+      "scoreForDeck0": 1,
+      "status": "completed",
+      "schema": "audited-native-episode-v1",
+      "completedNaturally": true,
+      "winnerSeat": "human",
+      "turns": 22,
+      "terminalStateHash": "41c578b189d13cb290c76ec5dbb128afa3fb68a7f4491885e9cf6f49630f1f45",
+      "commands": 191,
+      "frames": 192,
+      "previews": 77,
+      "rejected": 0,
+      "boundaryChecks": [],
+      "nativeSeedCalls": 87,
+      "elapsedMs": 107754.3735,
+      "replayVerified": false,
+      "fullStandardClaim": false,
+      "deckHashes": [
+        "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+        "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+      ]
+    },
+    {
+      "seed": 2718,
+      "seatOrder": [
+        1,
+        0
+      ],
+      "scoreForDeck0": 1,
+      "status": "completed",
+      "schema": "audited-native-episode-v1",
+      "completedNaturally": true,
+      "winnerSeat": "opponent",
+      "turns": 12,
+      "terminalStateHash": "95b1570a15d0b733a690dbff53c61ba7732d2e23d3c3cf6dc39319dcc6cf6d27",
+      "commands": 131,
+      "frames": 132,
+      "previews": 54,
+      "rejected": 0,
+      "boundaryChecks": [],
+      "nativeSeedCalls": 48,
+      "elapsedMs": 64385.49400000002,
+      "replayVerified": false,
+      "fullStandardClaim": false,
+      "deckHashes": [
+        "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+        "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+      ]
+    },
+    {
+      "seed": 3141,
+      "seatOrder": [
+        0,
+        1
+      ],
+      "scoreForDeck0": 1,
+      "status": "completed",
+      "schema": "audited-native-episode-v1",
+      "completedNaturally": true,
+      "winnerSeat": "human",
+      "turns": 23,
+      "terminalStateHash": "ea52bac87700f25c22823c4bbd14b08af19a1241b7fef3c96993b4283069ef2d",
+      "commands": 147,
+      "frames": 148,
+      "previews": 56,
+      "rejected": 0,
+      "boundaryChecks": [],
+      "nativeSeedCalls": 61,
+      "elapsedMs": 84377.68419999999,
+      "replayVerified": false,
+      "fullStandardClaim": false,
+      "deckHashes": [
+        "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+        "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+      ]
+    },
+    {
+      "seed": 3141,
+      "seatOrder": [
+        1,
+        0
+      ],
+      "scoreForDeck0": 0,
+      "status": "completed",
+      "schema": "audited-native-episode-v1",
+      "completedNaturally": true,
+      "winnerSeat": "human",
+      "turns": 5,
+      "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+      "commands": 52,
+      "frames": 53,
+      "previews": 20,
+      "rejected": 0,
+      "boundaryChecks": [],
+      "nativeSeedCalls": 33,
+      "elapsedMs": 19697.869000000006,
+      "replayVerified": false,
+      "fullStandardClaim": false,
+      "deckHashes": [
+        "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+        "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+      ]
+    }
+  ],
+  "scoreForDeck0": 0.75,
+  "seedPairBootstrap95": [
+    0.5,
+    1
+  ],
+  "uncertainty": "paired seed variation only; two exact decks and one frozen policy; no metagame or coverage uncertainty"
+}

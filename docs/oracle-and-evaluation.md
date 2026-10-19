@@ -22,6 +22,8 @@ Do not import PTCG-Bench's evaluation harness unchanged. The inspected revision 
 
 A later search baseline should reconstruct a belief from authorized deck priors and observed public history, sample possible worlds, and give each simulated actor only its own observations. Key search decisions by information history. Test that changing a true hidden allocation leaves the evaluation policy's action distribution unchanged when its information is unchanged. That belief/search implementation is not present yet.
 
+The [native runtime increment](native-runtime.md) now supplies seeded natural execution, detached frozen DTOs and reproducible semantic logs for two private deck fixtures. Hidden-world probes pass at encountered states. The player projection still lacks Lost Zone/reveal/history coverage, so it cannot support a complete Standard actor yet. The [frozen native gauntlet](../experiments/native-gauntlet-v1.json) is a contract regression with equal fixture weights and one heuristic, not a policy-improvement comparison. [Source research](training-data-and-baselines.md) records the missing dated Indigo export and suitable later search baselines.
+
 ## The executable policy boundary
 
 `src/policy-boundary.mjs` constructs frozen `policy-input-v1` values from an audited adapter. It whitelists public fields, copies the acting player's hand, removes the opposing hand and raw engine metadata, and passes public-event deltas since that player's previous decision. New policy instances start each game. Game seeds and independent policy RNG seeds stay with the trusted runner, not in the actor's input.

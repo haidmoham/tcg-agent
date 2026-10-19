@@ -29,7 +29,7 @@ The [versioned coverage ledger](coverage/README.md) inventories 4,996 source pri
 
 The [public Twinleaf integration](integrations/twinleaf/README.md) reuses a pinned broad card/rules corpus. Seven real-engine assertions cover modern evolution, typed Energy, attack resolution, controlled coin outcomes, weakness and last-Pokémon KO. These use constructed midgame states. They are not complete Standard games, seeded engine certification or a policy-ready full-game adapter.
 
-The [optional local worker probe](integrations/local-worker/README.md) now reuses the existing Indigo Live headless engine and privately supplied card/game programs. One natural modern-deck game completed with 82 accepted commands and zero rejections. This is the primary local extension path; recovered inputs stay private and external. The public Twinleaf work remains an independent comparator. Neither path certifies full Standard or seeded native replay yet.
+The [optional native adapter](docs/native-runtime.md) reuses the existing Indigo Live headless engine and privately supplied card/game programs. A natural seeded modern-deck game completed with 123 accepted commands and zero rejections. Fresh-process semantic replay matched all 124 frames, both player observations and 63 native seed requests with extra reads. This is the primary local extension path; recovered inputs stay private and external. The public Twinleaf work remains an independent comparator. Full Standard, complete observations and exhaustive legal decisions remain open.
 
 ```sh
 npm run engine:prepare
@@ -88,6 +88,8 @@ This is the October 18 learning-agent repository, continued with its existing hi
 
 [The reuse register](docs/reuse-and-research.md) records inspected assets, Twinleaf/RyuuPlay/CABT alternatives, license gaps, CK49's video, original VGC developer reports and transferable methods. The kernel was selected for tractable correctness scope, not from a claimed speed comparison with other engines.
 
+[Data and baseline research](docs/training-data-and-baselines.md) distinguishes tournament/deck priors from decision trajectories. The frozen native gauntlet uses two exact decks with equal fixture weights because no dated Indigo standings export was available. Its observed metagame coverage stays null. Bounded turn search, information-set rollouts and small-model training remain later gates.
+
 ## Stay involved in the technical work
 
 Before each experiment, write a prediction and the observation that would change it. Afterward, explain a failure replay before changing the policy. Assistance can automate batching, logging, tests and plots without supplying the learner's argument.
@@ -95,7 +97,7 @@ Before each experiment, write a prediction and the observation that would change
 The next bounded steps are:
 
 1. Complete the dated Standard legality denominator, including reviewed reprints, release differences and restrictions.
-2. Adapt the existing local headless worker into a seeded, replayable decision protocol with complete legal choices and detached observations. Retain the public rules engine as an independent comparator.
+2. Extend the seeded local worker's decision and observation audits to every operation family, public Lost Zone, authorized reveals and cumulative history. Retain the public rules engine as an independent comparator.
 3. Reconcile its card implementations against the ledger, and verify card effects and interactions before admission. Preserve unknowns rather than accepting plausible behavior.
 4. Evaluate a stronger information-set baseline on verified Standard matchups, with frozen opponent pools and deck provenance. Derive learning objectives and interpret results in LMLab. Keep negative results and truncations.
 

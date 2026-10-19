@@ -1,0 +1,73 @@
+{
+  "schema": "native-benchmark-v1",
+  "timestamp": "2026-10-19T22:33:13.391Z",
+  "executionProfile": "private-two-deck-2026-10-11",
+  "fullStandardClaim": false,
+  "node": "v24.18.0",
+  "platform": "win32 10.0.26300 x64",
+  "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+  "logicalCpus": 16,
+  "concurrency": 1,
+  "seed": 1729,
+  "workerSha256": "01100ec6a6e5318ab3f57a88b6d769612fd50b126c5b4eb677e1f3d9752aa58b",
+  "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+  "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+  "includes": "one fresh process and bundle load per game, reset, native seeded setup, complete accepted commands, legal action enumeration, compact seat projections, terminal resolution",
+  "excludes": "GUI, browser, preview requests, policy inference, per-step audit snapshots, disk writes, post-timing terminal verification; optional presentation details disabled during batch",
+  "workload": "same recorded legal decision trace replayed; fixed-deck regression, not policy throughput",
+  "medianGamesPerSecond": 0.020082800704489385,
+  "minGamesPerSecond": 0.019947348097014612,
+  "maxGamesPerSecond": 0.022768347861740208,
+  "runs": [
+    {
+      "repeat": 1,
+      "games": 1,
+      "elapsedMs": 50131.9772,
+      "gamesPerSecond": 0.019947348097014612,
+      "commands": 123,
+      "commandsPerSecond": 2.4535238159327974,
+      "batchMilliseconds": 49266.4709,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 33494.759800000036,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0
+    },
+    {
+      "repeat": 2,
+      "games": 1,
+      "elapsedMs": 43920.622,
+      "gamesPerSecond": 0.022768347861740208,
+      "commands": 123,
+      "commandsPerSecond": 2.8005067869940454,
+      "batchMilliseconds": 43228.4498,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 29160.943299999875,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0
+    },
+    {
+      "repeat": 3,
+      "games": 1,
+      "elapsedMs": 49793.8517,
+      "gamesPerSecond": 0.020082800704489385,
+      "commands": 123,
+      "commandsPerSecond": 2.4701844866521947,
+      "batchMilliseconds": 49097.9898,
+      "readCopyCalls": 5552,
+      "readCopyMilliseconds": 33526.76129999995,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "errors": 0,
+      "truncations": 0
+    }
+  ],
+  "notes": [
+    "Three cold-process repetitions with one completed game each. No separate warm-up. Host load was not controlled. Original default SDK build; no release/debug performance comparison.",
+    "Measured read-copy timer includes serialized native cloning and RNG guard installation. It accounts for 66.4-67.3% of end-to-end time in these repetitions. Counters are phase instrumentation, not a CPU sampling profile.",
+    "This workload has 123 accepted commands, 63 native seed requests and 5552 read-copy calls in every repetition. Terminal hashes and complete seed transcripts matched. No policy strength or training throughput is inferred."
+  ]
+}

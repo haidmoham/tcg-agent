@@ -32,7 +32,7 @@ Earlier private simulator and competition projects were inspected as prior art. 
 | [TCG ONE contribution repository](https://github.com/axpendix/tcgone-engine-contrib) | Apache-2.0 for contribution source | Maintainer README says the engine is closed and unavailable for local execution by non-staff. | Cannot satisfy an independently runnable public engine. |
 | This project's closed kernel | MIT for original code; Pokémon rights remain separate | Complete games, seeded reset, observer-safe choices, public events, replay and synchronous batch stepping for exactly three card IDs. | Selected initial correctness and throughput milestone. No full Standard claim. |
 
-For any broader engine, record a commit and dependency lock before running comparisons. A live link is research provenance, not a reproducible dependency pin. No optional engine is an executable dependency in this release.
+For any broader engine, record a commit and dependency lock before running comparisons. A live link is research provenance, not a reproducible dependency pin. Optional engines run only through explicitly selected, pinned integrations.
 
 ## Rules and card evidence
 
@@ -65,3 +65,7 @@ TCG needs decision-level actions within variable-length turns, stochastic draws,
 Official [1.21.0 patch notes](https://community.pokemon.com/en-us/discussion/14755/version-1-21-0-patch-notes) introduced visible Arceus Elo. Later [July 2025 development-team guidance](https://community.pokemon.com/en-us/discussion/19258/letter-to-the-community-july-10-2025) distinguishes progressive Nest–Ultra Elo and competitive Master League Elo, retaining monthly competitive resets. Define the eventual goal as competitive Elo at least 2000 in a named Live season. No current percentile or tier cutoff is claimed here. A separate offline league's Elo cannot predict the same numeric Live rating.
 
 The official [Pokémon terms](https://www.pokemon.com/uk/legal/terms-of-use), last updated June 15, 2023 when inspected, cover TCG Live. Section 5 restricts unauthorized service automation, reverse engineering and bypassing security. This repository has no Live adapter. Future integration must respect applicable platform rules and the intended session's constraints.
+
+## Structured-data and search follow-up
+
+[Data and baseline research](training-data-and-baselines.md) records inspected Limitless/RK9/Labs relationships, export/API structure, TCGdex facts, trajectory examples and direct search prior art. Tournament appearances support priors; they do not label decisions. No large licensed expert-human decision corpus was verified. The existing Circuit files provide event seeds and format windows, with no dated standings aggregate to justify current metagame weights. Reproducible native trajectories are the immediate experimental source. No sustained training or bulk scrape runs here.
