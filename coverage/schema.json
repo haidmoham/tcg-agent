@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/haidmoham/tcg-agent/coverage/schema-v1",
+  "title": "Exact-printing Standard coverage, schema 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "profileId", "asOf", "backend", "source", "completeness", "sets", "mechanics", "cards"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "profileId": { "const": "live-standard-2026-10-19" },
+    "asOf": { "type": "string", "format": "date" },
+    "backend": { "type": "object", "required": ["id", "version"], "properties": { "id": { "type": "string" }, "version": { "type": "string" } } },
+    "source": {
+      "type": "object", "required": ["repository", "commit", "reviewedAt", "license", "licenseFile", "scope", "extractor"],
+      "properties": {
+        "repository": { "const": "https://github.com/tcgdex/cards-database" },
+        "commit": { "$ref": "#/$defs/sha" }, "reviewedAt": { "type": "string", "format": "date" }, "license": { "const": "MIT" },
+        "licenseFile": { "type": "string" }, "scope": { "type": "array", "items": { "type": "string" } }, "extractor": { "type": "string" }
+      }
+    },
+    "completeness": {
+      "type": "object", "required": ["status", "legalPrintingCount", "evidence", "missing"],
+      "properties": {
+        "status": { "enum": ["unknown", "incomplete", "verified"] },
+        "legalPrintingCount": { "type": ["integer", "null"], "minimum": 0 },
+        "evidence": { "$ref": "#/$defs/evidence" }, "missing": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "sets": {
+      "type": "array", "items": { "type": "object", "required": ["id", "sourceBlob", "sourcePath", "releaseDate"], "properties": {
+        "id": { "type": "string" }, "sourceBlob": { "$ref": "#/$defs/sha" }, "sourcePath": { "type": "string" }, "releaseDate": { "type": ["string", "null"] }
+      } }
+    },
+    "mechanics": { "type": "array", "items": { "type": "object", "required": ["id", "status", "evidence", "remaining"], "properties": {
+      "id": { "type": "string" }, "status": { "$ref": "#/$defs/status" }, "evidence": { "$ref": "#/$defs/evidence" }, "remaining": { "type": "string" }
+    } } },
+    "cards": { "type": "array", "items": { "$ref": "#/$defs/card" } }
+  },
+  "$defs": {
+    "sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "evidence": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "status": { "enum": ["unsupported", "script-present-unverified", "verified"] },
+    "card": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "set", "number", "sourcePath", "sourceBlob", "regulationMark", "category", "sourceEnergyType", "legality", "mechanicsReview", "requiredMechanics", "implementation"],
+      "properties": {
+        "id": { "type": "string" }, "set": { "type": "string", "pattern": "^[a-z0-9][a-z0-9.-]*$" },
+        "number": { "type": "string", "pattern": "^[A-Z0-9][A-Z0-9.-]*$" },
+        "sourcePath": { "type": "string" }, "sourceBlob": { "$ref": "#/$defs/sha" },
+        "regulationMark": { "type": ["string", "null"], "pattern": "^[A-Z]$" }, "category": { "type": ["string", "null"] }, "sourceEnergyType": { "type": ["string", "null"] },
+        "legality": { "type": "object", "required": ["status", "evidence"], "properties": { "status": { "enum": ["legal", "illegal", "unknown"] }, "evidence": { "$ref": "#/$defs/evidence" } } },
+        "mechanicsReview": { "enum": ["reviewed", "unreviewed"] }, "requiredMechanics": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "implementation": { "type": "object", "required": ["status", "evidence"], "properties": { "status": { "$ref": "#/$defs/status" }, "evidence": { "$ref": "#/$defs/evidence" } } }
+      }
+    }
+  }
+}

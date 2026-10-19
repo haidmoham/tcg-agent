@@ -7,6 +7,7 @@ venv/
 __pycache__/
 *.py[cod]
 node_modules/
+.cache/
 .DS_Store
 
 # Generated experiment output (keep summaries and manifests in Git)
