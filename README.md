@@ -1,6 +1,6 @@
 # tcg-agent
 
-A public, CPU-first Pokémon TCG simulation and learning project. The first runnable milestone is a fast, headless **restricted rules profile**, with complete seeded games, legal choices, player-safe observations and replay. There is no trained or competitive agent yet.
+A public, CPU-first Pokémon TCG simulation and learning project. **Full current Standard support is the target and is not complete.** The runnable reference profile has complete seeded games, legal choices, player-safe observations and replay. A pinned public Twinleaf integration now executes modern printed-card conformance fixtures. There is no trained or competitive agent yet.
 
 Open **[the visual tutorial](tutorial.html)** in a browser. It explains what transfers from VGC bots, where existing analytics fit, and which technical decisions remain the learner's work.
 
@@ -8,16 +8,35 @@ Open **[the visual tutorial](tutorial.html)** in a browser. It explains what tra
 
 Use Node.js 22 or newer. The measured Windows machine uses Node 24.18.0. There are no package dependencies or install steps.
 
+That dependency-free statement applies to the reference kernel. The optional public-engine conformance tool has a separate pinned preparation step below.
+
 ```sh
 npm test
 npm run demo
 node scripts/demo.mjs --replay runs/demo-replay.json
 npm run bench -- --games 1000 --repeats 5
 npm run eval -- 100
+npm run eval:suite
+npm run coverage:report
 npm run tutorial
 ```
 
 On PowerShell, use `npm.cmd` if script execution policy blocks `npm.ps1`. The demo saves a replay and reports its terminal result. The tutorial preview binds only `127.0.0.1:3849`; stop it with Ctrl+C. The HTML also works directly from disk without the server.
+
+## Full Standard progress
+
+The [versioned coverage ledger](coverage/README.md) inventories 4,996 source printings from 29 current-era set directories. It identifies 3,234 literal H/I/J candidates, **not** the complete legal pool. Exact release availability, older equivalent printings, errata, card semantics and interactions still require review. It verifies zero playable Standard printings for the reference kernel. `npm run coverage:require-full` deliberately exits 2.
+
+The [public Twinleaf integration](integrations/twinleaf/README.md) reuses a pinned broad card/rules corpus. Seven real-engine assertions cover modern evolution, typed Energy, attack resolution, controlled coin outcomes, weakness and last-Pokémon KO. These use constructed midgame states. They are not complete Standard games, seeded engine certification or a policy-ready full-game adapter.
+
+The [optional local worker probe](integrations/local-worker/README.md) now reuses the existing Indigo Live headless engine and privately supplied card/game programs. One natural modern-deck game completed with 82 accepted commands and zero rejections. This is the primary local extension path; recovered inputs stay private and external. The public Twinleaf work remains an independent comparator. Neither path certifies full Standard or seeded native replay yet.
+
+```sh
+npm run engine:prepare
+npm run engine:smoke
+```
+
+Preparation downloads pinned public source into ignored `.cache/` and installs two exact tooling packages with lifecycle scripts disabled. No server or database starts. Without preparation, the optional external-engine test skips explicitly. The [Standard roadmap](docs/full-standard.md) records remaining gates. No source registration count is presented as mechanics correctness.
 
 ## What runs
 
@@ -57,6 +76,10 @@ Each run counts actions, turns, outcomes, errors, truncations and a consumed che
 
 The evaluation runner swaps greedy and legal-random seats on the same seeds. It reports wins, losses, terminal reasons and a paired-seed bootstrap interval. It is a baseline contract check, not a competitive-strength result. It cannot calibrate Live Elo.
 
+The new `eval:suite` runner adds frozen policy versions, exact deck hashes, held-out regression matchups, a weighted opponent pool, fresh policy instances, frozen information-safe inputs and per-cell paired uncertainty. Its tactical action scorer is informed by direct TCG prior art. The initial results are mixed; it is not generally stronger than greedy. See [oracle and evaluation design](docs/oracle-and-evaluation.md).
+
+`node scripts/ladder-records.mjs examples/ladder-records.example.jsonl` demonstrates local record validation. The example is synthetic and counts as zero actual matches. User-entered or exported records stay in ignored `runs/`; summaries retain actual rating metric, observed peaks, season, policy/deck/patch provenance, and observed versus inferred opponent identities. No live adapter runs.
+
 ## Connect the existing work
 
 This is the October 18 learning-agent repository, continued with its existing history. [LMLab](https://github.com/haidmoham/lmlab) owns mathematical derivations, learner implementations and interpretation. Link a notebook or commit for each experiment; neither repository depends on the other at runtime.
@@ -71,15 +94,15 @@ Before each experiment, write a prediction and the observation that would change
 
 The next bounded steps are:
 
-1. Differentially compare admitted mechanics against a trusted rules reference, then add a third card with a different Energy requirement.
-2. Freeze an observation encoder, a stronger scripted baseline and disjoint training/evaluation seed ranges. Audit each feature for hidden-information leakage.
-3. Derive the first small learning update in LMLab, predict a controlled result, then connect it through this decision interface.
-4. Add a past-policy league, held-out decks and an Indigo-derived weighted opponent gauntlet as card coverage becomes adequate. Keep negative results and truncations.
+1. Complete the dated Standard legality denominator, including reviewed reprints, release differences and restrictions.
+2. Adapt the existing local headless worker into a seeded, replayable decision protocol with complete legal choices and detached observations. Retain the public rules engine as an independent comparator.
+3. Reconcile its card implementations against the ledger, and verify card effects and interactions before admission. Preserve unknowns rather than accepting plausible behavior.
+4. Evaluate a stronger information-set baseline on verified Standard matchups, with frozen opponent pools and deck provenance. Derive learning objectives and interpret results in LMLab. Keep negative results and truncations.
 
 The long-term ambition is at least 2000 competitive Elo in a named TCG Live season. Official sources distinguish Live's progressive and competitive ratings. Offline league Elo has its own opponents and anchor and is a separate metric. No training run, Live rating or ladder result exists here.
 
 ## Offline boundary and licensing
 
-This release never logs in to, automates or connects to TCG Live. Official Pokémon terms restrict unauthorized service automation; future technical feasibility is not permission. No credentials, paid compute, large GPU jobs or competition asset downloads are required.
+This release never logs in to, automates or connects to TCG Live. Future integration requires review of applicable platform rules and a bounded session plan. No credentials, paid compute, large GPU jobs or competition asset downloads are required.
 
-Original code and tutorial are MIT-licensed. Pokémon and card names belong to their owners; this license does not grant Pokémon artwork or data rights. The repository contains no card artwork or bulk card collection and is not affiliated with Pokémon.
+Original code and tutorial are MIT-licensed. Pokémon and card names belong to their owners; this license does not grant Pokémon artwork or data rights. The coverage ledger contains factual printing metadata with its source notice. The repository contains no card artwork, full card texts or private datasets and is not affiliated with Pokémon.

@@ -1,0 +1,247 @@
+{
+  "schema": "benchmark-v1",
+  "timestamp": "2026-10-19T21:42:59.733Z",
+  "profile": "basic-duel-v1",
+  "engine": "0.1.0",
+  "node": "v24.18.0",
+  "platform": "win32 10.0.26300 x64",
+  "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+  "logicalCpus": 16,
+  "concurrency": 1,
+  "seedStart": 1,
+  "warmupGames": 50,
+  "maxActions": 2000,
+  "workload": "60-card mirror decks, 4 Machop + 4 Rattata + 52 Fighting Energy; 6 prizes; greedy-v1 with attacks delayed until turn 50 both seats",
+  "includes": "reset, shuffle and mulligans, masked observations, legal enumeration and validation, policy, complete terminal games; replay mode also stores events and actions",
+  "excludes": "module import, process startup, disk output, replay verification, neural inference, real Standard card effects; no threads or GPU",
+  "modes": {
+    "training": [
+      {
+        "games": 500,
+        "elapsedMs": 199.25809999999998,
+        "gamesPerSecond": 2509.3082790611775,
+        "actionsPerSecond": 293373.26813815854,
+        "actions": 58457,
+        "turns": 34745,
+        "errors": 0,
+        "truncated": 0,
+        "outcomes": {
+          "prizes": 291,
+          "no_pokemon": 209,
+          "deckout": 0
+        },
+        "wins": [
+          234,
+          266
+        ],
+        "checksum": 1098270,
+        "cpuMs": 375
+      },
+      {
+        "games": 500,
+        "elapsedMs": 195.36950000000002,
+        "gamesPerSecond": 2559.253107573086,
+        "actionsPerSecond": 299212.5178187997,
+        "actions": 58457,
+        "turns": 34745,
+        "errors": 0,
+        "truncated": 0,
+        "outcomes": {
+          "prizes": 291,
+          "no_pokemon": 209,
+          "deckout": 0
+        },
+        "wins": [
+          234,
+          266
+        ],
+        "checksum": 1098270,
+        "cpuMs": 203
+      },
+      {
+        "games": 500,
+        "elapsedMs": 182.6789,
+        "gamesPerSecond": 2737.042975406574,
+        "actionsPerSecond": 319998.6424266842,
+        "actions": 58457,
+        "turns": 34745,
+        "errors": 0,
+        "truncated": 0,
+        "outcomes": {
+          "prizes": 291,
+          "no_pokemon": 209,
+          "deckout": 0
+        },
+        "wins": [
+          234,
+          266
+        ],
+        "checksum": 1098270,
+        "cpuMs": 156
+      },
+      {
+        "games": 500,
+        "elapsedMs": 180.365,
+        "gamesPerSecond": 2772.156460510631,
+        "actionsPerSecond": 324103.9004241399,
+        "actions": 58457,
+        "turns": 34745,
+        "errors": 0,
+        "truncated": 0,
+        "outcomes": {
+          "prizes": 291,
+          "no_pokemon": 209,
+          "deckout": 0
+        },
+        "wins": [
+          234,
+          266
+        ],
+        "checksum": 1098270,
+        "cpuMs": 172
+      },
+      {
+        "games": 500,
+        "elapsedMs": 153.5211999999999,
+        "gamesPerSecond": 3256.8791802044298,
+        "actionsPerSecond": 380774.7724744207,
+        "actions": 58457,
+        "turns": 34745,
+        "errors": 0,
+        "truncated": 0,
+        "outcomes": {
+          "prizes": 291,
+          "no_pokemon": 209,
+          "deckout": 0
+        },
+        "wins": [
+          234,
+          266
+        ],
+        "checksum": 1098270,
+        "cpuMs": 141
+      }
+    ],
+    "replay": [
+      {
+        "games": 500,
+        "elapsedMs": 187.10039999999998,
+        "gamesPerSecond": 2672.3620045708085,
+        "actionsPerSecond": 312436.5314023915,
+        "actions": 58457,
+        "turns": 34745,
+        "errors": 0,
+        "truncated": 0,
+        "outcomes": {
+          "prizes": 291,
+          "no_pokemon": 209,
+          "deckout": 0
+        },
+        "wins": [
+          234,
+          266
+        ],
+        "checksum": 1098270,
+        "cpuMs": 187
+      },
+      {
+        "games": 500,
+        "elapsedMs": 177.25079999999997,
+        "gamesPerSecond": 2820.8617394110497,
+        "actionsPerSecond": 329798.22940150346,
+        "actions": 58457,
+        "turns": 34745,
+        "errors": 0,
+        "truncated": 0,
+        "outcomes": {
+          "prizes": 291,
+          "no_pokemon": 209,
+          "deckout": 0
+        },
+        "wins": [
+          234,
+          266
+        ],
+        "checksum": 1098270,
+        "cpuMs": 141
+      },
+      {
+        "games": 500,
+        "elapsedMs": 184.74329999999998,
+        "gamesPerSecond": 2706.458096179943,
+        "actionsPerSecond": 316422.84185678186,
+        "actions": 58457,
+        "turns": 34745,
+        "errors": 0,
+        "truncated": 0,
+        "outcomes": {
+          "prizes": 291,
+          "no_pokemon": 209,
+          "deckout": 0
+        },
+        "wins": [
+          234,
+          266
+        ],
+        "checksum": 1098270,
+        "cpuMs": 172
+      },
+      {
+        "games": 500,
+        "elapsedMs": 186.71330000000012,
+        "gamesPerSecond": 2677.9024311604994,
+        "actionsPerSecond": 313084.2848366986,
+        "actions": 58457,
+        "turns": 34745,
+        "errors": 0,
+        "truncated": 0,
+        "outcomes": {
+          "prizes": 291,
+          "no_pokemon": 209,
+          "deckout": 0
+        },
+        "wins": [
+          234,
+          266
+        ],
+        "checksum": 1098270,
+        "cpuMs": 172
+      },
+      {
+        "games": 500,
+        "elapsedMs": 161.46180000000004,
+        "gamesPerSecond": 3096.7077042371625,
+        "actionsPerSecond": 362048.4845331836,
+        "actions": 58457,
+        "turns": 34745,
+        "errors": 0,
+        "truncated": 0,
+        "outcomes": {
+          "prizes": 291,
+          "no_pokemon": 209,
+          "deckout": 0
+        },
+        "wins": [
+          234,
+          266
+        ],
+        "checksum": 1098270,
+        "cpuMs": 171
+      }
+    ]
+  },
+  "summary": {
+    "training": {
+      "medianGamesPerSecond": 2737.042975406574,
+      "minGamesPerSecond": 2509.3082790611775,
+      "maxGamesPerSecond": 3256.8791802044298,
+      "runs": 5
+    },
+    "replay": {
+      "medianGamesPerSecond": 2706.458096179943,
+      "minGamesPerSecond": 2672.3620045708085,
+      "maxGamesPerSecond": 3096.7077042371625,
+      "runs": 5
+    }
+  }
+}
