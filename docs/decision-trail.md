@@ -1,5 +1,7 @@
 # Initial simulator milestone
 
+The [native performance campaign](native-performance-hillclimb.md) now records the subsequent warm Release work, including full reset proof, the rejected token-reader scalar shortcut, five completed native/snapshot pairs and one explicitly retained budget interruption. New rule preflights remain experimental until their own native oracle and timing gates pass.
+
 ## Acceptance predicate
 
 On the Windows desktop, run complete CPU-only games in an explicitly admitted card profile. Verify legal decisions, hidden-information isolation, three terminal reasons, deterministic replay and interleaved environments. Save repeated throughput measurements with consumed work counts and a separate profile. Deliver a standalone explanatory HTML file. Preserve the original project and keep private data out of publication.

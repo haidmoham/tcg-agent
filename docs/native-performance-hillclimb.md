@@ -10,7 +10,7 @@ The warm harness retains one process and pinned program bundle. Between naturall
 
 One complete warm-up game is retained in the receipt. Warm throughput excludes that game, process startup and terminal audit verification. Complete session time includes all three. Every timed game includes fresh seeded setup, all recorded commands, legal enumeration, compact player projections and natural termination. It excludes policy inference, preview requests, per-step persisted audits and optional presentation details. This is environment throughput under fixed decisions.
 
-The receipt reports complete work counts, errors, truncations, game latency, reset latency, native command p50/p95/max, current-thread managed allocation and process GC collection deltas. Native command timings omit initial setup; game latency includes it. Allocation is managed allocation on the executing thread, not retained heap or total process memory. Copy timers overlap and must not be added. End-to-end games/s is the endpoint.
+The receipt reports complete work counts, errors, truncations, game latency, reset latency, native command p50/p95/max, current-thread managed allocation and process GC collection deltas. Native command timings, allocation and GC deltas cover the batch and omit initial setup; game latency and copy counters include setup. Allocation is managed allocation on the executing thread, not retained heap or total process memory. Copy timers overlap and must not be added. End-to-end games/s is the endpoint.
 
 ## Reproduce locally
 
@@ -40,6 +40,23 @@ Ordinary replay never silently changes binary pins. A cross-build experiment may
 The first accepted change caches immutable serialized input for one projection while deserializing a fresh graph for every legality test. Its separate cold-process comparison measured 26.9% higher throughput across five alternating pairs. [The experiment](native-copy-optimization.md) records that historical build configuration, raw measurements and correctness limits. Do not combine its number with warm results from a different workload.
 
 Further candidates and measurements are recorded below as they complete. The local attempt ledger is `runs/native-hillclimb-v1/decision.tsv`.
+
+### Release snapshot recheck
+
+Five completed sessions per side measured **28.3% higher warm throughput** for immutable projection input. Both modes use the same Release adapter binary and the same native inputs. Each session completes one short warm-up followed by the fixed 52-command and 123-command games. The endpoint is the side median of the two measured game times added together.
+
+| Mode | Median suite seconds | Range | Aggregate games/s |
+|---|---:|---:|---:|
+| Native copy | 78.74 | 76.94–87.43 | 0.02540 |
+| Projection snapshot | 61.38 | 57.85–64.24 | 0.03258 |
+
+All five completed pairs favor the snapshot mode. Every completed measured game preserves the terminal semantic hash and complete seed transcript, with zero errors/truncations. The candidate's pre-timing reset proof compares all 230 frames across short, developed and short again. The separate 422-frame proof also includes the longer game. [The safe receipt](native-warm-copy-comparison-v1.json) retains all complete sessions, phase timings, allocations and command latencies.
+
+The original comparison reached its 900-second cap during the final candidate session. Its error diagnostic and nine complete sessions were preserved. Only that missing session was rerun with a fresh process, the same complete warm-up and measured workloads, using the exact harness archived from commit `611590f15945d8ccda42c40b14c0952ae4325843`. Recovery had a separate 180-second cap. The receipt reports one interrupted session explicitly; this is not a zero-interruption experiment. No completed session was discarded, and the incomplete session is excluded from the completed-session medians.
+
+The native developed-game batch allocated about 22.90 GB over time; snapshot mode allocated about 18.26 GB. These are allocations, not resident memory. Copy calls remain 5,552 per developed game and 1,825 per short game. In the first snapshot session, scoped deserialization took 27.72 of 49.03 developed-game seconds. This is phase instrumentation inside a benchmark, not a separate sampling CPU profile. Avoiding unnecessary fresh graphs is the next hypothesis.
+
+A missing session can be run independently with the same case manifest and `benchmark` command above using one repetition. Preserve previous output and explicitly record its pair/side when assembling the completed-session comparison. The generic comparator does not overwrite or automatically resume an interrupted directory. The exact private recovery script and failed block remain under `runs/` in this workspace.
 
 ### Rejected scalar shortcut
 
