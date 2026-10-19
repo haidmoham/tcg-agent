@@ -1,0 +1,22 @@
+{
+  "schema": "native-gauntlet-v1",
+  "id": "balanced-two-deck-heldout-v1",
+  "split": "held-out-regression",
+  "executionProfile": "private-two-deck-2026-10-11",
+  "targetFormat": "full-current-standard",
+  "fullStandardClaim": false,
+  "weightSource": "designed-balanced-fixture",
+  "observedMetagameCoverage": null,
+  "decks": [
+    { "id": "dragapult-30006", "bundleKey": "realDeckRows", "source": "https://limitlesstcg.com/decks/list/30006", "weight": 0.5, "observedShare": null },
+    { "id": "ns-zoroark-30007", "bundleKey": "zoroarkDeckRows", "source": "https://limitlesstcg.com/decks/list/30007", "weight": 0.5, "observedShare": null }
+  ],
+  "policies": [{ "id": "pinned-local-heuristic-v1", "weight": 1, "implementationHashSource": "private-config-policySha256" }],
+  "seedPairs": [2718, 3141],
+  "seatPairing": "swap-exact-decks-between-human-and-opponent",
+  "maxGames": 4,
+  "maxCommandsPerGame": 1000,
+  "maxSecondsPerGame": 180,
+  "concurrency": 1,
+  "scoreClaim": "baseline-contract-only"
+}

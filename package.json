@@ -16,6 +16,7 @@
     "engine:smoke": "node scripts/twinleaf-smoke.mjs",
     "engine:audit": "node scripts/twinleaf-audit.mjs",
     "local:probe": "node integrations/local-worker/probe.mjs",
+    "local:native": "node scripts/native.mjs",
     "ladder:summary": "node scripts/ladder-records.mjs",
     "bench": "node scripts/benchmark.mjs",
     "tutorial": "node scripts/serve-tutorial.mjs",
