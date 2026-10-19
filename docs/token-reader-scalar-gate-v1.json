@@ -1,0 +1,111 @@
+{
+  "schema": "token-reader-scalar-gate/1",
+  "purpose": "Correctness-only original scalar experiment. No native game or performance measurement.",
+  "assembly": "Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed",
+  "payload": "{\"declaredString\":\"2026-10-19T12:34:56.1234567Z\",\"objectDate\":\"2026-10-19T12:34:56.1234567Z\",\"declaredDate\":\"2026-10-19T12:34:56.1234567Z\",\"declaredDecimal\":0.1234567890123456789012345678,\"objectNumber\":0.1234567890123456789012345678}",
+  "rows": [
+    {
+      "variant": "json-text",
+      "fields": {
+        "DeclaredString": {
+          "Type": "System.String",
+          "Value": "2026-10-19T12:34:56.1234567Z"
+        },
+        "ObjectDate": {
+          "Type": "System.DateTime",
+          "Value": "2026-10-19T12:34:56.1234567Z;Kind=Utc"
+        },
+        "DeclaredDate": {
+          "Type": "System.DateTime",
+          "Value": "2026-10-19T12:34:56.1234567Z;Kind=Utc"
+        },
+        "DeclaredDecimal": {
+          "Type": "System.Decimal",
+          "Value": "0.1234567890123456789012345678"
+        },
+        "ObjectNumber": {
+          "Type": "System.Double",
+          "Value": "0.12345678901234568"
+        }
+      },
+      "mismatches": []
+    },
+    {
+      "variant": "token-default",
+      "fields": {
+        "DeclaredString": {
+          "Type": "System.String",
+          "Value": "10/19/2026 12:34:56"
+        },
+        "ObjectDate": {
+          "Type": "System.DateTime",
+          "Value": "2026-10-19T12:34:56.1234567Z;Kind=Utc"
+        },
+        "DeclaredDate": {
+          "Type": "System.DateTime",
+          "Value": "2026-10-19T12:34:56.1234567Z;Kind=Utc"
+        },
+        "DeclaredDecimal": {
+          "Type": "System.Decimal",
+          "Value": "0.123456789012346"
+        },
+        "ObjectNumber": {
+          "Type": "System.Double",
+          "Value": "0.12345678901234568"
+        }
+      },
+      "mismatches": [
+        "DeclaredString",
+        "DeclaredDecimal"
+      ]
+    },
+    {
+      "variant": "token-date-none",
+      "fields": {
+        "DeclaredString": {
+          "Type": "System.String",
+          "Value": "2026-10-19T12:34:56.1234567Z"
+        },
+        "ObjectDate": {
+          "Type": "System.String",
+          "Value": "2026-10-19T12:34:56.1234567Z"
+        },
+        "DeclaredDate": {
+          "Type": "System.DateTime",
+          "Value": "2026-10-19T12:34:56.1234567Z;Kind=Utc"
+        },
+        "DeclaredDecimal": {
+          "Type": "System.Decimal",
+          "Value": "0.123456789012346"
+        },
+        "ObjectNumber": {
+          "Type": "System.Double",
+          "Value": "0.12345678901234568"
+        }
+      },
+      "mismatches": [
+        "ObjectDate",
+        "DeclaredDecimal"
+      ]
+    }
+  ],
+  "additionalContent": {
+    "JsonConvert-default": {
+      "accepted": false,
+      "exception": "Newtonsoft.Json.JsonReaderException"
+    },
+    "JsonSerializer-default": {
+      "accepted": true,
+      "exception": null
+    },
+    "JsonSerializer-check-true": {
+      "accepted": false,
+      "exception": "Newtonsoft.Json.JsonReaderException"
+    },
+    "JToken.Parse-default": {
+      "accepted": false,
+      "exception": "Newtonsoft.Json.JsonReaderException"
+    }
+  },
+  "verdict": "reject-generic-equivalence"
+}

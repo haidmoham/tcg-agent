@@ -4,7 +4,7 @@ The target is the measured repeated serialization cost in native read copies. Th
 
 ## Measured result
 
-Five complete paired repetitions on the Ryzen 7 5800X desktop measured **26.9% more games/s**, or **21.2% less median elapsed time**, on the same root-1729 trace. This is the ratio of the two side medians. All five individual pairs favored the candidate. [The raw safe receipt](native-copy-comparison-v1.json) retains every run, exact worker/input hashes and the conformance proof. Host load and shared OS caches were uncontrolled; each repetition starts a fresh process and uses the same original project/default SDK build options.
+Five complete paired repetitions on the Ryzen 7 5800X desktop measured **26.9% more games/s**, or **21.2% less median elapsed time**, on the same root-1729 trace. This is the ratio of the two side medians. All five individual pairs favored the candidate. [The raw safe receipt](native-copy-comparison-v1.json) retains every run, exact worker/input hashes and the conformance proof. Host load and shared OS caches were uncontrolled; each repetition starts a fresh process and uses the same original project/default SDK build options, which select Debug. This historical result is specific to those options. The [subsequent hill climb](native-performance-hillclimb.md) establishes explicit Release comparisons before choosing further production changes.
 
 | Execution | Completed games | Median seconds/game | Range | Median games/s | Median commands/s |
 |---|---:|---:|---:|---:|---:|

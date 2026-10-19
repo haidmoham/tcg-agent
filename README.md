@@ -33,6 +33,8 @@ The [optional native adapter](docs/native-runtime.md) reuses the existing Indigo
 
 The [native copy experiment](docs/native-copy-optimization.md) preserves fresh detached reads while sharing an immutable serialized input within one seat projection. Explicit copy modes remain pinned in new journals. A bounded comparison tool checks every original frame and player observation before alternating identical baseline/candidate workloads. This read optimization does not provide a continuation-safe search branch.
 
+The [native performance campaign](docs/native-performance-hillclimb.md) adds complete warm games in one retained process, guarded fresh match objects, Release A/B comparisons, command latency and allocation counters. Reset replay preserves all 422 checked frames across four games. A typed-scalar experiment rejected a tempting token cache before production use.
+
 ```sh
 npm run engine:prepare
 npm run engine:smoke

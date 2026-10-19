@@ -74,6 +74,16 @@ export class LocalWorker {
       this.child.stdin.write(line + '\n');
     });
   }
+  nextMatch(payload) {
+    if (this.closed || this.pending) return Promise.reject(new Error('worker closed or request already pending'));
+    this.epoch = randomUUID(); this.matchId = randomUUID();
+    try {
+      return this.request('offline-next', payload).catch(error => { this.close(error); throw error; });
+    } catch (error) {
+      this.close(error);
+      return Promise.reject(error);
+    }
+  }
   read(chunk) {
     this.buffer += chunk;
     if (Buffer.byteLength(this.buffer) > 2 * 1024 * 1024) return this.close(new Error('local reply exceeds frame budget'));

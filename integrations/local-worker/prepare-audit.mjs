@@ -8,6 +8,8 @@ const config = JSON.parse(readFileSync(process.argv[2], 'utf8'));
 verifyLocalInputs(config);
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const buildId = config.auditBuildId ?? 'native-audit-v1';
+const buildConfiguration = config.buildConfiguration ?? 'Release';
+if (!['Debug', 'Release'].includes(buildConfiguration)) throw new Error('explicit Debug or Release build configuration required');
 if (!/^native-audit-[a-z0-9-]+$/.test(buildId)) throw new Error('invalid isolated build identity');
 const project = resolve('.cache', buildId, 'project');
 if (existsSync(project)) throw new Error('preserve existing isolated audit build; use a new task output directory');
@@ -23,6 +25,13 @@ const replaceOnce = (name, before, after) => {
   if (source.split(before).length !== 2) throw new Error(`isolated hook changed: ${name}`);
   files.set(name, source.replace(before, after));
 };
+replaceOnce('Program.cs', 'var payload = worker.Dispatch(epoch, matchId, request.Value<string>("method"), request["payload"]);', `var method = request.Value<string>("method");
+                if (method == "offline-next")
+                {
+                    worker = worker.NextOfflineMatch(epoch, matchId);
+                    method = "create";
+                }
+                var payload = worker.Dispatch(epoch, matchId, method, request["payload"]);`);
 replaceOnce('MatchWorker.cs', 'bundle = new Bundle(bundleDirectory, manifestHash);', 'FreezeOfflineClock();\n        bundle = new Bundle(bundleDirectory, manifestHash);');
 replaceOnce('MatchWorker.cs', 'if (authority != null || epoch != null)', 'ConfigureOffline(input);\n        if (authority != null || epoch != null)');
 replaceOnce('MatchWorker.cs', 'new DateBasedVersion(new DateTime(2026, 10, 11, 0, 0, 0, DateTimeKind.Utc)));', 'new DateBasedVersion(new DateTime(2026, 10, 11, 0, 0, 0, DateTimeKind.Utc)), randomSeedGenerator: offlineRng);');
@@ -55,10 +64,11 @@ replaceOnce('MatchWorker.Offers.cs', '.ThenBy(choice => choice["card"]?.Value<st
 mkdirSync(project, { recursive: true });
 for (const [name, text] of files) writeFileSync(join(project, name), text);
 writeFileSync(join(project, 'OfflineAudit.cs'), readFileSync(new URL('OfflineAudit.cs', import.meta.url)));
+writeFileSync(join(project, 'OfflineSession.cs'), readFileSync(new URL('OfflineSession.cs', import.meta.url)));
 const output = resolve('.cache', buildId, 'bin');
-const result = spawnSync(config.executable, ['build', 'Indigo.Live.Engine.csproj', '--configfile', 'NuGet.Config', `-p:LiveRuntimeRoot=${config.bundleRoot}`, '-o', output, '--nologo'], { cwd: project, windowsHide: true, timeout: 60000, encoding: 'utf8', env: { ...process.env, DOTNET_CLI_HOME: resolve('.cache/dotnet-home'), DOTNET_CLI_TELEMETRY_OPTOUT: '1', DOTNET_GENERATE_ASPNET_CERTIFICATE: 'false', NUGET_PACKAGES: resolve('.cache/nuget') } });
+const result = spawnSync(config.executable, ['build', 'Indigo.Live.Engine.csproj', '--configuration', buildConfiguration, '--configfile', 'NuGet.Config', `-p:LiveRuntimeRoot=${config.bundleRoot}`, '-o', output, '--nologo'], { cwd: project, windowsHide: true, timeout: 60000, encoding: 'utf8', env: { ...process.env, DOTNET_CLI_HOME: resolve('.cache/dotnet-home'), DOTNET_CLI_TELEMETRY_OPTOUT: '1', DOTNET_GENERATE_ASPNET_CERTIFICATE: 'false', NUGET_PACKAGES: resolve('.cache/nuget') } });
 if (result.status !== 0) { console.error(result.stdout, result.stderr); process.exit(1); }
 const worker = join(output, 'Indigo.Live.Engine.dll');
-const next = { ...config, worker, workerSha256: hash(readFileSync(worker)), offlineAuditVersion: 'indigo-offline-audit/1' };
+const next = { ...config, buildConfiguration, worker, workerSha256: hash(readFileSync(worker)), offlineAuditVersion: 'indigo-offline-audit/1' };
 writeFileSync(resolve('runs/local-audit-config.json'), JSON.stringify(next, null, 2));
 console.log('Original isolated offline audit worker built; private config saved under ignored runs.');

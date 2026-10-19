@@ -1,0 +1,139 @@
+{
+  "schema": "native-warm-proof-v1",
+  "timestamp": "2026-10-19T23:16:31.998Z",
+  "executionProfile": "private-two-deck-2026-10-11",
+  "fullStandardClaim": false,
+  "node": "v24.18.0",
+  "platform": "win32 10.0.26300 x64",
+  "cpu": "AMD Ryzen 7 5800X 8-Core Processor             ",
+  "logicalCpus": 16,
+  "concurrency": 1,
+  "workerSha256": "ba31a76844ed3e9e0bfbe30dc3f635199d88af3182993ef051e6d13e896dd73a",
+  "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+  "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+  "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+  "projectionCopyMode": "projection-snapshot-v1",
+  "buildConfiguration": "Release",
+  "maxSecondsPerGame": 180,
+  "totalBudgetSeconds": 900,
+  "workloads": [
+    {
+      "id": "short",
+      "seed": 3141,
+      "deckHashes": [
+        "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0",
+        "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f"
+      ],
+      "commands": 52,
+      "frames": 53,
+      "workloadSha256": "21e5e27f9a9aec025f5efdaf84375a13de9699f3ae08775bcc69927908978cec"
+    },
+    {
+      "id": "developed",
+      "seed": 1729,
+      "deckHashes": [
+        "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+        "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+      ],
+      "commands": 123,
+      "frames": 124,
+      "workloadSha256": "6c4ff655e1229574657a934d8002ce5024cdc1d7997c9eccd60bba1cb4301de4"
+    },
+    {
+      "id": "long",
+      "seed": 2718,
+      "deckHashes": [
+        "f2a45aa8f0be8f27303c6d0632815c30690dab2cff90f35a9cc0e4ef7c03550f",
+        "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+      ],
+      "commands": 191,
+      "frames": 192,
+      "workloadSha256": "5b62fcbadccbcb97f8ca023a11163e25770eababe5d46bdf8bdabcf3f165cfa3"
+    }
+  ],
+  "complete": true,
+  "errors": 0,
+  "truncations": 0,
+  "sequence": "all fixed cases in order, then first case again; fresh worker object, policy aliases and state normalizer per game",
+  "verification": "all normalized authority frames, both actor observation hashes, every emitted seed, extra cached reads and preview immutability; same fixed commands and natural terminal state",
+  "limitation": "finite pinned two-deck traces only; does not certify all native global state or full Standard behavior; command latencies include full presentation and IPC and are diagnostic, not batch throughput",
+  "sessionMilliseconds": 213678.8332,
+  "runs": [
+    {
+      "id": "short",
+      "sequence": 1,
+      "reset": false,
+      "commands": 52,
+      "frames": 53,
+      "nativeSeedCalls": 33,
+      "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+      "elapsedMilliseconds": 20892.6223,
+      "commandLatency": {
+        "count": 52,
+        "medianMilliseconds": 324.1091500000002,
+        "p95Milliseconds": 825.2559000000001,
+        "minMilliseconds": 39.9364000000005,
+        "maxMilliseconds": 863.0507000000007
+      },
+      "errors": 0,
+      "truncations": 0
+    },
+    {
+      "id": "developed",
+      "sequence": 2,
+      "reset": true,
+      "commands": 123,
+      "frames": 124,
+      "nativeSeedCalls": 63,
+      "terminalStateHash": "11e646d6f9cca0143090bb413aaae9ffadd1096e2ea6f98b7b6eb7812bc99053",
+      "elapsedMilliseconds": 61452.224500000004,
+      "commandLatency": {
+        "count": 123,
+        "medianMilliseconds": 397.7082999999984,
+        "p95Milliseconds": 993.0011000000086,
+        "minMilliseconds": 67.90610000000015,
+        "maxMilliseconds": 1771.638199999994
+      },
+      "errors": 0,
+      "truncations": 0
+    },
+    {
+      "id": "long",
+      "sequence": 3,
+      "reset": true,
+      "commands": 191,
+      "frames": 192,
+      "nativeSeedCalls": 87,
+      "terminalStateHash": "41c578b189d13cb290c76ec5dbb128afa3fb68a7f4491885e9cf6f49630f1f45",
+      "elapsedMilliseconds": 112116.6154,
+      "commandLatency": {
+        "count": 191,
+        "medianMilliseconds": 434.1298000000097,
+        "p95Milliseconds": 1228.8755999999994,
+        "minMilliseconds": 57.23859999999695,
+        "maxMilliseconds": 1915.2702999999747
+      },
+      "errors": 0,
+      "truncations": 0
+    },
+    {
+      "id": "short",
+      "sequence": 4,
+      "reset": true,
+      "commands": 52,
+      "frames": 53,
+      "nativeSeedCalls": 33,
+      "terminalStateHash": "13b54fab92b6447a8ef6c70b3059f0f46b193a4a987c3ee16b9123fcd4d7590c",
+      "elapsedMilliseconds": 19195.991899999994,
+      "commandLatency": {
+        "count": 52,
+        "medianMilliseconds": 338.5102499999921,
+        "p95Milliseconds": 785.8607000000193,
+        "minMilliseconds": 40.69570000001113,
+        "maxMilliseconds": 955.8407000000007
+      },
+      "errors": 0,
+      "truncations": 0
+    }
+  ]
+}

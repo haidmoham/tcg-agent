@@ -188,6 +188,9 @@ internal sealed partial class MatchWorker
         var rows = input["commands"] as JArray ?? throw new InvalidDataException("offline commands required");
         if (rows.Count is < 1 or > 2000 || revision != 0) throw new InvalidDataException("bounded fresh offline batch required");
         offlineBenchmarkMode = true;
+        var allocationsBefore = GC.GetAllocatedBytesForCurrentThread();
+        var collectionsBefore = Enumerable.Range(0, 3).Select(GC.CollectionCount).ToArray();
+        var commandTimes = new List<double>(rows.Count);
         var started = Stopwatch.GetTimestamp();
         var count = 0;
         foreach (var row in rows.Children<JObject>())
@@ -223,15 +226,24 @@ internal sealed partial class MatchWorker
                     { ["choiceId"] = Choice(amount.Value<string>("choiceId")), ["count"] = amount["count"]!.DeepClone() }));
                 if (decision["cancel"] != null) command["cancel"] = decision["cancel"]!.DeepClone();
             }
+            var commandStarted = Stopwatch.GetTimestamp();
             var reply = Command(new JObject { ["seat"] = seat, ["command"] = command });
+            commandTimes.Add(Stopwatch.GetElapsedTime(commandStarted).TotalMilliseconds);
             if (reply["receipt"]?.Value<string>("status") != "accepted") throw new InvalidDataException("offline batch command rejected");
             count++;
         }
+        var batchMilliseconds = Stopwatch.GetElapsedTime(started).TotalMilliseconds;
+        var allocatedBytes = GC.GetAllocatedBytesForCurrentThread() - allocationsBefore;
+        commandTimes.Sort();
+        double Percentile(double quantile) => commandTimes[Math.Clamp((int)Math.Ceiling(commandTimes.Count * quantile) - 1, 0, commandTimes.Count - 1)];
         return new JObject
         {
             ["commands"] = count, ["revision"] = revision, ["terminal"] = Terminal(),
             ["nativeSeedCalls"] = offlineRng!.Emitted.Count,
-            ["batchMilliseconds"] = Stopwatch.GetElapsedTime(started).TotalMilliseconds,
+            ["batchMilliseconds"] = batchMilliseconds,
+            ["commandLatencyMilliseconds"] = new JObject { ["mean"] = commandTimes.Average(), ["p50"] = Percentile(0.5), ["p95"] = Percentile(0.95), ["max"] = commandTimes[^1] },
+            ["managedCurrentThreadAllocatedBytes"] = allocatedBytes,
+            ["gcCollections"] = new JArray(Enumerable.Range(0, 3).Select(generation => GC.CollectionCount(generation) - collectionsBefore[generation])),
             ["readCopyCalls"] = offlineCopyCalls, ["readCopyMilliseconds"] = offlineCopyMilliseconds,
             ["projectionCopyMode"] = offlineCopyMode, ["snapshotHits"] = offlineSnapshotHits,
             ["serializationCalls"] = offlineSerializationCalls, ["serializationMilliseconds"] = offlineSerializationMilliseconds,
