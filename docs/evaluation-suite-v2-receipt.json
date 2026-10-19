@@ -1,0 +1,149 @@
+{
+  "schema": "offline-evaluation-v2",
+  "suite": {
+    "id": "basic-fixtures-heldout-v2",
+    "version": "1",
+    "sha256": "b3fb7fdbfdf16cf8f747a755ac3b6719fb62eb4d6ba45d91b5899c6da0a2b40f",
+    "split": "held-out-regression"
+  },
+  "sourceSha256": {
+    "cards.mjs": "14ecdc0cce4d1060499c1303395b5997ae9d4912cad49291cdc074d9fc08b571",
+    "environment.mjs": "b4a813c40b59ea900e9c09e6f0816fd351c0fc8fab537c1c53355c374d4b9e4d",
+    "rng.mjs": "38c4e96772cba548cd89a0d140df8a34ec1d7f692718091d00456fa4fdd07f11",
+    "policies.mjs": "f0795d1d8efcb63fad05d7828dc5c1a1efe71face8a530a7f6bd8067eb1276f8",
+    "policy-boundary.mjs": "e97019677b0f24d0e622aa6ad898d68ffb6d93ad3f24f32d4c0cf2daf90974e9",
+    "tactical-policy.mjs": "7eb8cb721d02ff67246c85423066da4bec2fc8f3129e1f2e037fd048c37c08ec",
+    "evaluation-suite.mjs": "6373cf1c32e26a6b21c63838cd7a09ac2e7aa314239a977af4c96e0e2bae4c32"
+  },
+  "engine": {
+    "id": "tcg-agent-kernel",
+    "version": "0.1.0"
+  },
+  "executionProfile": "basic-duel-v1",
+  "targetFormat": "full-current-standard",
+  "standardCoverageClaim": false,
+  "uncertainty": "95% paired-seed percentile bootstrap within each matchup/opponent cell; no deck-population, rules-coverage or metagame-shift uncertainty",
+  "weightedScore": 0.6625,
+  "groups": [
+    {
+      "matchup": "mirror",
+      "candidateDeck": "balanced",
+      "opponentDeck": "balanced",
+      "opponentPolicy": "greedy-v1",
+      "weight": 0.16666666666666666,
+      "totals": {
+        "wins": 19,
+        "losses": 21,
+        "draws": 0,
+        "errors": 0,
+        "truncations": 0
+      },
+      "completedPairs": 20,
+      "meanPairScore": 0.475,
+      "pairBootstrap95": [
+        0.425,
+        0.5
+      ]
+    },
+    {
+      "matchup": "mirror",
+      "candidateDeck": "balanced",
+      "opponentDeck": "balanced",
+      "opponentPolicy": "legal-random-v1",
+      "weight": 0.16666666666666666,
+      "totals": {
+        "wins": 31,
+        "losses": 9,
+        "draws": 0,
+        "errors": 0,
+        "truncations": 0
+      },
+      "completedPairs": 20,
+      "meanPairScore": 0.775,
+      "pairBootstrap95": [
+        0.65,
+        0.875
+      ]
+    },
+    {
+      "matchup": "versus-machop",
+      "candidateDeck": "balanced",
+      "opponentDeck": "machop-heavy",
+      "opponentPolicy": "greedy-v1",
+      "weight": 0.16666666666666666,
+      "totals": {
+        "wins": 13,
+        "losses": 27,
+        "draws": 0,
+        "errors": 0,
+        "truncations": 0
+      },
+      "completedPairs": 20,
+      "meanPairScore": 0.325,
+      "pairBootstrap95": [
+        0.2,
+        0.45
+      ]
+    },
+    {
+      "matchup": "versus-machop",
+      "candidateDeck": "balanced",
+      "opponentDeck": "machop-heavy",
+      "opponentPolicy": "legal-random-v1",
+      "weight": 0.16666666666666666,
+      "totals": {
+        "wins": 30,
+        "losses": 10,
+        "draws": 0,
+        "errors": 0,
+        "truncations": 0
+      },
+      "completedPairs": 20,
+      "meanPairScore": 0.75,
+      "pairBootstrap95": [
+        0.625,
+        0.875
+      ]
+    },
+    {
+      "matchup": "versus-rattata",
+      "candidateDeck": "balanced",
+      "opponentDeck": "rattata-heavy",
+      "opponentPolicy": "greedy-v1",
+      "weight": 0.16666666666666666,
+      "totals": {
+        "wins": 29,
+        "losses": 11,
+        "draws": 0,
+        "errors": 0,
+        "truncations": 0
+      },
+      "completedPairs": 20,
+      "meanPairScore": 0.725,
+      "pairBootstrap95": [
+        0.6,
+        0.85
+      ]
+    },
+    {
+      "matchup": "versus-rattata",
+      "candidateDeck": "balanced",
+      "opponentDeck": "rattata-heavy",
+      "opponentPolicy": "legal-random-v1",
+      "weight": 0.16666666666666666,
+      "totals": {
+        "wins": 37,
+        "losses": 3,
+        "draws": 0,
+        "errors": 0,
+        "truncations": 0
+      },
+      "completedPairs": 20,
+      "meanPairScore": 0.925,
+      "pairBootstrap95": [
+        0.85,
+        1
+      ]
+    }
+  ]
+}
