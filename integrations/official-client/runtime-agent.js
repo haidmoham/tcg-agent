@@ -258,7 +258,9 @@ function matchObservation(match) {
   const currentMatch = call(match, 'get_currentMatch');
   result.offline = offlineGame();
   result.gameOver = scalarField(currentMatch, 'gameOver', true);
-  result.winner = result.gameOver ? (scalarField(currentMatch, 'winner') === (boolean(call(currentMatch, 'get_isPlayer1')) ? 1 : 2) ? 'you' : 'opponent') : null;
+  const winningSeat = result.gameOver ? scalarField(currentMatch, 'winner') : null;
+  result.winner = [1, 2].includes(winningSeat) ? (winningSeat === (boolean(call(currentMatch, 'get_isPlayer1')) ? 1 : 2) ? 'you' : 'opponent') : null;
+  result.finalReason = terminalReason;
   const offered = [];
   commandMap.clear();
   // SDK legality queries mutate its shared testMatchOperation. The offline AI
@@ -355,7 +357,9 @@ function matchObservation(match) {
       if (!source) throw new Error('runtime-reparent-source-not-visible');
       const targets = sequence(call(menu, 'ValidPlacementReceivers', [source.pointer]), 24).map(pointer => ({ pointer, value: publicCard(pointer, true) }))
         .filter(target => target.value).sort((a, b) => a.value.source.localeCompare(b.value.source) || a.value.instanceId.localeCompare(b.value.instanceId));
-      return { id: 'reparent-' + index, min: 0, max: 1, choices: targets.map((target, targetIndex) => {
+      // This source is already admitted by the visible targeting UI. Retain it
+      // so an exact source -> destination decision survives outside pointer maps.
+      return { id: 'reparent-' + index, min: 0, max: 1, sourceCard: source.value, choices: targets.map((target, targetIndex) => {
         const id = `reparent-${index}-${targetIndex}`;
         promptChoiceMap.set(id, { reparentOption: option, targetId: target.value.instanceId });
         return { id, identity: target.value.instanceId, name: target.value.name, source: target.value.source, category: target.value.category };
@@ -403,6 +407,9 @@ function matchObservation(match) {
   }
   return result;
 }
+let terminalReason = { schema: 'official-client-terminal-reason/1', source: 'BattleOutro.ShowMatchResultOverlay',
+  status: 'unknown', terminalObserved: false, observedAt: null, localWon: null, reasonLocId: null, text: null };
+let cachedTerminalExport = null;
 function exportableBattleLog() {
   const match = one(matches, true);
   const assignable = api('mono_class_is_assignable_from', 'int', ['pointer', 'pointer']);
@@ -433,8 +440,38 @@ function exportableBattleLog() {
     append('');
   }
   return { schema: 'official-client-battle-log-export/1', source: 'MatchManager.BattleLogExportData', observedAt: Date.now(),
-    matchIdentity: str(call(call(match, 'get_currentMatch'), 'get_matchID')), text: lines.map(line => line + '\r\n').join('') };
+    matchIdentity: str(call(call(match, 'get_currentMatch'), 'get_matchID')), text: lines.map(line => line + '\r\n').join(''),
+    terminalReason, capturePhase: terminalReason.terminalObserved ? 'terminal-ui-read' : 'live-ui-read' };
 }
+function readBattleLog() {
+  try { return exportableBattleLog(); }
+  catch (error) { if (cachedTerminalExport) return cachedTerminalExport; throw error; }
+}
+// Observe the ordinary visible outro arguments and its displayed message. No
+// EndGameModification, raw board, hidden winner calculation or log parsing.
+let terminalHook = null;
+try {
+  terminalHook = Interceptor.attach(compile(method(klass('TPCI.RainierClient', '', 'BattleOutro'), 'ShowMatchResultOverlay', 2)), {
+    onEnter(args) {
+      this.outro = args[0];
+      try {
+        const reasonLocId = str(args[2], 512);
+        terminalReason = { schema: 'official-client-terminal-reason/1', source: 'BattleOutro.ShowMatchResultOverlay',
+          status: reasonLocId ? 'observed' : 'unknown', terminalObserved: true, observedAt: Date.now(),
+          localWon: (args[1].toInt32() & 0xff) !== 0, reasonLocId, text: null };
+      } catch { terminalReason = { ...terminalReason, status: 'unknown', terminalObserved: false }; }
+    },
+    onLeave() {
+      try {
+        const bar = field(this.outro, 'gameEndReasonDisplay');
+        const text = str(call(bar, 'get_CurrText'), 2048);
+        terminalReason = { ...terminalReason, text, status: text || terminalReason.reasonLocId ? 'observed' : 'unknown' };
+      } catch { /* The exact reason stays unknown; never infer it. */ }
+      try { cachedTerminalExport = { ...exportableBattleLog(), capturePhase: 'terminal-ui-presentation-cache' }; }
+      catch { /* A later bounded read may succeed while the UI still exists. */ }
+    },
+  });
+} catch { /* Source-bound optional observation; absence is exposed in ready. */ }
 function observe() {
   const manager = one(rainier);
   let screen = null;
@@ -443,7 +480,7 @@ function observe() {
     if (!current.isNull()) screen = { type: className(objectClass(current)).readUtf8String(), code: integer(call(current, 'get_screenType')) };
   }
   const match = one(matches);
-  return { schema: 'official-client-runtime-ui/1', screen, selectedDeck: selectedDeck(one(decks)),
+  return { schema: 'official-client-runtime-ui/1', screen, selectedDeck: selectedDeck(one(decks)), terminalReason,
     match: match.isNull() ? null : matchObservation(match),
     policyView: null, gameplayReady: false, unknowns: ['playing-policy-view', 'legal-gameplay-candidates', 'gameplay-prompt-mappings'] };
 }
@@ -458,7 +495,7 @@ const hook = Interceptor.attach(compile(method(dispatcher, 'Update', 0)), {
     const request = pending; pending = null; clearTimeout(request.timer);
     try {
       if (Date.now() > request.deadline) throw new Error('runtime-request-expired');
-      if (request.op === 'battle_log') return request.accept(exportableBattleLog());
+      if (request.op === 'battle_log') return request.accept(readBattleLog());
       const before = observe();
       if (request.op === 'observe') return request.accept(before);
       if (!request.id || consumed.has(request.id) || request.expected !== JSON.stringify(before)) throw new Error('runtime-stale-or-reused-action');
@@ -480,7 +517,12 @@ const hook = Interceptor.attach(compile(method(dispatcher, 'Update', 0)), {
       else if (request.op === 'start_test_deck' && allowTestGame && !testGameStarted && !before.match && before.screen?.code === 1
           && before.selectedDeck?.displayName === 'AgentPult' && before.selectedDeck.standardValid && before.selectedDeck.testDeckInteractable
           && Object.values(before.selectedDeck.exactCards).reduce((sum, count) => sum + count, 0) === 60) {
-        execute = () => { testGameStarted = true; call(one(decks, true), 'Settings_TestDeck'); };
+        execute = () => {
+          testGameStarted = true; cachedTerminalExport = null;
+          terminalReason = { schema: 'official-client-terminal-reason/1', source: 'BattleOutro.ShowMatchResultOverlay',
+            status: 'unknown', terminalObserved: false, observedAt: null, localWon: null, reasonLocId: null, text: null };
+          call(one(decks, true), 'Settings_TestDeck');
+        };
       } else if (request.op === 'act' && testGameStarted && before.match && request.data?.actionId && commandMap.has(request.data.actionId)) {
         const selected = commandMap.get(request.data.actionId);
         execute = () => sdk(selected.command, selected.args.map(value => typeof value === 'number' ? intArg(value) : textArg(value)));
@@ -558,7 +600,7 @@ rpc.exports = {
     boundWindow = ptr(windowId); allowTestGame = enableTestGame === true;
     if (resumeOwnedGame === true) { if (!allowTestGame || !offlineGame()) throw new Error('runtime-offline-game-required'); testGameStarted = true; }
     return { schema: 'official-client-runtime-ready/1', processId: Process.id, mainThreadHook: true, inputArmed: false,
-    admittedReadOperations: ['observe', 'battle_log'],
+    admittedReadOperations: ['observe', 'battle_log'], terminalUiCaptureAvailable: terminalHook !== null,
     admittedActions: allowTestGame ? ['open_decks', 'acknowledge_mulligan', 'leave_previous_test', 'start_test_deck', 'act', 'answer_text', 'answer_entities', 'answer_prizes', 'answer_allocation'] : ['open_decks'], testGameLaunchEnabled: allowTestGame, credentialsAccessed: false }; },
   request(op, id, expected, data) {
     if (stopped || pending || !['observe', 'battle_log', 'open_decks', ...(allowTestGame ? ['acknowledge_mulligan', 'leave_previous_test', 'start_test_deck', 'act', 'answer_text', 'answer_entities', 'answer_prizes', 'answer_allocation'] : [])].includes(op)) throw new Error('runtime-request-not-admitted');
@@ -567,5 +609,5 @@ rpc.exports = {
       pending = { op, id, expected, data, accept, reject, timer, deadline: Date.now() + 4500 };
     });
   },
-  close() { stopped = true; if (pending) { clearTimeout(pending.timer); pending.reject(new Error('runtime-closed')); pending = null; } hook.detach(); return { closed: true }; }
+  close() { stopped = true; if (pending) { clearTimeout(pending.timer); pending.reject(new Error('runtime-closed')); pending = null; } hook.detach(); terminalHook?.detach(); return { closed: true }; }
 };
