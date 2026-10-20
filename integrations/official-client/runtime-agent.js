@@ -95,7 +95,11 @@ function field(target, name) {
   return out.readPointer();
 }
 function scalarField(target, name, booleanValue = false) {
-  const selected = classField(objectClass(target), Memory.allocUtf8String(name));
+  let selected = ptr(0);
+  for (let current = objectClass(target); !current.isNull(); current = classParent(current)) {
+    selected = classField(current, Memory.allocUtf8String(name));
+    if (!selected.isNull()) break;
+  }
   if (selected.isNull()) throw new Error('required-scalar-field-missing:' + name);
   const out = Memory.alloc(8); fieldGet(target, selected, out);
   return booleanValue ? out.readU8() !== 0 : out.readS32();
@@ -171,7 +175,10 @@ function selectedDeck(controller) {
 function publicCard(card, own, creature = false) {
   // Check the visible representation before obtaining any identifying CardInfo.
   if (card.isNull() || !boolean(call(card, 'get_IsPublic'))) return null;
-  if (!own && !boolean(call(card, 'get_visuallyRevealed'))) return null;
+  // Callers enumerate public board/discard/stadium zones or explicit visible
+  // selection senders. visuallyRevealed is a prize-animation flag, not the
+  // face-up status of an opponent's board card. Opponent hand/deck/prizes are
+  // never enumerated here.
   const info = call(card, 'get_cardInfo');
   const instanceId = str(call(info, 'get_entityID'));
   const source = str(call(info, 'get_cardSourceID'));
@@ -186,6 +193,18 @@ function publicCard(card, own, creature = false) {
     result.conditions = ['get_posStatusEffects', 'get_negsStatusEffects'].flatMap(getter => sequence(call(info, getter))
       .map(applied => field(applied, 'statusEffect')).filter(effect => className(objectClass(effect)).readUtf8String() === 'SpecialConditionEffect')
       .map(effect => ['none', 'poison', 'burn', 'paralyze', 'confuse', 'sleep'][integer(call(effect, 'GetEffectEnumValue'))]));
+    result.publicCards = { energy: [], tools: [], evolutions: [] };
+    const attached = new Set();
+    const collect = (parent, depth) => {
+      for (const child of sequence(call(parent, 'GetOwnedCards'), 60)) {
+        const value = publicCard(child, false);
+        if (!value || attached.has(value.instanceId)) continue;
+        attached.add(value.instanceId);
+        result.publicCards[value.category === 'energy' ? 'energy' : value.category === 'pokemon' ? 'evolutions' : 'tools'].push(value);
+        if (depth < 2) collect(child, depth + 1);
+      }
+    };
+    collect(card, 0);
   }
   if (own) {
     result.placeableBoardPos = sequence(call(info, 'get_placeableBoardPos')).map(integer);
@@ -219,13 +238,32 @@ function matchObservation(match) {
   const result = { state: integer(call(match, 'get_currentState')), operationProcessing: boolean(call(match, 'get_IsOperationProcessing')),
     isMyTurn: boolean(call(match, 'get_IsMyTurn')), turnNumber: integer(call(call(match, 'get_currentMatch'), 'GetRoundCount')),
     menu: menu.isNull() ? null : className(objectClass(menu)).readUtf8String(), you: side(0), opponent: side(1) };
+  // The attachment overlay moves public board cards into a visual miniature.
+  // Recover their semantic zones from that UI's original-owner map, without
+  // consulting an engine board or substituting a previous observation.
+  if (!menu.isNull() && inherits(menu, 'BoardAttachedCardSelectionMenu')) {
+    const miniature = field(menu, 'tinyBoardLayout');
+    for (const pointer of sequence(call(miniature, 'GetCardsAccessibleForTargeting'), 24)) {
+      if (!boolean(call(pointer, 'get_IsPublic'))) continue;
+      const original = call(miniature, 'GetTrueOwnerForCard', [pointer]);
+      for (const playerIndex of [0, 1]) {
+        const player = call(board, 'GetPlayer', [intArg(playerIndex)]), target = playerIndex === 0 ? result.you : result.opponent;
+        for (const zone of ['active', 'bench', 'stadium']) if (original.equals(field(player, zone))) {
+          const card = publicCard(pointer, playerIndex === 0, zone !== 'stadium');
+          if (card && !target[zone].some(existing => existing.instanceId === card.instanceId)) target[zone].push(card);
+        }
+      }
+    }
+  }
   const currentMatch = call(match, 'get_currentMatch');
   result.offline = offlineGame();
   result.gameOver = scalarField(currentMatch, 'gameOver', true);
   result.winner = result.gameOver ? (scalarField(currentMatch, 'winner') === (boolean(call(currentMatch, 'get_isPlayer1')) ? 1 : 2) ? 'you' : 'opponent') : null;
   const offered = [];
   commandMap.clear();
-  if (!result.operationProcessing && !result.menu) {
+  // SDK legality queries mutate its shared testMatchOperation. The offline AI
+  // uses that same scratch object on its own thread: never query during its turn.
+  if (!result.operationProcessing && !result.menu && (result.isMyTurn || result.state === 1)) {
     const ownVisible = [...result.you.hand, ...result.you.active, ...result.you.bench];
     const targets = [...result.you.active, ...result.you.bench];
     const offer = (kind, source, target, label, command, args, extra = {}) => {
@@ -258,14 +296,75 @@ function matchObservation(match) {
       offer('retreat', result.you.active[0], null, 'Retreat active Pokemon', 'Retreat', ['']);
   }
   result.actions = offered;
+  result.acknowledgement = !menu.isNull() && inherits(menu, 'MulliganDisplayOverlay') ? 'mulligan-done' : null;
   result.prompt = null;
+  result.uiTransitionPending = !menu.isNull() && inherits(menu, 'PrizeCardSelectionMenu') && scalarField(menu, '_selectionSubmitted', true);
   promptChoiceMap.clear();
-  if (!menu.isNull() && inherits(menu, 'TextSelectionOverlay')) {
+  if (!menu.isNull() && inherits(menu, 'PrizeCardSelectionMenu') && !result.uiTransitionPending && boolean(call(menu, 'get_IsAwaitingSelection'))) {
+    if (!boolean(call(menu, 'get_IsSelectingFromLocalPlayerCards'))) throw new Error('runtime-opponent-prize-selection-not-admitted');
+    // These are displayed clickable card backs. Never inspect their CardInfo,
+    // addresses, indexes or any underlying prize identities.
+    const choices = sequence(field(menu, '_validCard3Ds'), 6).map((pointer, index) => {
+      const id = 'prize-slot-' + index; promptChoiceMap.set(id, { opaquePrizePointer: pointer }); return { id };
+    });
+    result.prompt = { kind: 'prizes', min: scalarField(menu, '_minPrizesToSelect'), max: scalarField(menu, '_maxPrizesToSelect'),
+      selectedCount: integer(call(field(menu, '_selectedPrizes'), 'get_Count')), choices };
+  } else if (!menu.isNull() && inherits(menu, 'TextSelectionOverlay')) {
     const options = sequence(call(menu, 'GetOptions')).map(value => str(value));
     result.prompt = { kind: 'text', selectionType: scalarField(field(menu, 'typedSelection'), 'selectionType'),
       choices: options.map((label, index) => ({ id: 'option-' + index, label })).filter(choice => choice.label !== 'REMOVED_OPTION') };
-  } else if (!menu.isNull() && inherits(menu, 'EntitySelectionOverlay')) {
-    const selection = field(menu, 'typedSelection');
+  } else if (!menu.isNull() && inherits(menu, 'ReparentDamageMenu')) {
+    const selection = field(menu, 'damageSelection');
+    if (boolean(call(selection, 'get_isUnlimited'))) throw new Error('runtime-unlimited-damage-not-admitted');
+    const from = new Set(sequence(call(selection, 'get_fromDamageSelections'), 24).map(entry => str(call(entry, 'get_entityID'))));
+    const to = new Set(sequence(call(selection, 'get_toDamageSelections'), 24).map(entry => str(call(entry, 'get_entityID'))));
+    const visible = new Map([...result.you.active, ...result.you.bench, ...result.opponent.active, ...result.opponent.bench].map(card => [card.instanceId, card]));
+    const max = integer(call(selection, 'get_maxMovableDamageTotal'));
+    const send = integer(call(selection, 'get_maxSendDamageSingle')), receive = integer(call(selection, 'get_maxRecvDamageSingle'));
+    const groups = [{ id: 'damage-from', min: integer(call(selection, 'get_minSourceSelectionCount')), max: integer(call(selection, 'get_maxSourceSelectionCount')) },
+      { id: 'damage-to', min: integer(call(selection, 'get_minTargetSelectionCount')), max: integer(call(selection, 'get_maxTargetSelectionCount')) }];
+    let hasBoth = false;
+    const choices = sequence(call(selection, 'get_finalDamageSelections'), 24).map((entry, index) => {
+      const entityId = str(call(entry, 'get_entityID')), card = visible.get(entityId), initial = integer(call(entry, 'get_currentDamageCounters'));
+      if (!card || initial * 10 !== card.damage) throw new Error('runtime-damage-target-not-visible-or-mismatched');
+      const inFrom = from.has(entityId), inTo = to.has(entityId), id = 'damage-' + index;
+      if (inFrom && inTo) hasBoth = true;
+      promptChoiceMap.set(id, { damageEntityId: entityId, damageInitial: initial });
+      return { id, identity: entityId, source: card.source, name: card.name, category: card.category,
+        group: inFrom && inTo ? 'damage-both' : inFrom ? 'damage-from' : 'damage-to', initialAmount: initial,
+        minAmount: inFrom ? Math.max(0, initial - Math.min(max, send < 0 ? initial : send)) : initial,
+        maxAmount: inTo ? initial + Math.min(max, receive < 0 ? max : receive) : initial };
+    });
+    if (hasBoth) groups.push({ id: 'damage-both', min: 0, max: choices.length });
+    result.prompt = { kind: 'allocation', min: integer(call(selection, 'get_minMovableDamageTotal')), max,
+      groups, choices, allocationUnit: 10, allocationMode: 'final' };
+  } else if (!menu.isNull() && inherits(menu, 'AttachCardFromPileMenu')) {
+    const selection = call(menu, 'get_reparentSelection');
+    if (boolean(call(selection, 'get_unlimitedReparent'))) throw new Error('runtime-unlimited-reparent-not-admitted');
+    const visibleSources = new Map();
+    for (const sender of sequence(call(menu, 'ValidTargetSenders'), 8)) {
+      for (const card of sequence(call(sender, 'GetCardsAccessibleForTargeting'), 60)) {
+        const value = publicCard(card, true);
+        if (value) visibleSources.set(value.instanceId, { value, pointer: card });
+      }
+    }
+    const options = sequence(call(selection, 'get_reparentOptions'), 60).map(option => ({ option, sourceId: str(call(option, 'get_entityID')) }))
+      .sort((a, b) => a.sourceId.localeCompare(b.sourceId));
+    const groups = options.map(({ option, sourceId }, index) => {
+      const source = visibleSources.get(sourceId);
+      if (!source) throw new Error('runtime-reparent-source-not-visible');
+      const targets = sequence(call(menu, 'ValidPlacementReceivers', [source.pointer]), 24).map(pointer => ({ pointer, value: publicCard(pointer, true) }))
+        .filter(target => target.value).sort((a, b) => a.value.source.localeCompare(b.value.source) || a.value.instanceId.localeCompare(b.value.instanceId));
+      return { id: 'reparent-' + index, min: 0, max: 1, choices: targets.map((target, targetIndex) => {
+        const id = `reparent-${index}-${targetIndex}`;
+        promptChoiceMap.set(id, { reparentOption: option, targetId: target.value.instanceId });
+        return { id, identity: target.value.instanceId, name: target.value.name, source: target.value.source, category: target.value.category };
+      }) };
+    });
+    result.prompt = { kind: 'entities', reparent: true, selectionMethod: 16,
+      min: integer(call(selection, 'get_minReparentedOptions')), max: integer(call(selection, 'get_maxReparentedOptions')), groups };
+  } else if (!menu.isNull() && (inherits(menu, 'EntitySelectionOverlay') || inherits(menu, 'ActivePromotionDragMenu'))) {
+    const selection = field(menu, inherits(menu, 'ActivePromotionDragMenu') ? 'entitySelection' : 'typedSelection');
     const rendered = new Map();
     // Inspect only cards explicitly exposed by this visible selection UI.
     // No deck/prize container enumeration or CardAddress.index reads.
@@ -275,6 +374,18 @@ function matchObservation(match) {
         const value = publicCard(card, true);
         if (value) rendered.set(value.instanceId, { value, pointer: card });
       }
+    }
+    if (inherits(menu, 'BoardAttachedCardSelectionMenu')) {
+      const constraints = field(menu, 'bacsConstraintEvaluator');
+      const publicParents = sequence(call(constraints, 'GetCardsTappableForDistribution'), 24);
+      const directCards = sequence(call(constraints, 'GetCardsTappableForDirectSelection'), 60);
+      const addVisible = (card, depth) => {
+        const value = publicCard(card, true);
+        if (!value) return;
+        rendered.set(value.instanceId, { value, pointer: card });
+        if (depth < 3) for (const child of sequence(call(card, 'GetOwnedCards'), 60)) addVisible(child, depth + 1);
+      };
+      for (const card of [...publicParents, ...directCards]) addVisible(card, 0);
     }
     const groups = sequence(field(selection, 'selectionGroups'), 16).map((group, groupIndex) => {
       const options = sequence(call(group, 'get_validOptions'), 60).map(option => str(call(option, 'get_entityID')))
@@ -287,7 +398,8 @@ function matchObservation(match) {
           return { id, identity: option.id, name: option.value.name, source: option.value.source, category: option.value.category };
         }) };
     });
-    result.prompt = { kind: 'entities', min: integer(call(selection, 'get_totalMinAmount')), max: integer(call(selection, 'get_totalMaxAmount')), groups };
+    result.prompt = { kind: 'entities', selectionMethod: scalarField(selection, 'selectionMethod'),
+      min: integer(call(selection, 'get_totalMinAmount')), max: integer(call(selection, 'get_totalMaxAmount')), groups };
   }
   return result;
 }
@@ -350,11 +462,21 @@ const hook = Interceptor.attach(compile(method(dispatcher, 'Update', 0)), {
       const before = observe();
       if (request.op === 'observe') return request.accept(before);
       if (!request.id || consumed.has(request.id) || request.expected !== JSON.stringify(before)) throw new Error('runtime-stale-or-reused-action');
-      if (actions >= (allowTestGame ? 150 : 2) || Date.now() - lastAction < 2000) throw new Error('runtime-action-budget');
+      if (actions >= (allowTestGame ? 300 : 2) || Date.now() - lastAction < 2000) throw new Error('runtime-action-budget');
       background();
       if (testGameStarted && before.match && !before.match.offline) throw new Error('runtime-offline-game-required');
       let execute;
-      if (request.op === 'open_decks' && !before.match && before.screen?.code === 0) execute = () => call(one(decks, true), 'Activate');
+      if (request.op === 'acknowledge_mulligan' && testGameStarted && before.match?.acknowledgement === 'mulligan-done')
+        execute = () => {
+          const menu = call(call(one(matches, true), 'get_MenuNavigation'), 'get_CurrentMenu');
+          const drawer = call(field(field(menu, 'customView'), 'modalDrawerBuilder'), 'get_Drawer');
+          const buttons = sequence(call(drawer, 'get_BottomButtons'), 8).filter(button => boolean(call(call(button, 'get_gameObject'), 'get_activeInHierarchy')) && boolean(call(button, 'IsInteractable')));
+          if (buttons.length !== 1) throw new Error('runtime-mulligan-done-button-unverified');
+          call(call(buttons[0], 'get_onClick'), 'Invoke');
+        };
+      else if (request.op === 'leave_previous_test' && allowTestGame && !testGameStarted && before.match?.offline && !before.match.gameOver)
+        execute = () => call(one(matches, true), 'ConcedeMatch');
+      else if (request.op === 'open_decks' && !before.match && before.screen?.code === 0) execute = () => call(one(decks, true), 'Activate');
       else if (request.op === 'start_test_deck' && allowTestGame && !testGameStarted && !before.match && before.screen?.code === 1
           && before.selectedDeck?.displayName === 'AgentPult' && before.selectedDeck.standardValid && before.selectedDeck.testDeckInteractable
           && Object.values(before.selectedDeck.exactCards).reduce((sum, count) => sum + count, 0) === 60) {
@@ -366,21 +488,64 @@ const hook = Interceptor.attach(compile(method(dispatcher, 'Update', 0)), {
           && before.match.prompt.choices.some(choice => choice.id === request.data?.choiceId)) {
         const index = Number(request.data.choiceId.slice(7));
         execute = () => call(call(call(one(matches, true), 'get_MenuNavigation'), 'get_CurrentMenu'), 'SelectOption', [intArg(index)]);
+      } else if (request.op === 'answer_allocation' && testGameStarted && before.match?.prompt?.kind === 'allocation'
+          && Array.isArray(request.data?.amounts) && request.data.amounts.length === before.match.prompt.choices.length
+          && new Set(request.data.amounts.map(entry => entry.choiceId)).size === request.data.amounts.length
+          && request.data.amounts.every(entry => Number.isSafeInteger(entry.count) && before.match.prompt.choices.some(choice => choice.id === entry.choiceId && entry.count >= choice.minAmount && entry.count <= choice.maxAmount))) {
+        const amounts = request.data.amounts.map(entry => ({ ...entry, ...promptChoiceMap.get(entry.choiceId) }));
+        execute = () => {
+          const menu = call(call(one(matches, true), 'get_MenuNavigation'), 'get_CurrentMenu'), constraints = field(menu, 'constraintEvaluator');
+          for (const entry of amounts) if (entry.count < entry.damageInitial) call(constraints, 'AccountForRemovedDamage', [textArg(entry.damageEntityId), intArg(entry.damageInitial - entry.count)]);
+          for (const entry of amounts) if (entry.count > entry.damageInitial) call(constraints, 'AccountForAddedDamage', [textArg(entry.damageEntityId), intArg(entry.count - entry.damageInitial)]);
+          if (!boolean(call(field(menu, 'damageSelection'), 'Validate'))) throw new Error('runtime-selection-validation-rejected-no-send');
+          call(menu, 'CompleteReparentingAction');
+        };
+      } else if (request.op === 'answer_prizes' && testGameStarted && before.match?.prompt?.kind === 'prizes'
+          && before.match.prompt.selectedCount === 0 && Array.isArray(request.data?.choiceIds)
+          && request.data.choiceIds.length >= before.match.prompt.min && request.data.choiceIds.length <= before.match.prompt.max
+          && new Set(request.data.choiceIds).size === request.data.choiceIds.length
+          && request.data.choiceIds.every(id => promptChoiceMap.get(id)?.opaquePrizePointer)) {
+        const selected = request.data.choiceIds.map(id => promptChoiceMap.get(id).opaquePrizePointer);
+        execute = () => {
+          const menu = call(call(one(matches, true), 'get_MenuNavigation'), 'get_CurrentMenu');
+          for (const pointer of selected) call(menu, 'TryMarkCardSelected', [pointer, intArg(0)]);
+          const button = field(menu, 'doneButton');
+          if (!boolean(call(button, 'IsInteractable'))) throw new Error('runtime-prize-submit-not-interactable');
+          call(call(button, 'get_onClick'), 'Invoke');
+        };
       } else if (request.op === 'answer_entities' && testGameStarted && before.match?.prompt?.kind === 'entities'
           && Array.isArray(request.data?.choiceIds) && request.data.choiceIds.length <= 60
           && new Set(request.data.choiceIds).size === request.data.choiceIds.length
           && request.data.choiceIds.every(id => promptChoiceMap.has(id))) {
         const selected = request.data.choiceIds.map(id => promptChoiceMap.get(id));
-        if (new Set(selected.map(choice => choice.entityId)).size !== selected.length) throw new Error('runtime-duplicate-physical-choice');
         const menu = call(call(one(matches, true), 'get_MenuNavigation'), 'get_CurrentMenu');
-        const selection = field(menu, 'typedSelection');
+        if (inherits(menu, 'AttachCardFromPileMenu')) {
+          const selection = call(menu, 'get_reparentSelection');
+          if (selected.some(choice => !choice.reparentOption) || new Set(selected.map(choice => choice.reparentOption.toString())).size !== selected.length)
+            throw new Error('runtime-reparent-choice-invalid');
+          execute = () => {
+            for (const choice of selected) call(choice.reparentOption, 'SetNewParentEntityID', [textArg(choice.targetId)]);
+            if (!boolean(call(selection, 'Validate'))) throw new Error('runtime-selection-validation-rejected-no-send');
+            call(menu, 'CompleteReparentingAction', [intArg(0)]);
+          };
+        } else {
+        if (new Set(selected.map(choice => choice.entityId)).size !== selected.length) throw new Error('runtime-duplicate-physical-choice');
+        const promotion = inherits(menu, 'ActivePromotionDragMenu');
+        const selection = field(menu, promotion ? 'entitySelection' : 'typedSelection');
         execute = () => {
           for (const group of sequence(field(selection, 'selectionGroups'), 16)) call(call(group, 'get_selectedOptions'), 'Clear');
           for (const choice of selected) call(choice.group, 'AddToSelectedOptionsByEntityID', [textArg(choice.entityId)]);
           if (!boolean(call(selection, 'Validate'))) throw new Error('runtime-selection-validation-rejected-no-send');
-          for (const choice of selected) call(menu, 'AddSelection', [choice.pointer]);
-          call(menu, 'SubmitClicked');
+          if (promotion) call(menu, 'SubmitSelectionAndClose');
+          else {
+            // This menu's override expects an actively distributed visual
+            // endpoint. Its ordinary submit already consumes the validated
+            // selection groups and restores its temporary board on close.
+            if (!inherits(menu, 'BoardAttachedCardSelectionMenu')) for (const choice of selected) call(menu, 'AddSelection', [choice.pointer]);
+            call(menu, 'SubmitClicked');
+          }
         };
+        }
       } else throw new Error('runtime-action-not-admitted');
       consumed.add(request.id); actions++; lastAction = Date.now();
       execute();
@@ -394,9 +559,9 @@ rpc.exports = {
     if (resumeOwnedGame === true) { if (!allowTestGame || !offlineGame()) throw new Error('runtime-offline-game-required'); testGameStarted = true; }
     return { schema: 'official-client-runtime-ready/1', processId: Process.id, mainThreadHook: true, inputArmed: false,
     admittedReadOperations: ['observe', 'battle_log'],
-    admittedActions: allowTestGame ? ['open_decks', 'start_test_deck', 'act', 'answer_text', 'answer_entities'] : ['open_decks'], testGameLaunchEnabled: allowTestGame, credentialsAccessed: false }; },
+    admittedActions: allowTestGame ? ['open_decks', 'acknowledge_mulligan', 'leave_previous_test', 'start_test_deck', 'act', 'answer_text', 'answer_entities', 'answer_prizes', 'answer_allocation'] : ['open_decks'], testGameLaunchEnabled: allowTestGame, credentialsAccessed: false }; },
   request(op, id, expected, data) {
-    if (stopped || pending || !['observe', 'battle_log', 'open_decks', ...(allowTestGame ? ['start_test_deck', 'act', 'answer_text', 'answer_entities'] : [])].includes(op)) throw new Error('runtime-request-not-admitted');
+    if (stopped || pending || !['observe', 'battle_log', 'open_decks', ...(allowTestGame ? ['acknowledge_mulligan', 'leave_previous_test', 'start_test_deck', 'act', 'answer_text', 'answer_entities', 'answer_prizes', 'answer_allocation'] : [])].includes(op)) throw new Error('runtime-request-not-admitted');
     return new Promise((accept, reject) => {
       const timer = setTimeout(() => { if (pending?.id === id) pending = null; reject(new Error('runtime-main-thread-timeout')); }, 5000);
       pending = { op, id, expected, data, accept, reject, timer, deadline: Date.now() + 4500 };

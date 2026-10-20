@@ -104,7 +104,7 @@ def main():
                 lines.put(line)
             lines.put(None)
         threading.Thread(target=read_lines, daemon=True).start()
-        deadline = time.monotonic() + (900 if args.supervised_test_game else 120)
+        deadline = time.monotonic() + (1800 if args.supervised_test_game else 120)
         while True:
             try:
                 line = lines.get(timeout=max(0.01, deadline - time.monotonic()))
@@ -114,7 +114,7 @@ def main():
                 break
             if time.monotonic() > deadline:
                 raise ValueError('runtime-session-timeout')
-            if len(line) > 8192 or count >= (500 if args.supervised_test_game else 30):
+            if len(line) > 8192 or count >= (1000 if args.supervised_test_game else 30):
                 raise ValueError('runtime-request-budget')
             request = json.loads(line)
             request_id = request.get('id')
@@ -122,7 +122,7 @@ def main():
             if op == 'close':
                 emit({'id': request_id, 'ok': True, 'closed': True})
                 break
-            admitted = ('observe', 'battle_log', 'open_decks', 'start_test_deck', 'act', 'answer_text', 'answer_entities') if args.supervised_test_game else ('observe', 'battle_log', 'open_decks')
+            admitted = ('observe', 'battle_log', 'open_decks', 'acknowledge_mulligan', 'leave_previous_test', 'start_test_deck', 'act', 'answer_text', 'answer_entities', 'answer_prizes', 'answer_allocation') if args.supervised_test_game else ('observe', 'open_decks', 'battle_log')
             if op not in admitted or set(request) - {'id', 'op', 'expected', 'armed', 'step', 'data'}:
                 raise ValueError('runtime-request-not-admitted')
             if op == 'battle_log' and not log_output:
@@ -155,7 +155,7 @@ def main():
             safe = re.search(r'(required-[a-z-]+(?::[A-Za-z_]+)?|ui-[a-z-]+|managed-call-rejected|ambiguous-[a-z-]+|runtime-[a-z-]+)', str(error))
             if safe:
                 code = safe.group(0)
-        emit({'ok': False, 'stage': stage, 'error': code, 'clientOutcome': 'unverified' if stage in ('open_decks', 'start_test_deck', 'act') else 'no-action-requested'})
+        emit({'ok': False, 'stage': stage, 'error': code, 'clientOutcome': 'unverified' if stage not in ('attach', 'load-scoped-agent', 'ready', 'observe', 'battle_log') else 'no-action-requested'})
         return 2
     finally:
         if script is not None:

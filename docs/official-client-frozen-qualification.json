@@ -1,0 +1,217 @@
+{
+  "schema": "official-client-frozen-qualification-summary/1",
+  "goal": "Five consecutive completed wins against the official built-in AI for each frozen candidate; stop at first loss or policy timeout. Driver failures remain separate.",
+  "result": "Neither model qualified.",
+  "deck": {
+    "displayName": "AgentPult",
+    "cards": 60,
+    "cardTypes": 24,
+    "mechanicsMatchFrozenExactManifest": true,
+    "alternatePrintingsAudited": true,
+    "deckEdits": 0
+  },
+  "featureContract": {
+    "stateDimensions": 224,
+    "candidateDimensions": 191
+  },
+  "model3": {
+    "checkpointSha256": "8a2a98a8dad933cf5a1d273d89ccc3e54c99b5ed686edc4238e7b1dd6188828b",
+    "loader": "PpoModelClient",
+    "status": "not-qualified-driver-interruption",
+    "starts": 4,
+    "naturalWins": 1,
+    "naturalLosses": 1,
+    "abandonedBeforeNaturalOutcome": 2,
+    "uninterruptedQualifyingWins": 0,
+    "games": [
+      {
+        "game": 1,
+        "outcome": "incomplete",
+        "winner": null,
+        "failure": "no-progress-timeout",
+        "qualificationEligible": false,
+        "wallSeconds": 603.063,
+        "ordinaryModelDecisions": 27,
+        "selectionModelDecisions": 13,
+        "attributedHelperDecisions": 4,
+        "evolutionIntents": 3,
+        "phantomDiveIntents": 0,
+        "rejectedDriverActions": 0,
+        "driverPauseEvents": [
+          "user-paused",
+          "current bounded visible card prompt required",
+          "no-progress-timeout"
+        ],
+        "sessions": 3
+      },
+      {
+        "game": 2,
+        "outcome": "incomplete",
+        "winner": null,
+        "failure": "opponent-client-no-progress-timeout",
+        "qualificationEligible": false,
+        "wallSeconds": 812.076,
+        "ordinaryModelDecisions": 12,
+        "selectionModelDecisions": 8,
+        "attributedHelperDecisions": 3,
+        "evolutionIntents": 2,
+        "phantomDiveIntents": 0,
+        "rejectedDriverActions": 1,
+        "driverPauseEvents": [
+          "action-transition-timeout",
+          "runtime-uncorrelated-reply",
+          "action-transition-timeout",
+          "opponent-client-no-progress-timeout"
+        ],
+        "sessions": 4
+      },
+      {
+        "game": 3,
+        "outcome": "completed",
+        "winner": "opponent",
+        "failure": null,
+        "qualificationEligible": false,
+        "wallSeconds": 973.394,
+        "ordinaryModelDecisions": 47,
+        "selectionModelDecisions": 27,
+        "attributedHelperDecisions": 10,
+        "evolutionIntents": 7,
+        "phantomDiveIntents": 0,
+        "rejectedDriverActions": 1,
+        "driverPauseEvents": [
+          "action-transition-timeout",
+          "runtime-answer_prizes-runtime-prize-submit-not-interactable",
+          "current bounded visible card prompt required"
+        ],
+        "sessions": 4
+      },
+      {
+        "game": 4,
+        "outcome": "completed",
+        "winner": "you",
+        "failure": null,
+        "qualificationEligible": false,
+        "wallSeconds": 813.859,
+        "ordinaryModelDecisions": 43,
+        "selectionModelDecisions": 25,
+        "attributedHelperDecisions": 10,
+        "evolutionIntents": 5,
+        "phantomDiveIntents": 4,
+        "rejectedDriverActions": 0,
+        "driverPauseEvents": [
+          "action-transition-timeout"
+        ],
+        "sessions": 2
+      }
+    ],
+    "stoppingRule": "No further Model3 starts after the latest stopping instruction. Its then-current owned game was resolved naturally as a win.",
+    "freshStartAfterDiagnosticLoss": "Earlier delegation explicitly requested a fresh uninterrupted qualification after separately reporting diagnostic outcomes. The later stopping instruction superseded that plan.",
+    "abandonedStarts": "The first two stalled diagnostic games were left using the normal client concession action. They are retained as driver-aborted starts, not natural policy losses."
+  },
+  "model4": {
+    "checkpointSha256": "38a6e726d528d8de3cc9924285c8d67c2700a8dde1cb64f6e388d99ae37ce8b5",
+    "loader": "CardActionModelClient",
+    "status": "failed-loss",
+    "starts": 2,
+    "bestConsecutiveWins": 1,
+    "finalConsecutiveWins": 0,
+    "requiredConsecutiveWins": 5,
+    "games": [
+      {
+        "game": 1,
+        "outcome": "completed",
+        "winner": "you",
+        "failure": null,
+        "qualificationEligible": true,
+        "wallSeconds": 641.025,
+        "ordinaryModelDecisions": 32,
+        "selectionModelDecisions": 15,
+        "attributedHelperDecisions": 10,
+        "evolutionIntents": 5,
+        "phantomDiveIntents": 4,
+        "rejectedDriverActions": 0,
+        "driverRequestWallSeconds": 17.52162949999984,
+        "modelInferenceWallSeconds": 0.1334267999997537,
+        "controllerSessionWallSeconds": 643.067,
+        "repairPauseSeconds": 0
+      },
+      {
+        "game": 2,
+        "outcome": "completed",
+        "winner": "opponent",
+        "failure": null,
+        "qualificationEligible": true,
+        "wallSeconds": 1149.109,
+        "ordinaryModelDecisions": 81,
+        "selectionModelDecisions": 52,
+        "attributedHelperDecisions": 9,
+        "evolutionIntents": 7,
+        "phantomDiveIntents": 2,
+        "rejectedDriverActions": 0,
+        "driverRequestWallSeconds": 39.137656600002224,
+        "modelInferenceWallSeconds": 0.3524287000001787,
+        "controllerSessionWallSeconds": 1151.145,
+        "repairPauseSeconds": 0
+      }
+    ],
+    "stoppedAtFirstLoss": true,
+    "driverFailures": 0,
+    "rejectedDriverActions": 0,
+    "driverAndHelperPins": {
+      "scripts/official-client-model3-game.mjs": "c24a61410d27579f0c516ce528f80459762dd3be2177426f6c8d644fe3a39c5f",
+      "scripts/official-client-runtime.py": "7c345072a74344a849fbb3fac877a52a2d0f4c266fc44a361fe85d9fe4d8f5ab",
+      "integrations/official-client/runtime-agent.js": "eae8cd0d4ea3722f4ce52d6bfd44c144dda6baa576272885c51bfd0e2051ffc4",
+      "integrations/official-client/runtime-policy.mjs": "6f01595ef04558a9d7814c585b17777a5e4666da21db96bbef87d2a9bf764ea2"
+    },
+    "observedLoss": {
+      "turn": 37,
+      "ownDeck": 0,
+      "opponentDeck": 3,
+      "ownPrizesRemaining": 1,
+      "opponentPrizesRemaining": 4,
+      "active": "Munkidori",
+      "activeEnergy": "none",
+      "lastDecisions": "Recon Directive and End turn; no attack or retreat was offered in the final decisions.",
+      "interpretation": "Consistent with deck-out. Exact exported end-reason text was not captured."
+    }
+  },
+  "sharedPolicy": {
+    "selectionCheckpointSha256": "6d3a5510e36a17610de6cbd099a3deac5a3efde02181213358b49ecab65afff2",
+    "fallbackHelperSha256": "40acf530ca787caaf446f515173b1ed0fd9cd6353e8313f44ac015d705d288b1",
+    "attribution": "Setup/text helpers and the frozen native teacher handle unsupported neural prompt domains, including blind prizes, empty choices and damage allocation. Do not credit these choices to the actor."
+  },
+  "timingDefinition": "Game wall time includes client animation, AI and rate-limit waits. Driver RPC request wall time and model inference wall time are separately measured; neither is the whole game wall time. Model3 repair timing is incomplete and its wall times include repairs. Both Model4 games have single uninterrupted timing sessions.",
+  "activity": {
+    "publicMatchmakingCalls": 0,
+    "foregroundActivationCalls": 0,
+    "sharedMouseOrKeyboardCalls": 0,
+    "rawMatchBoardRead": false,
+    "opponentHandFacesRead": false,
+    "deckOrPrizeOrderRead": false,
+    "prizeIdentitiesRead": false,
+    "weightsChanged": false,
+    "trainingJobsStarted": 0,
+    "testSuitesRun": 0,
+    "rawLogsPrivate": true,
+    "privateAssetsPublished": false,
+    "ownedControllersAndAdaptersConfirmedExited": true,
+    "inputKillMarkersSet": true
+  },
+  "validation": "Actual official-client AI games only, with startup model/schema/hash checks. No test suites or training were run for these qualification attempts.",
+  "publicProjection": "Local game identifiers were replaced with per-candidate chronological ordinals. Driver/helper pins describe the original qualification source; the public integration replaces private paths with ignored local configuration and synchronizes admitted-action metadata. No qualification was rerun after these publication changes.",
+  "bridgeChanges": [
+    "Crispin visible reparent targets and final submission",
+    "Damage allocation through visible UI selection and frozen helper",
+    "Blind local prize slots without CardInfo/address/index reads",
+    "Mulligan Done acknowledgement and animation submission guards",
+    "Public board attachments and correct opponent visibility",
+    "Miniature-board original UI owner projection",
+    "Legality queries restricted to player action windows because SDK shares mutable scratch data with the offline AI",
+    "Owned stop markers and bounded Model4 qualification runner"
+  ],
+  "remainingLimitations": [
+    "Observed prompt paths only; no claim of complete current Standard or every possible client menu. Unknown prompts still stop input.",
+    "Model3 games were interrupted and include earlier incomplete observations; they are diagnostic evidence, not a clean comparison cohort.",
+    "The live exportable battle-log getter was not invoked; private visible observations, semantic decisions and outcome receipts provide the evidence."
+  ]
+}

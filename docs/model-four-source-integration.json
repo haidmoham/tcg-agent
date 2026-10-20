@@ -6,7 +6,8 @@
   "trainedSource": "0810502a1192c3d32923cc732f912acd54d0e9f6",
   "implementationSource": "4f857815bcf0b30dd558368f4a7aaafff9b41aff",
   "method": "Reviewed four-file authored delta after f0a7f12 applied onto current main; preserve Model3/PPO implementation and direct-comparison results",
-  "performanceStatus": "UNEVALUATED",
+  "performanceStatus": "UNEVALUATED_AT_TRAINING_SOURCE_INTEGRATION",
+  "laterLiveQualification": { "report": "docs/official-client-frozen-qualification.md", "result": "failed-first-loss", "wins": 1, "losses": 1, "bestStreak": 1, "requiredStreak": 5, "comparativeStrengthEstablished": false },
   "promoted": false,
   "evaluatedBaseline": "Model3; eight direct games versus Model2, superiority inconclusive",
   "trainingEvidence": {

@@ -1,0 +1,23 @@
+{
+  "schema": "official-client-qualification-integration/1",
+  "date": "2026-10-20",
+  "baseMain": "ef03a66bcb80a997d4ad0689cedd95c46a2576a8",
+  "sourceBase": "ed82750e9d142339453c9b8a0a3e097a58fab447",
+  "sourceTip": "e73fbc8a5b3d7baa92c26a2f04a611a04a2ade39",
+  "method": "Reviewed four-commit source delta applied without original branch ancestry, preserving prior main integrations and optional Frida installation configuration",
+  "publicationChanges": [
+    "Personal and machine-specific runner paths replaced with ignored explicit local configuration; use repository model-loader modules",
+    "Local game identifiers omitted in favor of chronological per-candidate game ordinals",
+    "Adapter admitted-action metadata synchronized with its implemented request admission",
+    "Earlier Model4 training status explicitly scoped to its historical snapshot and linked to the later qualification"
+  ],
+  "result": "Neither candidate passed the five uninterrupted consecutive AI wins gate",
+  "model3": { "starts": 4, "driverAbortedStarts": 2, "naturalLosses": 1, "driverInterruptedNaturalWins": 1, "uninterruptedQualifyingWins": 0 },
+  "model4": { "starts": 2, "wins": 1, "losses": 1, "bestStreak": 1, "requiredStreak": 5, "driverRejections": 0, "stoppedAtFirstLoss": true },
+  "comparativeStrengthOrCausalTrainingImprovementClaimed": false,
+  "integrationActivity": { "testSuitesRun": 0, "modelWorkloadsRun": 0, "gamesRun": 0, "runtimeClientActions": 0, "sourceAndPrivacyReviewOnly": true, "originalCheckoutsOrWeightsChanged": false },
+  "exclusions": ["Weights", "Private configs/corpora/bundles", "Vendor binaries and assets", "Raw captures/observations/decisions/battle logs", "Personal paths and local game identifiers", "Credentials and account identifiers"],
+  "stoppedState": "Qualification source reports owned controllers/adapters exited and input/runtime stop markers set; integration did not attach to the client or inspect/change runtime state",
+  "validationLimit": "Public path/configuration and metadata changes were not executed under the source-only, zero-tests instruction; recorded driver pins identify the original qualification source",
+  "report": "docs/official-client-frozen-qualification.md"
+}

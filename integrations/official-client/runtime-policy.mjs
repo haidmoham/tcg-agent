@@ -1,5 +1,5 @@
 // Game-state adaptation and explicitly attributed setup policy. No UI calls.
-export function projectRuntimeMatch(observation, sources, revision) {
+export function projectRuntimeMatch(observation, sources, revision, { printing = card => card.source, definition = source => source } = {}) {
   const match = observation?.match;
   if (!match || !Number.isSafeInteger(revision) || match.operationProcessing || match.menu) throw new Error('runtime-match-not-settled');
   const program = card => {
@@ -7,15 +7,16 @@ export function projectRuntimeMatch(observation, sources, revision) {
     if (!value || value.cardName !== card.name) throw new Error('runtime-visible-card-source-unverified');
     return value;
   };
-  const card = input => { program(input); return { instanceId: input.instanceId, printingId: input.source, category: input.category }; };
+  const card = input => { program(input); return { instanceId: input.instanceId, printingId: printing(input), category: input.category }; };
   const creature = (input, owner) => {
     const source = program(input);
     const printedRetreat = source.retreatCost ?? 0; // CardSource's serialized int default.
     if (!Array.isArray(input.conditions) || typeof input.energy !== 'string' || !/^(?:\{[^}]+\})*$/.test(input.energy)
         || ![input.hp, input.damage, input.currentRetreat, printedRetreat].every(value => Number.isSafeInteger(value) && value >= 0)) throw new Error('runtime-creature-fields-unverified');
-    return { instanceId: input.instanceId, printingId: input.source, definitionId: source.cardSourceID, owner,
+    return { instanceId: input.instanceId, printingId: printing(input), definitionId: definition(source.cardSourceID), owner,
       hp: input.hp, damage: input.damage, providedEnergy: [...input.energy.matchAll(/\{([^}]+)\}/g)].length,
-      currentRetreat: input.currentRetreat, printedRetreat, conditions: input.conditions };
+      currentRetreat: input.currentRetreat, printedRetreat, conditions: input.conditions,
+      ...(input.publicCards ? { publicCards: Object.fromEntries(['energy', 'tools', 'evolutions'].map(key => [key, input.publicCards[key].map(card)])) } : {}) };
   };
   const side = (input, owner) => {
     if (input.active.length > 1 || ![input.prizes, input.deckCount, input.handCount].every(value => Number.isSafeInteger(value) && value >= 0)) throw new Error('runtime-side-fields-unverified');
@@ -27,7 +28,7 @@ export function projectRuntimeMatch(observation, sources, revision) {
     turn: match.isMyTurn ? 'you' : 'opponent', turnNumber: match.turnNumber,
     you: side(match.you, 'you'), opponent: side(match.opponent, 'opponent'), hand: match.you.hand.map(card),
     stadium: [...match.you.stadium, ...match.opponent.stadium][0] ? card([...match.you.stadium, ...match.opponent.stadium][0]) : null,
-    actions: match.actions, prompts: [] };
+    actions: match.actions.map(action => ({ ...action, ...(action.actionKey ? { actionKey: definition(action.actionKey.split('/')[0]) + '/' + action.actionKey.split('/').slice(1).join('/') } : {}) })), prompts: [] };
 }
 
 export function chooseSetupAction(raw) {
