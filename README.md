@@ -6,6 +6,8 @@ Open **[the visual tutorial](tutorial.html)** in a browser. It explains what tra
 
 The optional [checkpoint table](docs/checkpoint-play.md) lets a human play a saved ordinary-action model through the private native worker, with local Indigo card artwork and board styling. Its helper-controlled setup/prompts and learned opponent actions are labeled separately.
 
+[Baseline reproducibility](docs/baseline-reproducibility.md) covers the included authored worker, frozen teacher, exact decks, private prerequisite hashes, setup, generation, training and evaluation commands. [The official-client pilot](docs/official-client-sample.md) records a user-stopped built-in AI integration sample with separate model/helper attribution and no assigned outcome.
+
 ## Run on the desktop
 
 Use Node.js 22 or newer. The measured Windows machine uses Node 24.18.0. There are no package dependencies or install steps.

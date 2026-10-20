@@ -6,7 +6,9 @@ The primary local extension path is now the existing Indigo Live worker and card
 
 ## Local inputs remain local
 
-The worker, dependencies, captured programs, decks and strategy module are private external inputs. None are bundled, downloaded or reconstructed by this command. Their availability does not establish redistribution rights. Keep all paths and configuration in ignored `runs/` and all generated build/tooling files in ignored `.cache/`. Do not copy raw inputs into this public repository.
+For a fresh checkout, use [baseline reproducibility](../../docs/baseline-reproducibility.md). The original worker glue and frozen teacher are now included under `native-source/` and `teacher.mjs`, with byte pins and a setup command. The vendor-derived runtime and captured card/rule programs remain explicitly supplied private prerequisites. The historical external-worker path below is still supported.
+
+The built worker, dependencies and captured programs are local runtime inputs. They are not downloaded or reconstructed by the probe. The included authored source, teacher and exact deck identity arrays permit rebuilding the glue without a sibling task directory. Availability of private programs does not establish redistribution rights. Keep all paths and configuration in ignored `runs/` and all generated build/tooling files in ignored `.cache/`. Do not copy raw private inputs into this public repository.
 
 The supplied bundle must contain exactly eight named, hashed files. The probe verifies the manifest, every input, executable, worker and matching adjacent runtime dependencies before execution. An optional strategy module also requires an exact hash. These are integrity checks on locally selected inputs, not third-party provenance or security certification.
 

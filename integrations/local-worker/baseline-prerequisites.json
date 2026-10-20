@@ -1,0 +1,94 @@
+{
+  "schema": "native-baseline-prerequisites/1",
+  "source": {
+    "repository": "haidmoham/indigo-live",
+    "files": {
+      "Indigo.Live.Engine.csproj": "c688351b3cac57ea1c640b6de948aa6023ac8245c61bb864c3aec7c8a466e572",
+      "NuGet.Config": "b805d73c6f55b2f9d62b9229a7dfcbef7bfeb8f3de4e2e453deb530877a7e5b1",
+      "Program.cs": "53a877bc5f44733b7a7c451ce8c3e4d9fb51376e3e579806c5c24c23bc557c83",
+      "ProgramInputs.cs": "426acaa76b74726d94de7d5daedae82b7670bd940a4c67b4d6a403c4f402f2a3",
+      "MatchWorker.cs": "36f446cc14ec74c7df6d0db627a2befbd4037a29c633b544cffca197991c06b4",
+      "MatchWorker.Offers.cs": "99df8e457c4d4fc3c7fb25b6d3b135eb1938b5b1f7142510b4f99c9da53a73e4",
+      "MatchWorker.Projection.cs": "04af80dc1b7457a019ae1c5c4e237fdda58cb512feda45a2e156904f617d0edd",
+      "MatchWorker.Presentation.cs": "1a1dd04aecdb1585bf1cd752def7034d6268fd1aac450f90b831982abffa7010",
+      "MatchWorker.Selections.cs": "141ab2fad18c314c6114e836ca81e1f6bab926b119d6891eaca2269eaa5fbbf2"
+    },
+    "description": "Original authored worker loading, projection, legal offers, selections and presentation glue; no recovered card effects or vendor implementations"
+  },
+  "teacher": {
+    "file": "integrations/local-worker/teacher.mjs",
+    "sha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+    "description": "Original frozen actor-visible strategic preferences used by baseline collection and evaluation"
+  },
+  "versions": {
+    "node": "24.18.0",
+    "dotnetSdk": "8.0.425",
+    "trainingTorch": "2.5.1+cu121",
+    "trainingCudaRuntime": "12.1",
+    "rehearsedCpuTorch": "2.12.0+cpu",
+    "targetFramework": "net8.0",
+    "minimumNode": 22,
+    "rehearsedCpuPython": "3.12.10",
+    "originalTrainingPythonPatch": null,
+    "originalTransitivePythonLock": null
+  },
+  "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+  "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+  "bundleId": "reconstructed-live-1b806b6bdcd745d9",
+  "privateInputs": [
+    {
+      "role": "reconstructed engine",
+      "bytes": 816640,
+      "sha256": "01e936b0ed9d886e7d3f9b8405653be81ba2371a0f33b5638fe134c8fc7154f5",
+      "path": "MatchLogic.dll"
+    },
+    {
+      "role": "reconstructed data access",
+      "bytes": 153088,
+      "sha256": "b7cb6cc2b16520faf60e3cedbb82106b2aae198bc2a0611ccecdd4504fdb53d6",
+      "path": "CardDatabase.DataAccess.dll"
+    },
+    {
+      "role": "pinned required serialization dependency",
+      "bytes": 658432,
+      "sha256": "e8c8b123a1903ee78ff58e0ef179ea72f924b3247b06cb72c725a72306052304",
+      "path": "Newtonsoft.Json.dll"
+    },
+    {
+      "role": "pinned required clock dependency",
+      "bytes": 7680,
+      "sha256": "10da3ba7edddc4680efbc39028352c5ed4089e58f6d5afdece787e5bc462f4ff",
+      "path": "TimeProvider.dll"
+    },
+    {
+      "role": "captured Base game rules/actions",
+      "bytes": 417760,
+      "sha256": "c01fb0470f1105354f11e5a268a213ab9dbc7bfc01a8fd3e64e3313b998681e5",
+      "path": "gameData.json"
+    },
+    {
+      "role": "38 captured exact-printing CardSources",
+      "bytes": 249104,
+      "sha256": "c0921867b46497adf2ea5773ca579e3e5cb002df65a905b1221cf14c180febe2",
+      "path": "cardData.json"
+    },
+    {
+      "role": "two unchanged 60-card source arrays",
+      "bytes": 8078,
+      "sha256": "b88b1096126bbd711c7df12b641a15d2fb03aee7b708ac0eefc33c2232d9150b",
+      "path": "decks.json"
+    },
+    {
+      "role": "exact mapping/source receipts",
+      "bytes": 196856,
+      "sha256": "2136e77ab8900f4569b8bd6d1e2a12f4f363fa472b165cb922066067064ac482",
+      "path": "printing-joins.json"
+    }
+  ],
+  "privateCorpus": {
+    "cards": 22945,
+    "requiredForBaseline": false,
+    "sha256": "afe7931aab5a6d4f77cdecbb7ae58502dd17fce4695986a348c2b27ebdd6c4ec"
+  },
+  "scope": "Frozen Model1/Model2 two-deck baseline only. Model3 recipe is maintained separately; no weights or raw trajectories included."
+}

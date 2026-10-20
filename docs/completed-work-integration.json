@@ -1,0 +1,52 @@
+{
+  "schema": "completed-work-integration/1",
+  "date": "2026-10-20",
+  "baseMain": "c8a42be583cd7a837ddbffbe88a2ea68c684a0af",
+  "completedSources": [
+    { "tip": "8ef27caaa305337014852ea94720d49c3395ddf6", "work": "checkpoint graphical play and per-checkpoint catalog", "integration": "40b9d6e", "method": "merge" },
+    { "tip": "17be0ef3bc9df8f7112ff587a893587d1e80831f", "work": "actor-safe recorded-decision shadow evaluator", "integration": "67287e4", "method": "merge", "realVideoLabels": 0 },
+    { "tip": "11fb744f5d370a020907c21ba060b3423aafd676", "work": "supervised official-client bridge, offline admission and user-stopped pilot", "integration": "4dfece9", "method": "sanitized squash; private source history not merged" }
+  ],
+  "reproducibility": {
+    "authoredWorkerSourcesIncluded": 9,
+    "frozenTeacherSha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+    "exactBaselineDecks": [60, 60],
+    "privatePrerequisites": "integrations/local-worker/baseline-prerequisites.json",
+    "recipe": "baseline-reproducibility.md",
+    "sourceLineEndings": "preserved by .gitattributes for byte-pinned authored inputs",
+    "weightsPublished": false,
+    "rawDatasetsPublished": false,
+    "model3ReadyClaim": false
+  },
+  "verification": {
+    "node": "24.18.0",
+    "nodeSuite": { "tests": 176, "passed": 174, "failed": 0, "skipped": 2, "skips": ["private checkpoint-play HTTP config absent", "optional public Twinleaf engine unprepared"] },
+    "nodeSuiteCommand": "npm.cmd test",
+    "python": "3.12.10",
+    "pythonTorch": "2.12.0+cpu",
+    "syntheticCpuTrainerTests": { "passed": 13, "failed": 0, "command": "python -m unittest learning.test_native_torch learning.test_train_second -v" },
+    "nativeSetup": { "verifiedPrivateInputs": 8, "dotnetSdk": "8.0.425", "configuration": "Release", "baseBuildWarnings": 0, "baseBuildErrors": 0, "auditedBuildPassed": true, "rebuiltWorkerSha256": "1a6a58913678132e76ef716bb42ace7ada6eb865d0493bb0dc44ca52b50ce32b" },
+    "seededNativeSmoke": { "passed": true, "seed": 1729, "revision": 0, "seatReadChecks": 2, "acceptedGameplayCommands": 0, "aborted": true, "completedNaturally": false, "winner": null },
+    "dryRunBridge": { "passed": true, "authoredFixture": true, "clientActionsSent": 0 },
+    "diagnosedEnvironmentFailure": "Restricted loopback connections returned EACCES; the integrated suite passed with approved loopback execution.",
+    "diagnosedSetupFailure": "Legacy unseeded probe cannot create a seeded audit worker. Reproduction now uses verify-native-baseline.mjs with explicit seed 1729.",
+    "officialClientAttachedOrPlayedDuringIntegration": false,
+    "fullNativeCollectionOrTrainingRepeated": false,
+    "privateGraphicalPlayRepeated": false
+  },
+  "pilotEvidencePreserved": { "modelActionIntents": 12, "helperIntents": 8, "outcome": "user-stopped-incomplete", "winner": null, "trainingExamplesExported": 0, "nextGameAuthorized": false },
+  "exclusions": [
+    "Active codex/training-v3 work including checkpoint 9a28b4f and later moving edits; no Model3 weights, readiness or training claim.",
+    "Vendor-derived native/client binaries, captured card/rule programs, private corpus, artwork, raw screenshots, raw journals, account identifiers and credentials.",
+    "Personal filesystem paths from bridge code and docs; runtime dependencies now require explicit local configuration.",
+    "Historical bridge commits containing unsanitized paths or superseded global-input implementations; only reviewed final authored content is squashed.",
+    "Existing source checkouts, ignored runs, UI servers, Model1/Model2 checkpoints and training worktrees remain untouched."
+  ],
+  "remainingGaps": [
+    "Exact private eight-file reconstructed bundle and manifest must be supplied locally. No certified public stock-client extraction/reconstruction recipe is available.",
+    "Original CUDA training Python patch version and complete transitive dependency lock were not retained; exact bitwise checkpoint reproduction is unverified.",
+    "Baseline full-game collection, CUDA training and fixed checkpoint evaluation were not repeated by this integration.",
+    "Model3 reproducibility recipe remains owned by the active training workstream and is excluded until verified.",
+    "Official-client prompt coverage, natural autonomous completion and competitive strength remain unverified; prior user stop remains in force."
+  ]
+}
