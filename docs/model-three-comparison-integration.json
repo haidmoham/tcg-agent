@@ -1,0 +1,16 @@
+{
+  "schema": "model-three-comparison-integration/1",
+  "date": "2026-10-20",
+  "baseMain": "9e1f9869fb6525ced7ab4c4bd89bd9736a4bcc88",
+  "sourceCommit": "a60ece195cd4ec6660f0a375d3710ac62ebacb81",
+  "sourceBranch": "codex/model3-frozen-evaluation",
+  "included": "Direct eight-game runner, active protocol, clearly superseded 56-game protocol, command documentation and sanitized result report/receipt",
+  "result": { "plannedCases": 8, "modelThreeWins": 4, "modelTwoWins": 1, "timeouts": 3, "fatalErrors": 0, "superiority": "inconclusive" },
+  "privacyRepairs": ["Personal training-directory path replaced with an explicit generic local prerequisite path", "Raw receipts and traces remain in ignored private storage; only metrics and hashes published"],
+  "statusRepairs": ["Current protocol reflects completed eight-case execution and selected checkpoint", "The 56-game proposal is explicitly superseded and is not authorized", "Stale pending-comparison prose now points to the completed report"],
+  "integrationActivity": { "testSuitesRun": 0, "modelWorkloadsRun": 0, "comparisonGamesRun": 0, "sourceAndPrivacyReviewOnly": true, "trainingCheckoutChanged": false, "evaluationCheckoutChanged": false },
+  "preserved": ["Existing Model3/PPO source on main", "Original pilot evidence", "All private model and training artifacts"],
+  "excluded": ["Superseded random-opponent rollout extension from 0b51357; not required by the direct comparison", "Raw receipts, actor views, journals and captures", "Weights and proprietary programs/assets", "Credentials and personal paths"],
+  "reproductionLimits": ["Private prepared configuration, exact native bundle/runtime and all three checkpoints must be supplied explicitly", "The comparison concerns whole policy packages and cannot isolate a PPO-only improvement", "Three timeouts and four seed clusters leave superiority inconclusive"],
+  "safeEvidence": "docs/model-three-head-to-head-result.json"
+}

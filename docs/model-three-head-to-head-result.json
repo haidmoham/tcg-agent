@@ -1,0 +1,253 @@
+{
+  "schema": "model3-model2-direct-comparison-result/1",
+  "trainedCheckpoint": "PPO update-039",
+  "checkpointPins": {
+    "modelThree": "8a2a98a8dad933cf5a1d273d89ccc3e54c99b5ed686edc4238e7b1dd6188828b",
+    "modelTwo": "144180ba472cfe23e405eb7c47448e5c88e8148ac5440c5d38f37a54d7ad690b",
+    "frozenSelection": "6d3a5510e36a17610de6cbd099a3deac5a3efde02181213358b49ecab65afff2"
+  },
+  "trainerSourceRevision": "f0a7f12c57793bf698af60b15600f05dd67b8e08",
+  "comparisonSourceSha256": "76c686b0f1fdb191341995c38e367574d6b66b572e28c75807eaae15dcc42e64",
+  "receiptSha256": "8f555cb0bed2047c23b442293f6b8096b3d8bde24f1275e37dce8b167ce73bbd",
+  "seedManifest": "learning/model-three-frozen-evaluation.json",
+  "identicalExact60BothSides": true,
+  "counts": {
+    "modelThreeWins": 4,
+    "modelTwoWins": 1,
+    "terminalWithoutWinner": 0,
+    "commandTruncations": 0,
+    "timeouts": 3,
+    "cancelled": 0,
+    "fatalErrors": 0,
+    "unattempted": 0
+  },
+  "elapsedSeconds": 756.472,
+  "stopReason": "eight-cases-finished",
+  "cases": [
+    {
+      "modelThreeSeat": "opponent",
+      "modelTwoSeat": "human",
+      "seatOrder": [
+        1,
+        0
+      ],
+      "seed": 94301,
+      "id": "94301-opponent",
+      "status": "completed",
+      "winnerSeat": "opponent",
+      "modelThreeWin": true,
+      "counts": {
+        "modelThreeOrdinary": 34,
+        "modelThreeLearnedSelection": 20,
+        "modelThreeHelper": 13,
+        "modelTwoOrdinary": 35,
+        "modelTwoHelper": 22
+      },
+      "commands": 124,
+      "terminalStateHash": "4c298f44a779d249cf02382c88179d5595613ee6b5dec5efede6c59c930c984f",
+      "journalSha256": "976d1aeb03b345318ffbd2a575f1d2e1ef4afb996fb59927dbe89783520f676a"
+    },
+    {
+      "modelThreeSeat": "human",
+      "modelTwoSeat": "opponent",
+      "seatOrder": [
+        0,
+        1
+      ],
+      "seed": 94301,
+      "id": "94301-human",
+      "status": "capacity-timeout",
+      "reason": "audited episode time budget exhausted",
+      "code": "NATIVE_EPISODE_TIME_BUDGET",
+      "counts": {
+        "modelThreeOrdinary": 63,
+        "modelThreeLearnedSelection": 34,
+        "modelThreeHelper": 10,
+        "modelTwoOrdinary": 50,
+        "modelTwoHelper": 31
+      }
+    },
+    {
+      "modelThreeSeat": "human",
+      "modelTwoSeat": "opponent",
+      "seatOrder": [
+        0,
+        1
+      ],
+      "seed": 94302,
+      "id": "94302-human",
+      "status": "completed",
+      "winnerSeat": "opponent",
+      "modelThreeWin": false,
+      "counts": {
+        "modelThreeOrdinary": 63,
+        "modelThreeLearnedSelection": 33,
+        "modelThreeHelper": 6,
+        "modelTwoOrdinary": 26,
+        "modelTwoHelper": 15
+      },
+      "commands": 143,
+      "terminalStateHash": "30d1b6728313d1a3625899d0c8587743cf5efc3639dbaf162977af3fdef9b20d",
+      "journalSha256": "2e2cccc35f007b9408822cc0a14e8474e41b954ebeb1b30b958d408ea03a6a67"
+    },
+    {
+      "modelThreeSeat": "opponent",
+      "modelTwoSeat": "human",
+      "seatOrder": [
+        1,
+        0
+      ],
+      "seed": 94302,
+      "id": "94302-opponent",
+      "status": "completed",
+      "winnerSeat": "opponent",
+      "modelThreeWin": true,
+      "counts": {
+        "modelThreeOrdinary": 15,
+        "modelThreeLearnedSelection": 6,
+        "modelThreeHelper": 13,
+        "modelTwoOrdinary": 31,
+        "modelTwoHelper": 14
+      },
+      "commands": 79,
+      "terminalStateHash": "f9976e8f11affb5d1a0db84c14bf48ffccbc7627f76574242529a8b78eb19f48",
+      "journalSha256": "daffc0475f75f6a67d1504ae8246b2a2e5fcdaa109bb58518237dbc0ccd7a8ee"
+    },
+    {
+      "modelThreeSeat": "human",
+      "modelTwoSeat": "opponent",
+      "seatOrder": [
+        0,
+        1
+      ],
+      "seed": 94303,
+      "id": "94303-human",
+      "status": "completed",
+      "winnerSeat": "human",
+      "modelThreeWin": true,
+      "counts": {
+        "modelThreeOrdinary": 40,
+        "modelThreeLearnedSelection": 22,
+        "modelThreeHelper": 14,
+        "modelTwoOrdinary": 44,
+        "modelTwoHelper": 22
+      },
+      "commands": 142,
+      "terminalStateHash": "da45298f7e52df3ba86cbc1b4963c0bd598df9dbb719c73dcd302d7e1eb922e0",
+      "journalSha256": "e959e457dff0989030a0296d7131b44069f4b336e89c546dbf6d56dd8e890d88"
+    },
+    {
+      "modelThreeSeat": "opponent",
+      "modelTwoSeat": "human",
+      "seatOrder": [
+        1,
+        0
+      ],
+      "seed": 94303,
+      "id": "94303-opponent",
+      "status": "completed",
+      "winnerSeat": "opponent",
+      "modelThreeWin": true,
+      "counts": {
+        "modelThreeOrdinary": 43,
+        "modelThreeLearnedSelection": 30,
+        "modelThreeHelper": 10,
+        "modelTwoOrdinary": 43,
+        "modelTwoHelper": 27
+      },
+      "commands": 153,
+      "terminalStateHash": "d535956442cf690d33f92c87496c8873fef2b32092880056364fe1e542a72d8e",
+      "journalSha256": "f78f77299df6846594247924bb65bf04bbebea7fd326ad5c239b7ef3a1aaf2d9"
+    },
+    {
+      "modelThreeSeat": "human",
+      "modelTwoSeat": "opponent",
+      "seatOrder": [
+        0,
+        1
+      ],
+      "seed": 94304,
+      "id": "94304-human",
+      "status": "capacity-timeout",
+      "reason": "audited episode time budget exhausted",
+      "code": "NATIVE_EPISODE_TIME_BUDGET",
+      "counts": {
+        "modelThreeOrdinary": 59,
+        "modelThreeLearnedSelection": 37,
+        "modelThreeHelper": 12,
+        "modelTwoOrdinary": 41,
+        "modelTwoHelper": 20
+      }
+    },
+    {
+      "modelThreeSeat": "opponent",
+      "modelTwoSeat": "human",
+      "seatOrder": [
+        1,
+        0
+      ],
+      "seed": 94304,
+      "id": "94304-opponent",
+      "status": "capacity-timeout",
+      "reason": "audited episode time budget exhausted",
+      "code": "NATIVE_EPISODE_TIME_BUDGET",
+      "counts": {
+        "modelThreeOrdinary": 62,
+        "modelThreeLearnedSelection": 37,
+        "modelThreeHelper": 6,
+        "modelTwoOrdinary": 46,
+        "modelTwoHelper": 26
+      }
+    }
+  ],
+  "sourceHashes": {
+    "integrations/local-worker/audit-runner.mjs": "8c32b81c35d6385bd2a212283a03b207efe71f169ef6786be200a76944769c88",
+    "integrations/local-worker/probe.mjs": "10fea302ee9da5ac55f612124d68551f804c94525b170ce727dca449083eb6fe",
+    "integrations/local-worker/policy-view.mjs": "d670acbe05b8b5ba029c4f0b98db34f8bc775919fcc223dcd6f19c4effccec55",
+    "integrations/local-worker/semantic-state.mjs": "3e894864587627344f0dea61d9d4c701dbb8b1091ceb9834f80937d35e6562da",
+    "integrations/local-worker/decision-domain.mjs": "e5e3eeadd32a9178ede9d8496aa1af6c04192969dca1d2cf5795076f3ec1b418",
+    "integrations/local-worker/ppo-model.mjs": "41bf9cbf4ecf0e3e6321545f68522e056ce1aa8bc7b83f5ce55f07d391970944",
+    "integrations/local-worker/card-action-model.mjs": "69be9b263bb6f922b44226e48d6e36c3c0f5dcdff1171550f120ab4ed9d7727e",
+    "integrations/local-worker/learning-model.mjs": "adf20bf1ef6b06eac4095ad63fb9a3030f46d477d81d6480a1b6f94f5bdf5b39",
+    "integrations/local-worker/card-action-policy.mjs": "400ff3781bae7d45f60410504aaa0269368a8ded7f36e024a386cff75a0124c9",
+    "integrations/local-worker/learning-features.mjs": "3b9cf6d3e0f00da4584e5149d808f9ff71b5aa5825beb86aa6dd8cde599ec4ff",
+    "learning/ppo_runtime.py": "1e31689a92eb76767e5d385a8e8f8e11aca989349c636ef42464fe4d223d3fed",
+    "learning/masked_ppo.py": "200a0ba2431d500c1d83c9207be9a63a576a8a6fea981df8b46367b0baa53d46",
+    "learning/card_action_torch.py": "be83687b13d6754f6513b6409b4d16e9e5fde1f8b19d28f09c95c409937f3d07",
+    "learning/native_torch.py": "aeace0cd67856b4b880ae50f553f93632ae8ef000f368d87b1e4a5d7ab47c56c",
+    "learning/card-action-features.mjs": "a3cd76ea299c94bca3ca62721641d5b2d51dbd9c402b97ba3cac8b1eed3a30a7"
+  },
+  "uncertainty": {
+    "independentSeedClusters": 4,
+    "naturallyTerminalGames": 5,
+    "conditionalCompletedWinFraction": 0.8,
+    "missingOutcomeSensitivityWinFraction": [
+      0.5,
+      0.875
+    ],
+    "hoeffding95Radius": 0.6790507578703098,
+    "seedClusterHoeffding95WithMissingOutcomeSensitivity": [
+      0,
+      1
+    ],
+    "interpretation": "The 80% completed-game fraction conditions on finishing and is not an unbiased eight-game win rate. The seed-cluster interval covers [0,1]; three wall timeouts prevent a decisive strength comparison."
+  },
+  "verdict": "inconclusive-superiority-with-favorable-observed-terminal-counts",
+  "startupIncident": {
+    "directory": "runs/model3-vs-model2-final",
+    "gamesAttempted": 0,
+    "reason": "Original Model2 loader admits only its own repository runs directory. Initial launch used trainer client with an evaluation-checkout checkpoint copy.",
+    "repair": "Use evaluation checkout NativeModelClient; client, encoder and Python source bytes match the original trainer sources exactly. Model2 weights and all policies/seeds unchanged."
+  },
+  "privateEvidence": {
+    "directory": "runs/model3-vs-model2-final-r1",
+    "losingGame": "94302-human/journal.json",
+    "allTerminalJournalsRetained": true,
+    "allTimeoutDecisionAndProgressTracesRetained": true
+  },
+  "extraPanels": 0,
+  "testsRunAfterZeroTestDirective": 0,
+  "replacements": 0,
+  "publicEloClaim": false,
+  "limitation": "Whole policy packages differ in card selection: Model3 uses frozen learned BC selection, Model2 uses helpers. This comparison cannot isolate gain caused by PPO experience."
+}
