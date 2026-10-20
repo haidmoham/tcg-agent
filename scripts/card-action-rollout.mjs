@@ -107,6 +107,7 @@ export async function runCardActionRollout(configPath, name, planPath) {
     return { ...value, checkpoint: fixed };
   };
   const modelConfig = fixedConfig(plan.modelConfig, 'student'), opponentConfig = fixedConfig(plan.opponentModelConfig, 'opponent');
+  const selectionConfig = fixedConfig(plan.selectionConfig, 'selection');
   const aliases = modelConfig?.printingAliases ?? plan.printingAliases ?? {};
   for (const path of sourcePaths) {
     const destination = join(output, 'source-snapshot', path); mkdirSync(dirname(destination), { recursive: true });
@@ -138,7 +139,7 @@ export async function runCardActionRollout(configPath, name, planPath) {
   const timer = setTimeout(() => cancel('global-wall-budget'), plan.maximumWallSeconds * 1000);
   const interrupt = () => cancel('operator-interrupted'); process.on('SIGINT', interrupt); process.on('SIGTERM', interrupt);
   async function lane(index) {
-    let model = null, opponent = null;
+    let model = null, opponent = null, selection = null;
     try {
       if (modelConfig) {
         model = plan.modelKind === 'native-v2' ? new NativeModelClient(modelConfig) : new CardActionModelClient(modelConfig);
@@ -148,11 +149,15 @@ export async function runCardActionRollout(configPath, name, planPath) {
         opponent = plan.opponentModelKind === 'card-action' ? new CardActionModelClient(opponentConfig) : new NativeModelClient(opponentConfig);
         models.push(opponent); await opponent.verify();
       }
+      if (selectionConfig) {
+        selection = new CardActionModelClient(selectionConfig);
+        models.push(selection); await selection.verify();
+      }
       while (!cancellation && Date.now() < deadline && nextTask < plan.tasks.length) {
         const task = plan.tasks[nextTask++], directory = join(output, task.id); mkdirSync(directory);
         const recordsPath = join(directory, 'records.jsonl'); writeFileSync(recordsPath, '', { flag: 'wx' });
         const decisions = [], pending = new Map(); let teacherCorrections = 0, modelBehavior = 0, lastProgress = 0;
-        const caseStarted = performance.now(), modelRequestsBefore = model?.requests ?? 0;
+        const caseStarted = performance.now(), modelRequestsBefore = (model?.requests ?? 0) + (selection?.requests ?? 0);
         const teacherBehavior = revision => !model || (plan.mode === 'dagger' && parseInt(hash(`${task.seed}/${revision}`).slice(0, 8), 16) / 0x100000000 < (plan.teacherMix ?? 0));
         let outcome;
         try {
@@ -187,12 +192,13 @@ export async function runCardActionRollout(configPath, name, planPath) {
               if (!expected) throw new Error('teacher has no valid current card-selection answer');
               const prompt = view.prompts[0], labels = (expected.choiceIds ?? []).map(id => prompt.choices.findIndex(choice => choice.id === id));
               if (labels.some(label => label < 0) || new Set(labels).size !== labels.length) throw new Error('teacher label is outside complete visible choices');
-              const fixedSelectionHelper = model && typeof model.rankChoices !== 'function';
-              const useTeacher = fixedSelectionHelper || teacherBehavior(view.revision);
+              const selector = selection ?? model;
+              const fixedSelectionHelper = selector && typeof selector.rankChoices !== 'function';
+              const useTeacher = fixedSelectionHelper || (!selection && teacherBehavior(view.revision));
               pending.set(view.revision, { kind: 'selection', labels, label: labels[0], behaviorSource: fixedSelectionHelper ? 'fixed-helper' : useTeacher ? 'teacher' : 'model' });
               if (useTeacher) return [expected];
               modelBehavior++;
-              return rankedPromptAnswers(view, await model.rankChoices({ view, prompt }));
+              return rankedPromptAnswers(view, await selector.rankChoices({ view, prompt }));
             },
             onAcceptedDecision: ({ seat, view, decision }) => {
               if (seat !== task.policySeat) return;
@@ -214,7 +220,7 @@ export async function runCardActionRollout(configPath, name, planPath) {
           const summary = result.summary, checks = summary.boundaryChecks.filter(value => value.permutedSlots !== undefined);
           if (!summary.completedNaturally || summary.rejected || checks.length !== summary.commands * 2 || !checks.some(value => value.opponentHandExchanged)) throw new Error('native completion/privacy gates failed');
           if (!['human', 'opponent', null].includes(summary.winnerSeat)) throw new Error('unknown native terminal winner');
-          if (model && model.requests - modelRequestsBefore !== modelBehavior) throw new Error('model inference/behavior accounting disagreed');
+          if (model && model.requests + (selection?.requests ?? 0) - modelRequestsBefore !== modelBehavior) throw new Error('model inference/behavior accounting disagreed');
           save(join(directory, 'journal.json'), result.journal);
           const { boundaryChecks, ...native } = summary;
           const game = { ...task, ...native, privacyChecks: checks.length, realHandExchanges: checks.filter(value => value.opponentHandExchanged).length,
@@ -239,7 +245,7 @@ export async function runCardActionRollout(configPath, name, planPath) {
     } catch (error) {
       outcomes.push({ status: 'fatal', phase: 'lane-startup', lane: index, reason: error.message }); cancel('fatal-peer');
     } finally {
-      await reap(sessions[index]); if (model) await model.shutdown(); if (opponent) await opponent.shutdown();
+        await reap(sessions[index]); if (model) await model.shutdown(); if (opponent) await opponent.shutdown(); if (selection) await selection.shutdown();
     }
   }
   try { await Promise.all(Array.from({ length: plan.workers }, (_, index) => lane(index))); }

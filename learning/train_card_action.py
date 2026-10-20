@@ -155,14 +155,32 @@ def save_verified_checkpoint(path, value, model, probe, device):
 
 
 def train(dataset, output, *, device="cuda", seed=1729, updates=2000, max_seconds=180,
-          initial_checkpoint=None, patience=8):
+          initial_checkpoint=None, patience=8, energy_contexts_only=False, learning_rate=0.001):
     if isinstance(updates, bool) or not isinstance(updates, int) or not 1 <= updates <= 5000:
         raise ValueError("updates must be 1 through 5000")
+    if not math.isfinite(learning_rate) or not 0 < learning_rate <= 0.001:
+        raise ValueError("bounded positive learning rate required")
     if not isinstance(max_seconds, (int, float)) or isinstance(max_seconds, bool) or not math.isfinite(max_seconds) or not 0 < max_seconds <= 300:
         raise ValueError("update wall budget must be positive and at most 300 seconds")
     if isinstance(patience, bool) or not isinstance(patience, int) or not 1 <= patience <= 30:
         raise ValueError("patience must be 1 through 30 validation checks")
     training, validation, aliases, provenance = load_dataset(dataset)
+    if energy_contexts_only:
+        def energy_context(item):
+            if item.get("kind") != "ordinary":
+                return False
+            view = item["actorView"]
+            energy_ids = {card["instanceId"] for card in view["hand"] if card.get("category") == "energy"}
+            return any(action.get("kind") == "play" and action.get("sourceCardId") in energy_ids
+                       for action in view["actions"])
+        original_counts = {"train": len(training), "validation": len(validation)}
+        training = [item for item in training if energy_context(item)]
+        validation = [item for item in validation if energy_context(item)]
+        if not training or not validation:
+            raise ValueError("energy contexts required in both whole-game splits")
+        provenance["recordFilter"] = {"kind": "ordinary-with-legal-energy-placement/1",
+            "before": original_counts, "after": {"train": len(training), "validation": len(validation)},
+            "usesEvaluationTracesAsLabels": False}
     selected = configure(device, seed)
     output = Path(output).resolve()
     model_root = model_root_for(output)
@@ -180,7 +198,7 @@ def train(dataset, output, *, device="cuda", seed=1729, updates=2000, max_second
     output.mkdir(parents=True)
     checkpoint = output / "best-model.pt"
     reload_probe = padded_batch(validation[:64], selected, labelled=True)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     generator = torch.Generator().manual_seed(seed)
     permutation, cursor, epochs, examples = [], 0, 0, 0
     best_loss, best_update, stale = math.inf, None, 0
@@ -279,7 +297,7 @@ def train(dataset, output, *, device="cuda", seed=1729, updates=2000, max_second
         "updateTimingScope": "update loop including periodic validation and verified checkpoint writes; excludes imports, dataset load, initial validation and final checks",
         "peakCudaAllocatedBytes": torch.cuda.max_memory_allocated(selected) if gpu_start else None,
         "limits": {"updates": updates, "maximumUpdateSeconds": max_seconds, "batchSize": 64,
-                   "validationEvery": 25, "patience": patience, "learningRate": 0.001},
+                   "validationEvery": 25, "patience": patience, "learningRate": learning_rate},
         "selectionUsesFinalEvaluation": False, "fullStandardClaim": False}
     (output / "receipt.json").write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n")
     config = {"executable": sys.executable, "checkpoint": str(checkpoint), "seed": seed,
@@ -300,9 +318,12 @@ def main():
     parser.add_argument("--max-seconds", type=float, default=180)
     parser.add_argument("--initial-checkpoint")
     parser.add_argument("--patience", type=int, default=8)
+    parser.add_argument("--energy-contexts-only", action="store_true")
+    parser.add_argument("--learning-rate", type=float, default=0.001)
     args = parser.parse_args()
     result = train(args.dataset, args.output, device=args.device, seed=args.seed, updates=args.updates,
-                   max_seconds=args.max_seconds, initial_checkpoint=args.initial_checkpoint, patience=args.patience)
+                   max_seconds=args.max_seconds, initial_checkpoint=args.initial_checkpoint, patience=args.patience,
+                   energy_contexts_only=args.energy_contexts_only, learning_rate=args.learning_rate)
     print(json.dumps({key: result[key] for key in ("completedUpdates", "bestUpdate", "stopReason", "bestValidation", "checkpointSha256")}))
 
 
