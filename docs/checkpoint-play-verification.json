@@ -1,0 +1,52 @@
+{
+  "schema": "checkpoint-play-verification/1",
+  "completedNaturally": true,
+  "humanSeat": "one-step frozen helper assistance",
+  "ordinaryOpponent": "saved checkpoint on CPU",
+  "checks": [
+    "saved-checkpoint-loaded",
+    "repeated-start-idempotent",
+    "invalid-user-action-preserves-game",
+    "invalid-preview-is-nonmutating",
+    "duplicate-click-idempotent",
+    "stale-revision-rejected",
+    "complete-native-game",
+    "checkpoint-ordinary-decisions",
+    "helper-attribution",
+    "terminal-actions-cleared",
+    "fresh-reset",
+    "old-game-click-rejected"
+  ],
+  "humanAssists": 96,
+  "privacyChecks": 2,
+  "terminal": {
+    "winner": "human",
+    "reason": "native game outcome"
+  },
+  "revision": 203,
+  "learnedDecisions": 65,
+  "helperDecisions": 138,
+  "checkpointSha256": "1c405966d9539aca89fdf49413663f327859ece6c74c96b12e4453490062fe43",
+  "tests": {
+    "skipReason": "Optional public Twinleaf preparation is absent.",
+    "skipped": 1,
+    "passed": 125,
+    "failed": 0
+  },
+  "browser": {
+    "remainingHumanDecisions": "Explicitly labeled helper assistance.",
+    "artPrintingsPresent": 25,
+    "artPrintingsTotal": 38,
+    "manualChecks": [
+      "setup preview and submit",
+      "selected-source legal action filtering",
+      "card inspection and Escape preserves source",
+      "Phantom Dive ordinary attack",
+      "native final-counter allocation 6 and 0",
+      "face-down prize selection",
+      "terminal result rendering"
+    ],
+    "missingFaces": "Named printing placeholders; no downloads.",
+    "name": "Chrome"
+  }
+}
