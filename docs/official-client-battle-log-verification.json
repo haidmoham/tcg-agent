@@ -1,0 +1,33 @@
+{
+  "schema": "official-client-battle-log-verification/1",
+  "classification": "synthetic-fixtures-and-source-bound-producer",
+  "checks": {
+    "command": "node --test tests/official-client-battle-log.test.mjs tests/official-client-observation-service.test.mjs",
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "runtimeAgentJavaScriptSyntax": "passed",
+    "observationCliJavaScriptSyntax": "passed",
+    "runtimePythonAstSyntax": "passed"
+  },
+  "storage": {
+    "rawExports": "ignored private cache only",
+    "recordSchema": "official-client-battle-log-record/1",
+    "exportSchema": "official-client-battle-log-export/1",
+    "receiptSchema": "official-client-battle-log-receipt/1",
+    "exportOrderPreserved": true,
+    "fullSnapshotsRetainedOnChanges": true,
+    "inferredStateIncluded": false,
+    "rawHttpRoute": false
+  },
+  "liveActivityForThisExtension": {
+    "processAttachments": 0,
+    "gameLaunches": 0,
+    "inputsSent": 0,
+    "clipboardOperations": 0,
+    "privateAssetsPublished": false,
+    "killMarkersRemoved": false
+  },
+  "remainingBlocker": "Mono export getter projection has source support and syntax checks but has not been exercised in a live scoped session. Compare one export locally with the user export during the next authorized session; no new game is required.",
+  "training": "No training examples or rewards are inferred from export text. Existing interrupted pilot remains outside training and checkpoint selection."
+}

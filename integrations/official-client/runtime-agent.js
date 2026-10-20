@@ -291,6 +291,38 @@ function matchObservation(match) {
   }
   return result;
 }
+function exportableBattleLog() {
+  const match = one(matches, true);
+  const assignable = api('mono_class_is_assignable_from', 'int', ['pointer', 'pointer']);
+  const contract = name => klass('TPCI.RainierClient', '_Rainier.Scripts.BattleLog', name);
+  const phases = contract('IBattleLogPhaseData'), entries = contract('IBattleLogMainEntryData'), subs = contract('IBattleLogSubEntryData');
+  const lines = []; let characters = 0;
+  const append = value => {
+    lines.push(value ?? '');
+    characters += (value ?? '').length + 2;
+    if (lines.length > 10000 || characters > 1024 * 1024) throw new Error('runtime-battle-log-budget');
+  };
+  // Mirrors BattleLogExporter formatting, without calling ExportBattleLog,
+  // touching the clipboard, or reading any other fields on these models.
+  for (const phase of sequence(call(match, 'get_BattleLogExportData'), 5000)) {
+    if (!assignable(phases, objectClass(phase))) continue;
+    const kind = integer(call(phase, 'get_BattlePhase'));
+    append(str(call(phase, [0, 1].includes(kind) ? 'get_PlainTextPhaseTitle' : 'get_PhaseTitle'), 4096));
+    for (const entry of sequence(call(phase, 'get_LogEntries'), 5000)) {
+      if (!assignable(entries, objectClass(entry))) continue;
+      append(str(call(entry, 'get_PlainTextDisplayString'), 4096));
+      for (const sub of sequence(call(entry, 'get_SubEntries'), 5000)) {
+        if (!assignable(subs, objectClass(sub))) continue;
+        append('- ' + (str(call(sub, 'get_PlainTextDisplayString'), 4096) ?? ''));
+        const detail = str(call(sub, 'get_PlainTextSubString'), 4096);
+        if (detail) append('   \u0007 ' + detail);
+      }
+    }
+    append('');
+  }
+  return { schema: 'official-client-battle-log-export/1', source: 'MatchManager.BattleLogExportData', observedAt: Date.now(),
+    matchIdentity: str(call(call(match, 'get_currentMatch'), 'get_matchID')), text: lines.map(line => line + '\r\n').join('') };
+}
 function observe() {
   const manager = one(rainier);
   let screen = null;
@@ -314,6 +346,7 @@ const hook = Interceptor.attach(compile(method(dispatcher, 'Update', 0)), {
     const request = pending; pending = null; clearTimeout(request.timer);
     try {
       if (Date.now() > request.deadline) throw new Error('runtime-request-expired');
+      if (request.op === 'battle_log') return request.accept(exportableBattleLog());
       const before = observe();
       if (request.op === 'observe') return request.accept(before);
       if (!request.id || consumed.has(request.id) || request.expected !== JSON.stringify(before)) throw new Error('runtime-stale-or-reused-action');
@@ -360,9 +393,10 @@ rpc.exports = {
     boundWindow = ptr(windowId); allowTestGame = enableTestGame === true;
     if (resumeOwnedGame === true) { if (!allowTestGame || !offlineGame()) throw new Error('runtime-offline-game-required'); testGameStarted = true; }
     return { schema: 'official-client-runtime-ready/1', processId: Process.id, mainThreadHook: true, inputArmed: false,
+    admittedReadOperations: ['observe', 'battle_log'],
     admittedActions: allowTestGame ? ['open_decks', 'start_test_deck', 'act', 'answer_text', 'answer_entities'] : ['open_decks'], testGameLaunchEnabled: allowTestGame, credentialsAccessed: false }; },
   request(op, id, expected, data) {
-    if (stopped || pending || !['observe', 'open_decks', ...(allowTestGame ? ['start_test_deck', 'act', 'answer_text', 'answer_entities'] : [])].includes(op)) throw new Error('runtime-request-not-admitted');
+    if (stopped || pending || !['observe', 'battle_log', 'open_decks', ...(allowTestGame ? ['start_test_deck', 'act', 'answer_text', 'answer_entities'] : [])].includes(op)) throw new Error('runtime-request-not-admitted');
     return new Promise((accept, reject) => {
       const timer = setTimeout(() => { if (pending?.id === id) pending = null; reject(new Error('runtime-main-thread-timeout')); }, 5000);
       pending = { op, id, expected, data, accept, reject, timer, deadline: Date.now() + 4500 };

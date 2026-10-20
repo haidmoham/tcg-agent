@@ -1,10 +1,11 @@
 import { spawn } from 'node:child_process';
-import { readFile, writeFile, mkdir, access } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, access, realpath } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { resolve, dirname, join, relative, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { recognizeVisibleScreen } from '../integrations/official-client/recognize.mjs';
 import { startObservationService } from '../integrations/official-client/observation-service.mjs';
+import { createBattleLogRecorder } from '../integrations/official-client/battle-log.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const cache = join(root, '.cache');
@@ -16,6 +17,21 @@ const config = JSON.parse(await readFile(privatePath));
 if (!isAbsolute(config.python ?? '') || !isAbsolute(config.powershell ?? '') || !Number.isSafeInteger(config.processId)
     || !Number.isSafeInteger(config.windowId) || config.deckDisplayName !== 'AgentPult') throw new Error('observation-config-invalid');
 await mkdir(cache, { recursive: true });
+let battleLogRecorder = null, readBattleLog = null;
+if (config.battleLogExportFile !== undefined) {
+  const input = resolve(config.battleLogExportFile);
+  const part = relative(cache, input);
+  if (!isAbsolute(config.battleLogExportFile) || !part || part.startsWith('..') || isAbsolute(part)) throw new Error('private-battle-log-input-required');
+  battleLogRecorder = await createBattleLogRecorder(cache, join(cache, `battle-log-${randomUUID()}`));
+  readBattleLog = async () => {
+    const physical = await realpath(input);
+    const physicalPart = relative(await realpath(cache), physical);
+    if (!physicalPart || physicalPart.startsWith('..') || isAbsolute(physicalPart)) throw new Error('private-battle-log-input-required');
+    const bytes = await readFile(physical);
+    if (bytes.length > 2 * 1024 * 1024) throw new Error('battle-log-input-budget');
+    return battleLogRecorder.record(JSON.parse(bytes));
+  };
+}
 const ocr = spawn(config.python, [join(root, 'scripts/official-client-ocr.py'), '--serve'],
   { cwd: root, windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] });
 let buffer = '', pending, sequence = 0, closed = false;
@@ -83,9 +99,9 @@ let service;
 async function close() { closed = true; rejectPending(); ocr.kill(); for (const child of children) child.kill(); }
 try {
   await request('ping');
-  service = await startObservationService({ observe, close });
+  service = await startObservationService({ observe, readBattleLog, close });
   await writeFile(join(cache, 'observation-service.json'), JSON.stringify({ schema: 'official-client-observation-service/1', url: service.url, processId: process.pid }));
   process.stdout.write(`${JSON.stringify({ service: service.url, inputsEnabled: false, lifespanMs: 120000, maxObservations: 60 })}\n`);
   process.once('SIGINT', () => service.stop()); process.once('SIGTERM', () => service.stop());
   await service.finished;
-} finally { await close(); }
+} finally { await close(); await battleLogRecorder?.close(); }

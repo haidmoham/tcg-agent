@@ -58,6 +58,23 @@
     "activeTrainingOrOfficialClientProcessesChanged": false,
     "laterBridgeLoggingWorkIncluded": false
   },
+  "battleLogFollowup": {
+    "date": "2026-10-20",
+    "sourceCommit": "ed82750e9d142339453c9b8a0a3e097a58fab447",
+    "sourceBase": "11fb744f5d370a020907c21ba060b3423aafd676",
+    "method": "Reviewed delta applied to sanitized main; earlier private bridge history not merged",
+    "focusedFixtureChecks": { "passed": 9, "failed": 0, "skipped": 0 },
+    "integratedNodeSuite": { "tests": 181, "passed": 179, "failed": 0, "skipped": 2 },
+    "runtimeSyntaxChecksPassed": true,
+    "pilotReceiptPreservedGitBlob": "42358fb8232eee5c36dfd22fb7ff13c4a9c0834a",
+    "rawLogsPublished": false,
+    "vendorPayloadsPublished": false,
+    "processAttachments": 0,
+    "gameLaunches": 0,
+    "liveGetterVerified": false,
+    "remainingBlocker": "Source-bound Mono export getter still requires comparison with the ordinary user export in a separately authorized scoped session. Fixture checks do not establish live integration compatibility.",
+    "activeModel3WorkIncluded": false
+  },
   "exclusions": [
     "Active codex/training-v3 work including checkpoint 9a28b4f and later moving edits; no Model3 weights, readiness or training claim.",
     "Vendor-derived native/client binaries, captured card/rule programs, private corpus, artwork, raw screenshots, raw journals, account identifiers and credentials.",

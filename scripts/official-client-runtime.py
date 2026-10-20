@@ -8,6 +8,7 @@ from pathlib import Path
 import queue
 import re
 import sys
+import tempfile
 import threading
 import time
 
@@ -25,7 +26,26 @@ def main():
     parser.add_argument('--permit-input-probe', action='store_true')
     parser.add_argument('--supervised-test-game', action='store_true')
     parser.add_argument('--resume-owned-test-game', action='store_true')
+    parser.add_argument('--battle-log-output', type=Path)
     args = parser.parse_args()
+    log_output = None
+    if args.battle_log_output:
+        log_output = args.battle_log_output.resolve()
+        if not log_output.is_relative_to((ROOT / '.cache').resolve()) or log_output.suffix != '.json' or not log_output.parent.is_dir():
+            raise ValueError('runtime-private-battle-log-output-required')
+    def save_battle_log(value):
+        if not log_output or value.get('schema') != 'official-client-battle-log-export/1' or not isinstance(value.get('matchIdentity'), str):
+            raise ValueError('runtime-private-battle-log-output-required')
+        export = {key: value[key] for key in ('schema', 'source', 'observedAt', 'text')}
+        export['matchIdSha256'] = hashlib.sha256(value['matchIdentity'].encode()).hexdigest()
+        if len(export['text'].encode()) > 1024 * 1024:
+            raise ValueError('runtime-battle-log-budget')
+        with tempfile.NamedTemporaryFile(mode='w', dir=log_output.parent, suffix='.json', encoding='utf-8', delete=False) as handle:
+            temporary = Path(handle.name)
+            json.dump(export, handle, ensure_ascii=False)
+        temporary.replace(log_output)
+        return {'schema': 'official-client-battle-log-written/1', 'observedAt': export['observedAt'],
+                'textSha256': hashlib.sha256(export['text'].encode()).hexdigest(), 'rawTextIncluded': False}
     if args.resume_owned_test_game:
         attempt = json.loads((ROOT / '.cache/official-client-test-game-attempt.json').read_text(encoding='utf-8'))
         if not args.supervised_test_game or attempt.get('mode') != 'provided-ai' or time.time() - attempt.get('startedAt', 0) > 3600:
@@ -102,10 +122,12 @@ def main():
             if op == 'close':
                 emit({'id': request_id, 'ok': True, 'closed': True})
                 break
-            admitted = ('observe', 'open_decks', 'start_test_deck', 'act', 'answer_text', 'answer_entities') if args.supervised_test_game else ('observe', 'open_decks')
+            admitted = ('observe', 'battle_log', 'open_decks', 'start_test_deck', 'act', 'answer_text', 'answer_entities') if args.supervised_test_game else ('observe', 'battle_log', 'open_decks')
             if op not in admitted or set(request) - {'id', 'op', 'expected', 'armed', 'step', 'data'}:
                 raise ValueError('runtime-request-not-admitted')
-            action = op != 'observe'
+            if op == 'battle_log' and not log_output:
+                raise ValueError('runtime-private-battle-log-output-required')
+            action = op not in ('observe', 'battle_log')
             check(action)
             if action and (request.get('armed') is not True or request.get('step') != request_id
                            or not last_hash or request.get('expected') != last_hash):
@@ -115,12 +137,16 @@ def main():
             expected = json.dumps(last, separators=(',', ':'), ensure_ascii=False) if action else None
             result = script.exports_sync.request(op, request_id, expected, request.get('data'))
             check()
-            if not action:
+            if op == 'battle_log':
+                result = save_battle_log(result)
+            elif not action:
                 last = result
                 last_hash = hashlib.sha256(json.dumps(result, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
             else:
                 last = None
                 last_hash = None
+            if op == 'observe' and log_output:
+                save_battle_log(script.exports_sync.request('battle_log', str(request_id) + '-log', None, None))
             emit({'id': request_id, 'ok': True, 'snapshotHash': last_hash, 'result': result})
     except Exception as error:
         # Never include arbitrary foreign exception messages or raw client objects.

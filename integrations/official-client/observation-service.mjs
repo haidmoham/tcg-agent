@@ -1,4 +1,5 @@
 import { createServer } from 'node:http';
+import { summarizeBattleLog } from './battle-log.mjs';
 
 export function summarizeObservation(value, now = Date.now(), maxAgeMs = 5000) {
   const { receipt, recognized } = value ?? {};
@@ -17,14 +18,14 @@ export function summarizeObservation(value, now = Date.now(), maxAgeMs = 5000) {
       target: control.target, expectedScreen: control.expectedScreen })) };
 }
 
-export async function startObservationService({ observe, close = async () => {}, intervalMs = 2000,
+export async function startObservationService({ observe, readBattleLog = null, close = async () => {}, intervalMs = 2000,
   lifespanMs = 120000, maxObservations = 60, maxAgeMs = 5000, port = 0 }) {
-  if (typeof observe !== 'function' || typeof close !== 'function' || !Number.isInteger(intervalMs) || intervalMs < 100
+  if (typeof observe !== 'function' || (readBattleLog !== null && typeof readBattleLog !== 'function') || typeof close !== 'function' || !Number.isInteger(intervalMs) || intervalMs < 100
       || !Number.isInteger(lifespanMs) || lifespanMs < 100 || lifespanMs > 600000
       || !Number.isInteger(maxObservations) || maxObservations < 1 || maxObservations > 300
       || !Number.isInteger(maxAgeMs) || maxAgeMs < 1 || maxAgeMs > 10000
       || !Number.isInteger(port) || port < 0 || port > 65535) throw new Error('observation-service-options-invalid');
-  let latest = null, error = null, count = 0, stopped = false, timer, expires, inFlight;
+  let latest = null, error = null, latestLog = null, count = 0, stopped = false, timer, expires, inFlight;
   const server = createServer((request, response) => {
     response.setHeader('Cache-Control', 'no-store');
     response.setHeader('Content-Type', 'application/json');
@@ -36,6 +37,11 @@ export async function startObservationService({ observe, close = async () => {},
       return reply(405, { error: 'read-only-service' });
     if (request.url === '/health') return reply(200, { schema: 'official-client-observation-service/1',
       status: error ? 'capture-blocked' : latest ? 'observing' : 'starting', count, inputsEnabled: false });
+    if (request.url === '/battle-log') {
+      if (!readBattleLog) return reply(200, { schema: 'official-client-battle-log-receipt/1', status: 'disabled', inputsEnabled: false });
+      try { const value = summarizeBattleLog(latestLog, Date.now(), maxAgeMs); return reply(value.stale ? 503 : 200, value); }
+      catch { return reply(503, { error: 'battle-log-unavailable', inputsEnabled: false }); }
+    }
     if (request.url !== '/observation') return reply(404, { error: 'route-unavailable' });
     if (!latest || error) return reply(503, { error: 'observation-unavailable', inputsEnabled: false });
     try {
@@ -58,9 +64,15 @@ export async function startObservationService({ observe, close = async () => {},
   async function poll() {
     if (stopped) return;
     count++;
-    inFlight = Promise.resolve().then(observe);
-    try { const value = await inFlight; summarizeObservation(value); latest = value; error = null; }
-    catch { latest = null; error = 'capture-unavailable'; }
+    inFlight = Promise.resolve().then(async () => {
+      try { const value = await observe(); summarizeObservation(value); latest = value; error = null; }
+      catch { latest = null; error = 'capture-unavailable'; }
+      if (readBattleLog) {
+        try { const value = await readBattleLog(); summarizeBattleLog(value); latestLog = value; }
+        catch { latestLog = null; }
+      }
+    });
+    await inFlight;
     if (stopped) return;
     if (count >= maxObservations) { await stop(); return; }
     timer = setTimeout(poll, intervalMs);
