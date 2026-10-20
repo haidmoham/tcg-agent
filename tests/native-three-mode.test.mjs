@@ -5,7 +5,7 @@ import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'nod
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
-import { compareNativeModes, referencesForThreeModeComparison, summarizeThreeModeSessions } from '../integrations/local-worker/three-mode-comparison.mjs';
+import { compareNativeModes, referencesForThreeModeComparison, summarizeThreeModeSessions, threeModeOrder } from '../integrations/local-worker/three-mode-comparison.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const native = { buildConfiguration: 'Release', workerSha256: 'worker', executableSha256: 'runtime', manifestSha256: 'data', policySha256: 'policy', projectionCopyMode: 'native' };
@@ -14,6 +14,23 @@ const candidate = { ...native, projectionCopyMode: 'projection-turn-v1' };
 const cases = () => ['short', 'developed'].map((id, seed) => ({ id, journal: { header: { ...native, seed, deckHashes: ['a', 'b'] },
   frames: [{ snapshotHash: id, actorHashes: { human: 'one', opponent: 'two' }, emittedSeeds: [seed] }],
   commands: [{ seat: 'human', decision: { actionId: 'r0/action/0' } }] } }));
+
+test('five-session schedule balances every pair and every execution position', () => {
+  const sides = ['native', 'previous', 'candidate'];
+  assert.equal(threeModeOrder.length, 5);
+  for (const row of threeModeOrder) assert.deepEqual([...row].sort(), [...sides].sort());
+  for (const [index, left] of sides.entries()) {
+    for (const right of sides.slice(index + 1)) {
+      const before = threeModeOrder.filter(row => row.indexOf(left) < row.indexOf(right)).length;
+      assert.ok(before === 2 || before === 3, `${left}/${right} order is biased`);
+    }
+    for (let position = 0; position < 3; position++) {
+      const count = threeModeOrder.filter(row => row[position] === left).length;
+      assert.ok(count === 1 || count === 2, `${left} execution position is biased`);
+    }
+  }
+  assert.throws(() => threeModeOrder[0].reverse(), TypeError);
+});
 
 test('three-mode references preserve every frame and command while retargeting explicit modes', () => {
   const original = cases(), preserved = structuredClone(original);

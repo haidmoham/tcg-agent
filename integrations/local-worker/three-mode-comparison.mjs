@@ -4,13 +4,13 @@ import { referenceForCopyMode } from './copy-comparison.mjs';
 import { benchmarkNativeWarm, proveNativeWarm, validateWarmCases } from './warm-benchmark.mjs';
 import { summarizeWarmSessions } from './warm-comparison.mjs';
 
-const order = [
+export const threeModeOrder = Object.freeze([
   ['native', 'previous', 'candidate'],
-  ['previous', 'candidate', 'native'],
+  ['candidate', 'previous', 'native'],
+  ['previous', 'native', 'candidate'],
   ['candidate', 'native', 'previous'],
-  ['native', 'previous', 'candidate'],
-  ['previous', 'candidate', 'native'],
-];
+  ['native', 'candidate', 'previous'],
+].map(row => Object.freeze(row)));
 
 export function referencesForThreeModeComparison(native, previous, candidate, cases) {
   const configs = { native, previous, candidate };
@@ -52,7 +52,7 @@ export async function compareNativeModes(native, previous, candidate, cases, { o
   for (const [index, pairs] of [[1, [1, 2, 3]], [2, [4, 5]]]) {
     const blockStarted = performance.now(), timestamp = new Date().toISOString();
     for (const pair of pairs) {
-      for (const side of order[pair - 1]) {
+      for (const side of threeModeOrder[pair - 1]) {
         const remaining = Math.min(180, Math.floor((900_000 - (performance.now() - blockStarted)) / 1000));
         if (remaining < 1) throw new Error(`three-mode measurement block ${index} budget exhausted`);
         const report = await benchmarkNativeWarm(configs[side], references[side],
@@ -63,8 +63,8 @@ export async function compareNativeModes(native, previous, candidate, cases, { o
     }
     blocks.push({ block: index, pairs, timestamp, budgetSeconds: 900, elapsedMilliseconds: performance.now() - blockStarted });
   }
-  return { schema: 'native-three-mode-comparison-v1', timestamp: new Date().toISOString(), fullStandardClaim: false,
-    pairs: 5, sessions: 15, concurrency: 1, order, blocks, buildConfiguration: 'Release', proofBudgetSeconds: 900, maxSecondsPerSession: 180,
+  return { schema: 'native-three-mode-comparison-v2', timestamp: new Date().toISOString(), fullStandardClaim: false,
+    pairs: 5, sessions: 15, concurrency: 1, order: threeModeOrder, blocks, buildConfiguration: 'Release', proofBudgetSeconds: 900, maxSecondsPerSession: 180,
     endpoint: 'both contrasts use the ratio of side medians of the same two-game warm suite; the same five candidate sessions appear in both contrasts',
     includes: 'each measured game includes fresh worker-object reset, seeded setup, all fixed commands, native legal enumeration and compact projections',
     excludes: 'timed suite excludes process startup, one verified warm-up game and terminal audit verification; raw receipts retain all session and warm-up costs; no policy inference or disk writes inside a game',

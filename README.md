@@ -35,6 +35,8 @@ The [native copy experiment](docs/native-copy-optimization.md) preserves fresh d
 
 The [native performance campaign](docs/native-performance-hillclimb.md) adds complete warm games in one retained process, guarded fresh match objects, Release A/B comparisons, command latency and allocation counters. Reset replay preserves all 422 checked frames across four games. A typed-scalar experiment rejected a tempting token cache before production use.
 
+The accepted native optimizations share immutable projection input and avoid copies for proposals necessarily rejected by the pinned turn rules. Every remaining validation receives a fresh graph. Repeated direct native controls, reverted candidates and the unmet 2x working target are recorded in the campaign document. These fixture measurements do not establish training throughput or close the Standard coverage gates.
+
 ```sh
 npm run engine:prepare
 npm run engine:smoke

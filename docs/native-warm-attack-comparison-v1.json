@@ -4818,5 +4818,6 @@
     },
     "speedup": 1.7035477638469658
   },
+  "acceptedControlStatus": "provisional pending alternating direct confirmation; native/previous order was 3:2, incremental previous/candidate order was 4:1; substantial drift limits attribution",
   "additionalConformance": "Attack primary native-oracle and frame proof passed. Long and hidden-information audits were not run because timing rejected this candidate."
 }
