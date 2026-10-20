@@ -27,6 +27,7 @@ def main():
     parser.add_argument('--supervised-test-game', action='store_true')
     parser.add_argument('--resume-owned-test-game', action='store_true')
     parser.add_argument('--battle-log-output', type=Path)
+    parser.add_argument('--battle-log-terminal-only', action='store_true', help='Write exports only on explicit battle_log reads; preserve ordinary observe behavior')
     args = parser.parse_args()
     log_output = None
     if args.battle_log_output:
@@ -38,6 +39,24 @@ def main():
             raise ValueError('runtime-private-battle-log-output-required')
         export = {key: value[key] for key in ('schema', 'source', 'observedAt', 'text')}
         export['matchIdSha256'] = hashlib.sha256(value['matchIdentity'].encode()).hexdigest()
+        reason = value.get('terminalReason')
+        if reason is not None:
+            if not isinstance(reason, dict) or reason.get('schema') != 'official-client-terminal-reason/1' or reason.get('source') != 'BattleOutro.ShowMatchResultOverlay':
+                raise ValueError('runtime-terminal-reason-invalid')
+            observed_at = reason.get('observedAt')
+            if (reason.get('status') not in ('unknown', 'observed') or type(reason.get('terminalObserved')) is not bool
+                    or not (reason.get('localWon') is None or type(reason['localWon']) is bool)
+                    or not (observed_at is None or (type(observed_at) is int and 0 < observed_at <= int(time.time() * 1000)))
+                    or any(reason.get(key) is not None and (not isinstance(reason[key], str) or len(reason[key]) > limit or '\0' in reason[key])
+                           for key, limit in (('reasonLocId', 512), ('text', 2048)))
+                    or (reason['terminalObserved'] and (observed_at is None or reason.get('localWon') is None))
+                    or (reason['status'] == 'observed' and (not reason['terminalObserved'] or not (reason.get('reasonLocId') or reason.get('text'))))):
+                raise ValueError('runtime-terminal-reason-invalid')
+            export['terminalReason'] = {key: reason.get(key) for key in ('schema', 'source', 'status', 'terminalObserved', 'observedAt', 'localWon', 'reasonLocId', 'text')}
+        if 'capturePhase' in value:
+            if value['capturePhase'] not in ('live-ui-read', 'terminal-ui-read', 'terminal-ui-presentation-cache'):
+                raise ValueError('runtime-battle-log-phase-invalid')
+            export['capturePhase'] = value['capturePhase']
         if len(export['text'].encode()) > 1024 * 1024:
             raise ValueError('runtime-battle-log-budget')
         with tempfile.NamedTemporaryFile(mode='w', dir=log_output.parent, suffix='.json', encoding='utf-8', delete=False) as handle:
@@ -45,7 +64,8 @@ def main():
             json.dump(export, handle, ensure_ascii=False)
         temporary.replace(log_output)
         return {'schema': 'official-client-battle-log-written/1', 'observedAt': export['observedAt'],
-                'textSha256': hashlib.sha256(export['text'].encode()).hexdigest(), 'rawTextIncluded': False}
+                'textSha256': hashlib.sha256(export['text'].encode()).hexdigest(), 'rawTextIncluded': False,
+                'finalReasonObserved': export.get('terminalReason', {}).get('status') == 'observed'}
     if args.resume_owned_test_game:
         attempt = json.loads((ROOT / '.cache/official-client-test-game-attempt.json').read_text(encoding='utf-8'))
         if not args.supervised_test_game or attempt.get('mode') != 'provided-ai' or time.time() - attempt.get('startedAt', 0) > 3600:
@@ -145,7 +165,7 @@ def main():
             else:
                 last = None
                 last_hash = None
-            if op == 'observe' and log_output:
+            if op == 'observe' and log_output and not args.battle_log_terminal_only:
                 save_battle_log(script.exports_sync.request('battle_log', str(request_id) + '-log', None, None))
             emit({'id': request_id, 'ok': True, 'snapshotHash': last_hash, 'result': result})
     except Exception as error:

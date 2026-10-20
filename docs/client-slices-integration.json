@@ -1,0 +1,35 @@
+{
+  "schema": "official-client-slices-integration/1",
+  "date": "2026-10-20",
+  "baseMain": "3ae0ee989fa08ec4c8dbf1087893a3dcb8b4b0aa",
+  "sourceCommits": {
+    "decisionRecording": "92c76894075caf9820c9456f55e82aa54e5e3c26",
+    "model5ViewingAdapter": "c5bdbaccbb7f4821341630862e1275013337ee4e",
+    "model5ViewingReport": "1e95c64d5d8e38ea90a1e47b9dbde4569ac1c6d3",
+    "sqliteHistory": "f67e17c621c99d421da4f592b1931ee3ea0fd964",
+    "diagnosticOverlay": "f05b893c368d57489184c71dd9249b2ae2ba4c80"
+  },
+  "method": "Apply the shared logging/viewing/history dependency chain once and the independent overlay delta once; publish one reviewed source snapshot without duplicating shared changes or importing original branch history",
+  "frozenViewingDependencies": {
+    "sourceRevision": "8ea9642aca92632bbdf30b040cb260c53a40a272",
+    "authoredFiles": 7,
+    "manifest": "integrations/official-client/model5-frozen-source/manifest.json",
+    "byteIdenticalToOriginalGitBlobs": true,
+    "activeTrainerMerged": false
+  },
+  "publicationChanges": [
+    "Replace personal Python executable path with pythonw.exe and an explicit local override",
+    "Omit the local viewing game identifier from the public report",
+    "Bundle only the exact seven frozen authored loader dependencies and add a hash-checked preparation option",
+    "Link historical preparation statements to the later completed viewing evidence and preserve stopped-state guidance"
+  ],
+  "existingEvidence": {
+    "viewingReceiptReadOnly": { "games": 1, "outcome": "win", "elapsedSeconds": 719.51, "ordinaryDecisions": 46, "selectionDecisions": 21, "helperDecisions": 8, "rejectedActions": 0, "recordingComplete": true, "inputStopped": true },
+    "historyReadbackDocumentedBySourceOwner": { "games": 7, "allAiTests": true, "decisionRows": 507, "cleanAiOutcomes": 3, "repeatImportsIdempotent": true, "sqliteIntegrity": "ok", "trainingEligibleDecisions": 0, "notRerunDuringIntegration": true },
+    "overlayReceiptReadOnly": { "foregroundPreserved": true, "nonactivatingWindowStylesRecorded": true, "privateCapturesNotPublished": true }
+  },
+  "integrationActivity": { "unitTestSuitesRun": 0, "modelLoadsOrInference": 0, "trainingJobs": 0, "gamesRun": 0, "runtimeClientActions": 0, "overlayLaunches": 0, "databaseOpensOrWrites": 0, "sourceAndExistingReceiptReviewOnly": true, "originalWorktreesAndProcessesChanged": false },
+  "exclusions": ["Live SQLite database and WAL/SHM sidecars", "Raw game records/journals/observations/decisions/exports", "Private screenshots and runtime receipts", "Datamine/vendor binaries/assets and generated catalog", "Weights and private model/runtime configs", "Credentials, account data, personal paths and local game identifiers", "Active Model5/Model6 trainer changes and experiments"],
+  "limits": ["No gameplay qualification or native-to-Live parity claim", "Terminal reason remains unknown for the recorded Model5 game", "Recorded client decisions remain training-ineligible pending semantic verification and admission", "Ranked mode schema does not implement ranked queue discovery or authorize ranked play", "Bundled-source preparation and generic Python launcher changes were not executed during this source-only integration", "Existing private prerequisites and installed runtimes remain required"],
+  "reports": ["docs/official-client-history.md", "docs/official-client-model5-viewing.md", "docs/official-client-decision-recording.md", "docs/diagnostic-overlay.md"]
+}

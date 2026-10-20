@@ -1,0 +1,16 @@
+{
+  "schema": "official-client-model5-frozen-source/1",
+  "sourceRevision": "8ea9642aca92632bbdf30b040cb260c53a40a272",
+  "checkpointSha256": "e439671126e727344fb92fc2d304a967f85fe56d5ac1a4aaa9b0f12b8c9d9607",
+  "contractSha256": "3c602ee4e28bc020763d5e375d818c634ba6867662522a5d410116661481f921",
+  "sourceSha256": {
+    "integrations/local-worker/entity-model.mjs": "507e5ccafd8862b2d3723558471a9e8b70a2299db572e7a6a954e819ecf35dc4",
+    "integrations/local-worker/policy-view.mjs": "e72ee44ccb14856962c4416409801c8d09745ce1196a749c72cbe0b68db8cbc2",
+    "integrations/local-worker/card-action-policy.mjs": "400ff3781bae7d45f60410504aaa0269368a8ded7f36e024a386cff75a0124c9",
+    "learning/entity-features.mjs": "b5a13991d678539ca588ebd3d2b8bb6155b4140d058e92858beb0f98b917396f",
+    "learning/entity-contract.json": "d905a52c901fe95ba53b2bcac9a4df725a85717394f2c0a19132dd59850e61a2",
+    "learning/entity_torch.py": "9787d1c9178b6a94e368ec31d4c817b6a2f1016b35b31eacd9ae122f5db31e91",
+    "learning/card_action_torch.py": "be83687b13d6754f6513b6409b4d16e9e5fde1f8b19d28f09c95c409937f3d07"
+  },
+  "scope": "Seven authored frozen viewing dependencies only; no training pipeline, catalog, weights or private assets"
+}

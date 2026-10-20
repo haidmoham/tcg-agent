@@ -5,6 +5,19 @@ import { resolve, dirname } from 'node:path';
 const hash = value => createHash('sha256').update(value).digest('hex');
 const digest = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
 const sources = new Set(['MatchManager.BattleLogExportData', 'user-exported-battle-log', 'synthetic-fixture']);
+const capturePhases = new Set(['live-ui-read', 'terminal-ui-read', 'terminal-ui-presentation-cache']);
+
+function normalizeTerminalReason(value, now) {
+  if (value?.schema !== 'official-client-terminal-reason/1' || value.source !== 'BattleOutro.ShowMatchResultOverlay'
+      || !['unknown', 'observed'].includes(value.status) || typeof value.terminalObserved !== 'boolean'
+      || !(value.localWon === null || typeof value.localWon === 'boolean')
+      || !(value.observedAt === null || (Number.isSafeInteger(value.observedAt) && value.observedAt > 0 && value.observedAt <= now))
+      || ![ ['reasonLocId', 512], ['text', 2048] ].every(([key, limit]) => value[key] === null
+        || (typeof value[key] === 'string' && value[key].length <= limit && !value[key].includes('\0')))
+      || (value.terminalObserved && (value.observedAt === null || value.localWon === null))
+      || (value.status === 'observed' && (!value.terminalObserved || !(value.reasonLocId || value.text)))) throw new Error('battle-log-terminal-reason-invalid');
+  return Object.fromEntries(['schema', 'source', 'status', 'terminalObserved', 'observedAt', 'localWon', 'reasonLocId', 'text'].map(key => [key, value[key]]));
+}
 
 export function normalizeBattleLog(value, now = Date.now()) {
   if (value?.schema !== 'official-client-battle-log-export/1' || !sources.has(value.source)
@@ -13,9 +26,12 @@ export function normalizeBattleLog(value, now = Date.now()) {
       || Buffer.byteLength(value.text) > 1024 * 1024) throw new Error('battle-log-export-invalid');
   const text = value.text.replace(/\r\n/g, '\n');
   if (text.split('\n').length > 10000) throw new Error('battle-log-line-budget');
+  if (value.capturePhase !== undefined && !capturePhases.has(value.capturePhase)) throw new Error('battle-log-capture-phase-invalid');
   return { schema: value.schema, source: value.source, observedAt: value.observedAt,
     evidence: value.source === 'synthetic-fixture' ? 'synthetic-fixture' : 'observed-export-text',
-    matchIdSha256: value.matchIdSha256, text, textSha256: hash(text) };
+    matchIdSha256: value.matchIdSha256, text, textSha256: hash(text),
+    ...(value.terminalReason !== undefined ? { terminalReason: normalizeTerminalReason(value.terminalReason, now) } : {}),
+    ...(value.capturePhase !== undefined ? { capturePhase: value.capturePhase } : {}) };
 }
 
 export function summarizeBattleLog(value, now = Date.now(), maxAgeMs = 5000) {
@@ -53,7 +69,8 @@ export async function createBattleLogRecorder(privateRoot, directory) {
       const value = normalizeBattleLog(input); // Whitelist/copy before queuing.
       const pending = queue.then(async () => {
         if (latest && value.observedAt < latest.observedAt) throw new Error('battle-log-observation-regressed');
-        if (latest && value.matchIdSha256 === latest.matchIdSha256 && value.textSha256 === latest.textSha256 && value.source === latest.source) {
+        if (latest && value.matchIdSha256 === latest.matchIdSha256 && value.textSha256 === latest.textSha256 && value.source === latest.source
+            && value.capturePhase === latest.capturePhase && JSON.stringify(value.terminalReason) === JSON.stringify(latest.terminalReason)) {
           latest = value; await saveReceipt(); return receipt();
         }
         const record = { ...value, schema: 'official-client-battle-log-record/1', exportSchema: value.schema,
@@ -67,6 +84,6 @@ export async function createBattleLogRecorder(privateRoot, directory) {
       queue = pending.catch(() => {});
       return pending;
     },
-    async close() { if (closed) return; closed = true; await queue; await journal.sync(); await journal.close(); }
+    async close() { if (closed) return; closed = true; try { await queue; await journal.sync(); } finally { await journal.close(); } }
   };
 }
