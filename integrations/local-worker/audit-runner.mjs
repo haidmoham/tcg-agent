@@ -10,10 +10,10 @@ import { collectLegalAnswers } from './decision-domain.mjs';
 
 const digest = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 
-export async function runAuditedEpisode(config, { seed = 1729, replay = null, extraReads = 0, boundaryEvery = 0, seatOrder = [0, 1], maxCommands = 1000, maxSeconds = 120, onFrame = () => {}, session = null, decideOrdinary = null, onAcceptedDecision = () => {}, strictCommands = false, measureProcess = null } = {}) {
-  if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff || !Number.isSafeInteger(maxCommands) || maxCommands < 1 || maxCommands > 2000 || !Number.isSafeInteger(maxSeconds) || maxSeconds < 1 || maxSeconds > 180 || !Number.isSafeInteger(extraReads) || extraReads < 0 || extraReads > 4) throw new TypeError('invalid audited episode budget');
+export async function runAuditedEpisode(config, { seed = 1729, replay = null, extraReads = 0, boundaryEvery = 0, seatOrder = [0, 1], maxCommands = 1000, maxSeconds = 120, onFrame = () => {}, session = null, decideOrdinary = null, decidePrompt = null, onAcceptedDecision = () => {}, strictCommands = false, measureProcess = null } = {}) {
+  if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff || !Number.isSafeInteger(maxCommands) || maxCommands < 1 || maxCommands > 2000 || !Number.isSafeInteger(maxSeconds) || maxSeconds < 1 || maxSeconds > 360 || !Number.isSafeInteger(extraReads) || extraReads < 0 || extraReads > 4) throw new TypeError('invalid audited episode budget');
   if (!Number.isSafeInteger(boundaryEvery) || boundaryEvery < 0 || boundaryEvery > 1000) throw new TypeError('invalid boundary audit cadence');
-  if (replay && decideOrdinary) throw new TypeError('recorded replay cannot use a learned policy');
+  if (replay && (decideOrdinary || decidePrompt)) throw new TypeError('recorded replay cannot use a learned policy');
   if (session && (session.failed || session.busy)) throw new Error('native session is failed or already busy');
   const inputs = verifyLocalInputs(config);
   if (!Array.isArray(seatOrder) || seatOrder.length !== 2 || ![[0, 1], [1, 0]].some(value => isDeepStrictEqual(value, seatOrder))) throw new TypeError('two exact decks must swap seats together');
@@ -99,7 +99,14 @@ export async function runAuditedEpisode(config, { seed = 1729, replay = null, ex
         const view = actorViews[seat];
         const learned = decideOrdinary && view.status === 'playing' && !view.prompts.length && view.actions.length && view.turn === 'you'
           ? await decideOrdinary({ seat, view }) : null;
-        const decisions = learned === null ? offered : [learned];
+        const validate = async decision => {
+          const native = projectors[seat].resolve(decision);
+          if (!native.promptId) throw new Error('prompt validator requires a current prompt answer');
+          previews++;
+          return (await worker.request('preview', { seat, selection: { ...native, requestId: randomUUID(), expectedRevision: frame.revision } })).valid === true;
+        };
+        const learnedPrompt = decidePrompt && view.prompts.length ? await decidePrompt({ seat, view, validate }) : null;
+        const decisions = learnedPrompt ?? (learned === null ? offered : [learned]);
         let examined = 0;
         for (const decision of decisions) {
           if (++examined > 128) throw new Error('strategy candidate budget exhausted');
@@ -114,7 +121,7 @@ export async function runAuditedEpisode(config, { seed = 1729, replay = null, ex
           const reply = await worker.request('command', { seat, command: { ...native, commandId: randomUUID(), expectedRevision: frame.revision } });
           if (reply.receipt?.status !== 'accepted') { rejected++; if (expected || strictCommands) throw new Error('native command rejected'); continue; }
           if (reply.frame?.revision !== frame.revision + 1) throw new Error('native revision did not advance once');
-          await onAcceptedDecision({ seat, view, decision: structuredClone(decision), ordinaryPolicyUsed: learned !== null });
+          await onAcceptedDecision({ seat, view, decision: structuredClone(decision), ordinaryPolicyUsed: learned !== null, promptPolicyUsed: learnedPrompt !== null });
           next = reply.frame; journal.commands.push({ seat, decision: structuredClone(decision) }); break;
         }
         if (next) break;

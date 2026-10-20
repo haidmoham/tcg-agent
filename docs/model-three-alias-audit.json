@@ -1,0 +1,176 @@
+{
+  "schema": "native-feature-alias-audit/1",
+  "collectionReceiptSha256": "e2a9724372a619715d3992998e81d7cf8c4d4757d95cb74a91e581d9581cd790",
+  "featureSchema": "native-ordinary-features/1",
+  "verifiedGames": 24,
+  "all": {
+    "records": 891,
+    "candidates": 7453,
+    "uniqueCandidates": 5008,
+    "redundantCandidateRows": 2445,
+    "ambiguousDecisions": 608,
+    "ambiguousLabels": 309,
+    "nonFirstAliasLabels": 157,
+    "firstIndexArgmaxAgreementUpperBound": 0.8237934904601572,
+    "candidateAliasCrossEntropyLowerBound": 0.32987540514726005,
+    "teacherLabelAliasGroupSizes": {
+      "1": 582,
+      "2": 186,
+      "3": 61,
+      "4": 30,
+      "5": 15,
+      "6": 8,
+      "7": 6,
+      "8": 3
+    },
+    "byKind": {
+      "play": {
+        "labels": 516,
+        "ambiguousLabels": 264,
+        "nonFirstAliasLabels": 118
+      },
+      "attack": {
+        "labels": 133,
+        "ambiguousLabels": 40,
+        "nonFirstAliasLabels": 39
+      },
+      "ability": {
+        "labels": 160,
+        "ambiguousLabels": 5,
+        "nonFirstAliasLabels": 0
+      },
+      "retreat": {
+        "labels": 10,
+        "ambiguousLabels": 0,
+        "nonFirstAliasLabels": 0
+      },
+      "pass": {
+        "labels": 72,
+        "ambiguousLabels": 0,
+        "nonFirstAliasLabels": 0
+      },
+      "concede": {
+        "labels": 0,
+        "ambiguousLabels": 0,
+        "nonFirstAliasLabels": 0
+      }
+    },
+    "exactEncodedObservationGroups": 891,
+    "conflictingObservationGroups": 0,
+    "recordsInConflictingGroups": 0,
+    "wholeObservationDeterministicAgreementUpperBound": 1
+  },
+  "train": {
+    "records": 673,
+    "candidates": 5530,
+    "uniqueCandidates": 3745,
+    "redundantCandidateRows": 1785,
+    "ambiguousDecisions": 460,
+    "ambiguousLabels": 229,
+    "nonFirstAliasLabels": 113,
+    "firstIndexArgmaxAgreementUpperBound": 0.8320950965824666,
+    "candidateAliasCrossEntropyLowerBound": 0.32675665461928205,
+    "teacherLabelAliasGroupSizes": {
+      "1": 444,
+      "2": 136,
+      "3": 46,
+      "4": 22,
+      "5": 10,
+      "6": 7,
+      "7": 5,
+      "8": 3
+    },
+    "byKind": {
+      "play": {
+        "labels": 394,
+        "ambiguousLabels": 197,
+        "nonFirstAliasLabels": 87
+      },
+      "attack": {
+        "labels": 100,
+        "ambiguousLabels": 27,
+        "nonFirstAliasLabels": 26
+      },
+      "ability": {
+        "labels": 118,
+        "ambiguousLabels": 5,
+        "nonFirstAliasLabels": 0
+      },
+      "retreat": {
+        "labels": 8,
+        "ambiguousLabels": 0,
+        "nonFirstAliasLabels": 0
+      },
+      "pass": {
+        "labels": 53,
+        "ambiguousLabels": 0,
+        "nonFirstAliasLabels": 0
+      },
+      "concede": {
+        "labels": 0,
+        "ambiguousLabels": 0,
+        "nonFirstAliasLabels": 0
+      }
+    },
+    "exactEncodedObservationGroups": 673,
+    "conflictingObservationGroups": 0,
+    "recordsInConflictingGroups": 0,
+    "wholeObservationDeterministicAgreementUpperBound": 1
+  },
+  "validation": {
+    "records": 218,
+    "candidates": 1923,
+    "uniqueCandidates": 1263,
+    "redundantCandidateRows": 660,
+    "ambiguousDecisions": 148,
+    "ambiguousLabels": 80,
+    "nonFirstAliasLabels": 44,
+    "firstIndexArgmaxAgreementUpperBound": 0.7981651376146789,
+    "candidateAliasCrossEntropyLowerBound": 0.33950347443776113,
+    "teacherLabelAliasGroupSizes": {
+      "1": 138,
+      "2": 50,
+      "3": 15,
+      "4": 8,
+      "5": 5,
+      "6": 1,
+      "7": 1
+    },
+    "byKind": {
+      "play": {
+        "labels": 122,
+        "ambiguousLabels": 67,
+        "nonFirstAliasLabels": 31
+      },
+      "attack": {
+        "labels": 33,
+        "ambiguousLabels": 13,
+        "nonFirstAliasLabels": 13
+      },
+      "ability": {
+        "labels": 42,
+        "ambiguousLabels": 0,
+        "nonFirstAliasLabels": 0
+      },
+      "retreat": {
+        "labels": 2,
+        "ambiguousLabels": 0,
+        "nonFirstAliasLabels": 0
+      },
+      "pass": {
+        "labels": 19,
+        "ambiguousLabels": 0,
+        "nonFirstAliasLabels": 0
+      },
+      "concede": {
+        "labels": 0,
+        "ambiguousLabels": 0,
+        "nonFirstAliasLabels": 0
+      }
+    },
+    "exactEncodedObservationGroups": 218,
+    "conflictingObservationGroups": 0,
+    "recordsInConflictingGroups": 0,
+    "wholeObservationDeterministicAgreementUpperBound": 1
+  }
+}

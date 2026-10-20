@@ -1,0 +1,210 @@
+{
+  "schema": "model3-teacher-development-qualification/1",
+  "scope": "offline scripted-teacher development qualification; not trained-model or final heldout evaluation",
+  "opponent": "weak native baseline; not official Live AI",
+  "exactDeck": "learning/agentpult-deck.json",
+  "seeds": [
+    93001,
+    93002
+  ],
+  "bothPolicyRoles": true,
+  "diagnosticsDefinition": {
+    "offered": "Number of actor-visible ordinary decision states offering at least one matching action; repeated offers may count again.",
+    "firstPhantomDive": "Zero-based global turn counter across both players, copied from the native actor-visible turnNumber; not the teacher own-turn number."
+  },
+  "qualificationTrainingEligible": false,
+  "versions": [
+    {
+      "version": "v1",
+      "originalAuthoredTeacherModuleSha256": "660449f8d0c91b54996a851583dac93f703871a83964a544976c3559625a5799",
+      "receiptSha256": "fbdab4bbbd1e03c15254bd7ed2c4cfeeeb49f941c08a962e4cea83093e9254aa",
+      "completedNaturally": 4,
+      "wins": 4,
+      "losses": 0,
+      "fatalErrors": 0,
+      "capacityTimeouts": 0,
+      "cancelled": 0,
+      "unattempted": 0,
+      "rejectedCommands": 0,
+      "privacyChecks": 926,
+      "cases": [
+        {
+          "seed": 93001,
+          "policyRole": "human",
+          "naturalWin": true,
+          "rejectedCommands": 0,
+          "commands": 96,
+          "privacyChecks": 192,
+          "evolutionOfferedDecisions": 6,
+          "evolutionsChosen": 4,
+          "evolutionOpportunitiesPassedByAttackOrPass": 0,
+          "reconOfferedDecisions": 4,
+          "reconChosen": 4,
+          "phantomDiveCount": 5,
+          "firstPhantomDiveGlobalTurnCounterZeroBased": 8,
+          "caseReceiptSha256": "f5d941fc896db3a8f64e91f8c3569ae96d2a8da4921570cb86e47ddf694c30be"
+        },
+        {
+          "seed": 93001,
+          "policyRole": "opponent",
+          "naturalWin": true,
+          "rejectedCommands": 0,
+          "commands": 119,
+          "privacyChecks": 238,
+          "evolutionOfferedDecisions": 9,
+          "evolutionsChosen": 6,
+          "evolutionOpportunitiesPassedByAttackOrPass": 0,
+          "reconOfferedDecisions": 6,
+          "reconChosen": 6,
+          "phantomDiveCount": 4,
+          "firstPhantomDiveGlobalTurnCounterZeroBased": 5,
+          "caseReceiptSha256": "84e591e0b1010863e58a1f7fae368da5ef529a0c87fd77d9aa2a80693b504482"
+        },
+        {
+          "seed": 93002,
+          "policyRole": "human",
+          "naturalWin": true,
+          "rejectedCommands": 0,
+          "commands": 151,
+          "privacyChecks": 302,
+          "evolutionOfferedDecisions": 9,
+          "evolutionsChosen": 7,
+          "evolutionOpportunitiesPassedByAttackOrPass": 0,
+          "reconOfferedDecisions": 13,
+          "reconChosen": 13,
+          "phantomDiveCount": 5,
+          "firstPhantomDiveGlobalTurnCounterZeroBased": 16,
+          "caseReceiptSha256": "15c5d8726f5673877e3690f3dfab10a992ca8262412f155c154b995d59069866"
+        },
+        {
+          "seed": 93002,
+          "policyRole": "opponent",
+          "naturalWin": true,
+          "rejectedCommands": 0,
+          "commands": 97,
+          "privacyChecks": 194,
+          "evolutionOfferedDecisions": 10,
+          "evolutionsChosen": 7,
+          "evolutionOpportunitiesPassedByAttackOrPass": 0,
+          "reconOfferedDecisions": 11,
+          "reconChosen": 11,
+          "phantomDiveCount": 3,
+          "firstPhantomDiveGlobalTurnCounterZeroBased": 11,
+          "caseReceiptSha256": "58567c38e9f5f6360ce2c21e89a4a89e549fce7fa031c8a07d2645cb52eed372"
+        }
+      ]
+    },
+    {
+      "version": "v2",
+      "originalAuthoredTeacherModuleSha256": "f4a49302c35f72fe3f3bc90ee72859954becc0bd57f972790612284910814784",
+      "receiptSha256": "1d8be3deb71bb750dfffdddc12a9c9328292e7961db10a946626a10d49346033",
+      "completedNaturally": 4,
+      "wins": 4,
+      "losses": 0,
+      "fatalErrors": 0,
+      "capacityTimeouts": 0,
+      "cancelled": 0,
+      "unattempted": 0,
+      "rejectedCommands": 0,
+      "privacyChecks": 950,
+      "cases": [
+        {
+          "seed": 93001,
+          "policyRole": "human",
+          "naturalWin": true,
+          "rejectedCommands": 0,
+          "commands": 108,
+          "privacyChecks": 216,
+          "evolutionOfferedDecisions": 7,
+          "evolutionsChosen": 4,
+          "evolutionOpportunitiesPassedByAttackOrPass": 0,
+          "reconOfferedDecisions": 13,
+          "reconChosen": 12,
+          "phantomDiveCount": 4,
+          "firstPhantomDiveGlobalTurnCounterZeroBased": 8,
+          "caseReceiptSha256": "6212bb3d35866b809736ee829f06b374b9e15c03aa62224d90fa18b5a4979088"
+        },
+        {
+          "seed": 93001,
+          "policyRole": "opponent",
+          "naturalWin": true,
+          "rejectedCommands": 0,
+          "commands": 119,
+          "privacyChecks": 238,
+          "evolutionOfferedDecisions": 9,
+          "evolutionsChosen": 6,
+          "evolutionOpportunitiesPassedByAttackOrPass": 0,
+          "reconOfferedDecisions": 6,
+          "reconChosen": 6,
+          "phantomDiveCount": 4,
+          "firstPhantomDiveGlobalTurnCounterZeroBased": 5,
+          "caseReceiptSha256": "8b9d2760af4c2a44fd012c44e3ad2694c0af8c44d5cdba9f5f0bc8345b03e6fd"
+        },
+        {
+          "seed": 93002,
+          "policyRole": "human",
+          "naturalWin": true,
+          "rejectedCommands": 0,
+          "commands": 151,
+          "privacyChecks": 302,
+          "evolutionOfferedDecisions": 9,
+          "evolutionsChosen": 7,
+          "evolutionOpportunitiesPassedByAttackOrPass": 0,
+          "reconOfferedDecisions": 13,
+          "reconChosen": 13,
+          "phantomDiveCount": 5,
+          "firstPhantomDiveGlobalTurnCounterZeroBased": 16,
+          "caseReceiptSha256": "9ab9ce74cfc26f2fa5a3e0d3dda19b1c2577fbdd5bbb9cde717ea7c791a061f6"
+        },
+        {
+          "seed": 93002,
+          "policyRole": "opponent",
+          "naturalWin": true,
+          "rejectedCommands": 0,
+          "commands": 97,
+          "privacyChecks": 194,
+          "evolutionOfferedDecisions": 10,
+          "evolutionsChosen": 7,
+          "evolutionOpportunitiesPassedByAttackOrPass": 0,
+          "reconOfferedDecisions": 11,
+          "reconChosen": 11,
+          "phantomDiveCount": 3,
+          "firstPhantomDiveGlobalTurnCounterZeroBased": 11,
+          "caseReceiptSha256": "eaa2f5910e3c645f2c59a69048dcf4dc4d75296b8581ffa1adb1a0d33ccdacbe"
+        }
+      ]
+    }
+  ],
+  "publicTeacherPortParity": {
+    "decisions": 301,
+    "fullOrderedCandidateStreamsEqual": true,
+    "generatedPolicySelfContained": true,
+    "qualificationReceiptComplete": true,
+    "originalAuthoredTeacherV2Sha256": "f4a49302c35f72fe3f3bc90ee72859954becc0bd57f972790612284910814784",
+    "hashMeaning": "Original private authored v2 module used in qualification; not the generated public-factory-plus-private-catalog wrapper hash.",
+    "receiptSha256": "04f4753215bb4ea99083e097c37d0a09953acdd4f73d4017dad7abc88b52b215"
+  },
+  "freshSourceRehearsal": {
+    "commit": "f7b44f1",
+    "sourceArchiveSha256": "f3c06a1bf347a86e2985336c8999217c59430f873ade08fa468ce87d5a3c8dda",
+    "preparePassed": true,
+    "plansPassed": true,
+    "testsPassed": 14,
+    "testResultEvidence": "Reported by rehearsal operator; rehearsal receipt records preparation and plans without a test count.",
+    "nativeGamesRun": 0,
+    "workerConstructionVerified": false,
+    "gpuTrainingVerified": false,
+    "receiptSha256": "2d1d5eed8b5a147b90fd2ca203ab8fbe166ff2358146a8b6c85d669e97145196"
+  },
+  "externalPrerequisites": [
+    "Authorized private 39-program bundle including exact JTG-120 program and eight hash-pinned files",
+    "Prepared native Release worker and .NET runtime",
+    "Python runtime and pinned packages for training; optional historical model weights for baseline evaluation"
+  ],
+  "limitations": [
+    "Both teacher versions won the same four development cases. No statistical, strategic-strength or performance improvement is established.",
+    "Four weak-baseline development wins do not establish full Standard mechanics coverage, official AI strength, ladder performance or a zero-loss guarantee.",
+    "Fresh-source assembly validates explicit supplied artifacts; it does not establish construction of the native worker or private programs."
+  ],
+  "publishedContents": "Aggregate diagnostics and receipt hashes only; no actor views, private program IDs, native effects, weights, credentials or absolute private paths."
+}

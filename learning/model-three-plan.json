@@ -1,0 +1,82 @@
+{
+  "schema": "agentpult-model-three-plan/1",
+  "objective": "Learn ordinary actions and visible strategic card choices for the fixed AgentPult sixty through demonstrations and one learner-state correction round.",
+  "deck": {
+    "historicalManifest": "AgentPult / Andrew Hedrick Hammerpult",
+    "cards": 60,
+    "cardTypes": 24,
+    "orderedMechanicsSha256": "18910f5075b8b115d38081e4b9c4b396e7cbf17006a6fb030ed6bd9d912f69a3",
+    "exactJtg120Required": true,
+    "printingEquivalencesMustBeExplicit": true,
+    "learnerDeckIndex": 0,
+    "opponentDeckSha256": "49b3da433b3eb5f322fceeaf21d6f5a16635b11a688ce4f942149d94df2e40d0"
+  },
+  "qualification": {
+    "seeds": [93001, 93002],
+    "bothPolicyRoles": true,
+    "opponent": "weak-native-baseline",
+    "maximumGames": 4,
+    "maximumGameSeconds": 360,
+    "maximumWallSeconds": 600,
+    "trainingEligible": false,
+    "gate": "All four games naturally completed with zero rejected commands and hidden-information checks intact. Teacher wins and line-building diagnostics must be reviewed before distillation; failures require explicit diagnosis, never invented success."
+  },
+  "bootstrap": {
+    "trainingSeeds": [93101, 93102, 93103, 93104, 93105, 93106, 93107, 93108, 93109, 93110, 93111, 93112, 93113, 93114, 93115, 93116, 93117, 93118, 93119, 93120, 93121, 93122, 93123, 93124],
+    "validationSeeds": [93125, 93126, 93127, 93128, 93129, 93130, 93131, 93132],
+    "workers": 4,
+    "maximumGameSeconds": 240,
+    "maximumWallSeconds": 1800,
+    "maximumGameCommands": 500,
+    "behavior": "qualified scripted teacher",
+    "opponent": "pinned heuristic",
+    "recordOnlyLearnerDeck": true
+  },
+  "dagger": {
+    "trainingSeeds": [93201, 93202, 93203, 93204, 93205, 93206, 93207, 93208],
+    "validationSeeds": [93209, 93210, 93211, 93212],
+    "workers": 4,
+    "maximumGameSeconds": 300,
+    "maximumWallSeconds": 900,
+    "maximumGameCommands": 500,
+    "teacherMix": 0.25,
+    "teacherLabelQueriedOnSameVisibleState": true,
+    "opponent": "pinned heuristic",
+    "aggregateWholeGamesOnce": true
+  },
+  "training": {
+    "initializationSeed": 1729,
+    "maximumUpdatesPerStage": 2000,
+    "maximumUpdateSecondsPerStage": 180,
+    "maximumStages": 2,
+    "selection": "whole-game validation loss only",
+    "noLivePilotExamples": true,
+    "noOutcomeRewardShaping": true
+  },
+  "finalEvaluation": {
+    "seeds": [93301, 93302, 93303, 93304],
+    "bothPolicyRoles": true,
+    "checkpoints": ["frozen-model-two", "selected-model-three"],
+    "opponent": "same weak native baseline; not official Live AI",
+    "maximumGamesPerCheckpoint": 8,
+    "maximumGameSeconds": 360,
+    "maximumWallSecondsPerCheckpoint": 1800,
+    "nativeConcurrencyPerCheckpoint": 2,
+    "teacherOverrides": 0,
+    "zeroOverrideDecisionKinds": ["ordinary actions", "supported nonordered visible-card selections"],
+    "fixedHelpers": ["setup", "noncard prompts", "ordered prompts", "allocation", "prizes", "selection cardinality and native constraint validation"],
+    "selectionChangedUsingFinalOutcomes": false,
+    "primaryMetric": "natural wins, losses and incomplete games on the fixed exact-deck seed/role pairs",
+    "diagnostics": ["first Phantom Dive turn", "legal evolution opportunities", "evolutions chosen", "legal evolutions passed over before attack or pass", "Recon Directive uses", "model versus helper selection counts"],
+    "goal": "Zero losses against the supplied AI remains the user goal. These offline proxy games cannot establish that guarantee."
+  },
+  "failurePolicy": {
+    "replacements": 0,
+    "explicitWallTimeouts": "retain incomplete, never assign a loss or a draw",
+    "otherFailures": "stop and retain the fatal receipt",
+    "partialGamesAreTrainingExamples": false,
+    "allPolicyInputsActorVisible": true,
+    "frozenModelsPreserved": true,
+    "officialClientActions": 0
+  }
+}

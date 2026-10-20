@@ -1,0 +1,67 @@
+{
+  "schema": "masked-ppo-component-validation/1",
+  "date": "2026-10-20",
+  "device": "cpu",
+  "torch": "2.5.1+cu121",
+  "testsPassed": 22,
+  "testModules": [
+    "learning.test_masked_ppo",
+    "learning.test_card_action"
+  ],
+  "syntheticOutcomeTask": {
+    "seed": 66,
+    "modelConfig": {
+      "state_dim": 2,
+      "candidate_dim": 1,
+      "hidden_sizes": [
+        8,
+        4
+      ],
+      "feature_schema": "synthetic/1"
+    },
+    "ppoConfig": {
+      "gamma": 0.99,
+      "gae_lambda": 0.95,
+      "clip_coef": 0.2,
+      "value_clip_coef": 0.2,
+      "value_coef": 0.5,
+      "entropy_coef": 0.001,
+      "learning_rate": 0.01,
+      "max_grad_norm": 0.5,
+      "epochs": 3,
+      "minibatch_size": 32,
+      "target_kl": 0.5,
+      "normalize_advantages": true,
+      "max_records": 32768,
+      "max_padded_candidates": 131072
+    },
+    "updates": 12,
+    "episodes": 768,
+    "rewardedActionProbabilityBefore": 0.4519270658493042,
+    "rewardedActionProbabilityAfter": 0.9927678108215332,
+    "lastUpdate": {
+      "policy_loss": -0.02528153918683529,
+      "value_loss": 0.03087547980248928,
+      "entropy": 0.042855001986026764,
+      "approx_kl": 0.0012275595217943192,
+      "clip_fraction": 0.015625,
+      "optimizer_steps": 6,
+      "epochs": 3,
+      "stop_reason": "epochs_completed",
+      "weight_change_l2": 0.2032046533586907,
+      "grad_norm": 0.8021877408027649,
+      "explained_variance": 0.0,
+      "update_count": 12,
+      "records": 64
+    }
+  },
+  "nativeGamesRun": 0,
+  "gpuJobsRun": 0,
+  "meaning": "Synthetic software and mathematical validation only; no TCG strength claim.",
+  "sourceSha256": {
+    "learning/masked_ppo.py": "802eb279f901ee19b93106d97cf34a2001fb498cb6a80a60985d053a59d02502",
+    "learning/masked_ppo_service.py": "2182b294740d2ef1644b1abfb60473411ab5e11a453c0dd4dc2b56fd622a35fb",
+    "learning/test_masked_ppo.py": "f2c92342fd700713efdb055009d6bf922b5a85f2e7cb3bdd3b513f5df34ccda5"
+  },
+  "actualJsonlProcessVerified": true
+}

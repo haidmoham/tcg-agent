@@ -1,0 +1,31 @@
+{
+  "schema": "model-three-source-integration/1",
+  "date": "2026-10-20",
+  "baseMain": "0d0bf600982bc770153dac9c8c31f131d2db3fce",
+  "sourceCommit": "f0a7f12c57793bf698af60b15600f05dd67b8e08",
+  "sourceBranch": "codex/training-v3",
+  "method": "Reviewed authored source squash onto current main; original source checkout and private artifacts untouched",
+  "included": [
+    "Exact sixty specification, authored teacher, richer card/action encoder and actor-visible native training adapter",
+    "BC and DAgger collection/admission/training source with explicit private model storage",
+    "Masked actor/critic PPO, GAE trajectory boundaries, terminal reward/truncation handling, frozen selection policy and sequential campaign source",
+    "Dependency pins, historical aggregate qualification/component evidence and existing test source without execution"
+  ],
+  "integrationActivity": {
+    "sourceAndPrivacyReviewOnly": true,
+    "testSuitesRun": 0,
+    "modelWorkloadsRun": 0,
+    "modelCheckpointsLoaded": 0,
+    "nativeGamesRun": 0,
+    "activeEvaluationCheckoutChanged": false,
+    "trainingArtifactsChanged": false,
+    "pilotReceiptGitBlobPreserved": "42358fb8232eee5c36dfd22fb7ff13c4a9c0834a"
+  },
+  "evidence": "Existing training-branch qualification and component receipts are preserved as historical evidence. No new validation or strength result is claimed by this source-only landing.",
+  "excluded": ["Weights/models", "Raw datasets, actor traces and captures", "Vendor programs/binaries/assets", "Credentials, account identifiers and personal filesystem paths", "Paid course contents", "Active direct comparison source/results pending separate handoff"],
+  "reproducibilityGaps": [
+    "Exact executed campaign configuration and run artifacts remain private; sanitized actual-run provenance must accompany the subsequent comparison handoff.",
+    "Authorized private 39-program bundle, matching prepared native worker, runtime and optional historical model weights must be supplied locally.",
+    "Historical extended evaluation plans are not the currently authorized eight-game direct comparison. No results or superiority claims are assigned here."
+  ]
+}
