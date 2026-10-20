@@ -39,7 +39,7 @@ The accepted native optimizations share immutable projection input and avoid cop
 
 The [native learning bridge](docs/native-learning-bridge.md) runs fresh audited policy games in 1, 2 or 4 persistent CPU processes and exposes a small actor-visible legal-candidate scorer to one local PyTorch owner. Its first objective is bounded supervised imitation, with whole-game heldout data, checkpoint reload checks and fresh evaluation seeds. Setup and prompts remain with the fixed helper. The [learner instructions](learning/README.md) describe the optional existing Python/CUDA runtime; no packages are installed automatically.
 
-The [second model](docs/native-second-model.md) uses 24 new whole games, a fixed train/validation split and 200 supervised updates. The selected checkpoint passes finite-gradient and reload checks. Its higher teacher agreement on the shared validation set does not establish stronger play; frozen paired native games provide a separate evaluation.
+The [second model](docs/native-second-model.md) uses 24 new whole games, a fixed train/validation split and 200 supervised updates. The selected checkpoint passes finite-gradient and reload checks. Its higher teacher agreement on the shared validation set does not establish stronger play. The [frozen native comparison](docs/native-final-checkpoints.md) retains all eight attempts: model one recorded three wins and one wall timeout; model two recorded two wins, one loss and one wall timeout. No correctness errors occurred, and incomplete cases prevent a strength ranking.
 
 ```sh
 npm run engine:prepare

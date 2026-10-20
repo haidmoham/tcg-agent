@@ -1,0 +1,374 @@
+{
+  "schema": "native-final-checkpoints-milestone/1",
+  "timestamp": "2026-10-20T02:00:33.829Z",
+  "evaluatorSourceCommit": "47883f1",
+  "profile": "private-two-deck-2026-10-11",
+  "sameFrozenTeacher": true,
+  "fixedPlanSha256": "8a89124bb3f9b08eaa4cb708a214af475aed776c3997cc5a471c5f90a838be5c",
+  "learnerDeckIndex": 0,
+  "pairedCases": [
+    {
+      "id": "92001-human",
+      "seed": 92001,
+      "ordinaryPolicySeat": "human",
+      "seatOrder": [
+        0,
+        1
+      ],
+      "modelOne": "incomplete",
+      "modelTwo": "model-win"
+    },
+    {
+      "id": "92001-opponent",
+      "seed": 92001,
+      "ordinaryPolicySeat": "opponent",
+      "seatOrder": [
+        1,
+        0
+      ],
+      "modelOne": "model-win",
+      "modelTwo": "incomplete"
+    },
+    {
+      "id": "92002-human",
+      "seed": 92002,
+      "ordinaryPolicySeat": "human",
+      "seatOrder": [
+        0,
+        1
+      ],
+      "modelOne": "model-win",
+      "modelTwo": "model-loss"
+    },
+    {
+      "id": "92002-opponent",
+      "seed": 92002,
+      "ordinaryPolicySeat": "opponent",
+      "seatOrder": [
+        1,
+        0
+      ],
+      "modelOne": "model-win",
+      "modelTwo": "model-win"
+    }
+  ],
+  "models": {
+    "modelOne": {
+      "checkpointSha256": "1c405966d9539aca89fdf49413663f327859ece6c74c96b12e4453490062fe43",
+      "privateReceiptSha256": "1849ad2f9e12101ddb1dd14ece687bc7b52d1145e95fb5b5c703d9d71d339648",
+      "fatal": false,
+      "counts": {
+        "completed": 3,
+        "capacityFailures": 1,
+        "fatalFailures": 0,
+        "unattempted": 0,
+        "wins": 3,
+        "losses": 0,
+        "nativeTerminalWithoutWinner": 0,
+        "commands": 553,
+        "acceptedModelDecisions": 165
+      },
+      "completed": [
+        {
+          "id": "92001-opponent",
+          "seed": 92001,
+          "ordinaryPolicySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "status": "completed",
+          "nativeWinnerSeat": "opponent",
+          "modelWin": true,
+          "outcome": "model-win",
+          "commands": 173,
+          "modelDecisionCount": 52,
+          "inferenceRequests": 52,
+          "terminalStateHash": "122b2faf74892e2556df2d9b27878d3a398cda20e6d98c0de6d92c1254998876",
+          "receiptSha256": "9cc29e673f3954c14cbf2d14d7ba4de94f5d078e22afc5f5f04b85bb2c688415",
+          "elapsedMilliseconds": 171092.95990000002,
+          "privacyChecks": 346,
+          "realHandExchanges": 329,
+          "completedNaturally": true,
+          "rejected": 0,
+          "trajectorySha256": "56e0ac2c76534f3fe1ced0cf4561bef5517bfd6f104386e5892cd03de5031c89",
+          "recordsSha256": "7d6ff8de0652bb54b3b12b9f5875fc75f475378c1c8b482f1cca544ca247eb84",
+          "nativeCpuMilliseconds": 158750,
+          "nativePeakWorkingSetBytes": 661782528
+        },
+        {
+          "id": "92002-human",
+          "seed": 92002,
+          "ordinaryPolicySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "status": "completed",
+          "nativeWinnerSeat": "human",
+          "modelWin": true,
+          "outcome": "model-win",
+          "commands": 190,
+          "modelDecisionCount": 55,
+          "inferenceRequests": 55,
+          "terminalStateHash": "122f52666699e76f30a1fa6572333045a6807c0c71fb6dbe4da29249561a2d21",
+          "receiptSha256": "f3ea61967f85f8621997fd657aa8b92c0ff2a1652d3002ddd36681724e42bd53",
+          "elapsedMilliseconds": 165274.85510000004,
+          "privacyChecks": 380,
+          "realHandExchanges": 352,
+          "completedNaturally": true,
+          "rejected": 0,
+          "trajectorySha256": "c53b2fa61b546eb324283748e12c918613bc761d63fbcc6c7874d205ab1a6adb",
+          "recordsSha256": "071088af0d893949d28ec9795b86389c511db5398ec072d2e7238176d83d038a",
+          "nativeCpuMilliseconds": 158390.625,
+          "nativePeakWorkingSetBytes": 1295560704
+        },
+        {
+          "id": "92002-opponent",
+          "seed": 92002,
+          "ordinaryPolicySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "status": "completed",
+          "nativeWinnerSeat": "opponent",
+          "modelWin": true,
+          "outcome": "model-win",
+          "commands": 190,
+          "modelDecisionCount": 58,
+          "inferenceRequests": 58,
+          "terminalStateHash": "23e67b36ff24900cb2f930c7fa455f45ab3e6127950958561806d931c473cf1e",
+          "receiptSha256": "cfc429226fa237012b528480bcf8d8e22bdec08830cd9e1f7304aed462c0fd6b",
+          "elapsedMilliseconds": 161508.23009999993,
+          "privacyChecks": 380,
+          "realHandExchanges": 370,
+          "completedNaturally": true,
+          "rejected": 0,
+          "trajectorySha256": "ecc6c820cb38cf4bc4d98c0b2a4c75562a31930169a259ed142084e0b05b6b99",
+          "recordsSha256": "8c38831185f0fcc8723728acb3c67ec3bb0da4c2c0410744bee5d10d31963deb",
+          "nativeCpuMilliseconds": 155062.5,
+          "nativePeakWorkingSetBytes": 1313558528
+        }
+      ],
+      "capacityFailures": [
+        {
+          "id": "92001-human",
+          "seed": 92001,
+          "ordinaryPolicySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "status": "capacity-timeout",
+          "reason": "episode-wall-budget",
+          "code": "NATIVE_EPISODE_TIME_BUDGET",
+          "elapsedMilliseconds": 180070.5608,
+          "attemptedInferenceRequests": 58
+        }
+      ],
+      "fatalFailures": [],
+      "unattempted": [],
+      "elapsedMilliseconds": 685444.4807,
+      "stopReason": "fixed-plan-finished",
+      "limits": {
+        "maximumWallSeconds": 780,
+        "maximumGameSeconds": 180,
+        "maximumGameCommands": 400,
+        "nativeConcurrency": 1,
+        "replacements": 0
+      },
+      "checkpointUnchanged": true,
+      "sourceHashes": {
+        "scripts/native-final-evaluation.mjs": "2858a32fd602742ffcc1935537b00e7b4d7a2321513b3986073677117d75433b",
+        "learning/model-two-plan.json": "8a89124bb3f9b08eaa4cb708a214af475aed776c3997cc5a471c5f90a838be5c",
+        "learning/native_torch.py": "d6d06f9b4804ad6361f8b1739ede4ba98562612439bf7e2cfddd8e029c028c95",
+        "integrations/local-worker/learning-model.mjs": "8d7d6cbf01557e38d509621172051ae964ede70b4d68bd624cddd0fd6510aac2",
+        "integrations/local-worker/learning-rollout.mjs": "197ed03b24cb700c08e9655a9858a43daa0f05e9d1ae24706d3dea5470259c51",
+        "integrations/local-worker/learning-features.mjs": "8bc323dfa1f7250d1d13ca16ce203ef7a7cb57c65560d80353cbf15118409797",
+        "integrations/local-worker/audit-runner.mjs": "ab52148bc61dba5cb2e5bd6de3ddd6aa9186743760189ae17f34e6fbaffd1f82",
+        "integrations/local-worker/probe.mjs": "4d0b7bbfabd5a7ee4d30660801caedb15212271b94160e97cdf7311ad8f2cb88",
+        "integrations/local-worker/policy-view.mjs": "f8581b140ef30cccdc6a3f3c67a82a976c609edb0cf378ed4fba984dc9974e8d",
+        "integrations/local-worker/semantic-state.mjs": "d8e3e0405465e5accc83a832999120c80b14c7a92a8d70c74ca29fc7025baac9",
+        "integrations/local-worker/decision-domain.mjs": "f8ebfdb22ec7efb038b767d96462de9c767e815a372a958f7e0ecedca5e59581"
+      },
+      "nativePins": {
+        "workerSha256": "76c38d968b3703fd5a69e94a97f8c5ce7b9f6e488d8d3428bae162af4204669a",
+        "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+        "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+        "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6"
+      },
+      "inference": {
+        "device": "cpu",
+        "requests": 223,
+        "milliseconds": 278.81479999974545,
+        "parameters": 1953
+      },
+      "privacyChecks": 1106,
+      "realHandExchanges": 1051
+    },
+    "modelTwo": {
+      "checkpointSha256": "144180ba472cfe23e405eb7c47448e5c88e8148ac5440c5d38f37a54d7ad690b",
+      "privateReceiptSha256": "ee2fa7cb5779114d0f0814c9aed26ff95408f293f0f5265052a3c497bd61aa57",
+      "fatal": false,
+      "counts": {
+        "completed": 3,
+        "capacityFailures": 1,
+        "fatalFailures": 0,
+        "unattempted": 0,
+        "wins": 2,
+        "losses": 1,
+        "nativeTerminalWithoutWinner": 0,
+        "commands": 408,
+        "acceptedModelDecisions": 109
+      },
+      "completed": [
+        {
+          "id": "92001-human",
+          "seed": 92001,
+          "ordinaryPolicySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "status": "completed",
+          "nativeWinnerSeat": "human",
+          "modelWin": true,
+          "outcome": "model-win",
+          "commands": 179,
+          "modelDecisionCount": 50,
+          "inferenceRequests": 50,
+          "terminalStateHash": "5cebd6a4b0a79cd89daba7298b5231981135fe56c7bb639814606ac50d3d60f9",
+          "receiptSha256": "aa09027b7022019f6aa825521e537b85b90e6962141a4433976cb147ae24664c",
+          "elapsedMilliseconds": 150689.5574,
+          "privacyChecks": 358,
+          "realHandExchanges": 326,
+          "completedNaturally": true,
+          "rejected": 0,
+          "trajectorySha256": "83eb13a95867745957d42b01b0b71d407aac585b5e9e71ea349cfd2234bfa590",
+          "recordsSha256": "d75b8809d9c867ba6014833682045edb806f46b336413325cbf8badd7bad4af9",
+          "nativeCpuMilliseconds": 146125,
+          "nativePeakWorkingSetBytes": 710422528
+        },
+        {
+          "id": "92002-human",
+          "seed": 92002,
+          "ordinaryPolicySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "status": "completed",
+          "nativeWinnerSeat": "opponent",
+          "modelWin": false,
+          "outcome": "model-loss",
+          "commands": 68,
+          "modelDecisionCount": 14,
+          "inferenceRequests": 14,
+          "terminalStateHash": "df2c5d7d5faa0edee5ac65a22f2387a6f2648930c45fd838443846afd5ca9557",
+          "receiptSha256": "9f9b43689bc01fb86f8a0234f5c8a057bde7d07d13c6287726b52c9cc4eea17e",
+          "elapsedMilliseconds": 53414.13190000004,
+          "privacyChecks": 136,
+          "realHandExchanges": 128,
+          "completedNaturally": true,
+          "rejected": 0,
+          "trajectorySha256": "6f9ef2324f6a1736fb28e20da00d82b76ff6e08719ca68c21ee838ccb5a08b8a",
+          "recordsSha256": "2cdd703f14567078db7b02802652a06af24e3627d9bd698f52003a99fb9ed483",
+          "nativeCpuMilliseconds": 52031.25,
+          "nativePeakWorkingSetBytes": 220839936
+        },
+        {
+          "id": "92002-opponent",
+          "seed": 92002,
+          "ordinaryPolicySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "status": "completed",
+          "nativeWinnerSeat": "opponent",
+          "modelWin": true,
+          "outcome": "model-win",
+          "commands": 161,
+          "modelDecisionCount": 45,
+          "inferenceRequests": 45,
+          "terminalStateHash": "c4f66e80b8f7efeb3ea1164443c54367fd7ba2345acadc709c747331cde66383",
+          "receiptSha256": "8a7d7e01742593f375c2f124a2c6ef84fe86158f9393f26690a1b014e3e38fe9",
+          "elapsedMilliseconds": 138061.92049999995,
+          "privacyChecks": 322,
+          "realHandExchanges": 314,
+          "completedNaturally": true,
+          "rejected": 0,
+          "trajectorySha256": "67e430cb4f455fd8c01d6d088a3c4cb20f3634c6ebee114b6f72e14a4dd2a629",
+          "recordsSha256": "d0c02b49a440071d635471cc87db61c4c7a2f47b06b8e1d305961a7881ae776a",
+          "nativeCpuMilliseconds": 132296.875,
+          "nativePeakWorkingSetBytes": 745611264
+        }
+      ],
+      "capacityFailures": [
+        {
+          "id": "92001-opponent",
+          "seed": 92001,
+          "ordinaryPolicySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "status": "capacity-timeout",
+          "reason": "episode-wall-budget",
+          "code": "NATIVE_EPISODE_TIME_BUDGET",
+          "elapsedMilliseconds": 180049.77800000002,
+          "attemptedInferenceRequests": 55
+        }
+      ],
+      "fatalFailures": [],
+      "unattempted": [],
+      "elapsedMilliseconds": 529768.664,
+      "stopReason": "fixed-plan-finished",
+      "limits": {
+        "maximumWallSeconds": 780,
+        "maximumGameSeconds": 180,
+        "maximumGameCommands": 400,
+        "nativeConcurrency": 1,
+        "replacements": 0
+      },
+      "checkpointUnchanged": true,
+      "sourceHashes": {
+        "scripts/native-final-evaluation.mjs": "2858a32fd602742ffcc1935537b00e7b4d7a2321513b3986073677117d75433b",
+        "learning/model-two-plan.json": "8a89124bb3f9b08eaa4cb708a214af475aed776c3997cc5a471c5f90a838be5c",
+        "learning/native_torch.py": "d6d06f9b4804ad6361f8b1739ede4ba98562612439bf7e2cfddd8e029c028c95",
+        "integrations/local-worker/learning-model.mjs": "8d7d6cbf01557e38d509621172051ae964ede70b4d68bd624cddd0fd6510aac2",
+        "integrations/local-worker/learning-rollout.mjs": "197ed03b24cb700c08e9655a9858a43daa0f05e9d1ae24706d3dea5470259c51",
+        "integrations/local-worker/learning-features.mjs": "8bc323dfa1f7250d1d13ca16ce203ef7a7cb57c65560d80353cbf15118409797",
+        "integrations/local-worker/audit-runner.mjs": "ab52148bc61dba5cb2e5bd6de3ddd6aa9186743760189ae17f34e6fbaffd1f82",
+        "integrations/local-worker/probe.mjs": "4d0b7bbfabd5a7ee4d30660801caedb15212271b94160e97cdf7311ad8f2cb88",
+        "integrations/local-worker/policy-view.mjs": "f8581b140ef30cccdc6a3f3c67a82a976c609edb0cf378ed4fba984dc9974e8d",
+        "integrations/local-worker/semantic-state.mjs": "d8e3e0405465e5accc83a832999120c80b14c7a92a8d70c74ca29fc7025baac9",
+        "integrations/local-worker/decision-domain.mjs": "f8ebfdb22ec7efb038b767d96462de9c767e815a372a958f7e0ecedca5e59581"
+      },
+      "nativePins": {
+        "workerSha256": "76c38d968b3703fd5a69e94a97f8c5ce7b9f6e488d8d3428bae162af4204669a",
+        "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+        "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+        "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6"
+      },
+      "inference": {
+        "device": "cpu",
+        "requests": 164,
+        "milliseconds": 181.5237000002562,
+        "parameters": 1953
+      },
+      "privacyChecks": 816,
+      "realHandExchanges": 768
+    }
+  },
+  "preservation": {
+    "modelOneFilesVerified": 6,
+    "modelTwoCheckpointUnchanged": true,
+    "modelTwoTrainingReceiptUnchanged": true,
+    "modelTwoUiCompatibilityReceiptUnchanged": true
+  },
+  "interpretation": "four preregistered descriptive cases per checkpoint against one fixed teacher; no strength, superiority, ladder or full Standard claim",
+  "timingScope": "two independent evaluation processes ran concurrently on one desktop, each with one native CPU worker and one CPU scorer; not a throughput comparison",
+  "privacy": "Raw journals, examples, native programs, checkpoints and machine-specific configurations remain local and ignored."
+}
