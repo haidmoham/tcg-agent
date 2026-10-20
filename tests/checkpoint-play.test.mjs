@@ -80,10 +80,38 @@ test('catalog binds displayed checkpoint to receipt digest and excludes private 
     const [model] = modelCatalog(config);
     assert.equal(model.training.labels, 125);
     assert.equal(model.training.teacherAgreement, 0.4);
+    assert.match(model.decks[0], /not specified/);
     assert.equal(JSON.stringify(model).includes(directory), false);
     assert.equal(JSON.stringify(model).includes('PRIVATE-PYTHON'), false);
     writeFileSync(checkpoint, 'changed checkpoint');
     assert.throws(() => modelCatalog(config), /differs from its training receipt/);
+  } finally { rmSync(directory, { recursive: true, force: true }); }
+});
+
+test('each checkpoint displays its own training coverage and selection-validation provenance', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'checkpoint-coverage-'));
+  try {
+    const checkpoint = join(directory, 'model.pt');
+    const receipt = join(directory, 'receipt.json');
+    const bytes = Buffer.from('second saved checkpoint fixture');
+    writeFileSync(checkpoint, bytes);
+    writeFileSync(receipt, JSON.stringify({ featureSchema: 'native-ordinary-features/1',
+      runtime: { objective: 'legal-candidate supervised imitation', parameters: 1953 },
+      training: { checkpointSha256: createHash('sha256').update(bytes).digest('hex'), records: 673, updates: 200 },
+      heldout: { records: 218, teacherAgreement: 107 / 218, kind: 'validation used for checkpoint selection; not untouched final test' },
+      coverage: { trainedOnLabel: 'Both pinned private decks; 18 human-seat teacher games',
+        collection: [{ split: 'train', actorSeat: 'human', decks: [{ deckIndex: 0, records: 302, games: 9 }, { deckIndex: 1, records: 371, games: 9 }] }],
+        finalPolicyRoleEvaluation: 'pending fixed paired native evaluation', nativePins: { workerSha256: 'pinned-worker' } } }));
+    const config = { native: { workerSha256: 'pinned-worker' }, models: [{ id: 'm2', name: 'Model 2', version: 'v2', receipt, model: { checkpoint } }] };
+    const [model] = modelCatalog(config);
+    assert.match(model.decks[0], /Both pinned private decks/);
+    assert.match(model.decks[1], /Dragapult ex: 302 labels from 9 human-seat games/);
+    assert.match(model.decks[2], /Zoroark ex: 371 labels from 9 human-seat games/);
+    assert.match(model.training.validationUse, /not untouched final test/);
+    assert.match(model.mechanics.at(-1), /pending fixed paired/);
+    assert.equal(JSON.stringify(model).includes('pinned-worker'), false);
+    config.native.workerSha256 = 'different-worker';
+    assert.throws(() => modelCatalog(config), /different native runtime pins/);
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });
 

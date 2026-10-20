@@ -1,0 +1,30 @@
+{
+  "preservedOriginalServer": {
+    "revisionBefore": 0,
+    "sameGame": true,
+    "revisionAfter": 0,
+    "port": 3852
+  },
+  "model2NativeRevision": 14,
+  "focusedTests": {
+    "failed": 0,
+    "skipped": 0,
+    "passed": 6
+  },
+  "model2LearnedDecisions": 3,
+  "model2Sha256": "144180ba472cfe23e405eb7c47448e5c88e8148ac5440c5d38f37a54d7ad690b",
+  "claims": [
+    "Both pinned private decks in human-seat teacher data",
+    "Selection-validation agreement is not untouched final-test performance",
+    "Paired native policy-role evaluation was pending in the copied frozen receipt"
+  ],
+  "port": 3853,
+  "verifiedThrough": "Chrome human setup and native accepted learned opponent actions",
+  "model2ReceiptSha256": "652594a2aaa4cce23ac802c95c5eeb619e081c84730c56e9d7f8e759efb48e64",
+  "registeredModelIds": [
+    "model-1",
+    "model-2"
+  ],
+  "schema": "checkpoint-model2-registration/1",
+  "cpuInference": true
+}

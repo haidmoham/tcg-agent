@@ -19,11 +19,20 @@ export function modelCatalog(config) {
     const receipt = json(entry.receipt);
     const sha256 = hash(readFileSync(entry.model.checkpoint));
     if (sha256 !== receipt.training?.checkpointSha256 || receipt.featureSchema !== 'native-ordinary-features/1') fail('Checkpoint differs from its training receipt.');
+    const coverage = receipt.coverage;
+    for (const [key, pin] of Object.entries(coverage?.nativePins ?? {})) {
+      if (config.native?.[key] !== pin) fail('Checkpoint coverage refers to different native runtime pins.');
+    }
+    const collectedDecks = (coverage?.collection ?? []).filter(row => row.split === 'train').flatMap(row => row.decks.map(deck =>
+      `${decks.find(value => value.id === deck.deckIndex)?.name ?? 'Unrecognized deck'}: ${deck.records} labels from ${deck.games} ${row.actorSeat}-seat games`));
     return { id: entry.id, name: entry.name, version: entry.version, sha256,
       objective: receipt.runtime.objective, parameters: receipt.runtime.parameters,
-      training: { labels: receipt.training.records, updates: receipt.training.updates, heldoutDecisions: receipt.heldout.records, teacherAgreement: receipt.heldout.teacherAgreement },
-      decks: ["Trained on Dragapult ex; native runtime also admits N's Zoroark ex. Playing the model with N's Zoroark ex is outside its training deck."],
-      mechanics: ['Private pinned two-deck native profile only; full Standard support is unverified.', 'Learned ordinary legal actions. Frozen helper controls opponent setup and every prompt.', 'Human controls own setup, prompts, actions and targets. Optional one-step assistance is labeled.'],
+      training: { labels: receipt.training.records, updates: receipt.training.updates, heldoutDecisions: receipt.heldout.records,
+        teacherAgreement: receipt.heldout.teacherAgreement, validationUse: receipt.heldout.kind ?? 'Held-out teacher decisions; selection use not specified by this receipt.' },
+      decks: [coverage?.trainedOnLabel ?? 'Training deck coverage is not specified by this legacy receipt.', ...collectedDecks,
+        "Playable native decks: Dragapult ex and N's Zoroark ex. Training coverage does not certify all mechanics or policy roles."],
+      mechanics: ['Private pinned two-deck native profile only; full Standard support is unverified.', 'Learned ordinary legal actions. Frozen helper controls opponent setup and every prompt.', 'Human controls own setup, prompts, actions and targets. Optional one-step assistance is labeled.',
+        `Policy-role evaluation: ${coverage?.finalPolicyRoleEvaluation ?? 'Not specified by this receipt.'}`],
     };
   });
 }

@@ -362,7 +362,7 @@ function render() {
     app.append(metadata(state.game.model));
   } else {
     const intro = node('section', null, 'welcome');
-    intro.append(node('span', 'A SAVED CHECKPOINT, ACROSS THE TABLE', 'eyebrow'), node('h2', 'Take a seat.'), node('p', 'Choose a checkpoint and one of the two supported decks. Your opponent gets the other deck. Opponent hands, deck order, and face-down prizes stay hidden.'), node('p', 'This first checkpoint imitates a frozen heuristic. Its held-out teacher agreement measures imitation, not competitive strength.'));
+    intro.append(node('span', 'A SAVED CHECKPOINT, ACROSS THE TABLE', 'eyebrow'), node('h2', 'Take a seat.'), node('p', 'Choose a checkpoint and one of the two supported decks. Your opponent gets the other deck. Opponent hands, deck order, and face-down prizes stay hidden.'), node('p', 'These checkpoints imitate a frozen heuristic. Teacher agreement measures imitation, not competitive strength. Each checkpoint reports how its validation decisions were used.'));
     app.append(intro);
     if (selected) app.append(metadata(selected));
   }
