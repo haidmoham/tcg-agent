@@ -38,6 +38,26 @@
     "privateGraphicalPlayRepeated": false
   },
   "pilotEvidencePreserved": { "modelActionIntents": 12, "helperIntents": 8, "outcome": "user-stopped-incomplete", "winner": null, "trainingExamplesExported": 0, "nextGameAuthorized": false },
+  "dependencyFollowup": {
+    "date": "2026-10-20",
+    "originalPackagerInspected": "tools/network-gameplay-bundle.py",
+    "originalPackagerSha256": "c8ce291416b11f1f9657b8dd103f8e46a6d8db846ec69c636bd00629c09d425f",
+    "canonicalMetadataManifestIncluded": true,
+    "localAssemblyInputs": 8,
+    "reassembledManifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+    "reassembledPrerequisiteVerificationPassed": true,
+    "reassembledSeededNativeSmokePassed": true,
+    "currentCpuVersionLock": "learning/baseline-cpu-lock.json",
+    "currentCpuPackagesVerified": 10,
+    "syntheticCpuModelTestsPassed": 13,
+    "packagesInstalledOrChanged": 0,
+    "wheelArchiveHashesAvailable": false,
+    "freshEnvironmentInstallRehearsed": false,
+    "stockClientExtractionRehearsed": false,
+    "vendorPayloadsPublished": false,
+    "activeTrainingOrOfficialClientProcessesChanged": false,
+    "laterBridgeLoggingWorkIncluded": false
+  },
   "exclusions": [
     "Active codex/training-v3 work including checkpoint 9a28b4f and later moving edits; no Model3 weights, readiness or training claim.",
     "Vendor-derived native/client binaries, captured card/rule programs, private corpus, artwork, raw screenshots, raw journals, account identifiers and credentials.",

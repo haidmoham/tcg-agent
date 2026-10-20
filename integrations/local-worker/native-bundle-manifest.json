@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "bundleId": "reconstructed-live-1b806b6bdcd745d9",
+  "contentIdentitySha256": "1b806b6bdcd745d94cd4b58e597825274dcc155985e880e81b290002aff41a1b",
+  "files": [
+    {
+      "path": "MatchLogic.dll",
+      "source": "offline-baseline/inputs/MatchLogic.dll",
+      "sha256": "01e936b0ed9d886e7d3f9b8405653be81ba2371a0f33b5638fe134c8fc7154f5",
+      "bytes": 816640,
+      "role": "reconstructed engine"
+    },
+    {
+      "path": "CardDatabase.DataAccess.dll",
+      "source": "offline-baseline/inputs/CardDatabase.DataAccess.dll",
+      "sha256": "b7cb6cc2b16520faf60e3cedbb82106b2aae198bc2a0611ccecdd4504fdb53d6",
+      "bytes": 153088,
+      "role": "reconstructed data access"
+    },
+    {
+      "path": "Newtonsoft.Json.dll",
+      "source": "offline-baseline/inputs/Newtonsoft.Json.dll",
+      "sha256": "e8c8b123a1903ee78ff58e0ef179ea72f924b3247b06cb72c725a72306052304",
+      "bytes": 658432,
+      "role": "pinned required serialization dependency"
+    },
+    {
+      "path": "TimeProvider.dll",
+      "source": "offline-baseline/inputs/TimeProvider.dll",
+      "sha256": "10da3ba7edddc4680efbc39028352c5ed4089e58f6d5afdece787e5bc462f4ff",
+      "bytes": 7680,
+      "role": "pinned required clock dependency"
+    },
+    {
+      "path": "gameData.json",
+      "source": "network-recon/headless/standard-game-live-first/gameData.json",
+      "sha256": "c01fb0470f1105354f11e5a268a213ab9dbc7bfc01a8fd3e64e3313b998681e5",
+      "bytes": 417760,
+      "role": "captured Base game rules/actions"
+    },
+    {
+      "path": "cardData.json",
+      "source": "network-recon/selected-decks-v1/cardData.json",
+      "sha256": "c0921867b46497adf2ea5773ca579e3e5cb002df65a905b1221cf14c180febe2",
+      "bytes": 249104,
+      "role": "38 captured exact-printing CardSources"
+    },
+    {
+      "path": "decks.json",
+      "source": "network-recon/selected-decks-v1/decks.json",
+      "sha256": "b88b1096126bbd711c7df12b641a15d2fb03aee7b708ac0eefc33c2232d9150b",
+      "bytes": 8078,
+      "role": "two unchanged 60-card source arrays"
+    },
+    {
+      "path": "printing-joins.json",
+      "source": "inventory/network-selected-deck-joins.json",
+      "sha256": "2136e77ab8900f4569b8bd6d1e2a12f4f363fa472b165cb922066067064ac482",
+      "bytes": 196856,
+      "role": "exact mapping/source receipts"
+    }
+  ],
+  "fullCorpus": {
+    "path": "network-recon/card-corpus-v1/cards.jsonl",
+    "sha256": "afe7931aab5a6d4f77cdecbb7ae58502dd17fce4695986a348c2b27ebdd6c4ec",
+    "cards": 22945,
+    "indexPath": "network-recon/card-corpus-v1/index-v2.json"
+  },
+  "engineAuthority": "rebuilt MatchLogic with captured card/game programs",
+  "dependencies": "pinned Newtonsoft.Json and TimeProvider; no Unity/SDK runtime needed by proven headless slice",
+  "provenRuntime": ".NET 8 Windows, disclosed strict-load/start/attack fixtures",
+  "notProven": [
+    "complete ordinary two-deck game",
+    "Indigo browser integration",
+    ".NET10 execution",
+    "Linux/container execution"
+  ],
+  "credentialsIncluded": false,
+  "officialLiveRuntimeRequired": false,
+  "distribution": "private local research artifact; preserve original source and dependency provenance"
+}

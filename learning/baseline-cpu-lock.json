@@ -1,0 +1,33 @@
+{
+  "schema": "baseline-python-environment/1",
+  "capturedOn": "2026-10-20",
+  "scope": "Current Model1/Model2 CPU trainer tests and inference; excludes OCR, live-client instrumentation and Model3",
+  "python": "3.12.10",
+  "system": "Windows",
+  "machine": "AMD64",
+  "torchRuntime": "2.12.0+cpu",
+  "cudaRuntime": null,
+  "packages": {
+    "filelock": "3.29.0",
+    "fsspec": "2026.4.0",
+    "jinja2": "3.1.6",
+    "markupsafe": "3.0.3",
+    "mpmath": "1.3.0",
+    "networkx": "3.6.1",
+    "setuptools": "81.0.0",
+    "sympy": "1.14.0",
+    "torch": "2.12.0",
+    "typing-extensions": "4.15.0"
+  },
+  "dependencyClosure": {
+    "torch": ["filelock", "typing-extensions", "setuptools", "sympy", "networkx", "jinja2", "fsspec"],
+    "jinja2": ["markupsafe"],
+    "sympy": ["mpmath"]
+  },
+  "provenance": "Installed distribution metadata; active non-extra Requires-Dist closure on this Windows Python. Torch distribution version is 2.12.0 while its runtime reports 2.12.0+cpu.",
+  "originalCudaEnvironment": false,
+  "wheelArtifactHashes": null,
+  "wheelOriginMetadataAvailable": false,
+  "freshEnvironmentInstallRehearsed": false,
+  "limits": "This is a version lock and runtime check, not a hash-locked wheelhouse or a reconstruction of historical CUDA training. Original wheel origin/archive hashes were not retained."
+}

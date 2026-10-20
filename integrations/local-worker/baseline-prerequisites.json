@@ -90,5 +90,13 @@
     "requiredForBaseline": false,
     "sha256": "afe7931aab5a6d4f77cdecbb7ae58502dd17fce4695986a348c2b27ebdd6c4ec"
   },
+  "localAssembly": {
+    "canonicalManifest": "integrations/local-worker/native-bundle-manifest.json",
+    "command": "node scripts/assemble-native-bundle.mjs <private-source-root> .cache/native-inputs",
+    "originalPackager": "tools/network-gameplay-bundle.py",
+    "originalPackagerSha256": "c8ce291416b11f1f9657b8dd103f8e46a6d8db846ec69c636bd00629c09d425f",
+    "scope": "Reassemble the exact eight retained inputs using manifest source locations and hashes; does not regenerate vendor implementations or capture programs from a stock client."
+  },
+  "currentCpuEnvironment": "learning/baseline-cpu-lock.json",
   "scope": "Frozen Model1/Model2 two-deck baseline only. Model3 recipe is maintained separately; no weights or raw trajectories included."
 }

@@ -8,7 +8,21 @@ The worker source under `integrations/local-worker/native-source/` is original I
 
 The rehearsed host uses Windows, Node 24.18.0 and .NET SDK 8.0.425 targeting net8.0. The dependency-free Node package requires Node 22 or newer. NuGet sources are cleared; the worker references four explicitly supplied local DLLs. No package download occurs during setup.
 
-Original baseline CUDA training used PyTorch `2.5.1+cu121` with CUDA runtime 12.1. The CPU integration rehearsal uses Python 3.12 and PyTorch `2.12.0+cpu`. Those are different environments; CPU tests do not establish identical CUDA training weights. The original Python patch version and complete transitive Python dependency lock were not retained. No exact bitwise checkpoint reproduction claim follows from these pins. Use one explicit installed interpreter, record its version and package inventory privately, and choose the matching training runtime when comparing original receipts.
+Original baseline CUDA training used PyTorch `2.5.1+cu121` with CUDA runtime 12.1. The CPU integration rehearsal uses Python 3.12.10 and PyTorch `2.12.0+cpu`. Those are different environments; CPU tests do not establish identical CUDA training weights. The original Python patch version and complete transitive Python dependency lock were not retained. The current CPU environment now has a separate [version lock](../learning/baseline-cpu-lock.json), [ten-package requirements file](../learning/requirements-baseline-cpu.txt) and runtime verifier. It covers Torch's active non-extra dependency closure on Windows AMD64, rather than unrelated desktop packages. No historical or bitwise checkpoint reproduction claim follows from this current lock.
+
+```powershell
+python scripts/verify-baseline-python.py
+```
+
+The verifier checks Python, platform, all ten installed distribution versions, the `2.12.0+cpu` runtime and absence of CUDA. The observed Torch distribution metadata says `2.12.0`, while its runtime says `2.12.0+cpu`; both are retained explicitly. Nothing is installed or changed by verification. Original wheel download URLs/archive hashes are absent from this installation. A fresh environment install has not been rehearsed, so this is a version lock, not a hash-locked wheelhouse. If you retain matching wheels, a separate fresh environment can be prepared without changing an existing training runtime:
+
+```powershell
+python -m venv .cache/baseline-cpu-venv
+.cache/baseline-cpu-venv/Scripts/python.exe -m pip install --no-index --find-links C:/local/wheelhouse -r learning/requirements-baseline-cpu.txt
+.cache/baseline-cpu-venv/Scripts/python.exe scripts/verify-baseline-python.py
+```
+
+Supply the wheelhouse yourself and retain its archive hashes for future installations. The version requirement alone does not certify the CPU build; the runtime verifier must pass before using it. Missing matching wheels remain an explicit environment provisioning gap.
 
 Supply your own private `manifest.json` and these eight files in one local bundle directory:
 
@@ -22,7 +36,17 @@ Supply your own private `manifest.json` and these eight files in one local bundl
 | `decks.json` | Both original 60-card arrays and their bundle metadata |
 | `printing-joins.json` | Exact source/printing mappings used by that bundle |
 
-The manifest digest is `492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9`; every file's byte count and hash is recorded in the public prerequisite manifest. The repository deliberately does not contain these vendor-derived programs or binaries. Obtain/export them from your retained private reconstruction package, preserve their exact bytes and provenance, and verify them before execution. There is no public, certified extraction/reconstruction recipe here that regenerates this particular private package from a stock client install. Missing that package is an explicit native execution blocker, not something setup downloads or silently substitutes. Public kernel and synthetic tests can still run without it.
+The manifest digest is `492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9`; every file's byte count and hash is recorded in the public prerequisite manifest. The repository includes the exact byte-pinned [metadata manifest](../integrations/local-worker/native-bundle-manifest.json), with relative source locations, and an authored assembly command. It contains no vendor file payloads. The inspected original `network-gameplay-bundle.py` script packages previously reconstructed dependencies and captured programs. Its source hash is retained in `baseline-prerequisites.json`; it does not extract from a stock client.
+
+With the retained private research layout, rebuild the bundle in a new ignored directory:
+
+```powershell
+node scripts/assemble-native-bundle.mjs C:/local/private-research-root .cache/native-inputs
+```
+
+The source locations are explicit: DLLs under `offline-baseline/inputs/`, rules under `network-recon/headless/standard-game-live-first/`, selected cards/decks under `network-recon/selected-decks-v1/`, and joins at `inventory/network-selected-deck-joins.json`. Every input's byte count and hash is checked before output creation. The command preserves the canonical manifest bytes and refuses an existing output. For a flat existing bundle use `--from-bundle`. Point setup's `bundleRoot` to the newly assembled directory. This route was rehearsed and produced the original manifest hash, then passed prerequisite verification and seeded create/read/abort against the existing rebuilt worker.
+
+Upstream generation remains partial provenance. `network-selected-deck-joins.py` relies on a pinned Indigo deck source, cached import/table data, the captured corpus and its reader; managed rebuilding relies on reconstructed private sources. Those scripts do not constitute a self-contained, verified stock-client extraction/reconstruction procedure. No reverse engineering or vendor binary changes were performed in this follow-up. Obtain the exact retained inputs locally, preserve their provenance and verify them before execution. Missing them remains an explicit native execution blocker. Public kernel and synthetic tests can still run without them.
 
 ## Fresh checkout setup
 

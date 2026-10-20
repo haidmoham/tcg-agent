@@ -1,3 +1,4 @@
 # These frozen authored inputs are byte-pinned, including original line endings.
 integrations/local-worker/native-source/* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 integrations/local-worker/teacher.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/native-bundle-manifest.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
