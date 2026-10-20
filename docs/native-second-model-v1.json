@@ -1,0 +1,1476 @@
+{
+  "schema": "native-second-model-milestone/1",
+  "timestamp": "2026-10-20T01:38:10.159Z",
+  "sourceCommit": "9ae82b0",
+  "trainerSha256": "08ceed51412f3597745bcffbffe2fce7a18416e12122c81c677dbfc5dfb0e32b",
+  "profile": "private-two-deck-2026-10-11",
+  "fullStandardClaim": false,
+  "competitiveAgentClaim": false,
+  "collection": {
+    "limits": {
+      "maximumAttempts": 24,
+      "maximumCompleteGames": 24,
+      "maximumWallSeconds": 1800,
+      "maximumGameSeconds": 180,
+      "maximumGameCommands": 400,
+      "workers": 4,
+      "warmups": 0,
+      "replacements": 0
+    },
+    "counts": {
+      "attempted": 24,
+      "completed": 24,
+      "capacityFailures": 0,
+      "cancelled": 0,
+      "unattempted": 0,
+      "trainGames": 18,
+      "validationGames": 6,
+      "commands": 3133,
+      "ordinaryDecisions": 891
+    },
+    "elapsedMilliseconds": 690359.1602,
+    "stopReason": "all-declared-tasks-finished",
+    "receiptSha256": "e2a9724372a619715d3992998e81d7cf8c4d4757d95cb74a91e581d9581cd790",
+    "sourceHashes": {
+      "scripts/native-collect.mjs": "d5e66b6e78a7dd63599f69cbf671dddd9039134a70226395674d4e35062b5341",
+      "learning/model-two-plan.json": "8a89124bb3f9b08eaa4cb708a214af475aed776c3997cc5a471c5f90a838be5c",
+      "integrations/local-worker/learning-rollout.mjs": "197ed03b24cb700c08e9655a9858a43daa0f05e9d1ae24706d3dea5470259c51",
+      "integrations/local-worker/learning-features.mjs": "8bc323dfa1f7250d1d13ca16ce203ef7a7cb57c65560d80353cbf15118409797",
+      "integrations/local-worker/audit-runner.mjs": "ab52148bc61dba5cb2e5bd6de3ddd6aa9186743760189ae17f34e6fbaffd1f82",
+      "integrations/local-worker/probe.mjs": "4d0b7bbfabd5a7ee4d30660801caedb15212271b94160e97cdf7311ad8f2cb88",
+      "integrations/local-worker/policy-view.mjs": "f8581b140ef30cccdc6a3f3c67a82a976c609edb0cf378ed4fba984dc9974e8d",
+      "integrations/local-worker/semantic-state.mjs": "d8e3e0405465e5accc83a832999120c80b14c7a92a8d70c74ca29fc7025baac9",
+      "integrations/local-worker/decision-domain.mjs": "f8ebfdb22ec7efb038b767d96462de9c767e815a372a958f7e0ecedca5e59581"
+    },
+    "nativePins": {
+      "workerSha256": "76c38d968b3703fd5a69e94a97f8c5ce7b9f6e488d8d3428bae162af4204669a",
+      "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+      "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+      "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6"
+    },
+    "allFrozenSourcesAndSnapshotsVerified": true,
+    "privacyChecks": 6266,
+    "realHandExchanges": 6022,
+    "maxObservedNativeWorkerPeakWorkingSetBytes": 1100541952,
+    "timingScope": "fresh teacher generation plus full per-frame audits, hidden-world probes, legal enumeration, persisted artifacts and OS samples; no warmups, PyTorch or replay",
+    "interpretation": "one bounded collection run; no causal performance or scaling claim",
+    "games": [
+      {
+        "seed": 91001,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "split": "train",
+        "commands": 84,
+        "frames": 85,
+        "ordinaryDecisions": 31,
+        "privacyChecks": 168,
+        "realHandExchanges": 155,
+        "elapsedMilliseconds": 64501.2163,
+        "trajectorySha256": "90658e67f5f70052aa6b80b7533a00e256ca7161babc5172a2bd0989ce81a553",
+        "recordsSha256": "f1aca84746278eb9ec8bff9d04ac29c3636dc409431e39597b22c12152f01655",
+        "nativeCpuMilliseconds": 63984.375,
+        "nativePeakWorkingSetBytes": 272396288
+      },
+      {
+        "seed": 91002,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "split": "train",
+        "commands": 118,
+        "frames": 119,
+        "ordinaryDecisions": 38,
+        "privacyChecks": 236,
+        "realHandExchanges": 232,
+        "elapsedMilliseconds": 87456.483,
+        "trajectorySha256": "607553ee1ddc029cde7b613ef22fc51fcbbfcdf4812efc345712027fd8813544",
+        "recordsSha256": "c497df83a021402eb86614939f0221711b98a9842df1431868c758dd89ba2d43",
+        "nativeCpuMilliseconds": 85765.625,
+        "nativePeakWorkingSetBytes": 410705920
+      },
+      {
+        "seed": 91003,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "split": "train",
+        "commands": 171,
+        "frames": 172,
+        "ordinaryDecisions": 53,
+        "privacyChecks": 342,
+        "realHandExchanges": 333,
+        "elapsedMilliseconds": 157660.4412,
+        "trajectorySha256": "db800b8a6db2d9c8822c997820c47be64c7d3e52285ed136688e622ab4f5daa4",
+        "recordsSha256": "3400098b4b9b021e23a4dd9ef0b5cec51ffb7da451189daf053bb2c966388340",
+        "nativeCpuMilliseconds": 154031.25,
+        "nativePeakWorkingSetBytes": 648011776
+      },
+      {
+        "seed": 91004,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "split": "train",
+        "commands": 26,
+        "frames": 27,
+        "ordinaryDecisions": 3,
+        "privacyChecks": 52,
+        "realHandExchanges": 48,
+        "elapsedMilliseconds": 19941.804900000003,
+        "trajectorySha256": "dafc8812ad4334e0759e79a124f8e57de3fff3dc4420f1a918077c6c88ecf1cb",
+        "recordsSha256": "a932047eaad5cb12f0adff2ee802913930c71de1a5213240e53ddeae1fbee594",
+        "nativeCpuMilliseconds": 20765.625,
+        "nativePeakWorkingSetBytes": 124829696
+      },
+      {
+        "seed": 91005,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "split": "train",
+        "commands": 156,
+        "frames": 157,
+        "ordinaryDecisions": 46,
+        "privacyChecks": 312,
+        "realHandExchanges": 308,
+        "elapsedMilliseconds": 137763.1097,
+        "trajectorySha256": "31b5a3ae70b593e9e2af1549b7b05ede9038e394d8cbd8411c26917ef2b6a137",
+        "recordsSha256": "f0235866e1a37334f482a4d0eaded41ceed8b84ee1e68a881768e944421a21a9",
+        "nativeCpuMilliseconds": 133265.625,
+        "nativePeakWorkingSetBytes": 763019264
+      },
+      {
+        "seed": 91006,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "split": "train",
+        "commands": 158,
+        "frames": 159,
+        "ordinaryDecisions": 46,
+        "privacyChecks": 316,
+        "realHandExchanges": 312,
+        "elapsedMilliseconds": 139345.7382,
+        "trajectorySha256": "f41bff93a89a02652486a427a0a5f17630aacd318a021ce5c5e5fea1624fcce3",
+        "recordsSha256": "75b0387330301cd479f15220fe6f8c262cfdbf14d00a98ab9e02b4e3b98b183e",
+        "nativeCpuMilliseconds": 134671.875,
+        "nativePeakWorkingSetBytes": 924012544
+      },
+      {
+        "seed": 91007,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "split": "train",
+        "commands": 65,
+        "frames": 66,
+        "ordinaryDecisions": 23,
+        "privacyChecks": 130,
+        "realHandExchanges": 126,
+        "elapsedMilliseconds": 49310.00960000002,
+        "trajectorySha256": "bd89437d1cae2c9ce330866ee047e112bce80d4d966273847dda52132526ac48",
+        "recordsSha256": "ed8fda37e9f4feaf3dba36604e3f28d6a540f640b9c08916e4a9a0cb07853939",
+        "nativeCpuMilliseconds": 47171.875,
+        "nativePeakWorkingSetBytes": 778162176
+      },
+      {
+        "seed": 91008,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "split": "train",
+        "commands": 173,
+        "frames": 174,
+        "ordinaryDecisions": 54,
+        "privacyChecks": 346,
+        "realHandExchanges": 314,
+        "elapsedMilliseconds": 133492.29700000002,
+        "trajectorySha256": "f89b1f83ff5e9ee2ea8da13241ea3101e8c6fa745ffd82bdfc47c17e12e8d2dd",
+        "recordsSha256": "9acd05be7bd5129a44bc71d81d65b4c76bdf5f235d1b4b5575668192f987f8e3",
+        "nativeCpuMilliseconds": 129171.875,
+        "nativePeakWorkingSetBytes": 661880832
+      },
+      {
+        "seed": 91009,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "split": "train",
+        "commands": 103,
+        "frames": 104,
+        "ordinaryDecisions": 23,
+        "privacyChecks": 206,
+        "realHandExchanges": 202,
+        "elapsedMilliseconds": 73377.21819999997,
+        "trajectorySha256": "c74a4e7350e48577bf73b8d77f72424b85a0ce02e45a5387accf8312ed2ea678",
+        "recordsSha256": "a996f6ee3720d6f39e48f945a4fb1b89e75492afe8d420c9c61b75f69a8ecb1c",
+        "nativeCpuMilliseconds": 70906.25,
+        "nativePeakWorkingSetBytes": 802693120
+      },
+      {
+        "seed": 91010,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "split": "train",
+        "commands": 137,
+        "frames": 138,
+        "ordinaryDecisions": 47,
+        "privacyChecks": 274,
+        "realHandExchanges": 270,
+        "elapsedMilliseconds": 98493.41939999998,
+        "trajectorySha256": "51de076dc65bf48a54bda6801059100206313133d749b044653e0f49172f13ab",
+        "recordsSha256": "f1d7197dfed7660e8df7f1945bc5e1f5c79e021cb018e2aceecfe8e669f2551e",
+        "nativeCpuMilliseconds": 96078.125,
+        "nativePeakWorkingSetBytes": 958681088
+      },
+      {
+        "seed": 91011,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "split": "train",
+        "commands": 125,
+        "frames": 126,
+        "ordinaryDecisions": 26,
+        "privacyChecks": 250,
+        "realHandExchanges": 243,
+        "elapsedMilliseconds": 101602.86430000002,
+        "trajectorySha256": "b5d762d406cadf9a61c6691fe7c5dc658f98bc248646d348d33a8457ae0bd7ce",
+        "recordsSha256": "2c0bad0e5dff0ab9b367ef95e444488f8f749a17b45e74c5921a0fc1882a6d2f",
+        "nativeCpuMilliseconds": 98484.375,
+        "nativePeakWorkingSetBytes": 1036636160
+      },
+      {
+        "seed": 91012,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "split": "train",
+        "commands": 181,
+        "frames": 182,
+        "ordinaryDecisions": 55,
+        "privacyChecks": 362,
+        "realHandExchanges": 307,
+        "elapsedMilliseconds": 144633.2574,
+        "trajectorySha256": "de3c1eada273f05b66b30d2c9e8394579d47da338db0382961c36a4caa39bb5b",
+        "recordsSha256": "492214f089dddebb79feeb7ce13e05b87ce9f88c2785097ad2b5ea9995b7e5d8",
+        "nativeCpuMilliseconds": 140109.375,
+        "nativePeakWorkingSetBytes": 715112448
+      },
+      {
+        "seed": 91013,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "split": "train",
+        "commands": 158,
+        "frames": 159,
+        "ordinaryDecisions": 45,
+        "privacyChecks": 316,
+        "realHandExchanges": 312,
+        "elapsedMilliseconds": 124886.36100000003,
+        "trajectorySha256": "0b784c2901d0b5a803ccc0940a654ed6dccf01e8f21c2cd38475a64a85fb8da8",
+        "recordsSha256": "f54b28efbc4409405ff9ee8b6bf27bf37aed44add4525f33fccaf9e0266fa2d8",
+        "nativeCpuMilliseconds": 121546.875,
+        "nativePeakWorkingSetBytes": 802693120
+      },
+      {
+        "seed": 91014,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "split": "train",
+        "commands": 194,
+        "frames": 195,
+        "ordinaryDecisions": 54,
+        "privacyChecks": 388,
+        "realHandExchanges": 372,
+        "elapsedMilliseconds": 164285.52779999998,
+        "trajectorySha256": "9b2df6aa0dbf589f6ba82d43a93f50ed0e3e87ae6ccd139f46cb86951d57fdc1",
+        "recordsSha256": "1b7db4841fe5f3ad561f0638705c5680d43cbd6d921fc62d99666cf34e06580f",
+        "nativeCpuMilliseconds": 156546.875,
+        "nativePeakWorkingSetBytes": 1057824768
+      },
+      {
+        "seed": 91015,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "split": "train",
+        "commands": 125,
+        "frames": 126,
+        "ordinaryDecisions": 24,
+        "privacyChecks": 250,
+        "realHandExchanges": 239,
+        "elapsedMilliseconds": 88387.59340000001,
+        "trajectorySha256": "5afcf5e5045fdf738992a5320c29ffb092ccfa482e508d8d0f4334557e923c47",
+        "recordsSha256": "36a10270ae677bf15a17caa66305ed595e4f8cc60cdcac17126deface6054abf",
+        "nativeCpuMilliseconds": 85437.5,
+        "nativePeakWorkingSetBytes": 1052348416
+      },
+      {
+        "seed": 91016,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "split": "train",
+        "commands": 90,
+        "frames": 91,
+        "ordinaryDecisions": 32,
+        "privacyChecks": 180,
+        "realHandExchanges": 176,
+        "elapsedMilliseconds": 54401.37160000001,
+        "trajectorySha256": "f52bf7de359e76ef940b4b7c0627e0051846c4532167335a8c1a262610025bf6",
+        "recordsSha256": "a05104424b747b8499cebefffb3e39445a0bbfbeae73a16addb5e409dca12444",
+        "nativeCpuMilliseconds": 52812.5,
+        "nativePeakWorkingSetBytes": 720642048
+      },
+      {
+        "seed": 91017,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "split": "train",
+        "commands": 116,
+        "frames": 117,
+        "ordinaryDecisions": 31,
+        "privacyChecks": 232,
+        "realHandExchanges": 228,
+        "elapsedMilliseconds": 102651.82169999997,
+        "trajectorySha256": "e1a93b16c1ae2e05a449a921f002a9e6b0e08fdf56d2bafd6b8acb6b2c7ad8ec",
+        "recordsSha256": "be9d6ba16df4fbcc83781bad1217f4598da667088aa1a0335d55c8f2a77d4077",
+        "nativeCpuMilliseconds": 97078.125,
+        "nativePeakWorkingSetBytes": 802693120
+      },
+      {
+        "seed": 91018,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "split": "train",
+        "commands": 110,
+        "frames": 111,
+        "ordinaryDecisions": 42,
+        "privacyChecks": 220,
+        "realHandExchanges": 216,
+        "elapsedMilliseconds": 74565.80050000001,
+        "trajectorySha256": "099a982664c13580309d143c7966702d56ddd8ee3ba0a51cc68b3e5b31a4abf3",
+        "recordsSha256": "cb8c6472b6dc222b77901eb587dac5bbe42dfeca261a0f1cc76431694b9b4df6",
+        "nativeCpuMilliseconds": 72578.125,
+        "nativePeakWorkingSetBytes": 1100541952
+      },
+      {
+        "seed": 91019,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "split": "validation",
+        "commands": 134,
+        "frames": 135,
+        "ordinaryDecisions": 26,
+        "privacyChecks": 268,
+        "realHandExchanges": 264,
+        "elapsedMilliseconds": 109420.29389999999,
+        "trajectorySha256": "5d75e9b02061bd3b540d20f2c5cda291c818910fa220508a9e1433a04c351fd6",
+        "recordsSha256": "7c42ad862f3ef3cc89e2fd1fc1425e1df7befeddaf44f7f52b85eb6165185657",
+        "nativeCpuMilliseconds": 103406.25,
+        "nativePeakWorkingSetBytes": 1052348416
+      },
+      {
+        "seed": 91020,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "split": "validation",
+        "commands": 171,
+        "frames": 172,
+        "ordinaryDecisions": 55,
+        "privacyChecks": 342,
+        "realHandExchanges": 309,
+        "elapsedMilliseconds": 155251.41330000001,
+        "trajectorySha256": "fc92020369d429a201e5d206f24b93570c7d18aca41819fa183e9b8014392cac",
+        "recordsSha256": "72bb9d8a52660c5a2e7d17d23fb64963977d96fcf2a1a65aa8a5b3817d2e491b",
+        "nativeCpuMilliseconds": 148015.625,
+        "nativePeakWorkingSetBytes": 720642048
+      },
+      {
+        "seed": 91021,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "split": "validation",
+        "commands": 177,
+        "frames": 178,
+        "ordinaryDecisions": 44,
+        "privacyChecks": 354,
+        "realHandExchanges": 350,
+        "elapsedMilliseconds": 153625.59130000003,
+        "trajectorySha256": "2f83cc1359c3e70a9e96d83bede14ab629b4a60a6bd380b4a6018fc0cab994bf",
+        "recordsSha256": "b41f8ced3b3abb6a4569f5286be3b0a84f4e32819781366c989053238a876d54",
+        "nativeCpuMilliseconds": 150531.25,
+        "nativePeakWorkingSetBytes": 858652672
+      },
+      {
+        "seed": 91022,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "split": "validation",
+        "commands": 157,
+        "frames": 158,
+        "ordinaryDecisions": 45,
+        "privacyChecks": 314,
+        "realHandExchanges": 310,
+        "elapsedMilliseconds": 122481.01729999995,
+        "trajectorySha256": "43992387225f4120a669c224dd6d69b36d89a038c510304c144b6427362a2eb6",
+        "recordsSha256": "3be2a6fc4e3f99a1e3db7112e95bf663fe40cc469a7208398583d7fdd6cda8ec",
+        "nativeCpuMilliseconds": 119734.375,
+        "nativePeakWorkingSetBytes": 1100541952
+      },
+      {
+        "seed": 91023,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "split": "validation",
+        "commands": 91,
+        "frames": 92,
+        "ordinaryDecisions": 21,
+        "privacyChecks": 182,
+        "realHandExchanges": 174,
+        "elapsedMilliseconds": 64365.52600000001,
+        "trajectorySha256": "392478508622a85f516e642331144c9c6ca2f290b5fa6e7abcea662c01edbab8",
+        "recordsSha256": "56be4ac5834c96a2744338d412aaa9905cb3479f318bdb90e0953e79c71ecc1c",
+        "nativeCpuMilliseconds": 62812.5,
+        "nativePeakWorkingSetBytes": 1076502528
+      },
+      {
+        "seed": 91024,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "split": "validation",
+        "commands": 113,
+        "frames": 114,
+        "ordinaryDecisions": 27,
+        "privacyChecks": 226,
+        "realHandExchanges": 222,
+        "elapsedMilliseconds": 80708.31289999996,
+        "trajectorySha256": "30d80143a1b4c3b8ea28974180fedc45233048420a80ef78be5e67af4856f6dd",
+        "recordsSha256": "62b157f9ffbb8b1d60d593a1965a6199e70f632002534af32652c2df50072c12",
+        "nativeCpuMilliseconds": 78828.125,
+        "nativePeakWorkingSetBytes": 720642048
+      }
+    ]
+  },
+  "training": {
+    "schema": "native-second-imitation/1",
+    "initialization": "fresh",
+    "seed": 1729,
+    "parameters": 1953,
+    "device": "cuda",
+    "torch": "2.5.1+cu121",
+    "cudaRuntime": "12.1",
+    "deviceName": "NVIDIA GeForce RTX 3080",
+    "objective": "legal-candidate supervised imitation",
+    "provenance": {
+      "collectionSha256": "e2a9724372a619715d3992998e81d7cf8c4d4757d95cb74a91e581d9581cd790",
+      "planSha256": "8a89124bb3f9b08eaa4cb708a214af475aed776c3997cc5a471c5f90a838be5c",
+      "pins": {
+        "workerSha256": "76c38d968b3703fd5a69e94a97f8c5ce7b9f6e488d8d3428bae162af4204669a",
+        "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+        "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+        "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6"
+      },
+      "sourceHashes": {
+        "scripts/native-collect.mjs": "d5e66b6e78a7dd63599f69cbf671dddd9039134a70226395674d4e35062b5341",
+        "learning/model-two-plan.json": "8a89124bb3f9b08eaa4cb708a214af475aed776c3997cc5a471c5f90a838be5c",
+        "integrations/local-worker/learning-rollout.mjs": "197ed03b24cb700c08e9655a9858a43daa0f05e9d1ae24706d3dea5470259c51",
+        "integrations/local-worker/learning-features.mjs": "8bc323dfa1f7250d1d13ca16ce203ef7a7cb57c65560d80353cbf15118409797",
+        "integrations/local-worker/audit-runner.mjs": "ab52148bc61dba5cb2e5bd6de3ddd6aa9186743760189ae17f34e6fbaffd1f82",
+        "integrations/local-worker/probe.mjs": "4d0b7bbfabd5a7ee4d30660801caedb15212271b94160e97cdf7311ad8f2cb88",
+        "integrations/local-worker/policy-view.mjs": "f8581b140ef30cccdc6a3f3c67a82a976c609edb0cf378ed4fba984dc9974e8d",
+        "integrations/local-worker/semantic-state.mjs": "d8e3e0405465e5accc83a832999120c80b14c7a92a8d70c74ca29fc7025baac9",
+        "integrations/local-worker/decision-domain.mjs": "f8ebfdb22ec7efb038b767d96462de9c767e815a372a958f7e0ecedca5e59581"
+      },
+      "games": [
+        {
+          "id": "seed-91001",
+          "seed": 91001,
+          "seatOrder": [
+            0,
+            1
+          ],
+          "split": "train",
+          "records": 31,
+          "recordsSha256": "f1aca84746278eb9ec8bff9d04ac29c3636dc409431e39597b22c12152f01655",
+          "receiptSha256": "aadcaaf416b939649b4008d913d7d39be1d037f7aff75c71455bc3504bdf361e"
+        },
+        {
+          "id": "seed-91002",
+          "seed": 91002,
+          "seatOrder": [
+            1,
+            0
+          ],
+          "split": "train",
+          "records": 38,
+          "recordsSha256": "c497df83a021402eb86614939f0221711b98a9842df1431868c758dd89ba2d43",
+          "receiptSha256": "f97e1635ec7774c70383abc8f8d2bb52b36ac32061f26d7a00e1425fb179db39"
+        },
+        {
+          "id": "seed-91003",
+          "seed": 91003,
+          "seatOrder": [
+            0,
+            1
+          ],
+          "split": "train",
+          "records": 53,
+          "recordsSha256": "3400098b4b9b021e23a4dd9ef0b5cec51ffb7da451189daf053bb2c966388340",
+          "receiptSha256": "cde66bd947fbdfb7cab3d6cbc18b3eb161153b9165d858ab353efb81ff169d02"
+        },
+        {
+          "id": "seed-91004",
+          "seed": 91004,
+          "seatOrder": [
+            1,
+            0
+          ],
+          "split": "train",
+          "records": 3,
+          "recordsSha256": "a932047eaad5cb12f0adff2ee802913930c71de1a5213240e53ddeae1fbee594",
+          "receiptSha256": "704824819db44e8d091ef2cb46848c5bec88b47cf411e440b41ffffe153b0a7a"
+        },
+        {
+          "id": "seed-91005",
+          "seed": 91005,
+          "seatOrder": [
+            0,
+            1
+          ],
+          "split": "train",
+          "records": 46,
+          "recordsSha256": "f0235866e1a37334f482a4d0eaded41ceed8b84ee1e68a881768e944421a21a9",
+          "receiptSha256": "88b6f6345d9e74bff65885175169ba00c5780625e2eee152a979cba5dd2882d4"
+        },
+        {
+          "id": "seed-91006",
+          "seed": 91006,
+          "seatOrder": [
+            1,
+            0
+          ],
+          "split": "train",
+          "records": 46,
+          "recordsSha256": "75b0387330301cd479f15220fe6f8c262cfdbf14d00a98ab9e02b4e3b98b183e",
+          "receiptSha256": "fdb7b7c48838968aa227861a7605556d8c4814342a7b81fc146bd9a0850fe5a4"
+        },
+        {
+          "id": "seed-91007",
+          "seed": 91007,
+          "seatOrder": [
+            0,
+            1
+          ],
+          "split": "train",
+          "records": 23,
+          "recordsSha256": "ed8fda37e9f4feaf3dba36604e3f28d6a540f640b9c08916e4a9a0cb07853939",
+          "receiptSha256": "3e8d0a9d03226f99a4620f515d63a47c23509e6c26077226eb2941002a52bb22"
+        },
+        {
+          "id": "seed-91008",
+          "seed": 91008,
+          "seatOrder": [
+            1,
+            0
+          ],
+          "split": "train",
+          "records": 54,
+          "recordsSha256": "9acd05be7bd5129a44bc71d81d65b4c76bdf5f235d1b4b5575668192f987f8e3",
+          "receiptSha256": "a562bd0d56d0fa766d92c7f651d23326358fc41c7a6ac1d77d363019fa188873"
+        },
+        {
+          "id": "seed-91009",
+          "seed": 91009,
+          "seatOrder": [
+            0,
+            1
+          ],
+          "split": "train",
+          "records": 23,
+          "recordsSha256": "a996f6ee3720d6f39e48f945a4fb1b89e75492afe8d420c9c61b75f69a8ecb1c",
+          "receiptSha256": "eb850f9601c466e9a3ca3695bc1076ce87dcb4a761674359876d38b8f1ea79b1"
+        },
+        {
+          "id": "seed-91010",
+          "seed": 91010,
+          "seatOrder": [
+            1,
+            0
+          ],
+          "split": "train",
+          "records": 47,
+          "recordsSha256": "f1d7197dfed7660e8df7f1945bc5e1f5c79e021cb018e2aceecfe8e669f2551e",
+          "receiptSha256": "c2352f08d57d4d2fd971c4a03bd0b5dbd5ecbc160ea0d1e754200b88f25f7760"
+        },
+        {
+          "id": "seed-91011",
+          "seed": 91011,
+          "seatOrder": [
+            0,
+            1
+          ],
+          "split": "train",
+          "records": 26,
+          "recordsSha256": "2c0bad0e5dff0ab9b367ef95e444488f8f749a17b45e74c5921a0fc1882a6d2f",
+          "receiptSha256": "9150576754c338b9b3cb083bad09c922c0ba5af35eb58c64f951fcc817d1603f"
+        },
+        {
+          "id": "seed-91012",
+          "seed": 91012,
+          "seatOrder": [
+            1,
+            0
+          ],
+          "split": "train",
+          "records": 55,
+          "recordsSha256": "492214f089dddebb79feeb7ce13e05b87ce9f88c2785097ad2b5ea9995b7e5d8",
+          "receiptSha256": "cafdab339b7ff0b230f17f8a2b4662bc0fc07bded9960a955524af4a32f71b26"
+        },
+        {
+          "id": "seed-91013",
+          "seed": 91013,
+          "seatOrder": [
+            0,
+            1
+          ],
+          "split": "train",
+          "records": 45,
+          "recordsSha256": "f54b28efbc4409405ff9ee8b6bf27bf37aed44add4525f33fccaf9e0266fa2d8",
+          "receiptSha256": "1ab598227098b82b2ebe834664d23dcfaae26e03f312d00623e7fdae2d3ce216"
+        },
+        {
+          "id": "seed-91014",
+          "seed": 91014,
+          "seatOrder": [
+            1,
+            0
+          ],
+          "split": "train",
+          "records": 54,
+          "recordsSha256": "1b7db4841fe5f3ad561f0638705c5680d43cbd6d921fc62d99666cf34e06580f",
+          "receiptSha256": "beb6d60977e2e8def5763202b3a34bdd8efe9106d0aa784bcf14d3c434167fa6"
+        },
+        {
+          "id": "seed-91015",
+          "seed": 91015,
+          "seatOrder": [
+            0,
+            1
+          ],
+          "split": "train",
+          "records": 24,
+          "recordsSha256": "36a10270ae677bf15a17caa66305ed595e4f8cc60cdcac17126deface6054abf",
+          "receiptSha256": "69d34c17accc21d60853b977eb780fc42f798e6212686f6a74a1b87b0c7d3b3c"
+        },
+        {
+          "id": "seed-91016",
+          "seed": 91016,
+          "seatOrder": [
+            1,
+            0
+          ],
+          "split": "train",
+          "records": 32,
+          "recordsSha256": "a05104424b747b8499cebefffb3e39445a0bbfbeae73a16addb5e409dca12444",
+          "receiptSha256": "83199f34f3cab9b24686b0f25d8627bbcf30af9fa2e5978dea62ccc8ab009510"
+        },
+        {
+          "id": "seed-91017",
+          "seed": 91017,
+          "seatOrder": [
+            0,
+            1
+          ],
+          "split": "train",
+          "records": 31,
+          "recordsSha256": "be9d6ba16df4fbcc83781bad1217f4598da667088aa1a0335d55c8f2a77d4077",
+          "receiptSha256": "723722dfb8fdd75fb2c9c804dbec9f018c5dda4baf244a4013553ce7c7f0f7a2"
+        },
+        {
+          "id": "seed-91018",
+          "seed": 91018,
+          "seatOrder": [
+            1,
+            0
+          ],
+          "split": "train",
+          "records": 42,
+          "recordsSha256": "cb8c6472b6dc222b77901eb587dac5bbe42dfeca261a0f1cc76431694b9b4df6",
+          "receiptSha256": "e215642e1dba17f292ee7de647575c81ec2b07bb3e66d1a70184ecc628fc2cfe"
+        },
+        {
+          "id": "seed-91019",
+          "seed": 91019,
+          "seatOrder": [
+            0,
+            1
+          ],
+          "split": "validation",
+          "records": 26,
+          "recordsSha256": "7c42ad862f3ef3cc89e2fd1fc1425e1df7befeddaf44f7f52b85eb6165185657",
+          "receiptSha256": "16ca029546135f30fae09867a87284430c2b7c4c9c7d8e811212aa8bc5b7840b"
+        },
+        {
+          "id": "seed-91020",
+          "seed": 91020,
+          "seatOrder": [
+            1,
+            0
+          ],
+          "split": "validation",
+          "records": 55,
+          "recordsSha256": "72bb9d8a52660c5a2e7d17d23fb64963977d96fcf2a1a65aa8a5b3817d2e491b",
+          "receiptSha256": "12a60a89732c83f1906af47c99ff575a20200df79201f8bcdf7f91890f73689e"
+        },
+        {
+          "id": "seed-91021",
+          "seed": 91021,
+          "seatOrder": [
+            0,
+            1
+          ],
+          "split": "validation",
+          "records": 44,
+          "recordsSha256": "b41f8ced3b3abb6a4569f5286be3b0a84f4e32819781366c989053238a876d54",
+          "receiptSha256": "cae7b1fddb6f2bfea8fd13258e535b315e383dd5036574235c9d70ef124a3496"
+        },
+        {
+          "id": "seed-91022",
+          "seed": 91022,
+          "seatOrder": [
+            1,
+            0
+          ],
+          "split": "validation",
+          "records": 45,
+          "recordsSha256": "3be2a6fc4e3f99a1e3db7112e95bf663fe40cc469a7208398583d7fdd6cda8ec",
+          "receiptSha256": "5185fac060de74a096a48b11a5cdc38a3f1b43cdd9506221c24c9da924625d82"
+        },
+        {
+          "id": "seed-91023",
+          "seed": 91023,
+          "seatOrder": [
+            0,
+            1
+          ],
+          "split": "validation",
+          "records": 21,
+          "recordsSha256": "56be4ac5834c96a2744338d412aaa9905cb3479f318bdb90e0953e79c71ecc1c",
+          "receiptSha256": "6993128c3c11059e306c95eab5b586aed42c3a066b345233812dc647c449d2a5"
+        },
+        {
+          "id": "seed-91024",
+          "seed": 91024,
+          "seatOrder": [
+            1,
+            0
+          ],
+          "split": "validation",
+          "records": 27,
+          "recordsSha256": "62b157f9ffbb8b1d60d593a1965a6199e70f632002534af32652c2df50072c12",
+          "receiptSha256": "9f724237e7d1c3985b3f76e174485f900697e9275ae8e74a46443c4a04c52b03"
+        }
+      ],
+      "trainingGames": 18,
+      "validationGames": 6,
+      "trainingRecords": 673,
+      "validationRecords": 218,
+      "capacityFailures": [],
+      "unattempted": [],
+      "reservedFinalEvaluationSeeds": [
+        92001,
+        92002
+      ]
+    },
+    "limits": {
+      "requestedUpdates": 200,
+      "hardUpdateLimit": 1000,
+      "maxSeconds": 120,
+      "minibatch": 64,
+      "learningRate": 0.003,
+      "validationEveryUpdates": 10,
+      "patience": 3,
+      "minDelta": 0.0001
+    },
+    "startupAndUploadSeconds": 2.4781473000039114,
+    "updateWallSeconds": 1.0383956999939983,
+    "completedUpdates": 200,
+    "examplesProcessed": 12242,
+    "epochsStarted": 19,
+    "shuffle": "seeded without replacement within each epoch; last minibatch can be partial",
+    "validationWeighting": "decision-weighted across held-out whole games",
+    "stopReason": "update-limit",
+    "initialValidation": {
+      "loss": 1.9012580136640356,
+      "teacherAgreement": 0.25229357798165136,
+      "records": 218
+    },
+    "validationHistory": [
+      {
+        "update": 10,
+        "loss": 1.7610228564761101,
+        "teacherAgreement": 0.41284403669724773,
+        "records": 218
+      },
+      {
+        "update": 20,
+        "loss": 1.633631373764178,
+        "teacherAgreement": 0.40825688073394495,
+        "records": 218
+      },
+      {
+        "update": 30,
+        "loss": 1.533941408909789,
+        "teacherAgreement": 0.43119266055045874,
+        "records": 218
+      },
+      {
+        "update": 40,
+        "loss": 1.467874736960875,
+        "teacherAgreement": 0.42660550458715596,
+        "records": 218
+      },
+      {
+        "update": 50,
+        "loss": 1.4233027641926337,
+        "teacherAgreement": 0.44036697247706424,
+        "records": 218
+      },
+      {
+        "update": 60,
+        "loss": 1.3967564259100398,
+        "teacherAgreement": 0.44036697247706424,
+        "records": 218
+      },
+      {
+        "update": 70,
+        "loss": 1.3809003829956055,
+        "teacherAgreement": 0.4541284403669725,
+        "records": 218
+      },
+      {
+        "update": 80,
+        "loss": 1.3673854092939184,
+        "teacherAgreement": 0.4541284403669725,
+        "records": 218
+      },
+      {
+        "update": 90,
+        "loss": 1.363468922606302,
+        "teacherAgreement": 0.44954128440366975,
+        "records": 218
+      },
+      {
+        "update": 100,
+        "loss": 1.3601944162211288,
+        "teacherAgreement": 0.44495412844036697,
+        "records": 218
+      },
+      {
+        "update": 110,
+        "loss": 1.3540237584245314,
+        "teacherAgreement": 0.4724770642201835,
+        "records": 218
+      },
+      {
+        "update": 120,
+        "loss": 1.3560439643509892,
+        "teacherAgreement": 0.47706422018348627,
+        "records": 218
+      },
+      {
+        "update": 130,
+        "loss": 1.355765473951987,
+        "teacherAgreement": 0.47706422018348627,
+        "records": 218
+      },
+      {
+        "update": 140,
+        "loss": 1.350237531399508,
+        "teacherAgreement": 0.47706422018348627,
+        "records": 218
+      },
+      {
+        "update": 150,
+        "loss": 1.3487907637149916,
+        "teacherAgreement": 0.48623853211009177,
+        "records": 218
+      },
+      {
+        "update": 160,
+        "loss": 1.3447444723286759,
+        "teacherAgreement": 0.481651376146789,
+        "records": 218
+      },
+      {
+        "update": 170,
+        "loss": 1.3464694066878853,
+        "teacherAgreement": 0.481651376146789,
+        "records": 218
+      },
+      {
+        "update": 180,
+        "loss": 1.3441544978990467,
+        "teacherAgreement": 0.481651376146789,
+        "records": 218
+      },
+      {
+        "update": 190,
+        "loss": 1.3399062900368226,
+        "teacherAgreement": 0.481651376146789,
+        "records": 218
+      },
+      {
+        "update": 200,
+        "loss": 1.3358955470793838,
+        "teacherAgreement": 0.4908256880733945,
+        "records": 218
+      }
+    ],
+    "bestUpdate": 200,
+    "bestValidation": {
+      "loss": 1.3358955470793838,
+      "teacherAgreement": 0.4908256880733945,
+      "records": 218
+    },
+    "bestTraining": {
+      "loss": 1.237470442614619,
+      "teacherAgreement": 0.5111441307578009,
+      "records": 673
+    },
+    "losses": [
+      1.9856936931610107,
+      1.7913002967834473,
+      1.85257887840271,
+      1.7751139402389526,
+      1.7952536344528198,
+      1.72648286819458,
+      1.6181167364120483,
+      1.8883103132247925,
+      1.6545913219451904,
+      1.8629451990127563,
+      1.7599862813949585,
+      1.7415326833724976,
+      1.812251329421997,
+      1.6311832666397095,
+      1.7062065601348877,
+      1.5580374002456665,
+      1.6135860681533813,
+      1.6816344261169434,
+      1.6822552680969238,
+      1.5573679208755493,
+      1.6163467168807983,
+      1.5345051288604736,
+      1.4989947080612183,
+      1.5858534574508667,
+      1.5157155990600586,
+      1.4700157642364502,
+      1.6465948820114136,
+      1.6394429206848145,
+      1.4920239448547363,
+      1.7109675407409668,
+      1.3651286363601685,
+      1.4521981477737427,
+      1.5138086080551147,
+      1.4319959878921509,
+      1.4639612436294556,
+      1.3432856798171997,
+      1.5168919563293457,
+      1.4839166402816772,
+      1.3609416484832764,
+      1.4729537963867188,
+      1.3787903785705566,
+      1.367193579673767,
+      1.586856484413147,
+      1.468989610671997,
+      1.4042468070983887,
+      1.5765892267227173,
+      1.449236512184143,
+      1.312463402748108,
+      1.264079213142395,
+      1.3660303354263306,
+      1.3638111352920532,
+      1.3053561449050903,
+      1.4319539070129395,
+      1.5229119062423706,
+      0.9568071365356445,
+      1.3624916076660156,
+      1.3524348735809326,
+      1.1616268157958984,
+      1.1408634185791016,
+      1.5110437870025635,
+      1.1933910846710205,
+      1.424636721611023,
+      1.327315330505371,
+      1.4015566110610962,
+      1.5521597862243652,
+      1.1975862979888916,
+      1.3599039316177368,
+      1.3887481689453125,
+      1.239087462425232,
+      1.338244080543518,
+      1.3082923889160156,
+      1.2721672058105469,
+      1.2792774438858032,
+      1.1262742280960083,
+      1.3633657693862915,
+      1.4163600206375122,
+      1.3712501525878906,
+      1.3635488748550415,
+      1.3108510971069336,
+      1.5338643789291382,
+      1.3175208568572998,
+      1.2375670671463013,
+      1.3409819602966309,
+      1.262776255607605,
+      1.1301195621490479,
+      1.2023013830184937,
+      1.2414512634277344,
+      1.2705153226852417,
+      1.4114837646484375,
+      1.2104867696762085,
+      1.0715489387512207,
+      1.2381484508514404,
+      1.461909294128418,
+      1.2371931076049805,
+      1.3045189380645752,
+      1.264970302581787,
+      1.3109415769577026,
+      1.159676194190979,
+      1.552081823348999,
+      1.106446385383606,
+      1.4373711347579956,
+      1.3335531949996948,
+      1.1615538597106934,
+      1.286411166191101,
+      1.292661190032959,
+      1.159346580505371,
+      1.3183726072311401,
+      1.2971161603927612,
+      1.3410500288009644,
+      1.291935920715332,
+      1.0924944877624512,
+      1.2782784700393677,
+      1.1847766637802124,
+      1.2848948240280151,
+      1.2133076190948486,
+      1.2264511585235596,
+      1.2944976091384888,
+      1.2645301818847656,
+      1.3564685583114624,
+      1.4287590980529785,
+      1.390622615814209,
+      1.1836695671081543,
+      1.3136041164398193,
+      1.2179371118545532,
+      1.2129918336868286,
+      1.402854323387146,
+      1.287955403327942,
+      1.2544306516647339,
+      1.2910305261611938,
+      1.2255772352218628,
+      1.3279917240142822,
+      1.147492527961731,
+      1.3636921644210815,
+      1.1787545680999756,
+      1.0874805450439453,
+      1.3088268041610718,
+      1.2013893127441406,
+      1.274953842163086,
+      1.4009653329849243,
+      1.2151148319244385,
+      1.397891640663147,
+      1.1354427337646484,
+      1.3043173551559448,
+      1.4118448495864868,
+      1.2594674825668335,
+      1.3152062892913818,
+      1.4047877788543701,
+      1.14335298538208,
+      1.0746784210205078,
+      1.4950307607650757,
+      1.1001062393188477,
+      1.1929084062576294,
+      1.151000738143921,
+      1.3162860870361328,
+      1.2010908126831055,
+      1.279921293258667,
+      1.3014103174209595,
+      1.2407078742980957,
+      1.2314406633377075,
+      1.4438755512237549,
+      1.3489049673080444,
+      1.2177250385284424,
+      1.1838489770889282,
+      1.082294225692749,
+      1.240830421447754,
+      1.1564713716506958,
+      1.0722981691360474,
+      1.1278815269470215,
+      1.1904302835464478,
+      1.5214368104934692,
+      1.4838669300079346,
+      1.105674386024475,
+      1.1036790609359741,
+      1.1805158853530884,
+      1.4572325944900513,
+      1.4775149822235107,
+      1.12338125705719,
+      1.0428943634033203,
+      1.4742668867111206,
+      1.0793837308883667,
+      1.343739628791809,
+      1.335033655166626,
+      1.3169785737991333,
+      1.169818639755249,
+      1.343093991279602,
+      1.2386494874954224,
+      1.2357805967330933,
+      1.2701530456542969,
+      1.284535527229309,
+      1.3567372560501099,
+      1.4586806297302246,
+      1.24817955493927,
+      1.0061631202697754,
+      1.3639966249465942,
+      1.187060832977295,
+      1.0662206411361694,
+      1.3020936250686646,
+      1.040940761566162,
+      1.0282267332077026,
+      1.373075246810913
+    ],
+    "gradientNorms": [
+      0.37356728315353394,
+      0.29409417510032654,
+      0.22695712745189667,
+      0.3125932812690735,
+      0.2916279435157776,
+      0.317097932100296,
+      0.3275880515575409,
+      0.27461689710617065,
+      0.3179072141647339,
+      0.28350991010665894,
+      0.36336594820022583,
+      0.28210562467575073,
+      0.3532274663448334,
+      0.3134109079837799,
+      0.325113981962204,
+      0.30768102407455444,
+      0.27294471859931946,
+      0.36207520961761475,
+      0.2542842924594879,
+      0.40789681673049927,
+      0.390215128660202,
+      0.24564045667648315,
+      0.36841610074043274,
+      0.3964342474937439,
+      0.34188127517700195,
+      0.2745644152164459,
+      0.27846387028694153,
+      0.30992528796195984,
+      0.23685060441493988,
+      0.3173246383666992,
+      0.17689841985702515,
+      0.2935660481452942,
+      0.3116959035396576,
+      0.2580234706401825,
+      0.3818066418170929,
+      0.226836696267128,
+      0.3303893804550171,
+      0.2587463855743408,
+      0.2846580743789673,
+      0.2003810554742813,
+      0.2659572660923004,
+      0.4263562858104706,
+      0.24930866062641144,
+      0.39283287525177,
+      0.2152421772480011,
+      0.21659250557422638,
+      0.3096648156642914,
+      0.21560277044773102,
+      0.358306884765625,
+      0.28117480874061584,
+      0.25169187784194946,
+      0.3239504396915436,
+      0.21005326509475708,
+      0.1630736142396927,
+      0.309324711561203,
+      0.31924107670783997,
+      0.2018086314201355,
+      0.24982745945453644,
+      0.15215493738651276,
+      0.1861964613199234,
+      0.3366788327693939,
+      0.23847709596157074,
+      0.19384153187274933,
+      0.22373495995998383,
+      0.37205734848976135,
+      0.2966490685939789,
+      0.23899289965629578,
+      0.1704424023628235,
+      0.21097232401371002,
+      0.3279021382331848,
+      0.2754565179347992,
+      0.15668834745883942,
+      0.2863665819168091,
+      0.1789626181125641,
+      0.2546031177043915,
+      0.2793115973472595,
+      0.30262845754623413,
+      0.2512095272541046,
+      0.2400495409965515,
+      0.26815861463546753,
+      0.13681893050670624,
+      0.27251461148262024,
+      0.2296755015850067,
+      0.1986180990934372,
+      0.270770788192749,
+      0.34632569551467896,
+      0.1535462737083435,
+      0.29480835795402527,
+      0.3053467869758606,
+      0.24397744238376617,
+      0.3095584213733673,
+      0.1939142942428589,
+      0.1686491221189499,
+      0.33156660199165344,
+      0.27319687604904175,
+      0.15941984951496124,
+      0.20185327529907227,
+      0.1650894731283188,
+      0.40980949997901917,
+      0.14237509667873383,
+      0.2812681198120117,
+      0.24275413155555725,
+      0.20762427151203156,
+      0.13873861730098724,
+      0.25453218817710876,
+      0.1749449074268341,
+      0.19341495633125305,
+      0.31634822487831116,
+      0.187986820936203,
+      0.5277103781700134,
+      0.2630060613155365,
+      0.2676842510700226,
+      0.1823713481426239,
+      0.1908194124698639,
+      0.2542799115180969,
+      0.1471012532711029,
+      0.14615891873836517,
+      0.2857809364795685,
+      0.12232590466737747,
+      0.16137346625328064,
+      0.35785308480262756,
+      0.24474206566810608,
+      0.2660079896450043,
+      0.1255149096250534,
+      0.22954340279102325,
+      0.17255645990371704,
+      0.1799231469631195,
+      0.2684408724308014,
+      0.1010735034942627,
+      0.1944364607334137,
+      0.19496546685695648,
+      0.5781038999557495,
+      0.19626986980438232,
+      0.16630852222442627,
+      0.2011481672525406,
+      0.2065843939781189,
+      0.20023158192634583,
+      0.22690749168395996,
+      0.34148308634757996,
+      0.1745416224002838,
+      0.14051419496536255,
+      0.20669734477996826,
+      0.19203726947307587,
+      0.11867693066596985,
+      0.3097267150878906,
+      0.1357218325138092,
+      0.12170126289129257,
+      0.09600087255239487,
+      0.17579397559165955,
+      0.2843637764453888,
+      0.14551037549972534,
+      0.34617412090301514,
+      0.25711339712142944,
+      0.5342363119125366,
+      0.13036151230335236,
+      0.20149579644203186,
+      0.20933295786380768,
+      0.258671373128891,
+      0.15576599538326263,
+      0.18449027836322784,
+      0.18607525527477264,
+      0.20963184535503387,
+      0.13612625002861023,
+      0.15517547726631165,
+      0.24118046462535858,
+      0.17448174953460693,
+      0.20593005418777466,
+      0.17676091194152832,
+      0.15145234763622284,
+      0.4670146703720093,
+      0.26446229219436646,
+      0.15929871797561646,
+      0.22581379115581512,
+      0.4516128897666931,
+      0.29148393869400024,
+      0.26640042662620544,
+      0.20596320927143097,
+      0.2595243752002716,
+      0.30159035325050354,
+      0.31878507137298584,
+      0.09213372319936752,
+      0.21022473275661469,
+      0.23472636938095093,
+      0.23233938217163086,
+      0.23371537029743195,
+      0.16479749977588654,
+      0.11588365584611893,
+      0.120914027094841,
+      0.2527097463607788,
+      0.178633913397789,
+      0.20424889028072357,
+      0.17817436158657074,
+      0.5056222677230835,
+      0.1558777391910553,
+      0.3270774185657501,
+      0.1947060525417328,
+      0.16669602692127228,
+      0.2554560601711273,
+      0.16976213455200195,
+      0.29128092527389526
+    ],
+    "weightL1ChangeFromInitialization": 202.06922618299723,
+    "reloadLogitsExact": true,
+    "cudaEventMilliseconds": 1038.1722412109375,
+    "peakCudaAllocatedBytes": 72317440,
+    "paddedWidths": {
+      "train": 31,
+      "validation": 31
+    },
+    "checkpointSha256": "144180ba472cfe23e405eb7c47448e5c88e8148ac5440c5d38f37a54d7ad690b",
+    "claim": "bounded second imitation model; teacher agreement is not playing strength"
+  },
+  "sameValidationComparison": {
+    "schema": "native-two-checkpoint-validation/1",
+    "sameWholeGameValidation": true,
+    "validationSeeds": [
+      91019,
+      91020,
+      91021,
+      91022,
+      91023,
+      91024
+    ],
+    "weighting": "decision weighted across heldout whole games",
+    "selectionCaveat": "Model two was selected on this validation set; this is not untouched final evaluation.",
+    "finalEvaluationSeedsUsed": [],
+    "results": {
+      "modelOne": {
+        "checkpointSha256": "1c405966d9539aca89fdf49413663f327859ece6c74c96b12e4453490062fe43",
+        "records": 218,
+        "loss": 1.7680905718322193,
+        "teacherAgreement": 0.38073394495412843,
+        "allPredictionsLegal": true
+      },
+      "modelTwo": {
+        "checkpointSha256": "144180ba472cfe23e405eb7c47448e5c88e8148ac5440c5d38f37a54d7ad690b",
+        "records": 218,
+        "loss": 1.3358954158397989,
+        "teacherAgreement": 0.4908256880733945,
+        "allPredictionsLegal": true
+      }
+    },
+    "device": "cpu",
+    "torch": "2.5.1+cu121"
+  },
+  "modelOnePreservation": {
+    "filesVerifiedUnchanged": 6,
+    "checkpointSha256": "1c405966d9539aca89fdf49413663f327859ece6c74c96b12e4453490062fe43"
+  },
+  "finalEvaluation": {
+    "status": "not run at training-receipt publication; fixed paired native comparison follows checkpoint selection",
+    "seedsUsedByTrainingOrSelection": [],
+    "casesPerModel": [
+      {
+        "id": "92001-human",
+        "seed": 92001,
+        "ordinaryPolicySeat": "human",
+        "seatOrder": [
+          0,
+          1
+        ]
+      },
+      {
+        "id": "92001-opponent",
+        "seed": 92001,
+        "ordinaryPolicySeat": "opponent",
+        "seatOrder": [
+          1,
+          0
+        ]
+      },
+      {
+        "id": "92002-human",
+        "seed": 92002,
+        "ordinaryPolicySeat": "human",
+        "seatOrder": [
+          0,
+          1
+        ]
+      },
+      {
+        "id": "92002-opponent",
+        "seed": 92002,
+        "ordinaryPolicySeat": "opponent",
+        "seatOrder": [
+          1,
+          0
+        ]
+      }
+    ],
+    "opponentPolicySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+    "selectionFrozen": true
+  },
+  "privacy": "Raw games, numeric examples, private input programs, checkpoint weights and machine-specific configs remain local and ignored."
+}

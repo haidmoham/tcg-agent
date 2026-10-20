@@ -1,6 +1,6 @@
 # tcg-agent
 
-A public, CPU-first Pokémon TCG simulation and learning project. **Full current Standard support is the target and is not complete.** The runnable reference profile has complete seeded games, legal choices, player-safe observations and replay. A pinned public Twinleaf integration executes modern printed-card conformance fixtures. The first bounded imitation checkpoint runs on a private two-deck native profile. It is not a competitive agent.
+A public, CPU-first Pokémon TCG simulation and learning project. **Full current Standard support is the target and is not complete.** The runnable reference profile has complete seeded games, legal choices, player-safe observations and replay. A pinned public Twinleaf integration executes modern printed-card conformance fixtures. Two bounded imitation checkpoints run on a private two-deck native profile. They are not competitive agents.
 
 Open **[the visual tutorial](tutorial.html)** in a browser. It explains what transfers from VGC bots, where existing analytics fit, and which technical decisions remain the learner's work.
 
@@ -38,6 +38,8 @@ The [native performance campaign](docs/native-performance-hillclimb.md) adds com
 The accepted native optimizations share immutable projection input and avoid copies for proposals necessarily rejected by the pinned turn rules. Every remaining validation receives a fresh graph. Repeated direct native controls, reverted candidates and the unmet 2x working target are recorded in the campaign document. These fixture measurements do not establish training throughput or close the Standard coverage gates.
 
 The [native learning bridge](docs/native-learning-bridge.md) runs fresh audited policy games in 1, 2 or 4 persistent CPU processes and exposes a small actor-visible legal-candidate scorer to one local PyTorch owner. Its first objective is bounded supervised imitation, with whole-game heldout data, checkpoint reload checks and fresh evaluation seeds. Setup and prompts remain with the fixed helper. The [learner instructions](learning/README.md) describe the optional existing Python/CUDA runtime; no packages are installed automatically.
+
+The [second model](docs/native-second-model.md) uses 24 new whole games, a fixed train/validation split and 200 supervised updates. The selected checkpoint passes finite-gradient and reload checks. Its higher teacher agreement on the shared validation set does not establish stronger play; frozen paired native games provide a separate evaluation.
 
 ```sh
 npm run engine:prepare

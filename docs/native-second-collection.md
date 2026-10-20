@@ -1,6 +1,6 @@
 # Second-model collection contract
 
-`scripts/native-collect.mjs` collects fresh teacher games for the preregistered `learning/model-two-plan.json`. Model-one runs and examples remain intact. Root owns actual execution.
+`scripts/native-collect.mjs` collects fresh teacher games for the preregistered `learning/model-two-plan.json`. Model-one runs and examples remain intact. The [executed second-model result](native-second-model.md) records the admitted data and selected checkpoint.
 
 ```powershell
 node scripts/native-collect.mjs runs/local-audit-config-v12-turn.json native-second-collection-v1
@@ -16,7 +16,7 @@ Every frame uses the existing authority, RNG, hidden-world and native legal-offe
 
 ## Source freeze and receipts
 
-The controller records SHA-256 hashes for itself, the fixed plan, and every imported generation module. It archives exact bytes under the new run's `source-snapshot/`. Each lane checks the same hash map before starting, before each game, and after each game. The controller checks again after all lanes exit. Root freezes these files before launch. Any source mismatch is fatal.
+The controller records SHA-256 hashes for itself, the fixed plan, and every imported generation module. It archives exact bytes under the new run's `source-snapshot/`. Each lane checks the same hash map before starting, before each game, and after each game. The controller checks again after all lanes exit. Generation files stay frozen throughout collection. Any source mismatch is fatal.
 
 `receipt.json` uses schema `native-supervised-collection/1`. It lists all fixed `tasks`, `completed` games, `capacityFailures`, `cancelled` games, `unattempted` tasks, and `fatalFailures`. `complete` means the bounded collector finished and joined its lanes. `fatal` must be false for training admission. `unattempted` tasks under the global deadline are explicitly capacity-censored. Capacity exclusions remain visible and can bias the retained dataset toward shorter games.
 
