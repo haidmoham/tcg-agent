@@ -8,9 +8,9 @@ const execute = promisify(execFile);
 const script = fileURLToPath(new URL('../../scripts/official-client-history.py', import.meta.url));
 
 // No client imports or access. The driver owns when a local snapshot is safe.
-export function clientGameHistory({ python, root, folder, gameId, candidate, pins, declaredMode = 'unknown', modeSource = 'controller:unspecified' }) {
+export function clientGameHistory({ python, root, folder, gameId, candidate, pins, database, declaredMode = 'unknown', modeSource = 'controller:unspecified' }) {
   if (!['ai_test', 'ranked', 'casual_other', 'unknown'].includes(declaredMode)) throw new Error('history-explicit-mode-enum-required');
-  const db = join(root, '.cache/client-history/games.sqlite3');
+  const db = database ? resolve(database) : join(root, '.cache/client-history/games.sqlite3');
   const ingest = async () => {
     const { stdout } = await execute(python, [script, '--db', db, 'import', resolve(folder)],
       { windowsHide: true, timeout: 30000, maxBuffer: 65536 });

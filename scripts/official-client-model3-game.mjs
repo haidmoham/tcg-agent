@@ -12,30 +12,33 @@ import { createDecisionRecording } from '../integrations/official-client/decisio
 import { createBattleLogRecorder } from '../integrations/official-client/battle-log.mjs';
 import { encodeCardActionDecision, encodeCardChoiceDecision } from '../learning/card-action-features.mjs';
 import { loadModel5Bridge, model5CheckpointSha256, projectModel5Runtime, model5PromptChoice, model5VisibleContext } from '../integrations/official-client/model5.mjs';
+import { loadModel6Bridge, projectModel6Runtime } from '../integrations/official-client/model6.mjs';
 import { clientGameHistory } from '../integrations/official-client/history.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const sessionStartedAt = Date.now();
 let driverRequestMilliseconds = 0;
-const model4 = process.argv.includes('--model4'), model5 = process.argv.includes('--model5'), candidate = model5 ? 'model5' : model4 ? 'model4' : 'model3';
-if (model4 && model5) throw new Error('one-model-candidate-required');
-const mode = process.argv.slice(2).filter(value => !['--model4', '--model5'].includes(value)).join(' '), resume = mode === '--resume-built-in-ai --arm --step';
+const model4 = process.argv.includes('--model4'), model5 = process.argv.includes('--model5'), model6 = process.argv.includes('--model6');
+const entity = model5 || model6, candidate = model6 ? 'model6' : model5 ? 'model5' : model4 ? 'model4' : 'model3';
+if ([model4, model5, model6].filter(Boolean).length > 1) throw new Error('one-model-candidate-required');
+const mode = process.argv.slice(2).filter(value => !['--model4', '--model5', '--model6'].includes(value)).join(' '), resume = mode === '--resume-built-in-ai --arm --step';
 if (!resume && mode !== '--one-built-in-ai --arm --step') throw new Error('explicit-single-ai-step-required');
-const model5Bridge = model5 ? await loadModel5Bridge(join(root, '.cache/official-client-model5.json')) : null;
+const model5Bridge = model6 ? await loadModel6Bridge(join(root, '.cache/official-client-model6.json'))
+ : model5 ? await loadModel5Bridge(join(root, '.cache/official-client-model5.json')) : null;
 if (model5 && resume) throw new Error('model5-resume-not-admitted-without-origin-history');
-if (model5 && model5Bridge.manifest.clientInputEnabled !== true) throw new Error('model5-viewing-handoff-not-armed');
+if (entity && model5Bridge.manifest.clientInputEnabled !== true) throw new Error('model5-viewing-handoff-not-armed');
 const config = JSON.parse(await readFile(join(root, '.cache/client-ui-config.json')));
-const frozen = model5 ? model5Bridge.manifest.inputFiles : JSON.parse(await readFile(join(root, '.cache/official-client-frozen-config.json')));
+const frozen = entity ? model5Bridge.manifest.inputFiles : JSON.parse(await readFile(join(root, '.cache/official-client-frozen-config.json')));
 const localFile = key => {
  if (typeof frozen[key] !== 'string' || !frozen[key]) throw new Error('explicit-frozen-local-file-required:' + key);
  return resolve(root, frozen[key]);
 };
-const modelConfig = model5 ? model5Bridge.config : JSON.parse(await readFile(localFile(model4 ? 'model4Config' : 'model3Config')));
-const selectionConfig = model5 ? modelConfig : JSON.parse(await readFile(localFile('selectionConfig')));
+const modelConfig = entity ? model5Bridge.config : JSON.parse(await readFile(localFile(model4 ? 'model4Config' : 'model3Config')));
+const selectionConfig = model6 ? model5Bridge.selectionConfig : entity ? modelConfig : JSON.parse(await readFile(localFile('selectionConfig')));
 const sha = value => createHash('sha256').update(value).digest('hex');
-const checkpointSha256 = model5 ? model5CheckpointSha256 : model4 ? '38a6e726d528d8de3cc9924285c8d67c2700a8dde1cb64f6e388d99ae37ce8b5' : '8a2a98a8dad933cf5a1d273d89ccc3e54c99b5ed686edc4238e7b1dd6188828b';
+const checkpointSha256 = model6 ? model5Bridge.manifest.checkpointSha256 : model5 ? model5CheckpointSha256 : model4 ? '38a6e726d528d8de3cc9924285c8d67c2700a8dde1cb64f6e388d99ae37ce8b5' : '8a2a98a8dad933cf5a1d273d89ccc3e54c99b5ed686edc4238e7b1dd6188828b';
 if (sha(await readFile(modelConfig.checkpoint)) !== checkpointSha256
- || (!model5 && sha(await readFile(selectionConfig.checkpoint)) !== '6d3a5510e36a17610de6cbd099a3deac5a3efde02181213358b49ecab65afff2')) throw new Error('frozen-model-hash-mismatch');
+ || (!entity && sha(await readFile(selectionConfig.checkpoint)) !== '6d3a5510e36a17610de6cbd099a3deac5a3efde02181213358b49ecab65afff2')) throw new Error('frozen-model-hash-mismatch');
 const frozenHelperFile = localFile('frozenHelper');
 if (sha(await readFile(frozenHelperFile)) !== '40acf530ca787caaf446f515173b1ed0fd9cd6353e8313f44ac015d705d288b1') throw new Error('frozen-native-helper-hash-mismatch');
 const { livePracticeDecisions: frozenPromptHelper } = await import(pathToFileURL(frozenHelperFile));
@@ -67,13 +70,13 @@ const rowFor = source => {
 const mapping = { printing: card => rowFor(card.source)?.printingId ?? card.source,
  definition: source => rowFor(source)?.cardSourceID ?? source.replace(/_(?:m?ph)\d*$/, '') };
 const pinFiles = {
- ...(!model5 ? {
+ ...(!entity ? {
  encoder: 'learning/card-action-features.mjs', baseEncoder: 'integrations/local-worker/learning-features.mjs',
  actorProjection: 'integrations/local-worker/policy-view.mjs',
  ordinaryLoader: model4 ? 'integrations/local-worker/card-action-model.mjs' : 'integrations/local-worker/ppo-model.mjs',
  selectionLoader: 'integrations/local-worker/card-action-model.mjs',
  ordinaryRuntime: model4 ? 'learning/card_action_torch.py' : 'learning/ppo_runtime.py',
- } : { entityAdapter: 'integrations/official-client/model5.mjs' }),
+ } : { entityAdapter: model6 ? 'integrations/official-client/model6.mjs' : 'integrations/official-client/model5.mjs' }),
  runtimeProjection: 'integrations/official-client/runtime-policy.mjs',
  runtimeAgent: 'integrations/official-client/runtime-agent.js', runtimeDriver: 'scripts/official-client-runtime.py',
  controller: 'scripts/official-client-model3-game.mjs', recordingContract: 'integrations/official-client/decision-recording.mjs',
@@ -84,29 +87,29 @@ const pinFiles = {
 const pins = { ordinaryCheckpointSha256: checkpointSha256, selectionCheckpointSha256: sha(await readFile(selectionConfig.checkpoint)),
  helperSha256: sha(await readFile(frozenHelperFile)), ordinaryConfigSha256: sha(JSON.stringify(modelConfig)), selectionConfigSha256: sha(JSON.stringify(selectionConfig)),
  inferencePolicy: { ordinarySeed: modelConfig.seed ?? 1729, selectionSeed: selectionConfig.seed ?? 1729,
-  ordinaryDeterministic: true, selection: model5 ? 'frozen-native-rankedPromptAnswers' : 'rank-all-then-existing-group-resolution' },
+  ordinaryDeterministic: true, ...(model6 ? { arm: model5Bridge.manifest.arm, update: model5Bridge.manifest.update, stage: 'post-PPO', selectionStatus: model5Bridge.manifest.selectionStatus } : {}), selection: entity ? 'frozen-native-rankedPromptAnswers' : 'rank-all-then-existing-group-resolution' },
  cardCorpusSha256: sha(await readFile(localFile('cardCorpus'))), deckBundleSha256: sha(await readFile(localFile('deckBundle'))),
- featureContract: model5 ? model5Bridge.entityFeatureContract : { schema: 'native-card-action-features/1', stateDimensions: 224, candidateDimensions: 191 },
- ...(model5 ? { entitySourceRevision: model5Bridge.manifest.sourceRevision, entitySourceSha256: model5Bridge.manifest.sourceSha256,
+ featureContract: entity ? model5Bridge.entityFeatureContract : { schema: 'native-card-action-features/1', stateDimensions: 224, candidateDimensions: 191 },
+ ...(entity ? { entitySourceRevision: model5Bridge.manifest.sourceRevision, entitySourceSha256: model5Bridge.manifest.sourceSha256,
    catalogSha256: modelConfig.catalogSha256, contractSha256: model5Bridge.entityContractSha256,
-   nativeToLiveFeatureParity: 'unknown; explicit missing-feature masks retained' } : {}),
+   nativeToLiveFeatureParity: model5Bridge.manifest.nativeToLiveFeatureParity ?? 'unknown; explicit missing-feature masks retained' } : {}),
  sourceSha256: Object.fromEntries(await Promise.all(Object.entries(pinFiles).map(async ([key, file]) => [key, sha(await readFile(join(root, file)))]))) };
 const recording = await createDecisionRecording(folder, { gameId: id, candidate, pins });
 const history = clientGameHistory({ python: config.python, root, folder, gameId: id, candidate, pins,
- declaredMode: 'ai_test', modeSource: 'controller:explicit-one-built-in-ai' });
+ database: config.historyDatabase, declaredMode: 'ai_test', modeSource: 'controller:explicit-one-built-in-ai' });
 await history.begin({ resume }); // Local declaration only; never a game start.
 const battleLogOutput = join(folder, `private-battle-log-latest-${recording.sessionId}.json`);
 const battleLogRecorder = await createBattleLogRecorder(folder, join(folder, `private-battle-log-${recording.sessionId}`));
-const model = model5 ? new model5Bridge.EntityModelClient(modelConfig) : model4 ? new CardActionModelClient(modelConfig) : new PpoModelClient(modelConfig);
-const selection = model5 ? model : new CardActionModelClient(selectionConfig);
+const model = entity ? new model5Bridge.EntityModelClient(modelConfig) : model4 ? new CardActionModelClient(modelConfig) : new PpoModelClient(modelConfig);
+const selection = model6 ? new model5Bridge.SelectionModelClient(selectionConfig) : entity ? model : new CardActionModelClient(selectionConfig);
 let preObservationId = null, proposedDecisionId = null, decisionTrace = null;
 let terminalEvidence = { status: 'not-observed', finalReason: null, unknowns: ['terminal export not yet requested'] };
-const projector = new (model5 ? model5Bridge.PolicyView : PolicyView)();
-const project = model5 ? projectModel5Runtime : projectRuntimeMatch;
-const visibleContext = model5 ? model5VisibleContext() : { view: view => view, dispatched() {} };
-const encodeOrdinary = view => model5 ? model5Bridge.encodeEntityDecision(view, { catalog: model.catalog })
+const projector = new (entity ? model5Bridge.PolicyView : PolicyView)();
+const project = model6 ? projectModel6Runtime : model5 ? projectModel5Runtime : projectRuntimeMatch;
+const visibleContext = entity ? model5VisibleContext() : { view: view => view, dispatched() {} };
+const encodeOrdinary = view => entity ? model5Bridge.encodeEntityDecision(view, { catalog: model.catalog })
  : encodeCardActionDecision(view, null, { printingAliases: modelConfig.printingAliases });
-const encodeSelection = (view, prompt) => model5 ? model5Bridge.encodeEntityChoiceDecision(view, prompt, { catalog: model.catalog })
+const encodeSelection = (view, prompt) => entity ? model5Bridge.encodeEntityChoiceDecision(view, prompt, { catalog: model.catalog })
  : encodeCardChoiceDecision(view, prompt, { printingAliases: selectionConfig.printingAliases });
 const modelView = raw => visibleContext.view(projector.project(raw));
 const child = spawn(config.python, [join(root, 'scripts/official-client-runtime.py'), '--pid', String(config.processId), '--window', String(config.windowId),
@@ -138,7 +141,7 @@ async function request(op, values = {}, decisionId = null) {
  if (waiting) throw new Error('runtime-request-pending');
  const requestStartedAt = performance.now();
  const requestId = `model3-${++sequence}`;
- const payload = { id: requestId, op, ...values, ...(!['observe', 'close', 'battle_log'].includes(op) ? { armed: true, step: requestId } : {}) };
+ const payload = { id: requestId, op, ...values, ...(!['observe', 'close', 'battle_log', 'validate_singletons'].includes(op) ? { armed: true, step: requestId } : {}) };
  if (decisionId) await recording.dispatch(decisionId, payload);
  let response;
  try {
@@ -216,13 +219,13 @@ function verifyDeck(deck) {
 async function chooseEntities(value) {
  const prompt = value.match.prompt;
  if (prompt.selectionMethod === 8) throw new Error('allocation-prompt-requires-mapping');
- if (model5 && prompt.reparent && prompt.groups.some(group => !group.sourceCard?.instanceId)) throw new Error('model5-reparent-source-binding-missing');
+ if (entity && prompt.reparent && prompt.groups.some(group => !group.sourceCard?.instanceId)) throw new Error('model5-reparent-source-binding-missing');
  const raw = project({ ...value, match: { ...value.match, menu: null, operationProcessing: false, actions: [] } }, sources, revision, mapping);
  const kind = [3,13].includes(prompt.selectionMethod) ? 'pokemon' : prompt.selectionMethod === 9 ? 'prizes' : 'cards';
  raw.prompts = [{ id: 'visible-card-prompt', kind, min: prompt.min, max: prompt.max, cancelable: false, ordered: false,
   groups: prompt.groups.map(group => ({ id: group.id, min: group.min, max: group.max })),
-  ...(model5 ? { context: { selectionKind: prompt.reparent ? 'ReparentSelection' : 'EntitySelection' } } : {}),
-  choices: prompt.groups.flatMap(group => group.choices.map(choice => model5
+  ...(entity ? { context: { selectionKind: prompt.reparent ? 'ReparentSelection' : 'EntitySelection' } } : {}),
+  choices: prompt.groups.flatMap(group => group.choices.map(choice => entity
    ? model5PromptChoice({ ...choice, group: group.id }, mapping, group.sourceCard)
    : { id: choice.id, group: group.id, card: { instanceId: choice.identity, printingId: mapping.printing(choice), category: choice.category }, instanceId: choice.identity })) }];
  const view = modelView(raw), projected = view.prompts[0];
@@ -233,9 +236,26 @@ async function chooseEntities(value) {
   decisionTrace = { kind: 'helper', actorKind: 'helper', policyInput: view, decision: answer };
   return { choiceIds: projector.resolve(answer).choiceIds, label: 'Confirm empty visible-card search', policy: 'frozen-native-teacher-empty-prompt' };
  }
- if (model5 && !model5Bridge.supportsCardSelection(view)) throw new Error('model5-unsupported-selection-no-override');
+ if (entity && !model5Bridge.supportsCardSelection(view)) throw new Error('model5-unsupported-selection-no-override');
+ if (model6 && view.status === 'playing' && !prompt.reparent && projected.min === 1 && projected.max === 1 && !projected.ordered
+     && projected.choices.every(choice => choice.minAmount == null && choice.maxAmount == null && choice.initialAmount == null)) {
+  const offered = prompt.groups.flatMap(group => group.choices);
+  const validation = (await request('validate_singletons', { expected: lastHash })).result;
+  if (validation.schema !== 'official-client-ui-singleton-mask/1'
+      || JSON.stringify(validation.choiceIds) !== JSON.stringify(offered.map(choice => choice.id))
+      || validation.legalMask.length !== projected.choices.length || validation.legalMask.some(flag => typeof flag !== 'boolean')
+      || !validation.legalMask.some(Boolean)) throw new Error('model6-complete-client-legal-singleton-mask-required');
+  const encoded = encodeSelection(view, projected);
+  encoded.selectionCardinality = 1; encoded.legalMask = validation.legalMask;
+  const [sample] = await model.act([encoded], { deterministic: true });
+  const answer = { promptId: projected.id, choiceIds: [projected.choices[sample.actionIndex].id] };
+  decisionTrace = { kind: 'selection', actorKind: 'model', policyInput: view, encodedInput: encoded,
+   decision: answer, sample, legalMaskEvidence: validation };
+  stats.selectionDecisions++;
+  return { choiceIds: projector.resolve(answer).choiceIds, label: 'Apply Model6 PPO single-card choice', policy: 'model6-control-ppo-update-004-singleton' };
+ }
  const ranking = await selection.rankChoices({ view });
- if (model5) {
+ if (entity) {
   // Reuse the frozen native selection policy, including minimum hand costs.
   // No alternative teacher answer is substituted when client legality differs.
   let answer = null;
@@ -248,7 +268,7 @@ async function chooseEntities(value) {
   decisionTrace = { kind: 'selection', actorKind: 'model', policyInput: view,
    encodedInput: encodeSelection(view, projected), decision: answer, ranking };
   stats.selectionDecisions++;
-  return { choiceIds: projector.resolve(answer).choiceIds, label: 'Apply Model5 ranked visible-card selection', policy: 'model5-frozen-entity-selection' };
+  return { choiceIds: projector.resolve(answer).choiceIds, label: model6 ? 'Apply frozen Model6 BC visible-card ranking' : 'Apply Model5 ranked visible-card selection', policy: model6 ? 'model6-frozen-pre-ppo-bc-multiselect' : 'model5-frozen-entity-selection' };
  }
  const choices = ranking.map(index => projected.choices[index]), picked = [], identities = new Set();
  for (const group of projected.groups) {
@@ -274,18 +294,21 @@ try {
  const ordinaryInfo = await model.verify(), selectionInfo = selection === model ? ordinaryInfo : await selection.verify();
  const contractInfo = info => Object.fromEntries(['schema', 'featureContract', 'architecture', 'parameters', 'cardVocabularySize', 'actionVocabularySize', 'catalogSha256', 'stateDim', 'candidateDim', 'contractSha256', 'device', 'samplingSeed', 'checkpointSha256', 'frozenSelectionSha256', 'printingAliases'].filter(key => info[key] !== undefined).map(key => [key, info[key]]));
  await recording.note({ ordinaryContract: contractInfo(ordinaryInfo), selectionContract: contractInfo(selectionInfo) });
- await log({ event: 'model-ready', model: model5 ? 'frozen-model5-entity-bc' : model4 ? 'frozen-model4-bc' : 'frozen-model3-ppo-039', checkpointSha256,
-  ...(model5 ? { featureContract: model5Bridge.entityFeatureContract, nativeToLiveFeatureParity: 'unknown' } : { stateDimensions: 224, candidateDimensions: 191 }) });
+ await log({ event: 'model-ready', model: model6 ? 'model6-control-ppo-update-004-unselected' : model5 ? 'frozen-model5-entity-bc' : model4 ? 'frozen-model4-bc' : 'frozen-model3-ppo-039', checkpointSha256,
+  ...(entity ? { featureContract: model5Bridge.entityFeatureContract, nativeToLiveFeatureParity: 'unknown' } : { stateDimensions: 224, candidateDimensions: 191 }) });
  let observation = await observe();
  if (resume) {
   const previous = JSON.parse(await readFile(join(folder, 'receipt.json'))), launch = JSON.parse(await readFile(join(folder, 'launch-intent.json')));
-  if (launch.id !== id || previous.gameLaunches !== 1 || !observation.result.match?.offline || observation.result.match.gameOver) throw new Error('same-owned-model3-game-required');
+  if (launch.id !== id || previous.gameLaunches !== 1 || previous.candidate !== candidate
+      || previous.checkpointSha256 !== checkpointSha256 || !observation.result.match?.offline || observation.result.match.gameOver)
+    throw new Error('same-owned-frozen-ai-game-required');
   for (const key of Object.keys(stats)) stats[key] = previous[key];
   launchedAt = launch.launchedAt;
-  await log({ event: 'same-ai-game-resumed', gameAttempts: 1, repair: 'visible active-promotion mapping' });
+  await log({ event: 'same-ai-game-resumed', gameAttempts: 1,
+    repair: model6 ? 'SQLite missing launch timestamp handling; original AI launch retained' : 'visible active-promotion mapping' });
  } else {
  if (observation.result.match) {
-  if (model5) throw new Error('model5-existing-match-preserved');
+  if (entity) throw new Error('model5-existing-match-preserved');
   if (!observation.result.match.offline || observation.result.match.gameOver) throw new Error('previous-match-not-active-owned-ai');
   await log({ event: 'leave-previous-interrupted-diagnostic-sample', excludedFromQualification: true });
   await request('leave_previous_test', { expected: observation.snapshotHash }); stats.previousSampleLeft = true;
@@ -379,7 +402,7 @@ try {
       encodedInput: encodeOrdinary(view), decision };
     selected = raw.actions.find(action => action.id === projector.resolve(decision).actionId);
     if (!selected) throw new Error('model-choice-not-legal');
-    stats.ordinaryDecisions++; policy = model5 ? 'model5-frozen-entity-bc' : model4 ? 'model4-frozen-bc' : 'model3-frozen-ppo';
+    stats.ordinaryDecisions++; policy = model6 ? 'model6-control-ppo-update-004' : model5 ? 'model5-frozen-entity-bc' : model4 ? 'model4-frozen-bc' : 'model3-frozen-ppo';
     const evolved = raw.actions.filter(action => action.label.startsWith('Evolve '));
     if (evolved.length) stats.evolutionOpportunities++;
     if (selected.label.startsWith('Evolve ')) stats.evolutionIntents++;

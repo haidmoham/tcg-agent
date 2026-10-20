@@ -1,0 +1,26 @@
+{
+  "schema": "official-client-model6-frozen-source/1",
+  "provenance": "Retained immutable runtime used by completed Model6 control PPO update-4 viewing; raw-byte source pins authoritative",
+  "sourceCommit": "3f2d2e69ff23ede462247871035268c240a4190a",
+  "checkpointSha256": "391e5545c303317a81bd82b4ea355681aed657ae4950c58847a26b49155f70c1",
+  "contractSha256": "3c86e7c8c595e485d9bfdd6e7137a5413d89e947cda300ee0ec42fd57b70640a",
+  "sourceSha256": {
+    "learning/entity_ppo.py": "38635a4820be1d5bf494b6715cb6d8f8524de9e15a01b4cd11a18afbeb749930",
+    "learning/entity_ppo_runtime.py": "999c6a70fa744d121c5fa55493232b8141606a643e87c155d84db34105d59fe7",
+    "learning/model6_torch.py": "b50e9c0f67e3bf663822b6a455497f5e47337761d209ec0cc6a754233b04584f",
+    "learning/train_model6.py": "ca3e60293bd0df0f36a03f2442ad62381c90008d2e26a76abdd7041a790e3553",
+    "learning/model6-contract.json": "a162d1fc80abc8ce594b1beab851c6b4bdcaf99eff0b4da47cfab77933885169",
+    "learning/model6-features.mjs": "a17b5f2121d369ae78b6746b3e7de21a4538df7f3d75779c1a43e6fe1664cc7b",
+    "learning/entity_torch.py": "39e1781300c601596f52d56201267a1351efcf8ac6cc2b0b5e50022ec4f63e5b",
+    "learning/entity-contract.json": "d905a52c901fe95ba53b2bcac9a4df725a85717394f2c0a19132dd59850e61a2",
+    "learning/entity-features.mjs": "b5a13991d678539ca588ebd3d2b8bb6155b4140d058e92858beb0f98b917396f",
+    "learning/masked_ppo.py": "ff55c778e5cdca3baec9870a18d0e4418d11fdb294bc0ee4799c6955ee9109ea",
+    "learning/card_action_torch.py": "be83687b13d6754f6513b6409b4d16e9e5fde1f8b19d28f09c95c409937f3d07",
+    "integrations/local-worker/entity-ppo-model.mjs": "cf2cd08cf4448461be2ca99763216f8656646ad4c2c7e65318417cd704af6f45",
+    "integrations/local-worker/model6-model.mjs": "f7b095a7c4568ccc09b4003c9ca4daaae9552f05b62142e495a58b5395e51945",
+    "integrations/local-worker/model6-policy-view.mjs": "5abc2238f92a0f214a8b14a191a8f72e1dcf7c869c49315d8a91ae4e243487d2",
+    "integrations/local-worker/policy-view.mjs": "e72ee44ccb14856962c4416409801c8d09745ce1196a749c72cbe0b68db8cbc2",
+    "integrations/local-worker/card-action-policy.mjs": "400ff3781bae7d45f60410504aaa0269368a8ded7f36e024a386cff75a0124c9"
+  },
+  "scope": "Sixteen authored frozen runtime files only; no active campaign, data, weights, DLLs or private configuration"
+}

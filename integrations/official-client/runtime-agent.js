@@ -499,6 +499,31 @@ const hook = Interceptor.attach(compile(method(dispatcher, 'Update', 0)), {
       const before = observe();
       if (request.op === 'observe') return request.accept(before);
       if (!request.id || consumed.has(request.id) || request.expected !== JSON.stringify(before)) throw new Error('runtime-stale-or-reused-action');
+      if (request.op === 'validate_singletons') {
+        if (!testGameStarted || !before.match?.offline || before.match.prompt?.kind !== 'entities'
+            || before.match.prompt.reparent || before.match.prompt.min !== 1 || before.match.prompt.max !== 1)
+          throw new Error('runtime-singleton-validation-not-admitted');
+        const menu = call(call(one(matches, true), 'get_MenuNavigation'), 'get_CurrentMenu');
+        const selection = field(menu, inherits(menu, 'ActivePromotionDragMenu') ? 'entitySelection' : 'typedSelection');
+        const groups = sequence(field(selection, 'selectionGroups'), 16);
+        if (groups.some(group => sequence(call(group, 'get_selectedOptions'), 60).length))
+          throw new Error('runtime-singleton-validation-requires-empty-selection');
+        const choices = before.match.prompt.groups.flatMap(group => group.choices);
+        if (!choices.length || choices.length > 60) throw new Error('runtime-singleton-choice-bound');
+        const clear = () => { for (const group of groups) call(call(group, 'get_selectedOptions'), 'Clear'); };
+        const legalMask = [];
+        try {
+          for (const choice of choices) {
+            clear(); const admitted = promptChoiceMap.get(choice.id);
+            if (!admitted?.group || !admitted.entityId) throw new Error('runtime-singleton-binding-missing');
+            call(admitted.group, 'AddToSelectedOptionsByEntityID', [textArg(admitted.entityId)]);
+            legalMask.push(boolean(call(selection, 'Validate')));
+          }
+        } finally { clear(); }
+        if (JSON.stringify(observe()) !== JSON.stringify(before)) throw new Error('runtime-validation-state-changed-no-send');
+        return request.accept({ schema: 'official-client-ui-singleton-mask/1', choiceIds: choices.map(choice => choice.id), legalMask,
+          source: 'rendered menu selection.Validate; temporary selections cleared; no Submit or gameplay dispatch', gameplayInputsSent: 0 });
+      }
       if (actions >= (allowTestGame ? 300 : 2) || Date.now() - lastAction < 2000) throw new Error('runtime-action-budget');
       background();
       if (testGameStarted && before.match && !before.match.offline) throw new Error('runtime-offline-game-required');
@@ -600,10 +625,10 @@ rpc.exports = {
     boundWindow = ptr(windowId); allowTestGame = enableTestGame === true;
     if (resumeOwnedGame === true) { if (!allowTestGame || !offlineGame()) throw new Error('runtime-offline-game-required'); testGameStarted = true; }
     return { schema: 'official-client-runtime-ready/1', processId: Process.id, mainThreadHook: true, inputArmed: false,
-    admittedReadOperations: ['observe', 'battle_log'], terminalUiCaptureAvailable: terminalHook !== null,
+    admittedReadOperations: ['observe', 'battle_log', 'validate_singletons'], terminalUiCaptureAvailable: terminalHook !== null,
     admittedActions: allowTestGame ? ['open_decks', 'acknowledge_mulligan', 'leave_previous_test', 'start_test_deck', 'act', 'answer_text', 'answer_entities', 'answer_prizes', 'answer_allocation'] : ['open_decks'], testGameLaunchEnabled: allowTestGame, credentialsAccessed: false }; },
   request(op, id, expected, data) {
-    if (stopped || pending || !['observe', 'battle_log', 'open_decks', ...(allowTestGame ? ['acknowledge_mulligan', 'leave_previous_test', 'start_test_deck', 'act', 'answer_text', 'answer_entities', 'answer_prizes', 'answer_allocation'] : [])].includes(op)) throw new Error('runtime-request-not-admitted');
+    if (stopped || pending || !['observe', 'battle_log', 'open_decks', ...(allowTestGame ? ['validate_singletons', 'acknowledge_mulligan', 'leave_previous_test', 'start_test_deck', 'act', 'answer_text', 'answer_entities', 'answer_prizes', 'answer_allocation'] : [])].includes(op)) throw new Error('runtime-request-not-admitted');
     return new Promise((accept, reject) => {
       const timer = setTimeout(() => { if (pending?.id === id) pending = null; reject(new Error('runtime-main-thread-timeout')); }, 5000);
       pending = { op, id, expected, data, accept, reject, timer, deadline: Date.now() + 4500 };

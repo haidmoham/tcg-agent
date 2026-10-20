@@ -59,7 +59,9 @@ class Reader:
         self.catalog_status = UNKNOWN
         self.session = {}
         try:
-            self.manifest = json.loads((self.pointer.parent / 'official-client-model5.json').read_text(encoding='utf-8-sig'))
+            candidate = json.loads(self.pointer.read_text(encoding='utf-8-sig')).get('candidate')
+            manifest = 'official-client-model6.json' if candidate == 'model6' else 'official-client-model5.json'
+            self.manifest = json.loads((self.pointer.parent / manifest).read_text(encoding='utf-8-sig'))
             catalog = json.loads(Path(self.manifest['modelConfig']['catalogPath']).read_text(encoding='utf-8-sig'))
             names = {c['id']: c.get('name', c.get('key')) for c in catalog['cards']}
             self.names = {key: names.get(index, key) for key, index in catalog['cardIds'].items()}
@@ -114,7 +116,7 @@ class Reader:
         pins = self.session.get('pins') or {}
         contract = pins.get('featureContract') or {}
         checkpoint = pins.get('ordinaryCheckpointSha256') or self.manifest.get('checkpointSha256')
-        contract_hash = self.manifest.get('contractSha256')
+        contract_hash = pins.get('contractSha256') or self.manifest.get('contractSha256')
         current_turn = actor.get('turnNumber')
         whose = ('you' if actor['isMyTurn'] else 'opponent') if isinstance(actor.get('isMyTurn'), bool) else UNKNOWN
         freshness = 'STALE / last observed' if not actor_at or time.time() * 1000 - actor_at > 10000 else 'LIVE LOG'

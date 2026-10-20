@@ -4,3 +4,4 @@ integrations/local-worker/teacher.mjs -text whitespace=blank-at-eol,blank-at-eof
 integrations/local-worker/native-bundle-manifest.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 # Preserve the frozen loader's original final blank line as part of its hash.
 integrations/official-client/model5-frozen-source/** -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+integrations/official-client/model6-frozen-source/** -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol

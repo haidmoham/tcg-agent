@@ -10,7 +10,7 @@ import re
 import sqlite3
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = 'official-client-history-import/1'
+VERSION = 'official-client-history-import/2'
 MODES = {'ai_test', 'ranked', 'casual_other', 'unknown'}
 RECEIPTS = {'official-client-frozen-game/1', 'official-client-model3-game/1'}
 
@@ -23,8 +23,11 @@ def digest(value):
     return hashlib.sha256(value if isinstance(value, bytes) else value.encode()).hexdigest()
 
 
-def utc(value=None):
-    if value is None:
+_NOW = object()
+
+
+def utc(value=_NOW):
+    if value is _NOW:
         return datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
     if type(value) not in (int, float) or value <= 0:
         return None
@@ -64,7 +67,7 @@ def connect(path):
 
 def collect(folder):
     folder = folder.resolve(strict=True)
-    if folder.parent.name != '.cache' or not re.fullmatch(r'model[345]-live-[a-f0-9-]{36}', folder.name):
+    if folder.parent.name != '.cache' or not re.fullmatch(r'model[3456]-live-[a-f0-9-]{36}', folder.name):
         raise ValueError('history-owned-client-run-folder-required')
     names = ['receipt.json', 'launch-intent.json', 'history-run.json', 'mode-declaration.json', 'mode-evidence.jsonl',
              'events.jsonl', 'private-observations.jsonl', 'private-policy-decisions.jsonl', 'private-selected-deck.json',
@@ -259,7 +262,12 @@ def import_run(db, folder):
         db.execute('BEGIN IMMEDIATE')
         previous = db.execute('SELECT * FROM games WHERE game_id=?', (identity,)).fetchone()
         if previous and previous['started_utc'] and game['started_utc'] and previous['started_utc'] != game['started_utc']:
-            raise ValueError('history-stable-game-start-conflict')
+            prior_launch = db.execute('SELECT 1 FROM import_artifacts i JOIN artifacts a USING(artifact_id) '
+                'WHERE i.import_id=? AND a.relative_name=?', (previous['current_import_id'], 'launch-intent.json')).fetchone()
+            # Version 1 rendered missing timestamps as import time. Correct only
+            # a preparation snapshot with no launch evidence; keep old imports.
+            if prior_launch or previous['status'] != 'declared' or previous['launches'] not in (None, 0):
+                raise ValueError('history-stable-game-start-conflict')
         if previous:
             # A copied or older snapshot must never erase contradictory mode
             # evidence or an interruption already retained for this game.

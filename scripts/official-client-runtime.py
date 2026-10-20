@@ -142,27 +142,30 @@ def main():
             if op == 'close':
                 emit({'id': request_id, 'ok': True, 'closed': True})
                 break
-            admitted = ('observe', 'battle_log', 'open_decks', 'acknowledge_mulligan', 'leave_previous_test', 'start_test_deck', 'act', 'answer_text', 'answer_entities', 'answer_prizes', 'answer_allocation') if args.supervised_test_game else ('observe', 'open_decks', 'battle_log')
+            admitted = ('observe', 'battle_log', 'validate_singletons', 'open_decks', 'acknowledge_mulligan', 'leave_previous_test', 'start_test_deck', 'act', 'answer_text', 'answer_entities', 'answer_prizes', 'answer_allocation') if args.supervised_test_game else ('observe', 'open_decks', 'battle_log')
             if op not in admitted or set(request) - {'id', 'op', 'expected', 'armed', 'step', 'data'}:
                 raise ValueError('runtime-request-not-admitted')
             if op == 'battle_log' and not log_output:
                 raise ValueError('runtime-private-battle-log-output-required')
-            action = op not in ('observe', 'battle_log')
+            action = op not in ('observe', 'battle_log', 'validate_singletons')
+            validation = op == 'validate_singletons'
+            if validation and (not last_hash or request.get('expected') != last_hash):
+                raise ValueError('runtime-stale-validation')
             check(action)
             if action and (request.get('armed') is not True or request.get('step') != request_id
                            or not last_hash or request.get('expected') != last_hash):
                 raise ValueError('runtime-explicit-arm-step-required')
             count += 1
             stage = op
-            expected = json.dumps(last, separators=(',', ':'), ensure_ascii=False) if action else None
+            expected = json.dumps(last, separators=(',', ':'), ensure_ascii=False) if action or validation else None
             result = script.exports_sync.request(op, request_id, expected, request.get('data'))
             check()
             if op == 'battle_log':
                 result = save_battle_log(result)
-            elif not action:
+            elif not action and not validation:
                 last = result
                 last_hash = hashlib.sha256(json.dumps(result, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
-            else:
+            elif action:
                 last = None
                 last_hash = None
             if op == 'observe' and log_output and not args.battle_log_terminal_only:
