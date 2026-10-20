@@ -1,0 +1,64 @@
+{
+  "schema": "shadow-source-manifest/1",
+  "benchmarkOnly": true,
+  "eventId": "euic2024",
+  "matchId": "euic2024-masters-final",
+  "split": "test",
+  "splitUnit": "event",
+  "video": {
+    "url": "https://www.youtube.com/watch?v=E1mkPbOgsPY",
+    "videoId": "E1mkPbOgsPY",
+    "title": "Tord Reklev Vs Isaiah Bradner - Pokémon TCG Masters Finals | EUIC 2024",
+    "channel": "The Official Pokémon YouTube channel",
+    "durationSecondsObserved": 4408,
+    "durationNote": "Local Chrome player displayed 1:13:28. Prior delegated page inspection reported 1:13:29. This one-second display difference has no action-label implication.",
+    "browser": "user local Chrome via browser extension",
+    "inspectedOn": "2026-10-20",
+    "assetsDownloaded": false
+  },
+  "players": [
+    { "seat": 0, "id": "tord-reklev", "displayName": "Tord Reklev", "deckArchetype": "Charizard ex" },
+    { "seat": 1, "id": "isaiah-bradner", "displayName": "Isaiah Bradner", "deckArchetype": "Lost Zone Toolbox (Giratina VSTAR)" }
+  ],
+  "seatNote": "Seat IDs are benchmark identities. They are not a simulator seat mapping or an annotation of who acted at sampled times.",
+  "decks": {
+    "url": "https://www.pokemon.com/us/play-pokemon/internationals/2024/europe/tcg-masters",
+    "verifiedInLocalChrome": true,
+    "sections": ["deck-tord-reklev-norway", "deck-isaiah-bradner-united-states"],
+    "officialFormatStatement": "Standard format with regulation mark F or higher",
+    "identityComplete": false,
+    "reason": "Official lists were readable. Trainer and Energy rows do not identify every exact printing. No exact-printing normalized deck corpus or simulator admission was completed."
+  },
+  "navigationOnly": [
+    { "seconds": 146, "label": "First Game Setup", "origin": "delegated navigation and player chapter" },
+    { "seconds": 358, "label": "Tord control", "origin": "delegated navigation; not an action annotation" },
+    { "seconds": 868, "label": "exchanges", "origin": "delegated navigation; not inspected in this task" }
+  ],
+  "pilot": {
+    "scope": "first game, at most 10 decision windows if recoverable",
+    "status": "blocked-insufficient-actor-information",
+    "frameInspections": [
+      { "seconds": 187, "note": "Overhead board, partial fanned cards and occlusion. Complete actor hand and legal alternatives not certified." },
+      { "seconds": 192, "note": "Overhead board, partial fanned cards and occlusion. Complete actor hand and legal alternatives not certified." },
+      { "seconds": 197, "note": "Cards moving under a hand. Complete actor hand and legal alternatives not certified." },
+      { "seconds": 202, "note": "Overhead board and hidden card backs. Complete actor hand and legal alternatives not certified." },
+      { "seconds": 430, "note": "Later overhead board with obscured hands. Complete actor hand and legal alternatives not certified." }
+    ],
+    "realDecisionLabels": 0,
+    "eligibleDecisions": 0,
+    "decisionCoverage": null,
+    "reason": "Sampled frames are inspection attempts, not confirmed decision boundaries. The denominator of actual human decisions is unknown. Annotation stopped before 10 windows because actor information and alternatives were insufficient. Do not count the frame samples as five human decisions.",
+    "blockers": [
+      "Complete pre-action actor hand identities and decision boundaries were not recoverable in the sampled views.",
+      "Complete legal alternatives cannot be inferred from observed plays or spectator overlays.",
+      "2024 deck/rules coverage is not certified by any admitted backend in this repository."
+    ]
+  },
+  "backendAdmission": {
+    "repositoryBaseCommit": "44fa2ae11f79d4b078c1801fe2c25867fe0517b7",
+    "referenceKernel": "basic-duel-v1 admits only base1-52, base1-61 and base1-97; these finals decks are unsupported",
+    "nativeCheckpoint": "native-ordinary-features/1 uses a private two-deck profile; no 2024 deck admission evidence",
+    "publicTwinleaf": "Pinned conformance fixtures do not establish 2024 deck completeness or a policy-ready stream reconstruction",
+    "finalsDecksSupported": false
+  }
+}

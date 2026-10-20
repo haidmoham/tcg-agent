@@ -1,0 +1,564 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:tcg-agent:shadow-decision:1",
+  "title": "Shadow decision v1",
+  "description": "One benchmark-only actor decision. Cross-record split, provenance, privacy and scoring invariants are enforced by src/shadow-play.mjs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "kind",
+    "benchmarkOnly",
+    "split",
+    "splitUnit",
+    "eventId",
+    "matchId",
+    "gameId",
+    "players",
+    "actorSeat",
+    "source",
+    "rules",
+    "decks",
+    "observation",
+    "candidates",
+    "human",
+    "review",
+    "future"
+  ],
+  "properties": {
+    "schema": {
+      "const": "shadow-decision/1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "enum": [
+        "synthetic",
+        "stream"
+      ]
+    },
+    "benchmarkOnly": {
+      "const": true
+    },
+    "split": {
+      "enum": [
+        "validation",
+        "test"
+      ]
+    },
+    "splitUnit": {
+      "enum": [
+        "event",
+        "match"
+      ]
+    },
+    "eventId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "matchId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "gameId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "players": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "seat",
+          "id"
+        ],
+        "properties": {
+          "seat": {
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "actorSeat": {
+      "enum": [
+        0,
+        1,
+        null
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "url",
+        "videoId",
+        "preActionMs",
+        "actionEndMs",
+        "frameVerified",
+        "evidence"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "videoId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preActionMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "actionEndMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "frameVerified": {
+          "type": "boolean"
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile",
+        "evidence"
+      ],
+      "properties": {
+        "profile": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "decks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "seat",
+          "sourceUrl",
+          "printingIds",
+          "identityComplete"
+        ],
+        "properties": {
+          "seat": {
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "printingIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "identityComplete": {
+            "type": "boolean"
+          }
+        }
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "facts",
+        "actorHand",
+        "publicState",
+        "masks"
+      ],
+      "properties": {
+        "facts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "key",
+              "value",
+              "knowledge",
+              "knownAtMs",
+              "evidence"
+            ],
+            "properties": {
+              "key": {
+                "enum": [
+                  "turn",
+                  "turnNumber",
+                  "phase",
+                  "you.active",
+                  "you.bench",
+                  "you.discard",
+                  "you.lostZone",
+                  "you.handCount",
+                  "you.deckCount",
+                  "you.prizeCount",
+                  "opponent.active",
+                  "opponent.bench",
+                  "opponent.discard",
+                  "opponent.lostZone",
+                  "opponent.handCount",
+                  "opponent.deckCount",
+                  "opponent.prizeCount",
+                  "stadium",
+                  "you.usedSupporter",
+                  "you.usedEnergy",
+                  "you.usedRetreat",
+                  "you.usedVstar"
+                ]
+              },
+              "value": {
+                "anyOf": [
+                  {
+                    "type": [
+                      "string",
+                      "number",
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": [
+                        "string",
+                        "number",
+                        "boolean"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "knowledge": {
+                "enum": [
+                  "public",
+                  "actor"
+                ]
+              },
+              "knownAtMs": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "evidence": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "actorHand": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "complete",
+            "cards",
+            "knownAtMs",
+            "evidence"
+          ],
+          "properties": {
+            "complete": {
+              "type": "boolean"
+            },
+            "cards": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "knownAtMs": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "evidence": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "publicState": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "complete",
+            "evidence"
+          ],
+          "properties": {
+            "complete": {
+              "type": "boolean"
+            },
+            "evidence": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "masks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "field",
+              "reason"
+            ],
+            "properties": {
+              "field": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "candidates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "complete",
+        "evidence",
+        "items"
+      ],
+      "properties": {
+        "complete": {
+          "type": "boolean"
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "action",
+              "legality",
+              "evidence"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "action": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind"
+                ],
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "source": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "target": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "choice": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "legality": {
+                "enum": [
+                  "legal",
+                  "illegal",
+                  "unknown"
+                ]
+              },
+              "evidence": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "human": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "actionIds",
+        "confidence",
+        "review",
+        "evidence"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "exact",
+            "ambiguous",
+            "unknown"
+          ]
+        },
+        "actionIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "review": {
+          "enum": [
+            "unreviewed",
+            "verified"
+          ]
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reviewer",
+        "independentOfHuman",
+        "reason",
+        "actionScores"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "unreviewed",
+            "independent"
+          ]
+        },
+        "reviewer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "independentOfHuman": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "actionScores": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "actionId",
+              "points",
+              "evidence"
+            ],
+            "properties": {
+              "actionId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "points": {
+                "type": "number",
+                "minimum": 0
+              },
+              "evidence": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "future": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reveals",
+        "outcome"
+      ],
+      "properties": {
+        "reveals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "atMs",
+              "value"
+            ],
+            "properties": {
+              "atMs": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "value": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "outcome": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -92,6 +92,8 @@ The new `eval:suite` runner adds frozen policy versions, exact deck hashes, held
 
 `node scripts/ladder-records.mjs examples/ladder-records.example.jsonl` demonstrates local record validation. The example is synthetic and counts as zero actual matches. User-entered or exported records stay in ignored `runs/`; summaries retain actual rating metric, observed peaks, season, policy/deck/patch provenance, and observed versus inferred opponent identities. No live adapter runs.
 
+The [shadow-play evaluator](docs/shadow-play.md) compares one policy or checkpoint with both recorded human players at independent decision windows. It separates expert agreement, illegal actions, reviewed mistakes and abstention coverage. The official EUIC 2024 pilot has a source manifest and zero annotated decisions because complete actor information and legal alternatives were not recoverable. The runnable JSONL example is explicitly synthetic and stays out of training.
+
 ## Connect the existing work
 
 This is the October 18 learning-agent repository, continued with its existing history. [LMLab](https://github.com/haidmoham/lmlab) owns mathematical derivations, learner implementations and interpretation. Link a notebook or commit for each experiment; neither repository depends on the other at runtime.
