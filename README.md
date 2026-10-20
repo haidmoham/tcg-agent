@@ -4,6 +4,8 @@ A public, CPU-first Pokémon TCG simulation and learning project. **Full current
 
 Open **[the visual tutorial](tutorial.html)** in a browser. It explains what transfers from VGC bots, where existing analytics fit, and which technical decisions remain the learner's work.
 
+The optional [checkpoint table](docs/checkpoint-play.md) lets a human play a saved ordinary-action model through the private native worker, with local Indigo card artwork and board styling. Its helper-controlled setup/prompts and learned opponent actions are labeled separately.
+
 ## Run on the desktop
 
 Use Node.js 22 or newer. The measured Windows machine uses Node 24.18.0. There are no package dependencies or install steps.

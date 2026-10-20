@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Checkpoint table · TCG Agent</title>
+  <link rel="stylesheet" href="/indigo/board.css">
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.mjs"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div><span class="eyebrow">TCG AGENT / LOCAL PLAY</span><h1>Checkpoint table</h1></div>
+    <p>Play a saved model on the native rules engine.</p>
+    <span class="local-badge">Local only</span>
+  </header>
+  <main id="app" aria-busy="true"><p class="loading">Reading saved checkpoints…</p></main>
+  <div id="notice" role="status" aria-live="polite"></div>
+  <dialog id="inspection" aria-label="Card inspection"><button id="close-inspection" type="button">Close inspection</button><div id="inspection-content"></div></dialog>
+</body>
+</html>
