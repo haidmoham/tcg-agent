@@ -63,10 +63,10 @@ export function humanPresentation(view, raw) {
 }
 
 export class PlaySession {
-  constructor(config) {
+  constructor(config, models = null) {
     this.config = config;
     this.inputs = verifyLocalInputs(config.native);
-    this.models = modelCatalog(config);
+    this.models = models ?? modelCatalog(config);
     this.game = null;
     this.queue = Promise.resolve();
     this.requests = new Map();

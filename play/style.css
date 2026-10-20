@@ -70,3 +70,18 @@ dialog { border: 1px solid #c7c9bc; border-radius: 14px; max-width: min(1000px, 
 @media (max-width: 1050px) { .battle-layout { grid-template-columns: minmax(0, 1fr) 295px; gap: 12px; }.bench-target-rail { flex-direction: column; gap: 8px; }.bench-target-rail header { flex: auto; flex-direction: row; align-items: center; gap: 9px; }.arena.physical-table { grid-template-columns: 1fr 100px 1fr; padding-inline: 12px; }.player-bar { gap: 10px; }.prize-pips { display: none; }.battle-counters { gap: 12px; }.card-face { width: 112px; } }
 @media (max-width: 800px) { #app { padding: 14px 12px 60px; }.masthead { padding: 15px; gap: 12px; }.masthead p { display: none; }h1 { font-size: 24px; }.session-controls { flex-wrap: wrap; gap: 9px; }.session-controls label { flex: 1; }.session-controls select { min-width: 0; width: 100%; }.session-controls > button { margin: 0; }.battle-layout { display: flex; flex-direction: column; }.battle { width: 100%; }.decision-panel { width: 100%; grid-template-columns: minmax(0, 1fr); }.legal-actions { max-height: 300px; }.arena.physical-table { min-height: 275px; }.bench-target-rail { min-height: 135px; }.welcome { padding: 30px; }.metadata { grid-template-columns: 110px 1fr; }.match-heading { flex-wrap: wrap; }.revision { margin-left: 0; }.command-panel { padding: 18px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+
+/* Blue and amber; text, numbers and outlines identify every state. */
+button.primary { background: #255a92; border-color: #204b79; }
+button:hover:not(:disabled) { border-color: #255a92; background: #e8eff9; }
+button.primary:hover:not(:disabled) { background: #204b79; color: white; }
+.eyebrow, .local-badge { color: #254e7e; }
+.board-card.selected .card-art-button, .choice.selected { outline: 3px solid #255a92; outline-offset: 3px; }
+.choice.selected { background: #e4edfb; color: #1c3f68; }
+.validation.valid { background: #e4edfb; color: #1c3f68; }
+.validation.invalid { background: #fff1d8; color: #674109; }
+.roles small { display: block; overflow-wrap: anywhere; }
+.activity { max-height: 480px; overflow-y: auto; }
+.inspection-gallery section > .card-face { display: inline-block; margin: 5px; }
+.card-state meter { accent-color: #255a92; }
+.synthetic-banner { padding: 10px 16px; border: 2px solid #8a570f; background: #fff1d8; color: #674109; font-weight: 650; }

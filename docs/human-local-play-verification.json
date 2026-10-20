@@ -1,0 +1,61 @@
+{
+  "schema": "human-play-smoke/1",
+  "provenance": "synthetic-smoke",
+  "humanDemonstrationsCreated": 0,
+  "startedAt": "2026-10-20T21:15:46.543Z",
+  "checks": [
+    "http-page-script-card-art",
+    "foreign-origin-rejected",
+    "exact-checkpoint-and-sixty",
+    "observation-binding",
+    "invalid-action-retained",
+    "hidden-world-permutation",
+    "duplicate-command-idempotent",
+    "stale-revision-rejected",
+    "hidden-world-permutation",
+    "natural-terminal",
+    "learned-model-actions",
+    "raw-and-encoded-records",
+    "unknown-prompt-masks-preserved",
+    "synthetic-excluded-from-human-labels",
+    "restart-and-explicit-interruption",
+    "browser-setup-preview-submit-interrupt"
+  ],
+  "checkpointSha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+  "promptKinds": {
+    "select": 2,
+    "cards": 16,
+    "pokemon": 3,
+    "prizes": 2
+  },
+  "recordsRoot": "runs/synthetic-human-play/<private-synthetic-run>",
+  "publicProjection": "Private absolute record path and screenshot reference sanitized for source publication; raw records and screenshot remain local.",
+  "completedNaturally": true,
+  "terminal": {
+    "winner": "human",
+    "reason": "native game outcome"
+  },
+  "humanCommands": 73,
+  "modelDecisions": 71,
+  "helperDecisions": 19,
+  "finalRevision": 163,
+  "finishedAt": "2026-10-20T21:16:57.457Z",
+  "finalBoundary": {
+    "schema": "human-final-boundary-check/1",
+    "provenance": "synthetic-smoke",
+    "humanDemonstrationsCreated": 0,
+    "checks": [
+      "five-catalog-art-aliases",
+      "frozen-model-responded",
+      "native-public-log",
+      "opponent-private-observation-not-retained",
+      "semantic-command-expanded",
+      "no-human-labels",
+      "active-and-bench-target-labels-browser-verified"
+    ],
+    "revision": 14,
+    "modelDecisions": 3,
+    "passed": true
+  },
+  "browserScreenshot": "retained privately; not published"
+}

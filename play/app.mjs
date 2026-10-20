@@ -48,7 +48,7 @@ async function perform(path, extra = {}) {
   if (state.busy) return;
   const game = state.game;
   const payload = { requestId: crypto.randomUUID(), ...extra };
-  if (path !== '/api/new') Object.assign(payload, { gameId: game.id, revision: game.view.revision });
+  if (path !== '/api/new') Object.assign(payload, { gameId: game.id, revision: game.view.revision, observationHash: game.observationHash, decisionId: game.decisionId, clientSubmittedAt: new Date().toISOString() });
   state.busy = true;
   notice.textContent = path === '/api/new' ? 'Loading checkpoint and starting the native game…' : 'Waiting for the native rules and opponent…';
   render();
@@ -80,6 +80,7 @@ function printingImage(card, large = false) {
 function showCards(title, cards) {
   const content = document.querySelector('#inspection-content');
   content.replaceChildren(node('h2', title));
+  if (state.catalog.demonstrations) content.append(node('small', 'A cached image may show a catalog-certified equivalent printing. The labels retain the exact in-game printing.'));
   if (!cards.length) content.append(node('p', 'This public zone is empty.'));
   const gallery = node('div', null, 'inspection-gallery');
   for (const card of cards) {
@@ -89,6 +90,7 @@ function showCards(title, cards) {
     if (card.conditions?.length) item.append(node('p', card.conditions.join(', ')));
     for (const [kind, attachments] of Object.entries(card.publicCards ?? {})) {
       if (attachments.length) item.append(node('p', `${kind}: ${attachments.map(value => value.name ?? value.printingId).join(', ')}`));
+      for (const attachment of attachments) item.append(printingImage(attachment, true));
     }
     gallery.append(item);
   }
@@ -133,8 +135,8 @@ function controls() {
   const deckLabel = node('label', 'Your deck');
   const decks = node('select');
   decks.setAttribute('aria-label', 'Your deck');
-  decks.disabled = state.busy;
-  for (const deck of state.catalog.decks) {
+  decks.disabled = state.busy || state.catalog.demonstrations;
+  for (const deck of state.catalog.decks.filter(deck => !state.catalog.demonstrations || deck.id === 0)) {
     const option = node('option', deck.name);
     option.value = String(deck.id);
     decks.append(option);
@@ -143,6 +145,7 @@ function controls() {
   decks.addEventListener('change', () => { state.deck = Number(decks.value); });
   deckLabel.append(decks);
   panel.append(modelLabel, deckLabel, button(state.game ? 'Restart game' : 'Start game', () => perform('/api/new', { modelId: state.modelId, deck: state.deck }), 'primary'));
+  if (state.catalog.demonstrations && state.game && !state.game.terminal && !state.game.error) panel.append(button('Stop game · retain interruption', () => perform('/api/interrupt'), 'secondary'));
   return panel;
 }
 
@@ -150,6 +153,18 @@ function visibleCards(view) {
   const values = [view.you.active, ...view.you.bench, view.opponent.active, ...view.opponent.bench, ...view.hand, ...view.you.discard, ...view.opponent.discard, view.stadium].filter(Boolean);
   for (const card of [...values]) values.push(...Object.values(card.publicCards ?? {}).flat());
   return new Map(values.map(card => [card.instanceId, card]));
+}
+
+function cardLocation(id) {
+  const view = state.game?.view;
+  if (!view || !id) return '';
+  for (const side of ['you', 'opponent']) {
+    const owner = side === 'you' ? 'your' : 'opponent';
+    if (view[side].active?.instanceId === id) return `${owner} Active`;
+    const index = view[side].bench.findIndex(card => card.instanceId === id);
+    if (index >= 0) return `${owner} Bench ${index + 1}`;
+  }
+  return '';
 }
 
 function cardTile(card, owner, bench = false) {
@@ -165,6 +180,7 @@ function cardTile(card, owner, bench = false) {
   tile.append(select);
   const info = node('div', null, 'card-state');
   info.append(node('strong', card.name ?? card.printingId));
+  if (cardLocation(card.instanceId)) info.append(node('small', cardLocation(card.instanceId)));
   if (card.hp !== undefined) {
     info.append(node('span', `${Math.max(0, card.hp - card.damage)} / ${card.hp} HP`, 'hp'));
     const bar = node('meter');
@@ -173,6 +189,7 @@ function cardTile(card, owner, bench = false) {
     info.append(bar, node('small', `${card.providedEnergy} Energy · ${card.damage} damage`));
   }
   if (card.conditions?.length) info.append(node('small', card.conditions.join(', '), 'conditions'));
+  for (const [kind, cards] of Object.entries(card.publicCards ?? {})) if (cards.length) info.append(button(`${kind}: ${cards.map(c => c.name ?? c.printingId).join(', ')}`, () => showCards(kind, cards), 'inspect-link'));
   info.append(button('Inspect', () => showCards(card.name ?? card.printingId, [card]), 'inspect-link'));
   tile.append(info);
   return tile;
@@ -246,7 +263,8 @@ function actionLabel(action, cards) {
   const source = cards.get(action.sourceCardId ?? action.actorId);
   const target = cards.get(action.targetId);
   if (source && !label.includes(source.name ?? source.printingId)) label = `${source.name ?? source.printingId} · ${label}`;
-  if (target) label += ` → ${target.name ?? target.printingId}`;
+  if (target) label += ` → ${target.name ?? target.printingId}${cardLocation(target.instanceId) ? ` (${cardLocation(target.instanceId)})` : ''}`;
+  if (source && cardLocation(source.instanceId)) label += ` · from ${cardLocation(source.instanceId)}`;
   return label;
 }
 
@@ -265,7 +283,9 @@ function promptPanel(prompt) {
   const options = node('div', null, 'prompt-options');
   for (const [index, choice] of prompt.choices.entries()) {
     const group = prompt.groups.find(value => value.id === choice.group);
-    const label = choice.label ?? choice.card?.name ?? choice.card?.printingId ?? `Option ${index + 1}`;
+    const originalLabel = choice.label ?? choice.card?.name ?? choice.card?.printingId ?? `Option ${index + 1}`;
+    const location = cardLocation(choice.instanceId ?? choice.card?.instanceId ?? choice.targetId);
+    const label = originalLabel + (location ? ` (${location})` : '');
     const option = node('div', null, 'prompt-option');
     if (choice.card) {
       const art = button('', () => showCards(label, [choice.card]), 'choice-art');
@@ -328,10 +348,11 @@ function decisions(game) {
   }
   panel.append(command);
   const roles = node('section', null, 'roles');
-  roles.append(node('h3', 'Who makes each decision?'), node('p', 'You choose your actions, setup, and prompts. The checkpoint scores the opponent’s ordinary legal actions. Its frozen helper handles setup and prompts.'));
+  roles.append(node('h3', state.catalog.demonstrations ? 'Demonstration recording' : 'Who makes each decision?'), node('p', state.catalog.demonstrations ? 'Your submitted choices are retained locally for later imitation learning. All outcomes are saved; interrupted games stay marked. No training runs here.' : 'You choose your actions, setup, and prompts. The checkpoint scores ordinary moves; its helper resolves other prompts.'));
+  if (state.catalog.demonstrations) roles.append(node('p', 'Records: ' + game.recording.status + ' · ' + game.recording.humanDecisions + ' choices'), node('small', 'Game ' + game.id), node('p', 'Model6 chooses ordinary moves and supported single-card prompts. Frozen selection weights and an attributed helper resolve its other prompts. Human behavior probabilities are unknown.'));
   roles.append(node('p', `${game.learnedDecisions ?? 0} learned decisions · ${game.helperDecisions ?? 0} helper decisions total`, 'decision-counts'));
-  if (!game.terminal && !game.error && game.view.status !== 'failed') roles.append(button('Use helper for my next choice', () => perform('/api/assist'), 'assist'));
-  roles.append(node('small', 'Optional assistance advances one human decision and is labeled in the activity log.'));
+  if (!state.catalog.demonstrations && !game.terminal && !game.error && game.view.status !== 'failed') roles.append(button('Use helper for my next choice', () => perform('/api/assist'), 'assist'));
+  if (!state.catalog.demonstrations) roles.append(node('small', 'Optional assistance advances one human decision and is labeled in the activity log.'));
   panel.append(roles);
   const log = node('details', null, 'activity');
   log.open = true;
@@ -341,6 +362,21 @@ function decisions(game) {
   for (const item of activity.slice(-16)) items.append(node('li', typeof item === 'string' ? item : item.message ?? item.label ?? JSON.stringify(item)));
   if (!activity.length) items.append(node('li', 'Native game started.'));
   log.append(items); panel.append(log);
+  if (game.nativePublicLog?.length) {
+    const nativeLog = node('details', null, 'activity'); nativeLog.append(node('summary', 'Native public history'));
+    const messages = node('ol');
+    for (const message of game.nativePublicLog) messages.append(node('li', message));
+    nativeLog.append(messages); panel.append(nativeLog);
+  }
+  if (game.publicHistory?.length) {
+    const history = node('details', null, 'activity'); history.append(node('summary', 'Inspectable public board history'));
+    for (const entry of [...game.publicHistory].reverse()) {
+      const row = node('p', 'Turn ' + entry.turn + ' · ' + entry.actor + ' · ' + entry.action + ' · ');
+      const cards = ['you', 'opponent'].flatMap(side => [entry.board?.[side]?.active, ...(entry.board?.[side]?.bench ?? []), ...(entry.board?.[side]?.discard ?? [])]).filter(Boolean);
+      row.append(button('Inspect revision ' + entry.revision, () => showCards('Public board at revision ' + entry.revision, cards), 'inspect-link')); history.append(row);
+    }
+    panel.append(history);
+  }
   return panel;
 }
 
@@ -351,6 +387,7 @@ function render() {
   app.append(controls());
   const selected = state.catalog.models.find(model => model.id === state.modelId);
   if (state.game) {
+    if (state.game.recording?.provenance === 'synthetic-smoke') app.append(node('p', 'SYNTHETIC VERIFICATION · These actions are excluded from human demonstrations.', 'synthetic-banner'));
     const matchHeader = node('section', null, 'match-heading');
     const deckName = id => state.catalog.decks.find(deck => deck.id === id)?.name ?? 'Unknown deck';
     matchHeader.append(node('span', `${state.game.model.name} · ${state.game.model.version}`, 'model-name'),
@@ -362,7 +399,7 @@ function render() {
     app.append(metadata(state.game.model));
   } else {
     const intro = node('section', null, 'welcome');
-    intro.append(node('span', 'A SAVED CHECKPOINT, ACROSS THE TABLE', 'eyebrow'), node('h2', 'Take a seat.'), node('p', 'Choose a checkpoint and one of the two supported decks. Your opponent gets the other deck. Opponent hands, deck order, and face-down prizes stay hidden.'), node('p', 'These checkpoints imitate a frozen heuristic. Teacher agreement measures imitation, not competitive strength. Each checkpoint reports how its validation decisions were used.'));
+    intro.append(node('span', 'A SAVED CHECKPOINT, ACROSS THE TABLE', 'eyebrow'), node('h2', 'Take a seat.'), node('p', state.catalog.demonstrations ? 'Play the exact Hammerpult 60 against frozen Model6 with Hydrapple. Each submitted choice is bound to the observation you saw and saved locally for later imitation learning. Opponent hands, deck order and face-down prizes stay hidden.' : 'Choose a saved checkpoint and deck to play locally.'));
     app.append(intro);
     if (selected) app.append(metadata(selected));
   }
@@ -372,7 +409,7 @@ try {
   state.catalog = await request('/api/catalog');
   state.modelId = state.catalog.models[0]?.id;
   if (!state.modelId) throw new Error('No saved checkpoint is configured. See the local launch instructions.');
-  state.deck = Number(state.catalog.decks.find(deck => deck.id === 1)?.id ?? state.catalog.decks[0]?.id);
+  state.deck = state.catalog.demonstrations ? 0 : Number(state.catalog.decks.find(deck => deck.id === 1)?.id ?? state.catalog.decks[0]?.id);
   accept(await request('/api/state'));
   render();
 } catch (error) {

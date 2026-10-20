@@ -7,8 +7,8 @@ import { PlaySession, decks } from '../play/session.mjs';
 const root = fileURLToPath(new URL('../play/', import.meta.url));
 const mime = { '.html': 'text/html', '.mjs': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.svg': 'image/svg+xml' };
 
-export function createPlayServer(config) {
-  const session = new PlaySession(config);
+export function createPlayServer(config, { Session = PlaySession, deckCatalog = decks } = {}) {
+  const session = new Session(config);
   const fixed = new Map([
     ['/', join(root, 'index.html')], ['/app.mjs', join(root, 'app.mjs')], ['/prompt-answer.mjs', join(root, 'prompt-answer.mjs')], ['/style.css', join(root, 'style.css')],
     ['/indigo/board.css', join(config.indigoRoot, 'apps/live/src/board.css')],
@@ -27,9 +27,9 @@ export function createPlayServer(config) {
     try {
       if (req.headers.host !== `127.0.0.1:${port}`) return send(403, { error: 'Open the exact loopback URL printed by the server.' });
       const path = new URL(req.url, origin).pathname;
-      if (req.method === 'GET' && path === '/api/catalog') return send(200, { models: session.models, decks });
+      if (req.method === 'GET' && path === '/api/catalog') return send(200, { models: session.models, decks: deckCatalog, demonstrations: config.schema === 'hammerpult-human-local/1' });
       if (req.method === 'GET' && path === '/api/state') return send(200, await session.serialized(() => session.state()));
-      if (req.method === 'POST' && /^\/api\/(new|command|preview|assist)$/.test(path)) {
+      if (req.method === 'POST' && /^\/api\/(new|command|preview|assist|interrupt)$/.test(path)) {
         if ((req.headers.origin && req.headers.origin !== origin) || req.headers['content-type'] !== 'application/json' || req.headers['sec-fetch-site'] === 'cross-site') return send(403, { error: 'Use the local interface to submit JSON commands.' });
         let size = 0; const chunks = [];
         for await (const chunk of req) {
@@ -45,7 +45,16 @@ export function createPlayServer(config) {
       let file = fixed.get(path);
       const art = /^\/art\/([A-Z0-9]+)-(\d{1,3})\.png$/.exec(path);
       if (!file && art) {
-        const filename = `${art[1]}-${art[2].padStart(3, '0')}.png`;
+        let printing = `${art[1]}-${Number(art[2])}`;
+        let filename = `${art[1]}-${art[2].padStart(3, '0')}.png`;
+        // Only catalog-certified equivalent printings may substitute cached art.
+        const visited = new Set();
+        while (!existsSync(join(artRoot, filename)) && session.artAliases?.[printing] && !visited.has(printing)) {
+          visited.add(printing); printing = session.artAliases[printing];
+          const match = /^([A-Z0-9]+)-(\d{1,3})$/.exec(printing);
+          if (!match) break;
+          filename = `${match[1]}-${match[2].padStart(3, '0')}.png`;
+        }
         file = join(artRoot, filename);
         if (existsSync(file)) {
           const target = realpathSync(file), inside = relative(artRoot, target);
