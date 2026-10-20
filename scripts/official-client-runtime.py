@@ -26,6 +26,7 @@ def main():
     parser.add_argument('--permit-input-probe', action='store_true')
     parser.add_argument('--supervised-test-game', action='store_true')
     parser.add_argument('--resume-owned-test-game', action='store_true')
+    parser.add_argument('--visible-energy-facts', action='store_true', help='Opt-in public CardInfo Energy-cost display capture; no raw board reads')
     parser.add_argument('--battle-log-output', type=Path)
     parser.add_argument('--battle-log-terminal-only', action='store_true', help='Write exports only on explicit battle_log reads; preserve ordinary observe behavior')
     args = parser.parse_args()
@@ -114,7 +115,7 @@ def main():
         script = session.create_script((ROOT / 'integrations/official-client/runtime-agent.js').read_text(encoding='utf-8'))
         script.load()
         stage = 'ready'
-        emit(script.exports_sync.ready(args.window, args.supervised_test_game, args.resume_owned_test_game))
+        emit(script.exports_sync.ready(args.window, args.supervised_test_game, args.resume_owned_test_game, args.visible_energy_facts))
         last = None
         last_hash = None
         count = 0

@@ -13,6 +13,7 @@ import { createBattleLogRecorder } from '../integrations/official-client/battle-
 import { encodeCardActionDecision, encodeCardChoiceDecision } from '../learning/card-action-features.mjs';
 import { loadModel5Bridge, model5CheckpointSha256, projectModel5Runtime, model5PromptChoice, model5VisibleContext } from '../integrations/official-client/model5.mjs';
 import { loadModel6Bridge, projectModel6Runtime } from '../integrations/official-client/model6.mjs';
+import { VisibleEnergyClient, visibleEnergyInput } from '../integrations/local-worker/visible-energy.mjs';
 import { clientGameHistory } from '../integrations/official-client/history.mjs';
 
 const root = resolve(import.meta.dirname, '..');
@@ -28,6 +29,10 @@ const model5Bridge = model6 ? await loadModel6Bridge(join(root, '.cache/official
 if (model5 && resume) throw new Error('model5-resume-not-admitted-without-origin-history');
 if (entity && model5Bridge.manifest.clientInputEnabled !== true) throw new Error('model5-viewing-handoff-not-armed');
 const config = JSON.parse(await readFile(join(root, '.cache/client-ui-config.json')));
+if (config.visibleEnergyRules && !model6) throw new Error('visible-energy-helper-requires-explicit-model6-path');
+if (config.visibleEnergyRules && typeof config.visibleEnergyRules.runtimeAssembly !== 'string')
+ throw new Error('visible-energy-current-client-rules-dll-required');
+const energyEnabled = !!config.visibleEnergyRules;
 const frozen = entity ? model5Bridge.manifest.inputFiles : JSON.parse(await readFile(join(root, '.cache/official-client-frozen-config.json')));
 const localFile = key => {
  if (typeof frozen[key] !== 'string' || !frozen[key]) throw new Error('explicit-frozen-local-file-required:' + key);
@@ -77,6 +82,7 @@ const pinFiles = {
  selectionLoader: 'integrations/local-worker/card-action-model.mjs',
  ordinaryRuntime: model4 ? 'learning/card_action_torch.py' : 'learning/ppo_runtime.py',
  } : { entityAdapter: model6 ? 'integrations/official-client/model6.mjs' : 'integrations/official-client/model5.mjs' }),
+ ...(energyEnabled ? { visibleEnergyHelper: 'integrations/local-worker/visible-energy.mjs', visibleEnergyRules: 'integrations/local-worker/visible-energy-source/VisibleEnergyRules.cs', visibleEnergyService: 'integrations/local-worker/visible-energy-source/Program.cs', visibleEnergyBuild: 'integrations/local-worker/visible-energy-source/VisibleEnergyRules.csproj' } : {}),
  runtimeProjection: 'integrations/official-client/runtime-policy.mjs',
  runtimeAgent: 'integrations/official-client/runtime-agent.js', runtimeDriver: 'scripts/official-client-runtime.py',
  controller: 'scripts/official-client-model3-game.mjs', recordingContract: 'integrations/official-client/decision-recording.mjs',
@@ -84,7 +90,7 @@ const pinFiles = {
  historyAdapter: 'integrations/official-client/history.mjs', historyImporter: 'scripts/official-client-history.py',
  historySchema: 'integrations/official-client/history.sql',
 };
-const pins = { ordinaryCheckpointSha256: checkpointSha256, selectionCheckpointSha256: sha(await readFile(selectionConfig.checkpoint)),
+const pins = { ...(energyEnabled ? { visibleEnergyRules: { version: 'visible-energy-service/1', configurationSha256: sha(JSON.stringify(config.visibleEnergyRules)), hostSha256: sha(await readFile(config.visibleEnergyRules.executable)), rulesSha256: config.visibleEnergyRules.rulesSha256, serviceSha256: config.visibleEnergyRules.serviceSha256, effectiveCostEvidence: 'opt-in public UI display getters; unsupported modifiers/conditionals masked', turnHistory: 'unchanged unknown masks' } } : {}), ordinaryCheckpointSha256: checkpointSha256, selectionCheckpointSha256: sha(await readFile(selectionConfig.checkpoint)),
  helperSha256: sha(await readFile(frozenHelperFile)), ordinaryConfigSha256: sha(JSON.stringify(modelConfig)), selectionConfigSha256: sha(JSON.stringify(selectionConfig)),
  inferencePolicy: { ordinarySeed: modelConfig.seed ?? 1729, selectionSeed: selectionConfig.seed ?? 1729,
   ordinaryDeterministic: true, ...(model6 ? { arm: model5Bridge.manifest.arm, update: model5Bridge.manifest.update, stage: 'post-PPO', selectionStatus: model5Bridge.manifest.selectionStatus } : {}), selection: entity ? 'frozen-native-rankedPromptAnswers' : 'rank-all-then-existing-group-resolution' },
@@ -100,6 +106,7 @@ const history = clientGameHistory({ python: config.python, root, folder, gameId:
 await history.begin({ resume }); // Local declaration only; never a game start.
 const battleLogOutput = join(folder, `private-battle-log-latest-${recording.sessionId}.json`);
 const battleLogRecorder = await createBattleLogRecorder(folder, join(folder, `private-battle-log-${recording.sessionId}`));
+const energyRules = energyEnabled ? new VisibleEnergyClient(config.visibleEnergyRules) : null;
 const model = entity ? new model5Bridge.EntityModelClient(modelConfig) : model4 ? new CardActionModelClient(modelConfig) : new PpoModelClient(modelConfig);
 const selection = model6 ? new model5Bridge.SelectionModelClient(selectionConfig) : entity ? model : new CardActionModelClient(selectionConfig);
 let preObservationId = null, proposedDecisionId = null, decisionTrace = null;
@@ -111,10 +118,14 @@ const encodeOrdinary = view => entity ? model5Bridge.encodeEntityDecision(view, 
  : encodeCardActionDecision(view, null, { printingAliases: modelConfig.printingAliases });
 const encodeSelection = (view, prompt) => entity ? model5Bridge.encodeEntityChoiceDecision(view, prompt, { catalog: model.catalog })
  : encodeCardChoiceDecision(view, prompt, { printingAliases: selectionConfig.printingAliases });
-const modelView = raw => visibleContext.view(projector.project(raw));
+const modelView = async (raw, value) => {
+ if (energyRules) raw.energyFacts = await energyRules.derive(visibleEnergyInput(raw, value, sources));
+ return visibleContext.view(projector.project(raw));
+};
 const child = spawn(config.python, [join(root, 'scripts/official-client-runtime.py'), '--pid', String(config.processId), '--window', String(config.windowId),
  '--permit-scoped-adapter', '--permit-input-probe', '--supervised-test-game', '--battle-log-output', battleLogOutput, '--battle-log-terminal-only',
  ...(typeof config.fridaRoot === 'string' ? ['--frida-root', config.fridaRoot] : []),
+ ...(energyRules ? ['--visible-energy-facts'] : []),
  ...(resume ? ['--resume-owned-test-game'] : [])], { cwd: root, windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] });
 let buffer = '', waiting, sequence = 0, readyAccept, readyReject;
 const ready = new Promise((accept, reject) => { readyAccept = accept; readyReject = reject; });
@@ -228,7 +239,7 @@ async function chooseEntities(value) {
   choices: prompt.groups.flatMap(group => group.choices.map(choice => entity
    ? model5PromptChoice({ ...choice, group: group.id }, mapping, group.sourceCard)
    : { id: choice.id, group: group.id, card: { instanceId: choice.identity, printingId: mapping.printing(choice), category: choice.category }, instanceId: choice.identity })) }];
- const view = modelView(raw), projected = view.prompts[0];
+ const view = await modelView(raw, value), projected = view.prompts[0];
  if (!projected.choices.length) {
   const answer = [...frozenPromptHelper(view)][0];
   if (!answer || answer.choiceIds.length) throw new Error('empty-visible-options-cannot-meet-minimum');
@@ -291,6 +302,7 @@ try {
  const runtimeReady = await ready;
  await recording.note({ runtimeContract: { admittedReadOperations: runtimeReady.admittedReadOperations,
   terminalUiCaptureAvailable: runtimeReady.terminalUiCaptureAvailable === true } });
+ if (energyRules) await recording.note({ visibleEnergyService: await energyRules.verify() });
  const ordinaryInfo = await model.verify(), selectionInfo = selection === model ? ordinaryInfo : await selection.verify();
  const contractInfo = info => Object.fromEntries(['schema', 'featureContract', 'architecture', 'parameters', 'cardVocabularySize', 'actionVocabularySize', 'catalogSha256', 'stateDim', 'candidateDim', 'contractSha256', 'device', 'samplingSeed', 'checkpointSha256', 'frozenSelectionSha256', 'printingAliases'].filter(key => info[key] !== undefined).map(key => [key, info[key]]));
  await recording.note({ ordinaryContract: contractInfo(ordinaryInfo), selectionContract: contractInfo(selectionInfo) });
@@ -372,7 +384,7 @@ try {
       groups: prompt.groups, allocationUnit: prompt.allocationUnit, allocationMode: 'final', choices: prompt.choices.map(choice => ({
        id: choice.id, group: choice.group, instanceId: choice.identity, card: { instanceId: choice.identity, printingId: mapping.printing(choice), category: choice.category },
        minAmount: choice.minAmount, maxAmount: choice.maxAmount, initialAmount: choice.initialAmount })) }];
-    const view = modelView(raw), answer = [...frozenPromptHelper(view)][0];
+    const view = await modelView(raw, value), answer = [...frozenPromptHelper(view)][0];
     if (!answer?.amounts) throw new Error('frozen-helper-no-allocation-answer');
     decisionTrace = { kind: 'helper', actorKind: 'helper', policyInput: view, decision: answer };
     data = { amounts: projector.resolve(answer).amounts }; op = 'answer_allocation'; label = 'Apply frozen helper damage allocation'; policy = 'frozen-native-teacher-allocation'; stats.helperDecisions++;
@@ -380,7 +392,7 @@ try {
     const prompt = value.match.prompt;
     const raw = project({ ...value, match: { ...value.match, menu: null, operationProcessing: false, actions: [] } }, sources, revision, mapping);
     raw.prompts = [{ id: 'opaque-prizes', kind: 'prizes', min: prompt.min, max: prompt.max, cancelable: false, ordered: false, groups: [], choices: prompt.choices }];
-    const view = modelView(raw), answer = [...frozenPromptHelper(view)][0];
+    const view = await modelView(raw, value), answer = [...frozenPromptHelper(view)][0];
     if (!answer) throw new Error('frozen-helper-no-prize-answer');
     decisionTrace = { kind: 'helper', actorKind: 'helper', policyInput: view, decision: answer };
     data = { choiceIds: projector.resolve(answer).choiceIds }; op = 'answer_prizes'; label = `Take ${data.choiceIds.length} face-down prize slot(s)`;
@@ -397,7 +409,7 @@ try {
     decisionTrace = { kind: 'helper', actorKind: 'helper', policyInput: raw, decision: answer }; }
    else {
     if (raw.turn !== 'you') continue;
-    const view = modelView(raw), decision = await model.decide({ view });
+    const view = await modelView(raw, value), decision = await model.decide({ view });
     decisionTrace = { kind: 'ordinary', actorKind: 'model', policyInput: view,
       encodedInput: encodeOrdinary(view), decision };
     selected = raw.actions.find(action => action.id === projector.resolve(decision).actionId);
@@ -443,7 +455,7 @@ try {
   }
   if (child.exitCode === null && child.signalCode === null) throw new Error('runtime-exit-unconfirmed');
  });
- const modelStops = await Promise.allSettled([...new Set([model, selection])].map(client => client.shutdown()));
+ const modelStops = await Promise.allSettled([...new Set([model, selection, ...(energyRules ? [energyRules] : [])])].map(client => client.shutdown()));
  stopped = child.exitCode !== null || child.signalCode !== null;
  if (modelStops.some(value => value.status === 'rejected')) { cleanupErrors.push('model-stop'); process.exitCode = 2; }
  await cleanup('decision-final-link', async () => {

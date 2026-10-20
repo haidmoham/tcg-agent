@@ -88,6 +88,10 @@ No model, catalog, raw logs, database, screenshots or extracted assets belong in
 the source commit. No strength comparison or native-to-Live parity claim follows
 from this diagnostic game.
 
+The later [shared visible Energy helper](visible-energy-rules.md) is an opt-in
+extension with separate bounded retained-record evidence. It was not enabled
+for the completed viewing below; its new Live getter bindings remain unverified.
+
 ## Completed viewing evidence
 
 The single AI launch on 2026-10-20 finished with an observed local win at

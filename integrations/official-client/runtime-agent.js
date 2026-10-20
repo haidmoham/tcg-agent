@@ -8,7 +8,7 @@ const foreground = new NativeFunction(user.getExportByName('GetForegroundWindow'
 const visible = new NativeFunction(user.getExportByName('IsWindowVisible'), 'int', ['pointer']);
 const iconic = new NativeFunction(user.getExportByName('IsIconic'), 'int', ['pointer']);
 const owner = new NativeFunction(user.getExportByName('GetWindowThreadProcessId'), 'uint', ['pointer', 'pointer']);
-let boundWindow = ptr(0), allowTestGame = false, testGameStarted = false;
+let boundWindow = ptr(0), allowTestGame = false, testGameStarted = false, captureVisibleEnergy = false;
 function background() {
   const id = Memory.alloc(4); owner(boundWindow, id);
   if (boundWindow.isNull() || id.readU32() !== Process.id || !visible(boundWindow) || iconic(boundWindow)
@@ -193,6 +193,21 @@ function publicCard(card, own, creature = false) {
     result.conditions = ['get_posStatusEffects', 'get_negsStatusEffects'].flatMap(getter => sequence(call(info, getter))
       .map(applied => field(applied, 'statusEffect')).filter(effect => className(objectClass(effect)).readUtf8String() === 'SpecialConditionEffect')
       .map(effect => ['none', 'poison', 'burn', 'paralyze', 'confuse', 'sleep'][integer(call(effect, 'GetEffectEnumValue'))]));
+    if (captureVisibleEnergy) {
+      const effects = ['get_posStatusEffects', 'get_negsStatusEffects'].flatMap(getter => sequence(call(info, getter)))
+        .map(applied => field(applied, 'statusEffect'));
+      const modifiers = effects.some(effect => inherits(effect, 'ModifyAttackCost'));
+      result.energyRules = { schema: 'visible-ui-energy-costs/1', source: 'public CardInfo cost display getters',
+        basicAttachmentSnapshotKnown: !effects.some(effect => inherits(effect, 'ModifyEnergyValue')),
+        attacks: sequence(call(info, 'get_allPossibleUsable'), 32)
+          .filter(action => integer(call(action, 'GetActionType')) === 1 && inherits(action, 'CardAction'))
+          .map(action => {
+            const conditional = sequence(field(action, 'conditionalEnergyCosts'), 32).length !== 0;
+            return { source: str(call(action, 'GetActionSourceID')), printedCost: str(call(action, 'GetPrimaryEnergyCost')),
+              completePrimaryCost: !modifiers && !conditional,
+              effectiveCost: !modifiers && !conditional ? str(call(info, 'GetAttackEnergyCost', [action])) : null };
+          }) };
+    }
     result.publicCards = { energy: [], tools: [], evolutions: [] };
     const attached = new Set();
     const collect = (parent, depth) => {
@@ -621,8 +636,9 @@ const hook = Interceptor.attach(compile(method(dispatcher, 'Update', 0)), {
   }
 });
 rpc.exports = {
-  ready(windowId, enableTestGame, resumeOwnedGame) {
+  ready(windowId, enableTestGame, resumeOwnedGame, enableVisibleEnergy) {
     boundWindow = ptr(windowId); allowTestGame = enableTestGame === true;
+    captureVisibleEnergy = enableVisibleEnergy === true;
     if (resumeOwnedGame === true) { if (!allowTestGame || !offlineGame()) throw new Error('runtime-offline-game-required'); testGameStarted = true; }
     return { schema: 'official-client-runtime-ready/1', processId: Process.id, mainThreadHook: true, inputArmed: false,
     admittedReadOperations: ['observe', 'battle_log', 'validate_singletons'], terminalUiCaptureAvailable: terminalHook !== null,

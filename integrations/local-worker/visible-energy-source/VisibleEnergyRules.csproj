@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MatchLogic"><HintPath>$(LiveRuntimeRoot)/MatchLogic.dll</HintPath></Reference>
+    <Reference Include="CardDatabase.DataAccess"><HintPath>$(LiveRuntimeRoot)/CardDatabase.DataAccess.dll</HintPath></Reference>
+    <Reference Include="Newtonsoft.Json"><HintPath>$(LiveRuntimeRoot)/Newtonsoft.Json.dll</HintPath></Reference>
+    <Reference Include="TimeProvider"><HintPath>$(LiveRuntimeRoot)/TimeProvider.dll</HintPath></Reference>
+  </ItemGroup>
+  <Target Name="RequireLocalRules" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(LiveRuntimeRoot)/MatchLogic.dll')" Text="Supply the existing private pinned rules runtime; binaries stay outside source." />
+  </Target>
+</Project>

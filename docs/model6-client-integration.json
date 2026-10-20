@@ -1,0 +1,25 @@
+{
+  "schema": "authored-client-source-integration/1",
+  "date": "2026-10-20",
+  "baseMain": "4fb5f7db1708b7fac5f13e34f6be59f5391e0aa0",
+  "completedSourceCommits": {
+    "viewing": "3f2d2e69ff23ede462247871035268c240a4190a",
+    "visibleEnergyHelper": "d1e63c8b577ae191214804aab30f9d4b110eac90"
+  },
+  "integration": "Apply only the two new deltas; their shared client ancestors were already published in sanitized form. Preserve main's prior sanitization and frozen Model5 snapshot.",
+  "frozenViewingSource": {
+    "manifest": "integrations/official-client/model6-frozen-source/manifest.json",
+    "authoredFiles": 16,
+    "checkpointRuntimePins": 12,
+    "verification": "Raw bytes match the retained viewing manifest in both working files and staged Git blobs; no runtime loaded."
+  },
+  "existingEvidence": {
+    "viewing": "One built-in-AI win after startup logging interruption and same-game resume. One SQLite game row retains failed driver quality and clean_outcome=0. No qualification claim.",
+    "energyHelper": "Five creature states and three attachment counterfactuals reproduced from one retained visible native input using the engine payment function. No broad Live validation or general binary/semantic parity."
+  },
+  "defaults": "Energy capture/helper disabled unless explicitly configured; unsupported facts remain unknown. Viewing preparation remains disarmed.",
+  "publicationVerification": ["source/dependency review", "privacy and outgoing-file review", "Git whitespace check", "frozen source SHA256 checks"],
+  "publicationActivity": {"tests": 0, "builds": 0, "modelLoads": 0, "games": 0, "training": 0},
+  "excluded": ["active recovery trainer and campaigns", "canceled benchmark branches", "private datamine and catalogs", "runtime DLLs and binaries", "raw logs and captures", "account configuration and identifiers", "SQLite databases and game records", "weights", "personal local paths"],
+  "remainingLimits": ["Live Energy cost getter bindings unverified", "unknown turn-history and unsupported Energy/effect masks retained", "no full native-to-Live feature parity", "private model and input artifacts required separately"]
+}
