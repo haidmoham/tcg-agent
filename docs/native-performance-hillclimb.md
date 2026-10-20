@@ -35,6 +35,14 @@ The endpoint is the ratio of the two side medians of total timed suite milliseco
 
 Ordinary replay never silently changes binary pins. A cross-build experiment may explicitly retarget only the worker hash and declared execution mode after preserving the original programs, decks, policy, seeds, commands and expected frames. Full journals, inputs, builds and raw diagnostics remain ignored and private.
 
+For a cumulative result, compare the native control, previous accepted mode and one candidate in the same run block. The three-mode tool requires one Release binary and identical private execution pins. It uses five fresh sessions per mode in rotating order. The same five candidate sessions supply both the incremental and native-control comparisons. Do not multiply ratios from earlier blocks.
+
+```sh
+node scripts/compare-native-modes.mjs runs/native.json runs/previous.json runs/candidate.json runs/native-cases.json three-mode-comparison-1
+```
+
+The measurement schedule has two blocks, capped at 900 seconds each, after a separately bounded candidate proof. Every session has a 180-second cap and saves its completed receipt before the next starts. A failed or interrupted block remains available for diagnosis. Recovery must preserve all completed measurements and identify any separately rerun missing session.
+
 ## Decisions
 
 The first accepted change caches immutable serialized input for one projection while deserializing a fresh graph for every legality test. Its separate cold-process comparison measured 26.9% higher throughput across five alternating pairs. [The experiment](native-copy-optimization.md) records that historical build configuration, raw measurements and correctness limits. Do not combine its number with warm results from a different workload.
@@ -77,3 +85,13 @@ The [additional conformance receipt](native-turn-extra-proof-v1.json) passes the
 Parsing the JSON once into a `JToken` tree, then deserializing fresh operations through `JTokenReader`, would remove repeated text parsing. The [original scalar gate](../experiments/token-reader-scalars.cs) rejects generic equivalence with the pinned Newtonsoft assembly. Default token parsing changes a declared ISO string into a formatted date string and rounds a high-precision typed decimal. Disabling date parsing preserves that string but changes the same object-valued scalar from `DateTime` to `String`. Native operation metadata contains object-valued fields.
 
 The [safe exact result](token-reader-scalar-gate-v1.json) compares CLR types and values. It also records the additional-content behavior of `JsonConvert` versus a default `JsonSerializer`. No production token cache or speed claim was retained. A future contract-aware reader would need to preserve contextual scalar reads and fresh graph ownership before native replay or timing.
+
+### Reverted attack-origin candidate and direct control
+
+The next candidate rejected attacks from hand or bench origins only under the exact closed profile, trusted attack offer kind, current actor and active projection scope. It preserved active origins and their attachments. All 602 extra rejections in the primary proof failed original native validation. The same 230 authority frames, both actor observations and seeds matched. The 115-test suite passed before measurement.
+
+Five sessions per mode completed on one Release binary in rotating native, accepted-turn and candidate order. The attack candidate's median suite time was 38.70 seconds (37.29-58.65), compared with 39.70 seconds (36.33-46.11) for accepted turn mode. The apparent 2.6% throughput difference is smaller than the observed variation, with two slower paired candidates. The verdict is **inconclusive**. The candidate was reverted, its exact tested source and binary retained privately, and every completed receipt preserved. Long-game and privacy audits were not run for this rejected candidate. [The safe full receipt](native-warm-attack-comparison-v1.json) records the verdict explicitly.
+
+The same block provides a direct comparison for the accepted implementation. Native mode took a median 67.63 seconds (62.58-72.63), or 0.02957 games/s. Accepted snapshot plus turn mode took 39.70 seconds, or 0.05038 games/s. This is **70.4% higher measured warm throughput**, from five sessions per mode on identical work and the same binary. It is not a product of earlier ratios. All completed games preserve terminal states and seed transcripts with zero errors or truncations. No session in this block was interrupted.
+
+The working 2x target remains unmet. During the developed game, the accepted turn path still makes 3,132 read copies. The rejected candidate reduced that to 2,718 and managed allocation from about 13.98 to 13.23 GB, but those component savings did not establish an end-to-end speed win. One candidate developed batch took 34.98 CPU seconds over 48.30 wall seconds. That CPU-to-wall gap limits attribution on this shared desktop, whose complete host load is unavailable. Allocation is cumulative and process CPU time is diagnostic. The fixed endpoint remains wall-clock games/s.
