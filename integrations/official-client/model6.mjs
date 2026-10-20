@@ -5,10 +5,22 @@ import { pathToFileURL } from 'node:url';
 import { projectModel5Runtime } from './model5.mjs';
 
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+export const model6SourceFiles = Object.freeze(['learning/entity_ppo.py', 'learning/entity_ppo_runtime.py',
+  'learning/model6_torch.py', 'learning/train_model6.py', 'learning/model6-contract.json', 'learning/model6-features.mjs',
+  'learning/entity_torch.py', 'learning/entity-contract.json', 'learning/entity-features.mjs', 'learning/masked_ppo.py',
+  'learning/card_action_torch.py', 'integrations/local-worker/entity-ppo-model.mjs',
+  'integrations/local-worker/model6-model.mjs', 'integrations/local-worker/model6-policy-view.mjs',
+  'integrations/local-worker/policy-view.mjs', 'integrations/local-worker/card-action-policy.mjs']);
 export async function loadModel6Bridge(path) {
   const manifest = JSON.parse(await readFile(path, 'utf8'));
-  if (manifest.schema !== 'official-client-model6/1' || manifest.arm !== 'control' || manifest.update !== 4
-      || !isAbsolute(manifest.sourceRoot ?? '') || manifest.stage !== 'post-PPO') throw new Error('model6-pinned-pilot-required');
+  const pilot = manifest.schema === 'official-client-model6/1' && manifest.arm === 'control' && manifest.update === 4;
+  const handoff = manifest.schema === 'official-client-model6/2' && /^[a-z0-9-]{1,64}$/.test(manifest.arm ?? '')
+    && Number.isSafeInteger(manifest.optimizerUpdates) && manifest.optimizerUpdates > 0
+    && manifest.update === manifest.optimizerUpdates && /^[a-f0-9]{64}$/.test(manifest.handoffSha256 ?? '')
+    && /^[a-f0-9]{64}$/.test(manifest.checkpointSha256 ?? '') && /^[a-z0-9-]+$/.test(manifest.policyId ?? '');
+  if ((!pilot && !handoff) || !isAbsolute(manifest.sourceRoot ?? '') || manifest.stage !== 'post-PPO'
+      || model6SourceFiles.some(file => !/^[a-f0-9]{64}$/.test(manifest.sourceSha256?.[file] ?? '')))
+    throw new Error('model6-complete-frozen-handoff-required');
   for (const [file, digest] of Object.entries(manifest.sourceSha256)) {
     if (file.includes('..') || isAbsolute(file) || sha(await readFile(join(manifest.sourceRoot, file))) !== digest)
       throw new Error('model6-source-freeze-mismatch:' + file);

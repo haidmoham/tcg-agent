@@ -1,5 +1,9 @@
 # Model6 diagnostic viewing
 
+This page records the original control update-4 viewing. The later
+[cohort handoff preparation](model6-cohort-view-preparation.md) also supports
+verified version-2 manifests and derives attribution from their pinned metadata.
+
 The viewing adapter loads the completed control PPO pilot, update 4, checkpoint
 SHA256 `391e5545c303317a81bd82b4ea355681aed657ae4950c58847a26b49155f70c1`.
 This is an unselected candidate, not a selected arm or qualified improvement.

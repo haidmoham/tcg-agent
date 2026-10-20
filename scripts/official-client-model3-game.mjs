@@ -26,6 +26,7 @@ const mode = process.argv.slice(2).filter(value => !['--model4', '--model5', '--
 if (!resume && mode !== '--one-built-in-ai --arm --step') throw new Error('explicit-single-ai-step-required');
 const model5Bridge = model6 ? await loadModel6Bridge(join(root, '.cache/official-client-model6.json'))
  : model5 ? await loadModel5Bridge(join(root, '.cache/official-client-model5.json')) : null;
+const model6PolicyId = model6 ? model5Bridge.manifest.policyId ?? 'model6-control-ppo-update-004' : null;
 if (model5 && resume) throw new Error('model5-resume-not-admitted-without-origin-history');
 if (entity && model5Bridge.manifest.clientInputEnabled !== true) throw new Error('model5-viewing-handoff-not-armed');
 const config = JSON.parse(await readFile(join(root, '.cache/client-ui-config.json')));
@@ -93,7 +94,7 @@ const pinFiles = {
 const pins = { ...(energyEnabled ? { visibleEnergyRules: { version: 'visible-energy-service/1', configurationSha256: sha(JSON.stringify(config.visibleEnergyRules)), hostSha256: sha(await readFile(config.visibleEnergyRules.executable)), rulesSha256: config.visibleEnergyRules.rulesSha256, serviceSha256: config.visibleEnergyRules.serviceSha256, effectiveCostEvidence: 'opt-in public UI display getters; unsupported modifiers/conditionals masked', turnHistory: 'unchanged unknown masks' } } : {}), ordinaryCheckpointSha256: checkpointSha256, selectionCheckpointSha256: sha(await readFile(selectionConfig.checkpoint)),
  helperSha256: sha(await readFile(frozenHelperFile)), ordinaryConfigSha256: sha(JSON.stringify(modelConfig)), selectionConfigSha256: sha(JSON.stringify(selectionConfig)),
  inferencePolicy: { ordinarySeed: modelConfig.seed ?? 1729, selectionSeed: selectionConfig.seed ?? 1729,
-  ordinaryDeterministic: true, ...(model6 ? { arm: model5Bridge.manifest.arm, update: model5Bridge.manifest.update, stage: 'post-PPO', selectionStatus: model5Bridge.manifest.selectionStatus } : {}), selection: entity ? 'frozen-native-rankedPromptAnswers' : 'rank-all-then-existing-group-resolution' },
+  ordinaryDeterministic: true, ...(model6 ? { arm: model5Bridge.manifest.arm, update: model5Bridge.manifest.update, stage: 'post-PPO', optimizerUpdates: model5Bridge.manifest.optimizerUpdates ?? model5Bridge.manifest.update, cohortStageUpdate: model5Bridge.manifest.cohortStageUpdate ?? null, handoffSha256: model5Bridge.manifest.handoffSha256 ?? null, selectionStatus: model5Bridge.manifest.selectionStatus } : {}), selection: entity ? 'frozen-native-rankedPromptAnswers' : 'rank-all-then-existing-group-resolution' },
  cardCorpusSha256: sha(await readFile(localFile('cardCorpus'))), deckBundleSha256: sha(await readFile(localFile('deckBundle'))),
  featureContract: entity ? model5Bridge.entityFeatureContract : { schema: 'native-card-action-features/1', stateDimensions: 224, candidateDimensions: 191 },
  ...(entity ? { entitySourceRevision: model5Bridge.manifest.sourceRevision, entitySourceSha256: model5Bridge.manifest.sourceSha256,
@@ -263,7 +264,7 @@ async function chooseEntities(value) {
   decisionTrace = { kind: 'selection', actorKind: 'model', policyInput: view, encodedInput: encoded,
    decision: answer, sample, legalMaskEvidence: validation };
   stats.selectionDecisions++;
-  return { choiceIds: projector.resolve(answer).choiceIds, label: 'Apply Model6 PPO single-card choice', policy: 'model6-control-ppo-update-004-singleton' };
+  return { choiceIds: projector.resolve(answer).choiceIds, label: 'Apply Model6 PPO single-card choice', policy: model6PolicyId + '-singleton' };
  }
  const ranking = await selection.rankChoices({ view });
  if (entity) {
@@ -304,9 +305,12 @@ try {
   terminalUiCaptureAvailable: runtimeReady.terminalUiCaptureAvailable === true } });
  if (energyRules) await recording.note({ visibleEnergyService: await energyRules.verify() });
  const ordinaryInfo = await model.verify(), selectionInfo = selection === model ? ordinaryInfo : await selection.verify();
+ if (model6 && model5Bridge.manifest.optimizerUpdates !== undefined
+     && (ordinaryInfo.updateCount !== model5Bridge.manifest.optimizerUpdates
+       || ordinaryInfo.architecture?.schema !== model5Bridge.manifest.expectedActorArchitecture)) throw new Error('model6-frozen-handoff-metadata-mismatch');
  const contractInfo = info => Object.fromEntries(['schema', 'featureContract', 'architecture', 'parameters', 'cardVocabularySize', 'actionVocabularySize', 'catalogSha256', 'stateDim', 'candidateDim', 'contractSha256', 'device', 'samplingSeed', 'checkpointSha256', 'frozenSelectionSha256', 'printingAliases'].filter(key => info[key] !== undefined).map(key => [key, info[key]]));
  await recording.note({ ordinaryContract: contractInfo(ordinaryInfo), selectionContract: contractInfo(selectionInfo) });
- await log({ event: 'model-ready', model: model6 ? 'model6-control-ppo-update-004-unselected' : model5 ? 'frozen-model5-entity-bc' : model4 ? 'frozen-model4-bc' : 'frozen-model3-ppo-039', checkpointSha256,
+ await log({ event: 'model-ready', model: model6 ? model6PolicyId : model5 ? 'frozen-model5-entity-bc' : model4 ? 'frozen-model4-bc' : 'frozen-model3-ppo-039', checkpointSha256,
   ...(entity ? { featureContract: model5Bridge.entityFeatureContract, nativeToLiveFeatureParity: 'unknown' } : { stateDimensions: 224, candidateDimensions: 191 }) });
  let observation = await observe();
  if (resume) {
@@ -414,7 +418,7 @@ try {
       encodedInput: encodeOrdinary(view), decision };
     selected = raw.actions.find(action => action.id === projector.resolve(decision).actionId);
     if (!selected) throw new Error('model-choice-not-legal');
-    stats.ordinaryDecisions++; policy = model6 ? 'model6-control-ppo-update-004' : model5 ? 'model5-frozen-entity-bc' : model4 ? 'model4-frozen-bc' : 'model3-frozen-ppo';
+    stats.ordinaryDecisions++; policy = model6 ? model6PolicyId : model5 ? 'model5-frozen-entity-bc' : model4 ? 'model4-frozen-bc' : 'model3-frozen-ppo';
     const evolved = raw.actions.filter(action => action.label.startsWith('Evolve '));
     if (evolved.length) stats.evolutionOpportunities++;
     if (selected.label.startsWith('Evolve ')) stats.evolutionIntents++;
