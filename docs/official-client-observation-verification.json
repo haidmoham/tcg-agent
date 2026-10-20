@@ -1,0 +1,80 @@
+{
+  "schema": "official-client-observation-verification/1",
+  "kind": "observed-desktop-readiness-probe",
+  "date": "2026-10-20",
+  "service": {
+    "binding": "127.0.0.1:ephemeral",
+    "routes": [
+      "GET /health",
+      "GET /observation"
+    ],
+    "inputsEnabled": false,
+    "configuredLifespanMs": 120000,
+    "configuredMaxObservations": 60,
+    "actualCaptures": 32,
+    "firstCapturedAt": 1792464324808,
+    "lastCapturedAt": 1792464441684,
+    "focusedCaptures": 0,
+    "clientInputsSent": 0,
+    "exitCode": 0,
+    "processConfirmedStopped": true,
+    "observationEndpointVerified": true,
+    "healthEndpointVerified": true
+  },
+  "lastInspectedCapture": {
+    "imageSha256": "9e813aee37073536af5be6b922246fb5eed9bfbef8bc5974306ecf9f84faba9f",
+    "width": 1366,
+    "height": 768,
+    "screen": "home-lobby",
+    "selectedDeckDisplayName": "AgentPult",
+    "focused": false,
+    "pixelsInspected": true,
+    "navigationTargets": [
+      "Decks"
+    ],
+    "policyView": null,
+    "gameplayReady": false
+  },
+  "unknowns": [
+    "loaded-exact-printings",
+    "current-legality",
+    "playing-policy-view",
+    "legal-gameplay-candidates",
+    "gameplay-control-mappings"
+  ],
+  "accessibility": {
+    "visibleDescendants": 0,
+    "namedControls": 0
+  },
+  "focus": {
+    "ordinaryRequests": 2,
+    "results": [
+      "input-focus-not-granted",
+      "input-focus-not-granted"
+    ],
+    "mouseClicksSent": 0,
+    "foregroundProcessDuringReadOnlyDiagnostic": "ChatGPT",
+    "clientAndAdapterSameSession": true,
+    "adapterDesktop": "Default",
+    "followupWatchSeconds": 45,
+    "watchConfirmedClientFocus": false,
+    "inputGatePreserved": true
+  },
+  "manualInputGuards": {
+    "disarmedProposal": "input-not-armed-and-reviewed",
+    "rankedPlay": "input-target-not-allowed",
+    "unimplementedTestDeck": "input-target-not-allowed",
+    "navigationWithoutArmStep": "navigation-explicit-arm-step-required"
+  },
+  "tests": {
+    "total": 145,
+    "passed": 144,
+    "failed": 0,
+    "skipped": 1
+  },
+  "gameAttempts": 0,
+  "nextSafeStep": "Read-only background observation; input remains paused pending a verified permitted background transport",
+  "privateCapturesCommittedOrUploaded": false,
+  "historicalEvidenceOnly": true,
+  "currentInputPolicy": "visible-in-background; no activation or shared desktop input; input paused"
+}

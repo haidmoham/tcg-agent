@@ -1,0 +1,39 @@
+{
+  "schema": "official-client-deck/1",
+  "id": "agent_pult",
+  "displayName": "AgentPult",
+  "historicalDeck": "Andrew Hedrick 2026 Worlds Hammerpult",
+  "sources": {
+    "results": "https://www.pokemon.com/uk/news/2026-pokemon-world-championships-event-results",
+    "deck": "https://labs.limitlesstcg.com/0071/player/0103/decklist",
+    "verification": "Parent independently supplied verified readable historical export; deck page identifies Andrew Hedrick, first place, 14-2-0. Exact currently loaded printings remain unverified."
+  },
+  "currentClientPrintingsVerified": false,
+  "currentLegalityVerified": false,
+  "cards": [
+    {"count":4,"name":"Dreepy","set":"ASC","number":158,"category":"pokemon"},
+    {"count":4,"name":"Drakloak","set":"ASC","number":159,"category":"pokemon"},
+    {"count":3,"name":"Dragapult ex","set":"ASC","number":160,"category":"pokemon"},
+    {"count":2,"name":"Munkidori","set":"ASC","number":99,"category":"pokemon"},
+    {"count":2,"name":"Budew","set":"ASC","number":16,"category":"pokemon"},
+    {"count":1,"name":"Dunsparce","set":"JTG","number":120,"category":"pokemon"},
+    {"count":1,"name":"Dudunsparce","set":"TEF","number":129,"category":"pokemon"},
+    {"count":1,"name":"Meowth ex","set":"POR","number":62,"category":"pokemon"},
+    {"count":1,"name":"Fezandipiti ex","set":"ASC","number":142,"category":"pokemon"},
+    {"count":4,"name":"Lillie's Determination","set":"MEG","number":119,"category":"trainer"},
+    {"count":3,"name":"Boss's Orders","set":"MEG","number":114,"category":"trainer"},
+    {"count":2,"name":"Crispin","set":"SCR","number":133,"category":"trainer"},
+    {"count":1,"name":"Rosa's Encouragement","set":"POR","number":84,"category":"trainer"},
+    {"count":4,"name":"Poké Pad","set":"POR","number":81,"category":"trainer"},
+    {"count":4,"name":"Crushing Hammer","set":"POR","number":71,"category":"trainer"},
+    {"count":4,"name":"Buddy-Buddy Poffin","set":"ASC","number":184,"category":"trainer"},
+    {"count":3,"name":"Night Stretcher","set":"ASC","number":196,"category":"trainer"},
+    {"count":3,"name":"Ultra Ball","set":"MEG","number":131,"category":"trainer"},
+    {"count":1,"name":"Unfair Stamp","set":"TWM","number":165,"category":"trainer"},
+    {"count":1,"name":"Special Red Card","set":"CRI","number":82,"category":"trainer"},
+    {"count":2,"name":"Risky Ruins","set":"MEG","number":127,"category":"trainer"},
+    {"count":3,"name":"Fire Energy","set":"MEE","number":2,"category":"energy"},
+    {"count":3,"name":"Darkness Energy","set":"MEE","number":7,"category":"energy"},
+    {"count":3,"name":"Psychic Energy","set":"MEE","number":5,"category":"energy"}
+  ]
+}

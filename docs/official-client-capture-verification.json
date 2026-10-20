@@ -1,0 +1,29 @@
+{
+  "schema": "official-client-capture-verification/1",
+  "historicalEvidenceOnly": true,
+  "supersededBy": "official-client-ai-pilot.json",
+  "capturedAt": 1792462784084,
+  "method": "PrintWindow-client-only-render-full-content",
+  "width": 1366,
+  "height": 768,
+  "pixelsInspected": true,
+  "visibleScreen": "Home lobby",
+  "selectedTab": "Ranked",
+  "selectedDeckDisplayName": "AgentPult",
+  "matchRunning": false,
+  "targetForeground": false,
+  "clientInputsSent": 0,
+  "privateAssetsCommitted": false,
+  "negativeChecks": {
+    "wrongWindowRejected": true,
+    "nonprivateOutputRejected": true
+  },
+  "remaining": [
+    "capture-to-policy interpretation",
+    "exact loaded printings",
+    "current legality",
+    "gameplay action and prompt mapping"
+  ],
+  "boundedEntryPointVerified": true,
+  "workerTimeoutMilliseconds": 15000
+}

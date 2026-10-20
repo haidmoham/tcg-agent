@@ -1,0 +1,88 @@
+{
+  "schema": "official-client-foreground-verification/1",
+  "kind": "supervised-navigation-readiness-not-a-game",
+  "userAllowedBriefForegroundTests": true,
+  "normalFocusRequest": {
+    "proposalId": "0db7489e-383e-4b5f-a374-ed7ad58ef1cb",
+    "result": "input-focus-not-granted",
+    "mouseEventsSent": 0
+  },
+  "normalTitlebarActivation": {
+    "proposalId": "2820474a-8383-4fdb-bf01-54d3b6667d65",
+    "screenPoint": [
+      -718,
+      891
+    ],
+    "readOnlyHitTest": "HTCAPTION",
+    "targetWindowOwnershipVerified": true,
+    "globalMouseEventsQueued": 3,
+    "clientForegroundAfter500ms": false,
+    "result": "input-activation-not-foreground",
+    "unintendedOtherWindowMouseInputPossible": true,
+    "issueDisclosedToUser": true
+  },
+  "readOnlyDiagnosis": {
+    "foreignForegroundApplicationOwnsCapture": true,
+    "foreignApplicationName": "redacted",
+    "cursorClip": {
+      "left": 0,
+      "top": 0,
+      "right": 2560,
+      "bottom": 1440
+    },
+    "targetOutsideClip": true,
+    "logicalCursor": [
+      1280,
+      720
+    ],
+    "physicalCursor": [
+      1280,
+      720
+    ],
+    "clientDpi": 96,
+    "virtualDesktop": {
+      "left": -1440,
+      "top": -532,
+      "width": 4000,
+      "height": 2560
+    },
+    "cursorConfinementOrCaptureChanged": false
+  },
+  "fix": {
+    "checkClipBeforeAnyGlobalMouseEvent": true,
+    "rejectForeignMouseCapture": true,
+    "verifyActualCursorPositionBeforeMousePress": true,
+    "recheckTargetOwnershipAndFocusBeforeMousePress": true,
+    "existingGameplayFocusGuardPreserved": true,
+    "compiledCSharpGuard": true,
+    "readOnlyGuardOnActualBlockedTarget": "input-target-outside-cursor-clip",
+    "verificationSentNoInput": true
+  },
+  "gameAttempts": 0,
+  "successfulDecksTransitions": 0,
+  "policyDecisions": 0,
+  "followupTryNow": {
+    "initialReadOnlyReachabilityPassedMomentarily": true,
+    "freshScreenshotScreen": "ranked-ladder",
+    "freshScreenshotClientForeground": false,
+    "freshScreenshotImageSha256": "c6399012c61edc70ccdeb069425931a5655bb4dc67eb6bb791095f2034011f2b",
+    "pixelsInspected": true,
+    "deckDisplayNameOnThisScreen": null,
+    "admittedNavigation": [
+      "Decks"
+    ],
+    "nextReadOnlyGuardResult": "input-foreign-mouse-capture",
+    "cursorClipCoversBothMonitors": true,
+    "foreignForegroundAppStillOwnsCapture": true,
+    "standardUiaWindowSetFocus": "uia-focus-request-rejected",
+    "boundedReadinessWatchSeconds": 45,
+    "readinessObservedDuringWatch": false,
+    "newMouseEventsSent": 0,
+    "focusedRecognitionTestsPassed": 5
+  },
+  "remainingBlocker": "No verified background input transport or attached actor-safe structured match feed",
+  "nextSafeStep": "Resolve the scoped in-process adapter permission question; no foreground or global-input retry",
+  "historicalEvidenceOnly": true,
+  "currentInputPolicy": "visible-in-background; no activation or shared desktop input; input paused",
+  "briefForegroundAuthorizationSuperseded": true
+}

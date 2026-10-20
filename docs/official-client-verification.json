@@ -1,0 +1,54 @@
+{
+  "schema": "official-client-verification/1",
+  "historicalEvidenceOnly": true,
+  "supersededBy": "official-client-ai-pilot.json",
+  "date": "2026-10-20",
+  "mode": "offline-authored-fixture",
+  "model": {
+    "checkpointSha256": "144180ba472cfe23e405eb7c47448e5c88e8148ac5440c5d38f37a54d7ad690b",
+    "featureSchema": "native-ordinary-features/1",
+    "parameters": 1953,
+    "stateDimensions": 32,
+    "candidateDimensions": 27,
+    "role": "ordinary-action behavioral clone",
+    "setupAndPrompts": "unsupported-by-official-client-bridge",
+    "checkpointUsed": true,
+    "runtime": {
+      "device": "cpu",
+      "torch": "2.12.0+cpu"
+    }
+  },
+  "proposed": {
+    "id": "proposal-1",
+    "actionKind": "play",
+    "target": {
+      "elementId": "fixture-attach-control",
+      "label": "Attach visible Fire Energy to your active Dragapult ex"
+    },
+    "expected": {
+      "screen": "playing",
+      "revision": 2
+    },
+    "observationHash": "5b28adcdc3df8b4a77a4deed79b822d8cfcc409f91c016e7e76cb37953fb2adc",
+    "mode": "dry-run"
+  },
+  "execution": "not-sent",
+  "clientActionsSent": 0,
+  "clientCaptureVerified": false,
+  "tests": {
+    "total": 137,
+    "passed": 136,
+    "skipped": 1,
+    "failed": 0
+  },
+  "exactPrintingJoins": {
+    "joined": 15,
+    "distinct": 24
+  },
+  "staticMechanicsAvailability": {
+    "exactOrEquivalent": 23,
+    "distinct": 24
+  },
+  "remainingDistinctVersion": "JTG-120 Dunsparce",
+  "nextTest": "Read-only supported native lobby capture with user present; no match entry or arming."
+}

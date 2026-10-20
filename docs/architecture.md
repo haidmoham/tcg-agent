@@ -1,5 +1,7 @@
 # A closed rules profile before a broader engine
 
+For the native checkpoint, local UI, and official-client adapters, the [policy/client contract](policy-client-contract.md) fixes the boundary between Pokemon decisions and application driving. The model consumes the existing player-safe `PolicyView`; driver coordinates, focus, screenshots, navigation, timing and failures stay outside its input and learning objective.
+
 The first milestone asks whether complete games can expose every decision without leaking hidden information. It does not ask whether a policy can beat competitive players.
 
 ## The caller controls decisions

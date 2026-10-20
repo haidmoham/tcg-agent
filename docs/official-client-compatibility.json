@@ -1,0 +1,378 @@
+{
+  "schema": "official-client-compatibility/1",
+  "deck": "AgentPult",
+  "total": 60,
+  "readyForClientInference": false,
+  "reasons": [
+    "capture-to-policy-unmapped",
+    "loaded-printings-unverified",
+    "current-legality-unverified",
+    "exact-deck-gameplay-unverified",
+    "client-legal-offers-unmapped"
+  ],
+  "cards": [
+    {
+      "printing": "ASC-158",
+      "name": "Dreepy",
+      "count": 4,
+      "pinnedPrintingJoin": false,
+      "semanticEvidence": {
+        "printing": "ASC-158",
+        "candidatePrinting": "TWM-128",
+        "capturedExactProgramPresent": true,
+        "pinnedCandidatePresent": true,
+        "capturedMechanicsIdentical": true,
+        "differingFields": [],
+        "exactMechanicsSha256": "4461aef2fb356dcda4999aed826c2bf2f125b65a94882b700f608fd5027f3d4d",
+        "candidateMechanicsSha256": "4461aef2fb356dcda4999aed826c2bf2f125b65a94882b700f608fd5027f3d4d",
+        "classification": "captured-reprint-equivalence",
+        "admissionGranted": false
+      },
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "ASC-159",
+      "name": "Drakloak",
+      "count": 4,
+      "pinnedPrintingJoin": false,
+      "semanticEvidence": {
+        "printing": "ASC-159",
+        "candidatePrinting": "TWM-129",
+        "capturedExactProgramPresent": true,
+        "pinnedCandidatePresent": true,
+        "capturedMechanicsIdentical": true,
+        "differingFields": [],
+        "exactMechanicsSha256": "6d926acd64cec3375d5138e57337b16ebdc6e63433aedaa988ae4fc65fc60da2",
+        "candidateMechanicsSha256": "6d926acd64cec3375d5138e57337b16ebdc6e63433aedaa988ae4fc65fc60da2",
+        "classification": "captured-reprint-equivalence",
+        "admissionGranted": false
+      },
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "ASC-160",
+      "name": "Dragapult ex",
+      "count": 3,
+      "pinnedPrintingJoin": false,
+      "semanticEvidence": {
+        "printing": "ASC-160",
+        "candidatePrinting": "TWM-130",
+        "capturedExactProgramPresent": true,
+        "pinnedCandidatePresent": true,
+        "capturedMechanicsIdentical": true,
+        "differingFields": [],
+        "exactMechanicsSha256": "013b2d72d68df73c6712f340b2e1d318f5dcb086f446616ccac7a17efce5c63b",
+        "candidateMechanicsSha256": "013b2d72d68df73c6712f340b2e1d318f5dcb086f446616ccac7a17efce5c63b",
+        "classification": "captured-reprint-equivalence",
+        "admissionGranted": false
+      },
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "ASC-99",
+      "name": "Munkidori",
+      "count": 2,
+      "pinnedPrintingJoin": false,
+      "semanticEvidence": {
+        "printing": "ASC-99",
+        "candidatePrinting": "TWM-95",
+        "capturedExactProgramPresent": true,
+        "pinnedCandidatePresent": true,
+        "capturedMechanicsIdentical": true,
+        "differingFields": [],
+        "exactMechanicsSha256": "8edd544e77e3595a6a95a120bbe98cd9daa1a00e1868c71dd47071c71ddb872d",
+        "candidateMechanicsSha256": "8edd544e77e3595a6a95a120bbe98cd9daa1a00e1868c71dd47071c71ddb872d",
+        "classification": "captured-reprint-equivalence",
+        "admissionGranted": false
+      },
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "ASC-16",
+      "name": "Budew",
+      "count": 2,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "JTG-120",
+      "name": "Dunsparce",
+      "count": 1,
+      "pinnedPrintingJoin": false,
+      "semanticEvidence": {
+        "printing": "JTG-120",
+        "candidatePrinting": "TEF-128",
+        "capturedExactProgramPresent": true,
+        "pinnedCandidatePresent": true,
+        "capturedMechanicsIdentical": false,
+        "differingFields": [
+          "cardArchetypeID",
+          "hp",
+          "retreatCost",
+          "useActions"
+        ],
+        "exactMechanicsSha256": "d7b74b621231181d423ebe943f11f266ec9468f3bd7c4aef5e3a53e4b8304582",
+        "candidateMechanicsSha256": "dcc24ed5430df198e31d85d84fb03a2b2f465577dab7dd4692f03b776da844bc",
+        "classification": "different-version-or-unverified-equivalence",
+        "admissionGranted": false
+      },
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "TEF-129",
+      "name": "Dudunsparce",
+      "count": 1,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "POR-62",
+      "name": "Meowth ex",
+      "count": 1,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "ASC-142",
+      "name": "Fezandipiti ex",
+      "count": 1,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "MEG-119",
+      "name": "Lillie's Determination",
+      "count": 4,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "MEG-114",
+      "name": "Boss's Orders",
+      "count": 3,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "SCR-133",
+      "name": "Crispin",
+      "count": 2,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "POR-84",
+      "name": "Rosa's Encouragement",
+      "count": 1,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "POR-81",
+      "name": "Pok├⌐ Pad",
+      "count": 4,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "POR-71",
+      "name": "Crushing Hammer",
+      "count": 4,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "ASC-184",
+      "name": "Buddy-Buddy Poffin",
+      "count": 4,
+      "pinnedPrintingJoin": false,
+      "semanticEvidence": {
+        "printing": "ASC-184",
+        "candidatePrinting": "TEF-144",
+        "capturedExactProgramPresent": true,
+        "pinnedCandidatePresent": true,
+        "capturedMechanicsIdentical": true,
+        "differingFields": [],
+        "exactMechanicsSha256": "d8857fe70a7122d360e042aade3e7afdffda3c5bb9cc2ea5c9f2e4c4ae89d311",
+        "candidateMechanicsSha256": "d8857fe70a7122d360e042aade3e7afdffda3c5bb9cc2ea5c9f2e4c4ae89d311",
+        "classification": "captured-reprint-equivalence",
+        "admissionGranted": false
+      },
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "ASC-196",
+      "name": "Night Stretcher",
+      "count": 3,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "MEG-131",
+      "name": "Ultra Ball",
+      "count": 3,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "TWM-165",
+      "name": "Unfair Stamp",
+      "count": 1,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "CRI-82",
+      "name": "Special Red Card",
+      "count": 1,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "MEG-127",
+      "name": "Risky Ruins",
+      "count": 2,
+      "pinnedPrintingJoin": true,
+      "semanticEvidence": null,
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "MEE-2",
+      "name": "Fire Energy",
+      "count": 3,
+      "pinnedPrintingJoin": false,
+      "semanticEvidence": {
+        "printing": "MEE-2",
+        "candidatePrinting": "MEE-10",
+        "capturedExactProgramPresent": true,
+        "pinnedCandidatePresent": true,
+        "capturedMechanicsIdentical": true,
+        "differingFields": [],
+        "exactMechanicsSha256": "0e0f0fecf6b63d1743daad4d08ae2278642c1a234ef8888b81286f35dd65f57c",
+        "candidateMechanicsSha256": "0e0f0fecf6b63d1743daad4d08ae2278642c1a234ef8888b81286f35dd65f57c",
+        "classification": "captured-reprint-equivalence",
+        "admissionGranted": false
+      },
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "MEE-7",
+      "name": "Darkness Energy",
+      "count": 3,
+      "pinnedPrintingJoin": false,
+      "semanticEvidence": {
+        "printing": "MEE-7",
+        "candidatePrinting": "MEE-15",
+        "capturedExactProgramPresent": true,
+        "pinnedCandidatePresent": true,
+        "capturedMechanicsIdentical": true,
+        "differingFields": [],
+        "exactMechanicsSha256": "683ff1fbff29a4dd229d981717c6e97cbf4095f1f38c2fb336632342912c6b91",
+        "candidateMechanicsSha256": "683ff1fbff29a4dd229d981717c6e97cbf4095f1f38c2fb336632342912c6b91",
+        "classification": "captured-reprint-equivalence",
+        "admissionGranted": false
+      },
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    },
+    {
+      "printing": "MEE-5",
+      "name": "Psychic Energy",
+      "count": 3,
+      "pinnedPrintingJoin": false,
+      "semanticEvidence": {
+        "printing": "MEE-5",
+        "candidatePrinting": "MEE-13",
+        "capturedExactProgramPresent": true,
+        "pinnedCandidatePresent": true,
+        "capturedMechanicsIdentical": true,
+        "differingFields": [],
+        "exactMechanicsSha256": "59a07f89d1e804f0097b002b029863838cbdf707f2787fd006f783e82436414b",
+        "candidateMechanicsSha256": "59a07f89d1e804f0097b002b029863838cbdf707f2787fd006f783e82436414b",
+        "classification": "captured-reprint-equivalence",
+        "admissionGranted": false
+      },
+      "gameplayVerified": false,
+      "modelCoverage": "unproven-for-exact-printing",
+      "uiMapping": "unverified"
+    }
+  ],
+  "joinEvidenceSha256": "2136e77ab8900f4569b8bd6d1e2a12f4f363fa472b165cb922066067064ac482",
+  "exactPrintingCoverage": {
+    "joined": 15,
+    "distinct": 24
+  },
+  "semanticAvailability": {
+    "exactOrCapturedEquivalent": 23,
+    "distinct": 24,
+    "gameplayCertification": false
+  },
+  "derivedDunsparceExtension": {
+    "scope": "separate-derived-offline-package",
+    "manifestSha256": "cdc6f9fa83dac0cce72408661dabd4e7a8b55195624f3d1559afa4503d64195d",
+    "addedPrinting": "JTG-120",
+    "staticMechanicsTypesAvailable": 24,
+    "focusedNativeChecksPassed": 18,
+    "officialClientAdmission": false
+  },
+  "evidenceScope": "Exact printing joins and explicitly compared static reprint mechanics are distinct evidence. No card programs or private assets are included. No gameplay or current legality certification."
+}

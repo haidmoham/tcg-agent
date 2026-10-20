@@ -1,0 +1,11 @@
+# Project execution
+
+Eagerly build through recoverable engineering gaps and blockers in this project. Missing adapters, card implementations, tests, and integrations are implementation work, not default stopping points. Keep progress bounded by concrete milestones and preserve correctness and verification. Ask only when a genuine product decision, required permission, unavailable capability, or safety boundary prevents proceeding. This guidance does not authorize bypassing denials or expanding account, spending, publishing, or live-play scope.
+
+## Game policy and client driving
+
+Keep Pokemon game policy separate from client driving. The model consumes player-visible structured game state and semantic legal actions, and chooses only Pokemon actions. Do not expose coordinates, screenshots, focus, menus, animations, retries, navigation, transport, or driver failures to the model or its learning objective. Reuse the frozen checkpoint through environment adapters without changing it for a particular UI.
+
+The observation adapter preserves uncertainty and excludes hidden opponent information. The client driver owns verified UI mappings, sequences, synchronization, bounds and execution errors. It must never choose strategic targets, discards, attacks or prompt answers. Any heuristic game choice belongs to an explicit, attributed policy/helper layer. Driver failures and unverified executions are excluded from policy decisions, rewards and training examples. See docs/policy-client-contract.md for the contract and tests.
+
+The official client must remain visible in the background on the second monitor while the user works elsewhere. Do not activate or foreground it, request Alt-Tab, move the desktop cursor, or use global input. Keep other applications' capture untouched. The user explicitly authorized a scoped in-process adapter for visible UI/event observation and provided-AI Test Deck controls. This does not authorize credentials, hidden opponent information, security changes or public play. The scoped adapter has proved background navigation and entered one AI sample. The user stopped that run; input and runtime kill markers remain set. Do not resume it or start another client game without a new user request.

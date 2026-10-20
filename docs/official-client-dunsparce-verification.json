@@ -1,0 +1,77 @@
+{
+  "schema": "dunsparce-jtg120-native-admission/1",
+  "scope": "isolated-offline-authored-decks",
+  "sourceManifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+  "derivedManifestSha256": "cdc6f9fa83dac0cce72408661dabd4e7a8b55195624f3d1559afa4503d64195d",
+  "workerSha256": "76c38d968b3703fd5a69e94a97f8c5ce7b9f6e488d8d3428bae162af4204669a",
+  "corpusSha256": "afe7931aab5a6d4f77cdecbb7ae58502dd17fce4695986a348c2b27ebdd6c4ec",
+  "exactCardProgramSha256": "4d5a23ade7a692fda80df566f04eed1d5e9a59db7497a28b1e23478793ccdba3",
+  "sourceBundleUnchanged": true,
+  "exactPrinting": "JTG-120",
+  "sourceId": "sv9_120",
+  "admission": "registered-in-derived-package-only",
+  "nativeRulesAdded": false,
+  "modelWeightsChanged": false,
+  "clientInputsSent": 0,
+  "staticChecks": {
+    "basic": true,
+    "colorless": true,
+    "hp": 70,
+    "fightingWeaknessTimesTwo": true,
+    "noResistance": true,
+    "noAbility": true,
+    "retreat": 1,
+    "tradingPlacesCost": 1,
+    "ramCost": 2,
+    "ramDamage": 20,
+    "usesExistingNativeSwitchAndDamage": true
+  },
+  "observations": [
+    {
+      "seed": 3101,
+      "accepted": 30,
+      "outcome": "switch-verified"
+    },
+    {
+      "seed": 3101,
+      "accepted": 14,
+      "outcome": "ram-verified"
+    },
+    {
+      "seed": 3101,
+      "accepted": 10,
+      "outcome": "no-bench-verified"
+    },
+    {
+      "seed": 3101,
+      "accepted": 27,
+      "outcome": "retreat-verified"
+    }
+  ],
+  "tested": {
+    "zeroEnergyNoAttack": true,
+    "retreatUnavailableWithoutBench": true,
+    "retreatCostOneProjected": true,
+    "exactSeventyHpProjected": true,
+    "ramUnavailableWithOneEnergy": true,
+    "tradingPlacesAvailableWithOneEnergy": true,
+    "ramAvailableWithTwoEnergy": true,
+    "tradingPlacesSwitch": true,
+    "tradingPlacesKeepsEnergy": true,
+    "switchSelectedOwnBench": true,
+    "tradingPlacesTurnEnded": true,
+    "ramTwentyDamage": true,
+    "ramTurnEnded": true,
+    "noBenchTradingPlacesOffered": true,
+    "noBenchAttackKeepsActive": true,
+    "noBenchAttackTurnEnded": true,
+    "retreatPaysOneEnergy": true,
+    "retreatKeepsTurn": true
+  },
+  "untested": [
+    "official-client-input-mapping",
+    "full-AgentPult-gameplay",
+    "all-card-interactions",
+    "full-Standard-admission"
+  ]
+}

@@ -1,0 +1,253 @@
+{
+  "schema": "official-client-static-source-audit/1",
+  "historicalEvidenceOnly": true,
+  "supersededBy": "official-client-ai-pilot.json",
+  "kind": "static-source-only",
+  "sources": [
+    {
+      "root": "research",
+      "file": "tcg-live-rea-2026-10-11/decompiled/TPCI.RainierClient/NetworkMatchController.cs",
+      "role": "internal-match-events",
+      "sha256": "c18ecfe70ea8ace2d485eae139493127553db07c8672ca060590ee9ba670eea0",
+      "evidence": [
+        {
+          "symbol": "ConfigureMatchScopedClientEventSystem",
+          "line": 632
+        },
+        {
+          "symbol": "BeginSendingClientEventsTo",
+          "line": 665
+        },
+        {
+          "symbol": "receivePlayerSelection",
+          "line": 166
+        },
+        {
+          "symbol": "receiveMatchOperationResult",
+          "line": 168
+        }
+      ]
+    },
+    {
+      "root": "research",
+      "file": "tcg-live-rea-2026-10-11/decompiled/TPCI.RainierClient/ClientMatchMainThreadEventSystem.cs",
+      "role": "internal-main-thread-router",
+      "sha256": "3f24affa8b643fad8738303f02ba84e278b9b5a976ed4491f8bf50217e4bc2c5",
+      "evidence": [
+        {
+          "symbol": "SendEventsTo",
+          "line": 24
+        },
+        {
+          "symbol": "DispatchPlayerSelectionEvent",
+          "line": 91
+        },
+        {
+          "symbol": "DispatchOperationResultEvent",
+          "line": 83
+        }
+      ]
+    },
+    {
+      "root": "research",
+      "file": "tcg-live-rea-2026-10-11/decompiled/TPCI.RainierClient/IBattleLogStateProvider.cs",
+      "role": "internal-presentation-events",
+      "sha256": "bcc586bb2a088033444094dc763bcfa0accd3eda4082ae2e72ce2ca1aae3a044",
+      "evidence": [
+        {
+          "symbol": "RootEntryModels",
+          "line": 8
+        },
+        {
+          "symbol": "OnRootEntryAdded",
+          "line": 10
+        },
+        {
+          "symbol": "OnEntryChanged",
+          "line": 14
+        }
+      ]
+    },
+    {
+      "root": "research",
+      "file": "tcg-live-rea-2026-10-11/decompiled/TPCI.RainierClient/BattleLogExporter.cs",
+      "role": "user-triggered-clipboard-export",
+      "sha256": "608dfacd7da515211f0935d726fa67e49f8b1d8e385914a4aa9746066d283773",
+      "evidence": [
+        {
+          "symbol": "ExportBattleLog",
+          "line": 14
+        },
+        {
+          "symbol": "GUIUtility.systemCopyBuffer",
+          "line": 44
+        },
+        {
+          "symbol": "OnExport",
+          "line": 12
+        }
+      ]
+    },
+    {
+      "root": "research",
+      "file": "tcg-live-rea-2026-10-11/decompiled/TPCI.RainierClient/UnityInputManagerAdapter.cs",
+      "role": "unity-device-input",
+      "sha256": "373ac3db573b49708de1bb9be796eb5cc68123e079324dad1acd7f605f869cc0",
+      "evidence": [
+        {
+          "symbol": "IsLeftClickBegin",
+          "line": 28
+        },
+        {
+          "symbol": "wasPressedThisFrame",
+          "line": 33
+        }
+      ]
+    },
+    {
+      "root": "research",
+      "file": "tcg-live-rea-2026-10-11/decompiled/TPCI.RainierClient/TPCI.Rainier.Features.DeckManager/HUBDeckSelectController.cs",
+      "role": "normal-test-deck-ui-path",
+      "sha256": "69a095bea92f3c2b42203180d2f8d458ca84a3007b9f9c2cdae621ce114fea1a",
+      "evidence": [
+        {
+          "symbol": "public void Settings_TestDeck()",
+          "line": 860
+        },
+        {
+          "symbol": "OfflineMatchInitiator.SwitchOfflineAndPlay",
+          "line": 876
+        },
+        {
+          "symbol": "StartOfflineMatch(BattleBoardType.TestDeck)",
+          "line": 995
+        }
+      ]
+    },
+    {
+      "root": "research",
+      "file": "tcg-live-rea-2026-10-11/decompiled/TPCI.RainierClient/OfflineMatchInitiator.cs",
+      "role": "provided-offline-ai-launch",
+      "sha256": "c24ffd01138a178a9a06b2eb77851b67d235415a65fa5a44c7d370aff31c353b",
+      "evidence": [
+        {
+          "symbol": "SwitchOfflineAndPlay",
+          "line": 12
+        },
+        {
+          "symbol": "ValidateDeckIgnoreUnowned",
+          "line": 16
+        },
+        {
+          "symbol": "GameplayType.Offline",
+          "line": 39
+        },
+        {
+          "symbol": "SetAISettings",
+          "line": 57
+        }
+      ]
+    },
+    {
+      "root": "research",
+      "file": "tcg-live-full-reconstruction-2026-10-11/tools/network-runtime-reader.js",
+      "role": "excluded-credential-reader",
+      "sha256": "6dcb77af317011d13a1a80b5f1c56b16d7e4de60255cf7356e53a948f8010d6a",
+      "evidence": [
+        {
+          "symbol": "rpc.exports",
+          "line": 52
+        },
+        {
+          "symbol": "AccessToken",
+          "line": 88
+        },
+        {
+          "symbol": "_tokenHolder",
+          "line": 80
+        }
+      ]
+    },
+    {
+      "root": "research",
+      "file": "tcg-live-full-reconstruction-2026-10-11/tools/network-runtime-query.py",
+      "role": "excluded-process-instrumentation",
+      "sha256": "6c25670deea11dd00aaeed8ba84fac082dcc88a860abb74a2406ff360b93c2c2",
+      "evidence": [
+        {
+          "symbol": "frida.attach",
+          "line": 24
+        },
+        {
+          "symbol": "create_script",
+          "line": 25
+        },
+        {
+          "symbol": "script.load",
+          "line": 26
+        }
+      ]
+    },
+    {
+      "root": "indigo",
+      "file": "apps/live-engine/MatchWorker.cs",
+      "role": "separate-offline-authority",
+      "sha256": "36f446cc14ec74c7df6d0db627a2befbd4037a29c633b544cffca197991c06b4",
+      "evidence": [
+        {
+          "symbol": "GameplayType.Offline",
+          "line": 77
+        },
+        {
+          "symbol": "new MatchOperation",
+          "line": 77
+        }
+      ]
+    },
+    {
+      "root": "indigo",
+      "file": "apps/live-engine/MatchWorker.Projection.cs",
+      "role": "reusable-actor-projection",
+      "sha256": "04af80dc1b7457a019ae1c5c4e237fdda58cb512feda45a2e156904f617d0edd",
+      "evidence": [
+        {
+          "symbol": "Project(string seat)",
+          "line": 49
+        },
+        {
+          "symbol": "CreatePrivatizedMatchBoardForPlayer",
+          "line": 54
+        },
+        {
+          "symbol": "AddActions",
+          "line": 72
+        }
+      ]
+    },
+    {
+      "root": "indigo",
+      "file": "apps/live-server/src/engine-bridge/transport.ts",
+      "role": "private-worker-stdio",
+      "sha256": "3b5c547515cb351e9e74524b277023250d12416475297a707c466aded3ececff",
+      "evidence": [
+        {
+          "symbol": "spawn",
+          "line": 1
+        },
+        {
+          "symbol": "stdio",
+          "line": 39
+        }
+      ]
+    }
+  ],
+  "runtime": {
+    "attached": false,
+    "clientMethodsInvoked": false,
+    "processMemoryRead": false,
+    "credentialsRead": false,
+    "firstStructuredMatchObservation": null,
+    "externalPlayerVisibleEndpointProven": false
+  },
+  "conclusion": "Internal event interfaces and the offline actor projection are identified. No inspected source establishes an external player-visible match feed from the running official process."
+}

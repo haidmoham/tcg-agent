@@ -1,0 +1,26 @@
+{
+  "schema": "official-client-background-current/1",
+  "historicalEvidenceOnly": true,
+  "supersededBy": "official-client-ai-pilot.json",
+  "kind": "observed-read-only-readiness-not-a-game",
+  "captures": 33,
+  "firstCapturedAt": 1792467620661.0,
+  "lastCapturedAt": 1792467738789.0,
+  "focusedCaptures": 0,
+  "visibleCaptures": 33,
+  "latestScreen": "home-lobby",
+  "latestDeck": "AgentPult",
+  "latestImageSha256": "fc62593ae052c5755f98b0bdadea500bec8848fef102de2d492b85ba544ace59",
+  "serviceExitCode": 0,
+  "inputsSent": 0,
+  "gameAttempts": 0,
+  "structuredMatchAttached": false,
+  "inputPausePreserved": true,
+  "tests": {
+    "passed": 151,
+    "total": 152,
+    "skipped": 1,
+    "failed": 0
+  },
+  "pendingPermission": "Scoped in-process UI/event adapter; no attachment or method invocation performed"
+}

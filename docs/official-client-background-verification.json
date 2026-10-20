@@ -1,0 +1,100 @@
+{
+  "schema": "official-client-background-verification/1",
+  "kind": "observed-navigation-probe-not-a-game",
+  "monitor": {
+    "device": "DISPLAY2",
+    "bounds": {
+      "left": -1440,
+      "top": -532,
+      "right": 0,
+      "bottom": 2028
+    },
+    "clientScreenOrigin": {
+      "x": -1401,
+      "y": 907
+    },
+    "clientSize": {
+      "width": 1366,
+      "height": 768
+    },
+    "actualClientForegroundConfirmed": true
+  },
+  "globalInputProbe": {
+    "proposalId": "4ffaf1ee-c64c-48f6-acd8-ffb48c3710a5",
+    "target": "Decks",
+    "outcome": "input-window-unfocused",
+    "mouseEventsSent": 0,
+    "focusGuardPreserved": true
+  },
+  "ownedFixture": {
+    "messageIds": [
+      512,
+      513,
+      514
+    ],
+    "clientCoordinates": [
+      139,
+      26
+    ],
+    "messagesReceived": 3,
+    "desktopFocusUnchanged": true,
+    "desktopCursorUnchanged": true,
+    "officialClientInputsSent": 0
+  },
+  "officialWindowProbe": {
+    "proposalId": "5d8e4a5e-7f88-4155-b4f4-752edda1f63f",
+    "target": "Decks",
+    "transport": "window-message",
+    "logicalClickIntents": 1,
+    "messagesQueued": 3,
+    "globalMouseEventsSent": 0,
+    "immediateDesktopFocusAndCursorChecksPassed": true,
+    "beforeScreen": "home-lobby",
+    "expectedScreen": "decks",
+    "threeAfterCaptureScreens": [
+      "home-lobby",
+      "home-lobby",
+      "home-lobby"
+    ],
+    "outcome": "navigation-transition-unverified",
+    "pendingStatePreserved": true,
+    "automaticRetries": 0,
+    "globalInputFallbacks": 0,
+    "policyDecisions": 0,
+    "gameAttempts": 0
+  },
+  "laterReadOnlyCheck": {
+    "capturedAt": 1792465285984,
+    "imageSha256": "99429ec1938183fb7e6d014be228a05954582dcb6d1544d0551be7538c7c0ec0",
+    "pixelsInspected": true,
+    "screen": "home-lobby",
+    "deckDisplayName": "AgentPult",
+    "focused": false
+  },
+  "staticInputPathEvidence": {
+    "ExposedInputModule": "extends UnityEngine.InputSystem.UI.InputSystemUIInputModule",
+    "UnityInputManagerAdapter.IsLeftClickBegin": "reads Mouse.leftButton.wasPressedThisFrame",
+    "UnityInputManagerAdapter.GetCursorPosition": "reads Mouse.position",
+    "InteractionManager.GetInteractionStateInfo": "uses InputManager click and position values",
+    "interpretation": "captured client uses Unity device input; consistent with the observed queued-message/no-UI-transition boundary",
+    "exactNativeInputBackendCauseProven": false,
+    "runtimeHooksOrClientModificationUsed": false
+  },
+  "currentReadiness": {
+    "backgroundObservation": true,
+    "backgroundOfficialClientInput": false,
+    "defaultNavigationMode": "visible-window-only",
+    "nextInputBlockedUntilPendingOutcomeResolved": true,
+    "policyDriverContractTests": 6,
+    "fullSuite": {
+      "tests": 152,
+      "passed": 151,
+      "failed": 0,
+      "skipped": 1
+    },
+    "frozenModel2AuthoredInferencePassed": true,
+    "checkpointChanged": false
+  },
+  "historicalEvidenceOnly": true,
+  "currentInputPolicy": "visible-in-background; no activation or shared desktop input; input paused"
+}

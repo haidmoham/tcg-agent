@@ -1,0 +1,121 @@
+{
+  "schema": "official-client-reprint-audit/1",
+  "corpusSha256": "afe7931aab5a6d4f77cdecbb7ae58502dd17fce4695986a348c2b27ebdd6c4ec",
+  "method": "Compare all captured official static card fields recursively, excluding only printing source ID, logic source ID, release date and per-instance action GUID. Card archetype, names, stats, typing, properties, attacks, abilities, conditions, effect trees and action source IDs remain in comparison.",
+  "scope": "Static mechanics evidence only. Regulation/legality and official UI mappings remain separate. No captured programs are exported. Exact historical manifest is unchanged.",
+  "cards": [
+    {
+      "printing": "ASC-158",
+      "candidatePrinting": "TWM-128",
+      "capturedExactProgramPresent": true,
+      "pinnedCandidatePresent": true,
+      "capturedMechanicsIdentical": true,
+      "differingFields": [],
+      "exactMechanicsSha256": "4461aef2fb356dcda4999aed826c2bf2f125b65a94882b700f608fd5027f3d4d",
+      "candidateMechanicsSha256": "4461aef2fb356dcda4999aed826c2bf2f125b65a94882b700f608fd5027f3d4d",
+      "classification": "captured-reprint-equivalence",
+      "admissionGranted": false
+    },
+    {
+      "printing": "ASC-159",
+      "candidatePrinting": "TWM-129",
+      "capturedExactProgramPresent": true,
+      "pinnedCandidatePresent": true,
+      "capturedMechanicsIdentical": true,
+      "differingFields": [],
+      "exactMechanicsSha256": "6d926acd64cec3375d5138e57337b16ebdc6e63433aedaa988ae4fc65fc60da2",
+      "candidateMechanicsSha256": "6d926acd64cec3375d5138e57337b16ebdc6e63433aedaa988ae4fc65fc60da2",
+      "classification": "captured-reprint-equivalence",
+      "admissionGranted": false
+    },
+    {
+      "printing": "ASC-160",
+      "candidatePrinting": "TWM-130",
+      "capturedExactProgramPresent": true,
+      "pinnedCandidatePresent": true,
+      "capturedMechanicsIdentical": true,
+      "differingFields": [],
+      "exactMechanicsSha256": "013b2d72d68df73c6712f340b2e1d318f5dcb086f446616ccac7a17efce5c63b",
+      "candidateMechanicsSha256": "013b2d72d68df73c6712f340b2e1d318f5dcb086f446616ccac7a17efce5c63b",
+      "classification": "captured-reprint-equivalence",
+      "admissionGranted": false
+    },
+    {
+      "printing": "ASC-99",
+      "candidatePrinting": "TWM-95",
+      "capturedExactProgramPresent": true,
+      "pinnedCandidatePresent": true,
+      "capturedMechanicsIdentical": true,
+      "differingFields": [],
+      "exactMechanicsSha256": "8edd544e77e3595a6a95a120bbe98cd9daa1a00e1868c71dd47071c71ddb872d",
+      "candidateMechanicsSha256": "8edd544e77e3595a6a95a120bbe98cd9daa1a00e1868c71dd47071c71ddb872d",
+      "classification": "captured-reprint-equivalence",
+      "admissionGranted": false
+    },
+    {
+      "printing": "JTG-120",
+      "candidatePrinting": "TEF-128",
+      "capturedExactProgramPresent": true,
+      "pinnedCandidatePresent": true,
+      "capturedMechanicsIdentical": false,
+      "differingFields": [
+        "cardArchetypeID",
+        "hp",
+        "retreatCost",
+        "useActions"
+      ],
+      "exactMechanicsSha256": "d7b74b621231181d423ebe943f11f266ec9468f3bd7c4aef5e3a53e4b8304582",
+      "candidateMechanicsSha256": "dcc24ed5430df198e31d85d84fb03a2b2f465577dab7dd4692f03b776da844bc",
+      "classification": "different-version-or-unverified-equivalence",
+      "admissionGranted": false
+    },
+    {
+      "printing": "ASC-184",
+      "candidatePrinting": "TEF-144",
+      "capturedExactProgramPresent": true,
+      "pinnedCandidatePresent": true,
+      "capturedMechanicsIdentical": true,
+      "differingFields": [],
+      "exactMechanicsSha256": "d8857fe70a7122d360e042aade3e7afdffda3c5bb9cc2ea5c9f2e4c4ae89d311",
+      "candidateMechanicsSha256": "d8857fe70a7122d360e042aade3e7afdffda3c5bb9cc2ea5c9f2e4c4ae89d311",
+      "classification": "captured-reprint-equivalence",
+      "admissionGranted": false
+    },
+    {
+      "printing": "MEE-2",
+      "candidatePrinting": "MEE-10",
+      "capturedExactProgramPresent": true,
+      "pinnedCandidatePresent": true,
+      "capturedMechanicsIdentical": true,
+      "differingFields": [],
+      "exactMechanicsSha256": "0e0f0fecf6b63d1743daad4d08ae2278642c1a234ef8888b81286f35dd65f57c",
+      "candidateMechanicsSha256": "0e0f0fecf6b63d1743daad4d08ae2278642c1a234ef8888b81286f35dd65f57c",
+      "classification": "captured-reprint-equivalence",
+      "admissionGranted": false
+    },
+    {
+      "printing": "MEE-7",
+      "candidatePrinting": "MEE-15",
+      "capturedExactProgramPresent": true,
+      "pinnedCandidatePresent": true,
+      "capturedMechanicsIdentical": true,
+      "differingFields": [],
+      "exactMechanicsSha256": "683ff1fbff29a4dd229d981717c6e97cbf4095f1f38c2fb336632342912c6b91",
+      "candidateMechanicsSha256": "683ff1fbff29a4dd229d981717c6e97cbf4095f1f38c2fb336632342912c6b91",
+      "classification": "captured-reprint-equivalence",
+      "admissionGranted": false
+    },
+    {
+      "printing": "MEE-5",
+      "candidatePrinting": "MEE-13",
+      "capturedExactProgramPresent": true,
+      "pinnedCandidatePresent": true,
+      "capturedMechanicsIdentical": true,
+      "differingFields": [],
+      "exactMechanicsSha256": "59a07f89d1e804f0097b002b029863838cbdf707f2787fd006f783e82436414b",
+      "candidateMechanicsSha256": "59a07f89d1e804f0097b002b029863838cbdf707f2787fd006f783e82436414b",
+      "classification": "captured-reprint-equivalence",
+      "admissionGranted": false
+    }
+  ]
+}
