@@ -1,0 +1,546 @@
+{
+  "schema": "native-learning-milestone/1",
+  "timestamp": "2026-10-20T01:15:13.588Z",
+  "profile": "private-two-deck-2026-10-11",
+  "fullStandardClaim": false,
+  "competitiveAgentClaim": false,
+  "machine": {
+    "cpu": "AMD Ryzen 7 5800X",
+    "logicalProcessors": 16,
+    "node": "24.18.0",
+    "os": "Windows 10.0.26300",
+    "gpu": "NVIDIA GeForce RTX 3080"
+  },
+  "pins": {
+    "workerSha256": "76c38d968b3703fd5a69e94a97f8c5ce7b9f6e488d8d3428bae162af4204669a",
+    "executableSha256": "111da7b604cd196b49167cfeecdaef4034b58cc7de71a91cbf9e162c9e8b0931",
+    "manifestSha256": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+    "policySha256": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6"
+  },
+  "featureContract": {
+    "schema": "native-ordinary-features/1",
+    "stateDimensions": 32,
+    "candidateDimensions": 27
+  },
+  "scaling": {
+    "repetitionsPerLevel": 1,
+    "freshPolicyDriven": true,
+    "replay": false,
+    "equalFullTrajectoriesAndRecords": true,
+    "caveat": "Descriptive scaling smoke, not a clean causal speedup or statistically established concurrency winner. Before the freeze acknowledgement, an encoder arithmetic/allocation refactor landed at 00:46:58.063Z between first and later lane imports. Integer energy/10 replaced integer energy*40/400; all observed feature hashes match. Native work, policy, privacy cadence, seeds and resets were unchanged. The parent imported the controller before aggregate diagnostic fields were added; CPU and peak aggregates below are derived from retained lane/game receipts.",
+    "timingIncludes": "fresh policy decisions, native setup/reset, legal offers, commands, actor projections, complete per-frame RNG/authority audits and hidden-world probes, JSONL and journal writes, OS metric samples",
+    "timingExcludes": "full per-lane warmup game and initial native startup, PyTorch inference/training, GUI, Live play",
+    "levels": [
+      {
+        "workers": 1,
+        "games": 4,
+        "commands": 607,
+        "ordinaryDecisions": 185,
+        "measuredMilliseconds": 395483.8826,
+        "coldMilliseconds": 488530.2539,
+        "startupAndWarmupMilliseconds": 93046.36989999999,
+        "gamesPerSecond": 0.01011419219843575,
+        "commandsPerSecond": 1.534828666112625,
+        "ordinaryDecisionsPerSecond": 0.46778138917765344,
+        "nativeCpuMilliseconds": 379968.75,
+        "nativeCpuCoreEquivalent": 0.9607692417248459,
+        "jsCpuMilliseconds": 9500,
+        "nativeWorkerPeakWorkingSetBytes": [
+          1196154880
+        ],
+        "gameLatencyMilliseconds": {
+          "median": 93577.86200000001,
+          "minimum": 73245.18529999998,
+          "maximum": 132798.17490000004
+        },
+        "errors": 0,
+        "truncations": 0,
+        "privacyChecks": 1214,
+        "realHandExchanges": 1184,
+        "cases": [
+          {
+            "seed": 90001,
+            "seatOrder": [
+              0,
+              1
+            ],
+            "trajectorySha256": "f6c6a1e899ed2ec68af22a8bbac256dc217e98c2dbb87d73947e5ab825a31189",
+            "recordsSha256": "b454bdbc0445254addd4e268b5360427e89f9657c7fc9520229c5e64f89185fc",
+            "commands": 130,
+            "nativeSeedCalls": 60,
+            "frames": 131,
+            "turns": 19,
+            "ordinaryDecisions": 36,
+            "elapsedMilliseconds": 73245.18529999998
+          },
+          {
+            "seed": 90002,
+            "seatOrder": [
+              1,
+              0
+            ],
+            "trajectorySha256": "de6eeefb465293aca48ac4cc732b9663974a27fe830cb8d20476a6af59dafa0a",
+            "recordsSha256": "b2af464a27219ec6a039d4be508ad8235d27bc7760264f2e7fb22c05ee0aecb0",
+            "commands": 131,
+            "nativeSeedCalls": 50,
+            "frames": 132,
+            "turns": 14,
+            "ordinaryDecisions": 41,
+            "elapsedMilliseconds": 78837.7347
+          },
+          {
+            "seed": 90003,
+            "seatOrder": [
+              0,
+              1
+            ],
+            "trajectorySha256": "d4f7cd7be7d807947b80aa2ed116e6365911818ed2d03c23ccc2acc285ea1173",
+            "recordsSha256": "679cc5dde9fafa84b27dacc726ae6fb1d4847d97ff1134e9fe0cc579711639c7",
+            "commands": 157,
+            "nativeSeedCalls": 67,
+            "frames": 158,
+            "turns": 27,
+            "ordinaryDecisions": 48,
+            "elapsedMilliseconds": 108317.98930000002
+          },
+          {
+            "seed": 90004,
+            "seatOrder": [
+              1,
+              0
+            ],
+            "trajectorySha256": "31fa8243c1a88d4280ba5a13aec5234865095c671dabb4918a987832217afce1",
+            "recordsSha256": "0bac021441686d5d1da711cac9d6be2278ab683bb032100358ed4ed6af47dd51",
+            "commands": 189,
+            "nativeSeedCalls": 68,
+            "frames": 190,
+            "turns": 21,
+            "ordinaryDecisions": 60,
+            "elapsedMilliseconds": 132798.17490000004
+          }
+        ]
+      },
+      {
+        "workers": 2,
+        "games": 4,
+        "commands": 607,
+        "ordinaryDecisions": 185,
+        "measuredMilliseconds": 297970.9118,
+        "coldMilliseconds": 438718.8207,
+        "startupAndWarmupMilliseconds": 140747.90730000002,
+        "gamesPerSecond": 0.013424129140111589,
+        "commandsPerSecond": 2.0371115970119336,
+        "ordinaryDecisionsPerSecond": 0.620865972730161,
+        "nativeCpuMilliseconds": 504515.625,
+        "nativeCpuCoreEquivalent": 1.6931707258010276,
+        "jsCpuMilliseconds": 12218,
+        "nativeWorkerPeakWorkingSetBytes": [
+          1080995840,
+          1174376448
+        ],
+        "gameLatencyMilliseconds": {
+          "median": 135667.35615000004,
+          "minimum": 132505.1461,
+          "maximum": 163999.71120000002
+        },
+        "errors": 0,
+        "truncations": 0,
+        "privacyChecks": 1214,
+        "realHandExchanges": 1184,
+        "cases": [
+          {
+            "seed": 90001,
+            "seatOrder": [
+              0,
+              1
+            ],
+            "trajectorySha256": "f6c6a1e899ed2ec68af22a8bbac256dc217e98c2dbb87d73947e5ab825a31189",
+            "recordsSha256": "b454bdbc0445254addd4e268b5360427e89f9657c7fc9520229c5e64f89185fc",
+            "commands": 130,
+            "nativeSeedCalls": 60,
+            "frames": 131,
+            "turns": 19,
+            "ordinaryDecisions": 36,
+            "elapsedMilliseconds": 132505.1461
+          },
+          {
+            "seed": 90002,
+            "seatOrder": [
+              1,
+              0
+            ],
+            "trajectorySha256": "de6eeefb465293aca48ac4cc732b9663974a27fe830cb8d20476a6af59dafa0a",
+            "recordsSha256": "b2af464a27219ec6a039d4be508ad8235d27bc7760264f2e7fb22c05ee0aecb0",
+            "commands": 131,
+            "nativeSeedCalls": 50,
+            "frames": 132,
+            "turns": 14,
+            "ordinaryDecisions": 41,
+            "elapsedMilliseconds": 132824.56540000002
+          },
+          {
+            "seed": 90003,
+            "seatOrder": [
+              0,
+              1
+            ],
+            "trajectorySha256": "d4f7cd7be7d807947b80aa2ed116e6365911818ed2d03c23ccc2acc285ea1173",
+            "recordsSha256": "679cc5dde9fafa84b27dacc726ae6fb1d4847d97ff1134e9fe0cc579711639c7",
+            "commands": 157,
+            "nativeSeedCalls": 67,
+            "frames": 158,
+            "turns": 27,
+            "ordinaryDecisions": 48,
+            "elapsedMilliseconds": 138510.14690000005
+          },
+          {
+            "seed": 90004,
+            "seatOrder": [
+              1,
+              0
+            ],
+            "trajectorySha256": "31fa8243c1a88d4280ba5a13aec5234865095c671dabb4918a987832217afce1",
+            "recordsSha256": "0bac021441686d5d1da711cac9d6be2278ab683bb032100358ed4ed6af47dd51",
+            "commands": 189,
+            "nativeSeedCalls": 68,
+            "frames": 190,
+            "turns": 21,
+            "ordinaryDecisions": 60,
+            "elapsedMilliseconds": 163999.71120000002
+          }
+        ]
+      },
+      {
+        "workers": 4,
+        "games": 4,
+        "commands": 607,
+        "ordinaryDecisions": 185,
+        "measuredMilliseconds": 160671.93589999992,
+        "coldMilliseconds": 286394.9209,
+        "startupAndWarmupMilliseconds": 125722.98320000013,
+        "gamesPerSecond": 0.024895449087571502,
+        "commandsPerSecond": 3.7778843990389754,
+        "ordinaryDecisionsPerSecond": 1.151414520300182,
+        "nativeCpuMilliseconds": 478109.375,
+        "nativeCpuCoreEquivalent": 2.975686900900783,
+        "jsCpuMilliseconds": 11155,
+        "nativeWorkerPeakWorkingSetBytes": [
+          939278336,
+          950071296,
+          1079640064,
+          1213628416
+        ],
+        "gameLatencyMilliseconds": {
+          "median": 119224.52734999997,
+          "minimum": 104331.47219999999,
+          "maximum": 159975.37190000003
+        },
+        "errors": 0,
+        "truncations": 0,
+        "privacyChecks": 1214,
+        "realHandExchanges": 1184,
+        "cases": [
+          {
+            "seed": 90001,
+            "seatOrder": [
+              0,
+              1
+            ],
+            "trajectorySha256": "f6c6a1e899ed2ec68af22a8bbac256dc217e98c2dbb87d73947e5ab825a31189",
+            "recordsSha256": "b454bdbc0445254addd4e268b5360427e89f9657c7fc9520229c5e64f89185fc",
+            "commands": 130,
+            "nativeSeedCalls": 60,
+            "frames": 131,
+            "turns": 19,
+            "ordinaryDecisions": 36,
+            "elapsedMilliseconds": 105637.89119999998
+          },
+          {
+            "seed": 90002,
+            "seatOrder": [
+              1,
+              0
+            ],
+            "trajectorySha256": "de6eeefb465293aca48ac4cc732b9663974a27fe830cb8d20476a6af59dafa0a",
+            "recordsSha256": "b2af464a27219ec6a039d4be508ad8235d27bc7760264f2e7fb22c05ee0aecb0",
+            "commands": 131,
+            "nativeSeedCalls": 50,
+            "frames": 132,
+            "turns": 14,
+            "ordinaryDecisions": 41,
+            "elapsedMilliseconds": 104331.47219999999
+          },
+          {
+            "seed": 90003,
+            "seatOrder": [
+              0,
+              1
+            ],
+            "trajectorySha256": "d4f7cd7be7d807947b80aa2ed116e6365911818ed2d03c23ccc2acc285ea1173",
+            "recordsSha256": "679cc5dde9fafa84b27dacc726ae6fb1d4847d97ff1134e9fe0cc579711639c7",
+            "commands": 157,
+            "nativeSeedCalls": 67,
+            "frames": 158,
+            "turns": 27,
+            "ordinaryDecisions": 48,
+            "elapsedMilliseconds": 132811.16349999997
+          },
+          {
+            "seed": 90004,
+            "seatOrder": [
+              1,
+              0
+            ],
+            "trajectorySha256": "31fa8243c1a88d4280ba5a13aec5234865095c671dabb4918a987832217afce1",
+            "recordsSha256": "0bac021441686d5d1da711cac9d6be2278ab683bb032100358ed4ed6af47dd51",
+            "commands": 189,
+            "nativeSeedCalls": 68,
+            "frames": 190,
+            "turns": 21,
+            "ordinaryDecisions": 60,
+            "elapsedMilliseconds": 159975.37190000003
+          }
+        ]
+      }
+    ]
+  },
+  "training": {
+    "runtime": {
+      "schema": "native-ordinary-features/1",
+      "stateDim": 32,
+      "candidateDim": 27,
+      "device": "cuda",
+      "torch": "2.5.1+cu121",
+      "cudaRuntime": "12.1",
+      "deviceName": "NVIDIA GeForce RTX 3080",
+      "parameters": 1953,
+      "objective": "legal-candidate supervised imitation"
+    },
+    "moduleImportSeconds": 9.30242200000066,
+    "startupSeconds": 0.443360199999006,
+    "trainingGames": [
+      {
+        "seed": 90001,
+        "records": 36,
+        "nativeCommands": 130,
+        "recordsFileSha256": "132f214df7627e346ba4c9f4ce75ebc1993fd67111d23d2c972edfce4b7d582a",
+        "canonicalRecordsSha256": "b454bdbc0445254addd4e268b5360427e89f9657c7fc9520229c5e64f89185fc",
+        "numericRecordsValidated": true,
+        "receiptSha256": "0569a825806bb4f78110b179763120c9fa9a4dbf9fa3faa46cebe73fe0d1ad5b",
+        "realHandExchanges": 256,
+        "privacyChecks": 260
+      },
+      {
+        "seed": 90002,
+        "records": 41,
+        "nativeCommands": 131,
+        "recordsFileSha256": "5524f61cf854f5e6bc3102d5f6fc15ae1956279a8734fffa0745acaff0a1a5f0",
+        "canonicalRecordsSha256": "b2af464a27219ec6a039d4be508ad8235d27bc7760264f2e7fb22c05ee0aecb0",
+        "numericRecordsValidated": true,
+        "receiptSha256": "4c8508b5ef20f2721ae493f31873d5c14b70a5a0da67ef3306323be33a5544ad",
+        "realHandExchanges": 255,
+        "privacyChecks": 262
+      },
+      {
+        "seed": 90003,
+        "records": 48,
+        "nativeCommands": 157,
+        "recordsFileSha256": "3b201cd710b43524b393f2be0813bca5a0076f137a39297e8918a1031ab2ac49",
+        "canonicalRecordsSha256": "679cc5dde9fafa84b27dacc726ae6fb1d4847d97ff1134e9fe0cc579711639c7",
+        "numericRecordsValidated": true,
+        "receiptSha256": "e8759847f7888181b57454d7f31219a5bd5e6c33a34ad08570e22987430ffd3d",
+        "realHandExchanges": 310,
+        "privacyChecks": 314
+      }
+    ],
+    "heldoutGame": {
+      "seed": 90004,
+      "records": 60,
+      "nativeCommands": 189,
+      "recordsFileSha256": "272aa0ed0d3054ad90a4d0286827b4ca64577e2c9279b7d32ee3a4b2257bda89",
+      "canonicalRecordsSha256": "0bac021441686d5d1da711cac9d6be2278ab683bb032100358ed4ed6af47dd51",
+      "numericRecordsValidated": true,
+      "receiptSha256": "54cebdd8dbe77b2aed6eceeb125b84c71776806dcf4ed51d9bbfb421621d3699",
+      "realHandExchanges": 363,
+      "privacyChecks": 378
+    },
+    "result": {
+      "objective": "legal-candidate supervised imitation",
+      "records": 125,
+      "updates": 10,
+      "losses": [
+        1.8151923418045044,
+        1.7964417934417725,
+        1.7782418727874756,
+        1.7605947256088257,
+        1.7435119152069092,
+        1.7269757986068726,
+        1.7109344005584717,
+        1.6953083276748657,
+        1.6800119876861572,
+        1.664984941482544
+      ],
+      "gradientNorms": [
+        0.36401036381721497,
+        0.3541875183582306,
+        0.346891313791275,
+        0.3418782949447632,
+        0.33883529901504517,
+        0.3374633193016052,
+        0.33742278814315796,
+        0.338370680809021,
+        0.339944452047348,
+        0.3417322635650635
+      ],
+      "weightL1Change": 39.84260763972998,
+      "trainAgreement": 0.47200003266334534,
+      "trainWallSeconds": 0.6666341999953147,
+      "cudaEventMilliseconds": 653.3662109375,
+      "peakCudaAllocatedBytes": 70157312,
+      "paddedCandidateWidth": 32,
+      "realCandidates": 1040,
+      "reloadLogitsExact": true,
+      "checkpointSha256": "1c405966d9539aca89fdf49413663f327859ece6c74c96b12e4453490062fe43",
+      "recordsSha256": "71a7b7ded8cbbe1ee603b7fe5e7d96db3398a10679a6715c94c72c48125f0ca7",
+      "device": "cuda"
+    },
+    "heldout": {
+      "records": 60,
+      "loss": 1.7497406005859375,
+      "teacherAgreement": 0.40000003576278687,
+      "inferenceSeconds": 0.0319967000032193,
+      "allPredictionsLegal": true,
+      "wholeGameSplit": true
+    },
+    "utilizationCaveat": "whole-device samples include unrelated work; CUDA events measure loop timeline, not kernel utilization",
+    "claim": "bounded supervised imitation pipeline smoke; no policy improvement or reinforcement-learning claim"
+  },
+  "tinyInference": {
+    "warmups": 8,
+    "samples": 32,
+    "includes": "feature-list validation, padding/tensor creation, host-device transfers, model scoring, finite/mask checks, argmax/readback and synchronization",
+    "excludes": "process/torch/CUDA startup, IPC, native game simulation, optimizer updates",
+    "optimizerUpdates": 0,
+    "results": [
+      {
+        "batch": 1,
+        "realCandidateCounts": [
+          2
+        ],
+        "measurements": {
+          "cpu": {
+            "medianMilliseconds": 0.23409999994328246,
+            "minimumMilliseconds": 0.22159999934956431,
+            "maximumMilliseconds": 0.2595999976620078
+          },
+          "cuda": {
+            "medianMilliseconds": 0.9144499999820255,
+            "minimumMilliseconds": 0.888300004589837,
+            "maximumMilliseconds": 1.679500004684087
+          }
+        }
+      },
+      {
+        "batch": 4,
+        "realCandidateCounts": [
+          2,
+          2,
+          1,
+          2
+        ],
+        "measurements": {
+          "cpu": {
+            "medianMilliseconds": 0.3480000013951212,
+            "minimumMilliseconds": 0.33310000435449183,
+            "maximumMilliseconds": 0.46129999827826396
+          },
+          "cuda": {
+            "medianMilliseconds": 1.2931499986734707,
+            "minimumMilliseconds": 1.2196000025141984,
+            "maximumMilliseconds": 2.169399995182175
+          }
+        }
+      }
+    ]
+  },
+  "evaluation": {
+    "complete": true,
+    "inferenceRequests": 111,
+    "inferenceMilliseconds": 928.7023000000481,
+    "balancedPolicyRoleSeeds": [
+      90005,
+      90007
+    ],
+    "learnerDeckIndexForBalancedPair": 0,
+    "extraSameSlotGameSeed": 90006,
+    "correction": "The original two games swapped decks while leaving the model human. Both are retained unchanged; the additional fresh 90007 game puts the same learner deck in the opponent slot. Default evaluation now alternates actual policy seats.",
+    "opponent": "pinned heuristic in the other seat",
+    "prompts": "pinned heuristic for both seats",
+    "interpretation": "three-game correctness smoke, including one game per policy slot with learner deck 0; no strength or win-rate claim",
+    "games": [
+      {
+        "seed": 90005,
+        "seatOrder": [
+          0,
+          1
+        ],
+        "ordinaryPolicySeat": "human",
+        "modelDecisionCount": 40,
+        "winnerSeat": "human",
+        "turns": 22,
+        "commands": 163,
+        "frames": 164,
+        "humanSeatRecords": 40,
+        "nativeSeedCalls": 76,
+        "elapsedMilliseconds": 136486.6113,
+        "completedNaturally": true,
+        "rejected": 0,
+        "privacyChecks": 326,
+        "realHandExchanges": 307,
+        "terminalStateHash": "361e1752b4cbc328b64d214761c75945a223fa79fa9e8f8d54271844e2d88ade"
+      },
+      {
+        "seed": 90006,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "ordinaryPolicySeat": "human",
+        "modelDecisionCount": 26,
+        "winnerSeat": "opponent",
+        "turns": 11,
+        "commands": 99,
+        "frames": 100,
+        "humanSeatRecords": 26,
+        "nativeSeedCalls": 50,
+        "elapsedMilliseconds": 62713.79000000001,
+        "completedNaturally": true,
+        "rejected": 0,
+        "privacyChecks": 198,
+        "realHandExchanges": 163,
+        "terminalStateHash": "e6b909f17e7a47853776aca44782797536a6a48ef2ce2ed7e44b1066b13c0e9e"
+      },
+      {
+        "seed": 90007,
+        "seatOrder": [
+          1,
+          0
+        ],
+        "ordinaryPolicySeat": "opponent",
+        "modelDecisionCount": 45,
+        "winnerSeat": "human",
+        "turns": 32,
+        "commands": 163,
+        "frames": 164,
+        "humanSeatRecords": 54,
+        "nativeSeedCalls": 62,
+        "elapsedMilliseconds": 124822.0374,
+        "completedNaturally": true,
+        "rejected": 0,
+        "privacyChecks": 326,
+        "realHandExchanges": 322,
+        "terminalStateHash": "314d43171a4e18bfeb027cb0214d66e0ded1cfe0b55f8bf348a27e15d1991638"
+      }
+    ]
+  }
+}

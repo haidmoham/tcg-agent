@@ -10,9 +10,11 @@ import { collectLegalAnswers } from './decision-domain.mjs';
 
 const digest = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 
-export async function runAuditedEpisode(config, { seed = 1729, replay = null, extraReads = 0, boundaryEvery = 0, seatOrder = [0, 1], maxCommands = 1000, maxSeconds = 120, onFrame = () => {} } = {}) {
+export async function runAuditedEpisode(config, { seed = 1729, replay = null, extraReads = 0, boundaryEvery = 0, seatOrder = [0, 1], maxCommands = 1000, maxSeconds = 120, onFrame = () => {}, session = null, decideOrdinary = null, onAcceptedDecision = () => {}, strictCommands = false, measureProcess = null } = {}) {
   if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff || !Number.isSafeInteger(maxCommands) || maxCommands < 1 || maxCommands > 2000 || !Number.isSafeInteger(maxSeconds) || maxSeconds < 1 || maxSeconds > 180 || !Number.isSafeInteger(extraReads) || extraReads < 0 || extraReads > 4) throw new TypeError('invalid audited episode budget');
   if (!Number.isSafeInteger(boundaryEvery) || boundaryEvery < 0 || boundaryEvery > 1000) throw new TypeError('invalid boundary audit cadence');
+  if (replay && decideOrdinary) throw new TypeError('recorded replay cannot use a learned policy');
+  if (session && (session.failed || session.busy)) throw new Error('native session is failed or already busy');
   const inputs = verifyLocalInputs(config);
   if (!Array.isArray(seatOrder) || seatOrder.length !== 2 || ![[0, 1], [1, 0]].some(value => isDeepStrictEqual(value, seatOrder))) throw new TypeError('two exact decks must swap seats together');
   const selected = seatOrder.map(index => inputs.selected[index]);
@@ -28,13 +30,19 @@ export async function runAuditedEpisode(config, { seed = 1729, replay = null, ex
   if (replay && !isDeepStrictEqual(replay.header, header)) throw new Error('replay pins or seed mismatch');
   const journal = { header, frames: [], commands: [] };
   const boundaryChecks = [];
-  const worker = new LocalWorker(config);
+  if (session?.config && !isDeepStrictEqual(session.config, config)) throw new Error('native session configuration changed');
+  const worker = session?.worker ?? new LocalWorker(config, { timeoutMs: maxSeconds * 1000 });
+  if (session) { session.worker = worker; session.config = structuredClone(config); session.busy = true; }
   const start = performance.now();
   const budget = setTimeout(() => worker.close(Object.assign(new Error('audited episode time budget exhausted'), { code: 'NATIVE_EPISODE_TIME_BUDGET' })), maxSeconds * 1000);
   let previews = 0; let rejected = 0;
+  let completed = false;
   try {
     const seats = Object.fromEntries(['human', 'opponent'].map((seat, index) => [seat, { accountId: `offline-${seat}`, name: `Offline ${seat}`, cards: selected[index] }]));
-    let frame = await worker.request('create', { bundle: identity, seats, offline: { seed, projectionCopyMode: inputs.copyMode } });
+    const payload = { bundle: identity, seats, offline: { seed, projectionCopyMode: inputs.copyMode } };
+    const reusedProcess = session?.initialized === true;
+    let frame = await (reusedProcess ? worker.nextMatch(payload) : worker.request('create', payload));
+    const startupOrResetMilliseconds = performance.now() - start;
     for (;;) {
       const audit = await worker.request('audit', {});
       if (audit.schema !== 'indigo-offline-audit/1' || audit.seed !== seed || audit.fixedClock !== '2026-10-11T00:00:00Z' || audit.readChanceAttempts !== 0) throw new Error('offline RNG/read contract failed');
@@ -42,6 +50,7 @@ export async function runAuditedEpisode(config, { seed = 1729, replay = null, ex
       verifySeedTranscript(seed, audit.emittedSeeds);
       const normalized = state.normalize(audit.authority);
       const actorViews = Object.fromEntries(['human', 'opponent'].map(seat => [seat, projectors[seat].project(frame.views[seat])]));
+      if (strictCommands && Object.values(actorViews).some(view => view.status === 'failed' || view.prompts.some(prompt => prompt.kind === 'unsupported'))) throw new Error('training slice contains an unsupported native decision');
       const entry = { revision: frame.revision, stateHash: digest(normalized), snapshotHash: new SemanticState(knownIds).hash(audit.authority), actorHashes: Object.fromEntries(Object.entries(actorViews).map(([seat, view]) => [seat, digest(view)])), emittedSeeds: audit.emittedSeeds };
       if (replay && !isDeepStrictEqual(replay.frames[journal.frames.length], entry)) {
         onFrame({ entry, normalized, frame, divergence: true });
@@ -87,8 +96,12 @@ export async function runAuditedEpisode(config, { seed = 1729, replay = null, ex
       const candidates = expected ? [[expected.seat, [expected.decision]]] : ['human', 'opponent'].map(seat => [seat, policy(actorViews[seat])]);
       for (const [seat, offered] of candidates) {
         if (!projectors[seat]) throw new Error('invalid recorded seat');
+        const view = actorViews[seat];
+        const learned = decideOrdinary && view.status === 'playing' && !view.prompts.length && view.actions.length && view.turn === 'you'
+          ? await decideOrdinary({ seat, view }) : null;
+        const decisions = learned === null ? offered : [learned];
         let examined = 0;
-        for (const decision of offered) {
+        for (const decision of decisions) {
           if (++examined > 128) throw new Error('strategy candidate budget exhausted');
           const native = projectors[seat].resolve(decision);
           if (native.promptId) {
@@ -99,8 +112,9 @@ export async function runAuditedEpisode(config, { seed = 1729, replay = null, ex
           const afterRead = await worker.request('audit', {});
           if (!isDeepStrictEqual(afterRead, audit)) throw new Error('read or preview mutated authority or RNG');
           const reply = await worker.request('command', { seat, command: { ...native, commandId: randomUUID(), expectedRevision: frame.revision } });
-          if (reply.receipt?.status !== 'accepted') { rejected++; if (expected) throw new Error('recorded command rejected'); continue; }
+          if (reply.receipt?.status !== 'accepted') { rejected++; if (expected || strictCommands) throw new Error('native command rejected'); continue; }
           if (reply.frame?.revision !== frame.revision + 1) throw new Error('native revision did not advance once');
+          await onAcceptedDecision({ seat, view, decision: structuredClone(decision), ordinaryPolicyUsed: learned !== null });
           next = reply.frame; journal.commands.push({ seat, decision: structuredClone(decision) }); break;
         }
         if (next) break;
@@ -109,6 +123,14 @@ export async function runAuditedEpisode(config, { seed = 1729, replay = null, ex
       frame = next;
     }
     if (replay && (journal.commands.length !== replay.commands.length || journal.frames.length !== replay.frames.length)) throw new Error('replay left commands or frames unused');
-    return { journal, summary: { schema: 'audited-native-episode-v1', completedNaturally: true, seed, seatOrder, winnerSeat: frame.terminal.winner, turns: frame.views.human.turnNumber, terminalStateHash: journal.frames.at(-1).snapshotHash, commands: journal.commands.length, frames: journal.frames.length, previews, rejected, boundaryChecks, nativeSeedCalls: journal.frames.at(-1).emittedSeeds.length, elapsedMs: performance.now() - start, replayVerified: replay !== null, fullStandardClaim: false } };
-  } finally { clearTimeout(budget); worker.close(); }
+    const elapsedMs = performance.now() - start;
+    const processMetrics = measureProcess ? await measureProcess(worker.child.pid) : null;
+    completed = true;
+    if (session) session.initialized = true;
+    return { journal, summary: { schema: 'audited-native-episode-v1', completedNaturally: true, seed, seatOrder, winnerSeat: frame.terminal.winner, turns: frame.views.human.turnNumber, terminalStateHash: journal.frames.at(-1).snapshotHash, commands: journal.commands.length, frames: journal.frames.length, previews, rejected, boundaryChecks, nativeSeedCalls: journal.frames.at(-1).emittedSeeds.length, elapsedMs, startupOrResetMilliseconds, reusedProcess, processMetrics, replayVerified: replay !== null, fullStandardClaim: false } };
+  } finally {
+    clearTimeout(budget);
+    if (session) { session.busy = false; if (!completed) session.failed = true; }
+    if (!session || !completed) worker.close();
+  }
 }
