@@ -1,0 +1,91 @@
+{
+  "schema": "shadow-verification/1",
+  "verifiedOn": "2026-10-20",
+  "repositoryBaseCommit": "44fa2ae11f79d4b078c1801fe2c25867fe0517b7",
+  "branch": "codex/shadow-play-evaluator",
+  "nodeVersion": "v24.18.0",
+  "commands": [
+    "node --test tests/shadow-play.test.mjs",
+    "npm test",
+    "node scripts/shadow-play.mjs validate examples/shadow-decisions.synthetic.jsonl",
+    "node scripts/shadow-play.mjs evaluate examples/shadow-decisions.synthetic.jsonl --adapter examples/shadow-policy.mjs --top-k 2 --output runs/shadow-synthetic-report-final.json",
+    "git diff --check"
+  ],
+  "shadowTests": {
+    "passed": 14,
+    "failed": 0
+  },
+  "fullNodeSuite": {
+    "passed": 134,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "optional pinned Twinleaf engine not prepared"
+  },
+  "syntheticCli": {
+    "data": {
+      "records": 2,
+      "synthetic": 2,
+      "stream": 0,
+      "benchmarkOnly": true
+    },
+    "aggregate": {
+      "windows": 2,
+      "eligible": 2,
+      "attempted": 2,
+      "answered": 2,
+      "abstained": 0,
+      "coverage": 1,
+      "abstentionReasons": {},
+      "actionErrors": 0,
+      "unknownLegality": 0,
+      "exactAgreement": {
+        "numerator": 2,
+        "denominator": 2,
+        "rate": 1
+      },
+      "topKAgreement": {
+        "numerator": 2,
+        "denominator": 2,
+        "rate": 1
+      },
+      "ambiguousAgreement": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "illegalRate": {
+        "numerator": 0,
+        "denominator": 2,
+        "rate": 0
+      },
+      "actionErrorRate": {
+        "numerator": 0,
+        "denominator": 2,
+        "rate": 0
+      },
+      "reviewedMistakes": {
+        "points": null,
+        "count": 0,
+        "mean": null
+      }
+    },
+    "provenance": {
+      "datasetSha256": "fb9c885ff18e8b563d3e3df731cfde394662bf56b97d785017e7c71ebf031656",
+      "adapterSha256": "3d732f24a054a7740f186d4ac36df50980ba56bc63d71a14a10cf4514c3f19c4",
+      "evaluatorSha256": "805b5633f3f37613e8322f81fa868c8f22b15b68e984b3c8b5ec8176adf7f086",
+      "nodeVersion": "v24.18.0",
+      "checkpointSha256": null,
+      "trainingManifestSha256": null
+    }
+  },
+  "realStreamLabels": 0,
+  "realCheckpointInference": false,
+  "modelTraining": false,
+  "nativeBatchJobs": false,
+  "footageRedistributed": false,
+  "reviewFixes": [
+    "Reject null members inside fact arrays.",
+    "Reject rankings containing withheld illegal diagnostic candidates.",
+    "Detect changing checkpoint bytes and adapter identity before accepting report."
+  ]
+}
