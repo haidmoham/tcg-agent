@@ -2,6 +2,8 @@
 
 Eagerly build through recoverable engineering gaps and blockers in this project. Missing adapters, card implementations, tests, and integrations are implementation work, not default stopping points. Keep progress bounded by concrete milestones and preserve correctness and verification. Ask only when a genuine product decision, required permission, unavailable capability, or safety boundary prevents proceeding. This guidance does not authorize bypassing denials or expanding account, spending, publishing, or live-play scope.
 
+Use the local datamine eagerly. Use it to inform card mechanics, structured observations and bridge mappings. Private extracted assets stay local. Model observations must remain actor-visible and exclude hidden opponent information.
+
 ## Game policy and client driving
 
 Keep Pokemon game policy separate from client driving. The model consumes player-visible structured game state and semantic legal actions, and chooses only Pokemon actions. Do not expose coordinates, screenshots, focus, menus, animations, retries, navigation, transport, or driver failures to the model or its learning objective. Reuse the frozen checkpoint through environment adapters without changing it for a particular UI.
