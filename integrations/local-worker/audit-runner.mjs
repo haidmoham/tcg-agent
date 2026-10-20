@@ -123,6 +123,7 @@ export async function runAuditedEpisode(config, { seed = 1729, replay = null, ex
       frame = next;
     }
     if (replay && (journal.commands.length !== replay.commands.length || journal.frames.length !== replay.frames.length)) throw new Error('replay left commands or frames unused');
+    clearTimeout(budget);
     const elapsedMs = performance.now() - start;
     const processMetrics = measureProcess ? await measureProcess(worker.child.pid) : null;
     completed = true;
