@@ -1,0 +1,699 @@
+{
+  "schema": "model7-outcome-reproduction/1",
+  "purpose": "Reproduce a completed experiment; these seeds are consumed, not fresh evaluation data",
+  "originalManifestSha256": "37fec4fe088a32fdb9b4f8ae950753aa855aa5a71796b8b0a3f808ebd1291669",
+  "reward": {
+    "version": "natural-terminal-w1-d0-lminus1/1",
+    "win": 1,
+    "draw": 0,
+    "loss": -1,
+    "nonterminal": 0
+  },
+  "baselineUpdateCount": 23,
+  "baseline": {
+    "ordinarySha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+    "selectionSha256": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d"
+  },
+  "catalogSha256": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04",
+  "teacherCatalogSha256": "f8e6687fc45fa93e2bcbb838b968f45caff16d22cfb0d407eff69ba886603af2",
+  "deckSha256": "33353baee4928160844e04c61362341d40260b51cc1a048be1117cd2455ce4a7",
+  "ppoConfig": {
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_coef": 0.15,
+    "value_clip_coef": 0.2,
+    "value_coef": 0.5,
+    "entropy_coef": 0.001,
+    "learning_rate": 0.0001,
+    "max_grad_norm": 0.5,
+    "epochs": 4,
+    "minibatch_size": 32,
+    "target_kl": 0.02,
+    "normalize_advantages": true,
+    "max_records": 16384,
+    "max_padded_candidates": 32768
+  },
+  "batches": [
+    {
+      "index": 1,
+      "tasks": [
+        {
+          "id": "seed-3170850921-0",
+          "seed": 3170850921,
+          "policySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "opponentPolicy": "baseline"
+        },
+        {
+          "id": "seed-1646241455-1",
+          "seed": 1646241455,
+          "policySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "opponentPolicy": "baseline"
+        },
+        {
+          "id": "seed-2431903570-2",
+          "seed": 2431903570,
+          "policySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "opponentPolicy": "baseline"
+        },
+        {
+          "id": "seed-2735291912-3",
+          "seed": 2735291912,
+          "policySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "opponentPolicy": "teacher"
+        },
+        {
+          "id": "seed-3335134235-4",
+          "seed": 3335134235,
+          "policySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "opponentPolicy": "teacher"
+        },
+        {
+          "id": "seed-136915779-5",
+          "seed": 136915779,
+          "policySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "opponentPolicy": "teacher"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "tasks": [
+        {
+          "id": "seed-196454290-0",
+          "seed": 196454290,
+          "policySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "opponentPolicy": "baseline"
+        },
+        {
+          "id": "seed-404181363-1",
+          "seed": 404181363,
+          "policySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "opponentPolicy": "baseline"
+        },
+        {
+          "id": "seed-2807698997-2",
+          "seed": 2807698997,
+          "policySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "opponentPolicy": "baseline"
+        },
+        {
+          "id": "seed-2509132005-3",
+          "seed": 2509132005,
+          "policySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "opponentPolicy": "teacher"
+        },
+        {
+          "id": "seed-3872614634-4",
+          "seed": 3872614634,
+          "policySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "opponentPolicy": "teacher"
+        },
+        {
+          "id": "seed-2350144891-5",
+          "seed": 2350144891,
+          "policySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "opponentPolicy": "teacher"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "tasks": [
+        {
+          "id": "seed-1248582703-0",
+          "seed": 1248582703,
+          "policySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "opponentPolicy": "baseline"
+        },
+        {
+          "id": "seed-3599143518-1",
+          "seed": 3599143518,
+          "policySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "opponentPolicy": "baseline"
+        },
+        {
+          "id": "seed-2187432513-2",
+          "seed": 2187432513,
+          "policySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "opponentPolicy": "baseline"
+        },
+        {
+          "id": "seed-2917326143-3",
+          "seed": 2917326143,
+          "policySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "opponentPolicy": "teacher"
+        },
+        {
+          "id": "seed-1440038997-4",
+          "seed": 1440038997,
+          "policySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "opponentPolicy": "teacher"
+        },
+        {
+          "id": "seed-3309860724-5",
+          "seed": 3309860724,
+          "policySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "opponentPolicy": "teacher"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "tasks": [
+        {
+          "id": "seed-2361896000-0",
+          "seed": 2361896000,
+          "policySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "opponentPolicy": "baseline"
+        },
+        {
+          "id": "seed-2773447163-1",
+          "seed": 2773447163,
+          "policySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "opponentPolicy": "baseline"
+        },
+        {
+          "id": "seed-3687490817-2",
+          "seed": 3687490817,
+          "policySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "opponentPolicy": "baseline"
+        },
+        {
+          "id": "seed-229146679-3",
+          "seed": 229146679,
+          "policySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "opponentPolicy": "teacher"
+        },
+        {
+          "id": "seed-3952177845-4",
+          "seed": 3952177845,
+          "policySeat": "opponent",
+          "seatOrder": [
+            1,
+            0
+          ],
+          "opponentPolicy": "teacher"
+        },
+        {
+          "id": "seed-3235529127-5",
+          "seed": 3235529127,
+          "policySeat": "human",
+          "seatOrder": [
+            0,
+            1
+          ],
+          "opponentPolicy": "teacher"
+        }
+      ]
+    }
+  ],
+  "validationTasks": [
+    {
+      "id": "seed-4180123506-0",
+      "seed": 4180123506,
+      "policySeat": "human",
+      "seatOrder": [
+        0,
+        1
+      ],
+      "opponentPolicy": "baseline"
+    },
+    {
+      "id": "seed-4180123506-1",
+      "seed": 4180123506,
+      "policySeat": "opponent",
+      "seatOrder": [
+        1,
+        0
+      ],
+      "opponentPolicy": "baseline"
+    },
+    {
+      "id": "seed-3033441230-0",
+      "seed": 3033441230,
+      "policySeat": "human",
+      "seatOrder": [
+        0,
+        1
+      ],
+      "opponentPolicy": "baseline"
+    },
+    {
+      "id": "seed-3033441230-1",
+      "seed": 3033441230,
+      "policySeat": "opponent",
+      "seatOrder": [
+        1,
+        0
+      ],
+      "opponentPolicy": "baseline"
+    },
+    {
+      "id": "seed-3266737825-0",
+      "seed": 3266737825,
+      "policySeat": "human",
+      "seatOrder": [
+        0,
+        1
+      ],
+      "opponentPolicy": "teacher"
+    },
+    {
+      "id": "seed-3266737825-1",
+      "seed": 3266737825,
+      "policySeat": "opponent",
+      "seatOrder": [
+        1,
+        0
+      ],
+      "opponentPolicy": "teacher"
+    },
+    {
+      "id": "seed-3734860602-0",
+      "seed": 3734860602,
+      "policySeat": "human",
+      "seatOrder": [
+        0,
+        1
+      ],
+      "opponentPolicy": "teacher"
+    },
+    {
+      "id": "seed-3734860602-1",
+      "seed": 3734860602,
+      "policySeat": "opponent",
+      "seatOrder": [
+        1,
+        0
+      ],
+      "opponentPolicy": "teacher"
+    }
+  ],
+  "limits": {
+    "collectionSeconds": 1800,
+    "fittingSeconds": 120,
+    "validationSeconds": 600,
+    "confirmationSeconds": 5400,
+    "totalSeconds": 8100,
+    "workers": 2,
+    "maximumGameSeconds": 240,
+    "maximumGameCommands": 600
+  },
+  "ordinaryOptions": {
+    "device": "cpu",
+    "seed": 81729
+  },
+  "selectionOptions": {
+    "device": "cpu",
+    "seed": 81729
+  },
+  "runtimeSourceHashes": {
+    "integrations/local-worker/card-action-policy.mjs": "c54eccd0c0d27dacbf0a396f10d988c3d1a8806f4c6e09e98f753b33193ca0e1",
+    "integrations/local-worker/entity-model.mjs": "13e96ba372aa24ab9562c2418e8fbfd3a6f649253863df7256a01371ccd3cf1f",
+    "integrations/local-worker/entity-ppo-model.mjs": "cf2cd08cf4448461be2ca99763216f8656646ad4c2c7e65318417cd704af6f45",
+    "integrations/local-worker/model6-model.mjs": "f7b095a7c4568ccc09b4003c9ca4daaae9552f05b62142e495a58b5395e51945",
+    "integrations/local-worker/model6-native-source/MatchWorker.Energy.cs": "e99b4182af365161b4c69c8f6d6dc8cc621e52651092cb8f90e23b9feb6d8ded",
+    "integrations/local-worker/model6-policy-view.mjs": "5abc2238f92a0f214a8b14a191a8f72e1dcf7c869c49315d8a91ae4e243487d2",
+    "integrations/local-worker/model6-training-episode.mjs": "221bd726ae515113668c15f52c9533b9604773619925c6f978b2feeebf9549d5",
+    "integrations/local-worker/native-source/MatchWorker.Offers.cs": "971176d81c7bc556c6322483ef5c6608084eaba60e0f38287abb7c13894e1a44",
+    "integrations/local-worker/native-source/MatchWorker.Projection.cs": "89273b0d6b6b291455b6f60efd93ed6b820a714bf00f1fd55a724557bd1a199c",
+    "integrations/local-worker/policy-view.mjs": "e72ee44ccb14856962c4416409801c8d09745ce1196a749c72cbe0b68db8cbc2",
+    "integrations/local-worker/probe.mjs": "4d0b7bbfabd5a7ee4d30660801caedb15212271b94160e97cdf7311ad8f2cb88",
+    "integrations/local-worker/semantic-state.mjs": "d8e3e0405465e5accc83a832999120c80b14c7a92a8d70c74ca29fc7025baac9",
+    "integrations/local-worker/training-episode.mjs": "100907bfb40ac836cc430d8c6822b5ad6923d9f57f9828adcf1c9d8b4d1fee22",
+    "learning/agentpult-teacher.mjs": "ed22f45b8daf904ce5c017dbb128f14f2344b29392fa107592c1d87d18a6c849",
+    "learning/card_action_torch.py": "be83687b13d6754f6513b6409b4d16e9e5fde1f8b19d28f09c95c409937f3d07",
+    "learning/entity-contract.json": "d905a52c901fe95ba53b2bcac9a4df725a85717394f2c0a19132dd59850e61a2",
+    "learning/entity-features.mjs": "b5a13991d678539ca588ebd3d2b8bb6155b4140d058e92858beb0f98b917396f",
+    "learning/entity_ppo.py": "85d6f302ea66501aa9fc2f8d8dcec94173f089439eabe88dfc0e2fedfd342e07",
+    "learning/entity_ppo_runtime.py": "7fc088a794f350e427abc1e85d7a03ed376da59b4e3c8a1dff2e77cf0cf37b29",
+    "learning/entity_torch.py": "39e1781300c601596f52d56201267a1351efcf8ac6cc2b0b5e50022ec4f63e5b",
+    "learning/masked_ppo.py": "ff55c778e5cdca3baec9870a18d0e4418d11fdb294bc0ee4799c6955ee9109ea",
+    "learning/model5-teacher.mjs": "3f5556a2cb219d655723784769b0e673b295b7fef8278ce3238f8cdc69a23e15",
+    "learning/model6-contract.json": "a162d1fc80abc8ce594b1beab851c6b4bdcaf99eff0b4da47cfab77933885169",
+    "learning/model6-features.mjs": "a17b5f2121d369ae78b6746b3e7de21a4538df7f3d75779c1a43e6fe1664cc7b",
+    "learning/model6_torch.py": "da7e58c7c19e6fe699f507a73079b890cfb12b9dfc6dc092e2393f9b73b8a5e0",
+    "learning/train_model6.py": "c00d306c4a22a1ddd46f709f14bb208000e85cfe0bf6e233817dea47e85efdbd",
+    "scripts/compare-bootstrap-mirror.mjs": "2505139d2b0c1839345dfac5f6e7e04ea2a9dceccc8a8580416bd9b048277211",
+    "scripts/entity-ppo-rollout.mjs": "12c26e73eb8d44b85240c1259e027c3c4ec9fdc4c5f4c64cae8110c57ab087a2",
+    "scripts/run-model7-outcome.mjs": "40c971977d77b9b2aaa965d2bbb2768f972de9a05af0c956a95c9a56b845b2cd"
+  },
+  "nativeSourceHashes": {
+    "Indigo.Live.Engine.csproj": "c688351b3cac57ea1c640b6de948aa6023ac8245c61bb864c3aec7c8a466e572",
+    "MatchWorker.cs": "426c9501299cd4231cd3cb1362b9d8fdb89897b269bba75dbea8a8808d4f7bd2",
+    "MatchWorker.Energy.cs": "e99b4182af365161b4c69c8f6d6dc8cc621e52651092cb8f90e23b9feb6d8ded",
+    "MatchWorker.Offers.cs": "971176d81c7bc556c6322483ef5c6608084eaba60e0f38287abb7c13894e1a44",
+    "MatchWorker.Presentation.cs": "1a1dd04aecdb1585bf1cd752def7034d6268fd1aac450f90b831982abffa7010",
+    "MatchWorker.Projection.cs": "89273b0d6b6b291455b6f60efd93ed6b820a714bf00f1fd55a724557bd1a199c",
+    "MatchWorker.Selections.cs": "141ab2fad18c314c6114e836ca81e1f6bab926b119d6891eaca2269eaa5fbbf2",
+    "NuGet.Config": "b805d73c6f55b2f9d62b9229a7dfcbef7bfeb8f3de4e2e453deb530877a7e5b1",
+    "OfflineAudit.cs": "4c23c0c3f185cc20dde96f1b71d121bdf798f18e3215689b1b487b02d87cfe82",
+    "OfflineSession.cs": "734bf6a9ba68877ede55ea99156b3013a8d59d6f081a3671ff1a7d6e8fab41c9",
+    "OfflineTurnPreflight.cs": "0c334334e6dae0581562c8ec61d607d39e0948c3618944c36cae476f99ebb3e8",
+    "Program.cs": "aba1453e6bb19f22c5232930b9920929661998800cd7cb52339f3d8ca39873c5",
+    "ProgramInputs.cs": "426acaa76b74726d94de7d5daedae82b7670bd940a4c67b4d6a403c4f402f2a3"
+  },
+  "nativePins": {
+    "workerSha256": "d471d0a1d7c05d23f34c555499ea21f299e306e19a8c3536222bae0af34c25c4",
+    "manifestSha256": "a49d1e575516854eb8ded19a1c83af761e9678e3598981188beb4cd07aecf29d",
+    "policySha256": "40acf530ca787caaf446f515173b1ed0fd9cd6353e8313f44ac015d705d288b1"
+  },
+  "confirmation": {
+    "schema": "model7-outcome-pilot-confirmation/1",
+    "status": "predeclared",
+    "at": "2026-10-20T23:58:02.641Z",
+    "baseline": {
+      "ordinarySha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+      "selectionSha256": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d"
+    },
+    "catalogSha256": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04",
+    "contractSha256": "3c86e7c8c595e485d9bfdd6e7137a5413d89e947cda300ee0ec42fd57b70640a",
+    "candidate": "fixed fourth PPO update; baseline selector unchanged",
+    "deckSha256": "33353baee4928160844e04c61362341d40260b51cc1a048be1117cd2455ce4a7",
+    "bothSeatsSameSixty": true,
+    "nativeConfigSha256": null,
+    "nativeWorkerSha256": "d471d0a1d7c05d23f34c555499ea21f299e306e19a8c3536222bae0af34c25c4",
+    "bundleManifestSha256": "a49d1e575516854eb8ded19a1c83af761e9678e3598981188beb4cd07aecf29d",
+    "helperSha256": "40acf530ca787caaf446f515173b1ed0fd9cd6353e8313f44ac015d705d288b1",
+    "runtimeSourceHashes": {
+      "learning/model6_torch.py": "da7e58c7c19e6fe699f507a73079b890cfb12b9dfc6dc092e2393f9b73b8a5e0",
+      "learning/entity_torch.py": "39e1781300c601596f52d56201267a1351efcf8ac6cc2b0b5e50022ec4f63e5b",
+      "learning/entity_ppo.py": "85d6f302ea66501aa9fc2f8d8dcec94173f089439eabe88dfc0e2fedfd342e07",
+      "learning/entity_ppo_runtime.py": "7fc088a794f350e427abc1e85d7a03ed376da59b4e3c8a1dff2e77cf0cf37b29",
+      "learning/model6-features.mjs": "a17b5f2121d369ae78b6746b3e7de21a4538df7f3d75779c1a43e6fe1664cc7b",
+      "learning/entity-features.mjs": "b5a13991d678539ca588ebd3d2b8bb6155b4140d058e92858beb0f98b917396f",
+      "learning/model6-contract.json": "a162d1fc80abc8ce594b1beab851c6b4bdcaf99eff0b4da47cfab77933885169",
+      "learning/entity-contract.json": "d905a52c901fe95ba53b2bcac9a4df725a85717394f2c0a19132dd59850e61a2",
+      "integrations/local-worker/model6-training-episode.mjs": "221bd726ae515113668c15f52c9533b9604773619925c6f978b2feeebf9549d5",
+      "integrations/local-worker/model6-policy-view.mjs": "5abc2238f92a0f214a8b14a191a8f72e1dcf7c869c49315d8a91ae4e243487d2",
+      "integrations/local-worker/policy-view.mjs": "e72ee44ccb14856962c4416409801c8d09745ce1196a749c72cbe0b68db8cbc2",
+      "integrations/local-worker/entity-ppo-model.mjs": "cf2cd08cf4448461be2ca99763216f8656646ad4c2c7e65318417cd704af6f45",
+      "integrations/local-worker/model6-model.mjs": "f7b095a7c4568ccc09b4003c9ca4daaae9552f05b62142e495a58b5395e51945",
+      "integrations/local-worker/card-action-policy.mjs": "c54eccd0c0d27dacbf0a396f10d988c3d1a8806f4c6e09e98f753b33193ca0e1",
+      "integrations/local-worker/probe.mjs": "4d0b7bbfabd5a7ee4d30660801caedb15212271b94160e97cdf7311ad8f2cb88",
+      "integrations/local-worker/semantic-state.mjs": "d8e3e0405465e5accc83a832999120c80b14c7a92a8d70c74ca29fc7025baac9"
+    },
+    "blocks": [
+      {
+        "index": 0,
+        "seed": 3046566488
+      },
+      {
+        "index": 1,
+        "seed": 2920645380
+      },
+      {
+        "index": 2,
+        "seed": 907577127
+      },
+      {
+        "index": 3,
+        "seed": 3250524881
+      },
+      {
+        "index": 4,
+        "seed": 2449844440
+      },
+      {
+        "index": 5,
+        "seed": 1162506321
+      },
+      {
+        "index": 6,
+        "seed": 2617309354
+      },
+      {
+        "index": 7,
+        "seed": 2481215151
+      },
+      {
+        "index": 8,
+        "seed": 358081062
+      },
+      {
+        "index": 9,
+        "seed": 3572307730
+      },
+      {
+        "index": 10,
+        "seed": 2714480655
+      },
+      {
+        "index": 11,
+        "seed": 3389778990
+      },
+      {
+        "index": 12,
+        "seed": 2102058787
+      },
+      {
+        "index": 13,
+        "seed": 131992307
+      },
+      {
+        "index": 14,
+        "seed": 295270837
+      },
+      {
+        "index": 15,
+        "seed": 2142186507
+      },
+      {
+        "index": 16,
+        "seed": 2614218192
+      },
+      {
+        "index": 17,
+        "seed": 3851305766
+      },
+      {
+        "index": 18,
+        "seed": 753347248
+      },
+      {
+        "index": 19,
+        "seed": 937386131
+      },
+      {
+        "index": 20,
+        "seed": 3743066909
+      },
+      {
+        "index": 21,
+        "seed": 3502935949
+      },
+      {
+        "index": 22,
+        "seed": 4085938032
+      },
+      {
+        "index": 23,
+        "seed": 2197268063
+      },
+      {
+        "index": 24,
+        "seed": 2596545690
+      },
+      {
+        "index": 25,
+        "seed": 2075217589
+      },
+      {
+        "index": 26,
+        "seed": 2455361859
+      },
+      {
+        "index": 27,
+        "seed": 47904962
+      },
+      {
+        "index": 28,
+        "seed": 2136613089
+      },
+      {
+        "index": 29,
+        "seed": 625578877
+      },
+      {
+        "index": 30,
+        "seed": 941913340
+      },
+      {
+        "index": 31,
+        "seed": 1716511714
+      }
+    ],
+    "replacementBlocks": [
+      {
+        "index": 32,
+        "seed": 24821383
+      },
+      {
+        "index": 33,
+        "seed": 1628909524
+      },
+      {
+        "index": 34,
+        "seed": 919703505
+      },
+      {
+        "index": 35,
+        "seed": 3573176209
+      }
+    ],
+    "gamesPerBlock": 2,
+    "seatCases": [
+      {
+        "candidateSeat": "human",
+        "baselineSeat": "opponent"
+      },
+      {
+        "candidateSeat": "opponent",
+        "baselineSeat": "human"
+      }
+    ],
+    "policyRoute": "ordinary and mandatory singleton -> respective PPO actor; optional/multicard -> respective selection ranker; common pinned helper otherwise",
+    "limits": {
+      "workers": 2,
+      "maximumWallSeconds": 5390,
+      "maximumGameSeconds": 240,
+      "maximumGameCommands": 600,
+      "maximumInvalidBlocks": 4
+    },
+    "timing": {
+      "evidenceSha256": "794a67a70c82e4f484f0931710bda23001c9c2392ecebb570a65f0ad71d9f4e1",
+      "completedGames": 20,
+      "medianSeconds": 81.491,
+      "meanSeconds": 84.73305,
+      "p95NearestRankSeconds": 109.345,
+      "maximumSeconds": 128.693,
+      "scope": "retained mixed-deck simulator games; not a measured Hammerpult-mirror estimate",
+      "meanProjectionSeconds": 2711.4576,
+      "p95ProjectionSeconds": 3499.04,
+      "hardBudgetRationale": "90 minutes allows about double retained mean projection; mirror duration/concurrent load can differ. Stop incomplete at budget."
+    },
+    "scoring": {
+      "win": 1,
+      "naturalDraw": 0.5,
+      "loss": 0,
+      "commandCapDraw": 0.5,
+      "policySpecificFailure": "forfeit by failing bundle",
+      "sharedHarnessFailure": "invalidate whole seed block; retain receipts; take next predeclared reservoir block",
+      "ambiguousFailure": "do not award win; invalidate block or stop if systematic",
+      "wallBudget": "incomplete, no extension"
+    },
+    "analysis": {
+      "unit": "mean candidate score of both games in one seed block",
+      "independentUnits": 32,
+      "interval": "95% two-sided Hoeffding bounded-mean interval over 32 independent seed-block scores",
+      "formula": "mean +/- sqrt(log(2/0.05)/(2*n)), clipped [0,1]",
+      "decision": "completed 32 blocks AND score >=0.60 AND lower95 >0.50; otherwise inconclusive or not improved",
+      "incomplete": "descriptive only; no strength decision",
+      "operationalCheckpointBlocks": 8,
+      "checkpointMeaning": "timing/health only; no early strength claim, tuning, or success stop",
+      "allWinsIntervalLower": 0.7599193021700198,
+      "futureCandidateSelection": "fresh confirmation seeds required after any candidate selection"
+    },
+    "noRanked": true,
+    "noPpoTraining": true,
+    "noPromotion": true,
+    "training": {
+      "games": 24,
+      "batches": 4,
+      "reward": {
+        "win": 1,
+        "draw": 0,
+        "loss": -1,
+        "nonterminal": 0
+      }
+    }
+  }
+}

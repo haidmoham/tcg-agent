@@ -1,0 +1,17 @@
+{
+  "sourceCommit": "cc061208fab9bae2364cddf7c89be37a9558c57d",
+  "schema": "model7-executed-source-overrides/1",
+  "purpose": "Exact authored source overrides used by the pilot; private native prerequisites and datasets excluded",
+  "files": [
+    {
+      "path": "learning/train_model6.py",
+      "repositoryOverride": "source-overrides/learning/train_model6.py",
+      "sha256": "c00d306c4a22a1ddd46f709f14bb208000e85cfe0bf6e233817dea47e85efdbd"
+    },
+    {
+      "path": "integrations/local-worker/card-action-policy.mjs",
+      "repositoryOverride": "source-overrides/integrations/local-worker/card-action-policy.mjs",
+      "sha256": "c54eccd0c0d27dacbf0a396f10d988c3d1a8806f4c6e09e98f753b33193ca0e1"
+    }
+  ]
+}

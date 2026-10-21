@@ -1,0 +1,125 @@
+{
+  "schema": "model7-outcome-pilot-result/1",
+  "status": "completed",
+  "conclusion": "No demonstrated improvement over frozen Model6; point estimate lower, conservative interval includes0.50. No promotion.",
+  "baselineOrdinarySha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+  "frozenSelectorSha256": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+  "candidateOrdinarySha256": "6d7e87af45c4fd6272757cb161a73584aef4f2d52903b0a041ddbfad04529828",
+  "reward": {
+    "version": "natural-terminal-w1-d0-lminus1/1",
+    "win": 1,
+    "draw": 0,
+    "loss": -1,
+    "nonterminal": 0
+  },
+  "training": {
+    "games": 24,
+    "wins": 11,
+    "losses": 13,
+    "draws": 0,
+    "onPolicyDecisions": 1709,
+    "ordinaryDecisions": 1316,
+    "singletonDecisions": 393,
+    "frozenSelectionDecisions": 250,
+    "helperDecisions": 185,
+    "batchUpdates": 4,
+    "optimizerSteps": 67,
+    "baselineInheritedUpdateCount": 23,
+    "finalInheritedUpdateCount": 27,
+    "opponents": [
+      {
+        "opponent": "baseline",
+        "games": 12,
+        "wins": 6,
+        "losses": 6
+      },
+      {
+        "opponent": "teacher",
+        "games": 12,
+        "wins": 5,
+        "losses": 7
+      }
+    ],
+    "ppoConfig": {
+      "gamma": 0.99,
+      "gae_lambda": 0.95,
+      "clip_coef": 0.15,
+      "value_clip_coef": 0.2,
+      "value_coef": 0.5,
+      "entropy_coef": 0.001,
+      "learning_rate": 0.0001,
+      "max_grad_norm": 0.5,
+      "epochs": 4,
+      "minibatch_size": 32,
+      "target_kl": 0.02,
+      "normalize_advantages": true,
+      "max_records": 16384,
+      "max_padded_candidates": 32768
+    }
+  },
+  "validation": {
+    "games": 8,
+    "wins": 1,
+    "losses": 7,
+    "draws": 0,
+    "allNatural": true,
+    "errors": 0
+  },
+  "confirmation": {
+    "independentSeedBlocks": 32,
+    "games": 64,
+    "wins": 22,
+    "losses": 42,
+    "draws": 0,
+    "score": 0.34375,
+    "interval95": [
+      0.10366930217001982,
+      0.5838306978299802
+    ],
+    "intervalMethod": "95% two-sided Hoeffding bounded-mean interval over 32 independent seed-block scores",
+    "allNatural": true,
+    "invalidBlocks": 0,
+    "policyForfeits": 0,
+    "capDraws": 0,
+    "nativeRejections": 0,
+    "privacyChecks": 674
+  },
+  "timing": {
+    "successfulStartedAtUtc": "2026-10-21T00:00:43.649Z",
+    "completedAtUtc": "2026-10-21T00:51:45.927Z",
+    "successfulRunWallSeconds": 3062.278,
+    "originalAttemptStartedAtUtc": "2026-10-20T23:59:41.976Z",
+    "wallIncludingInitialStartupAttemptSeconds": 3123.951,
+    "collectionSeconds": 858.827,
+    "fittingSeconds": 81.05000000000001,
+    "validationSeconds": 227.62103379999996,
+    "confirmationSeconds": 1893.477
+  },
+  "integrity": {
+    "coreSourcePinsMatched": 12,
+    "originalBaselinesUnchanged": true,
+    "candidateUnchangedDuringEvaluation": true,
+    "ownedWorkloadsExited": true,
+    "firstAttempt": "Missing runtime runs directory; stopped before models/games/updates; receipt retained; retry kept original overall deadline"
+  },
+  "source": {
+    "pilotCommit": "cc061208fab9bae2364cddf7c89be37a9558c57d",
+    "exactAuthoredSourceOverridesCommit": "f4f6f2a00a10fb0511dcd64427562dbfdb0eb200",
+    "originalPrivateHistoryPublishedByThisIntegration": false,
+    "publicReproduction": "Sanitized source integration plus repro/model7-outcome-001/run-spec.json; original private branch ancestry is excluded"
+  },
+  "receipts": {
+    "manifestSha256": "37fec4fe088a32fdb9b4f8ae950753aa855aa5a71796b8b0a3f808ebd1291669",
+    "pilotSha256": "c494e0643b3ab22a719af2b6e8eeba20ad11f7d8ea362476b1b1c338315f6fc6",
+    "confirmationSha256": "2ccd107cc11a2843f051e6843b086aef938d1f57dc70f61e2ea1f6cbde8a974f"
+  },
+  "limitations": [
+    "One exact AgentPult/Hammerpult deck; existing opponents, not ranked-strength certification.",
+    "Optional/multi-card/cardinality and helper behavior was not learned by this PPO run.",
+    "Fresh simulator seeds do not establish unseen-opponent/deck generalization or Live parity.",
+    "Completed evaluation seeds are now consumed; no tuning against this panel as fresh evidence."
+  ],
+  "noRankedOrClientGateRun": true,
+  "noFurtherTrainingLaunched": true,
+  "weightsRawRecordsAndNativePrerequisitesIncluded": false
+}
