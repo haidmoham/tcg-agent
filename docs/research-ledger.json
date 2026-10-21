@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
   "revision": 6,
-  "at": "2026-10-21T04:01:52.748Z",
+  "at": "2026-10-21T04:29:56.008Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -251,18 +251,18 @@
   "activeTrainingDesign": {
     "id": "model7-overnight-001",
     "method": "AlphaZero-inspired information-set search and supervised policy/value distillation",
-    "protocol": "repro/model7-overnight-001/protocol-v4.json",
+    "protocol": "repro/model7-overnight-001/protocol-v5.json",
     "startUtc": "2026-10-21T03:38:11.728Z",
     "deadlineUtc": "2026-10-21T09:38:11.728Z",
     "executionOwner": "01a15c50-d335-7125-9222-99c9415960e5",
-    "status": "same-lineage v4 recovery resumed; first fit not yet verified",
+    "status": "first update admitted; usable v4batch4 continues; qualified history-ledger adoption reserved before unstartedbatch5",
     "promotion": false,
     "externalReuseDecision": {
       "decision": "Native AlphaZero-inspired search distillation selected under latest user instruction; PPO plans remain unexecuted history.",
       "audit": "https://github.com/haidmoham/tcg-agent/blob/codex/trevon-prior-adapter/repro/cabt-reuse-audit-2026-10-21.json",
       "foreignWeightsUsed": false
     },
-    "version": 3,
+    "version": 5,
     "trainingPopulation": "8current-search selfplay+4first-baseline+4scripted-teacher games per16; bothseats recordedinselfplay",
     "optimizer": "newAdam forsupervised CE(rootvisits)+MSE(naturalz), noPPO",
     "components": [
@@ -274,7 +274,7 @@
     ],
     "startPolicy": "asap-after-qualification",
     "allocatedSeconds": 21600,
-    "protocolSha256": "123abf9442f2413a155a934a8f5970254ec3cbc43f53eeac9549642e8c91c7f3",
+    "protocolSha256": "d0431cd3db68576e7aa59dffd281c320b06a2d2b6f0873b0325f139b900a8d64",
     "timing": "ASAP after essential qualification; six hours from first declared collection spawn",
     "independentConfirmationPairs": 512,
     "beliefScope": "Current visible facts and decisionContext plus declared deck multiset; not complete historical posterior. Unsupported roots explicitly fallback with no fake visit targets.",
@@ -293,9 +293,11 @@
       "trainingDeadlineUnchanged": true
     },
     "evaluationSupervisor": {
-      "campaign": 2,
-      "armedAtUtc": "2026-10-21T04:01:36.675Z",
-      "status": "armed waiting for first monitor",
+      "campaign": 3,
+      "pid": 45568,
+      "armedAtUtc": "2026-10-21T04:29:28.361Z",
+      "status": "armed waiting for monitor1",
+      "playerIdentity": "immutable per-announcement runtime/factory/source/config; never latest static wrapper",
       "monitorSnapshotTimesUtc": [
         "2026-10-21T05:38:11.728Z",
         "2026-10-21T07:38:11.728Z"
@@ -307,6 +309,17 @@
       "maximumGameSeconds": 3600,
       "monitorMaximumWallSeconds": 14400,
       "monitorWorkers": 2
+    },
+    "adoptionDecision": "repro/model7-overnight-001/adoption-decision-001.json",
+    "currentRunningBeliefScope": "v4current-view-only until qualified boundary adoption",
+    "firstSuccessfulUpdate": {
+      "completedAtUtc": "2026-10-21T04:23:51.056Z",
+      "checkpointSha256": "10a6c5b442db37bbb86b42499019381c90997b20fd10c419d7323f3a19f5ea0b",
+      "completedTrainingGames": 16,
+      "optimizerSteps": 20,
+      "collectionSeconds": 943.753,
+      "fittingSeconds": 11.658,
+      "strength": "unmeasured; no promotion"
     }
   },
   "completedPreservation": {

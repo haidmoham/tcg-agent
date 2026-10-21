@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { hashFile, readJson } from '../environment/frozen-runtime.mjs';
+import { identityHash } from '../src/native-ladder.mjs';
 
 const [inputsPath, mode] = process.argv.slice(2);
 assert(inputsPath && [undefined, '--preflight'].includes(mode),
@@ -122,8 +123,12 @@ async function runPanel(label, checkpoint, seeds, searchSeeds, split, workers, m
     completedTrainingGames: checkpoint.completedTrainingGames, completedBatchUpdates: checkpoint.completedBatchUpdates,
     optimizerSteps: checkpoint.optimizerSteps, trainingUpdateReceiptSha256: checkpoint.receiptSha256 };
   if (split === 'confirmation') nomination.publicProtocolSha256 = hashFile(path.join(root, 'confirmation-protocol.json'));
-  const playerPath = path.join(inputs.trainingDirectory, 'player-runtime.json'), player = readJson(playerPath);
+  const player = Object.fromEntries(['runtimeRoot', 'factoryModule', 'factoryExport', 'factorySha256',
+    'sourcePins', 'playerConfig', 'episodeRunner'].map(key => [key, checkpoint[key]]));
   assert.equal(player.factoryExport, 'openSearchDistillationPlayer');
+  assert(player.runtimeRoot && player.factoryModule && player.sourcePins && player.playerConfig,
+    'checkpoint announcement must preserve its complete player identity');
+  assert.equal(hashFile(player.factoryModule), player.factorySha256, 'announced checkpoint factory changed');
   if (confirmationProtocol.maximumGameSeconds > 240)
     assert(player.episodeRunner, 'extended evaluation budget needs pinned episode runner');
   const preparedEntrant = { kind: 'prepared', id: candidateId, description: `Single search-distillation Model7 trajectory ${label}`,
@@ -136,7 +141,8 @@ async function runPanel(label, checkpoint, seeds, searchSeeds, split, workers, m
         cPuct: design.search.cPuct, temperature: 0, rootNoise: false } },
     pins: { ordinary: checkpoint.checkpointSha256, selection: config.agent.selectionSha256, catalog: config.agent.catalogSha256,
       environmentLock: config.lockSha256, history: 'complete-game', deterministic: true,
-      privatePlayerRuntimeSha256: hashFile(playerPath), method: design.method,
+      privatePlayerIdentitySha256: identityHash(player), method: design.method,
+      beliefScope: checkpoint.beliefScope ?? player.playerConfig.beliefScope ?? 'declared in pinned player source',
       search: { determinizations: design.search.determinizations, simulationsPerWorld: design.search.simulationsPerWorld,
         maximumDepth: design.search.maximumDepth, cPuct: design.search.cPuct, temperature: 0, rootNoise: false } } };
   const manifest = { schema: 'native-ladder-run/1', environmentConfig: inputs.environmentConfig, anchor: 'first-baseline',
