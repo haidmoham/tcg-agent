@@ -108,6 +108,10 @@ try {
     const receiptPath=path.join(directory,'receipt.json'),receipt=fs.existsSync(receiptPath)?read(receiptPath):null;
     event({type:'collection-complete',batchIndex:batch.index,...collected,naturalGames:receipt?.naturalGames??null,records:receipt?.recordsCount??null});
     if(receipt?.stopReason==='integrity-failure')throw Error('Self-play integrity failure; inspect preserved evidence');
+    if(collected.expired&&remaining()<=1) {
+      state.skippedBatches.push({batchIndex:batch.index,reason:'training-deadline-whole-batch-excluded',receiptSha256:receipt?hash(receiptPath):null});
+      state.phase='training-deadline';status();break;
+    }
     if(collected.code!==0||collected.expired||receipt?.completed!==true||receipt.naturalGames!==16||receipt.recordsCount<2) {
       state.skippedBatches.push({batchIndex:batch.index,reason:'whole-batch-excluded',receiptSha256:receipt?hash(receiptPath):null});status();
       if(protocol.version>=4)throw Error('Whole batch excluded; diagnose preserved game failure before another collection');

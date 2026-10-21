@@ -1,0 +1,56 @@
+{
+  "schema": "model7-deadline-finalization-evidence/1",
+  "at": "2026-10-21T05:11:05.310Z",
+  "scope": "Dummy collector engineering regression; no games, model updates or changes to the live trainer",
+  "checks": [
+    {
+      "name": "original",
+      "controllerSha256": "3bd214c573494d815d12135332310917a5bb1ba7712e728b6d4092522898e73a",
+      "exitCode": 2,
+      "state": "failed",
+      "finalAvailable": false,
+      "lastLearnedCheckpointPreserved": false,
+      "playerIdentityPreserved": false,
+      "skippedBatches": [
+        {
+          "batchIndex": 7,
+          "reason": "whole-batch-excluded",
+          "receiptSha256": null
+        }
+      ],
+      "failures": [
+        {
+          "at": "2026-10-21T05:11:01.721Z",
+          "phase": "collection",
+          "reason": "Whole batch excluded; diagnose preserved game failure before another collection"
+        }
+      ],
+      "checkpointUnchanged": true,
+      "fittingChildStarted": false,
+      "games": 0,
+      "fits": 0
+    },
+    {
+      "name": "repaired",
+      "controllerSha256": "2ef0baa576cfe34bdcc8ee5293b2e4ae148d0be9ffb8b2d69502b08914dbe66e",
+      "exitCode": 0,
+      "state": "completed",
+      "finalAvailable": true,
+      "lastLearnedCheckpointPreserved": true,
+      "playerIdentityPreserved": true,
+      "skippedBatches": [
+        {
+          "batchIndex": 7,
+          "reason": "training-deadline-whole-batch-excluded",
+          "receiptSha256": null
+        }
+      ],
+      "failures": [],
+      "checkpointUnchanged": true,
+      "fittingChildStarted": false,
+      "games": 0,
+      "fits": 0
+    }
+  ],
+  "trainingDeadlineUnchanged": "2026-10-21T09:38:11.728Z"
+}
