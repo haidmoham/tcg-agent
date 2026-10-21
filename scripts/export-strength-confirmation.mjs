@@ -62,6 +62,7 @@ const games = receipt.blocks.flatMap(block => block.outcomes);
 const result = {
   schema: 'ppo-checkpoint-confirmation-result/1', status: 'completed', at: receipt.at,
   environmentVersion: protocol.environmentVersion, environmentLockSha256: protocol.environmentLockSha256,
+  nativeImplementation: receipt.nativeImplementation ?? null,
   protocolSha256: hashFile(publicProtocolPath), privateManifestSha256: receipt.manifestSha256,
   privateReceiptSha256: hashFile(path.join(evaluationDirectory, 'receipt.json')), runnerSha256: receipt.runnerSha256,
   candidate: { id: candidate.id, ordinarySha256: candidate.sha256,

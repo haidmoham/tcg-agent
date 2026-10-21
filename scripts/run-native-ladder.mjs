@@ -32,7 +32,26 @@ const [{ verifyFrozenRuntime }, { runNativeGame }, { AgentBundle }, { EntityPpoM
   load('learning/model6-features.mjs'), load('integrations/local-worker/card-action-policy.mjs'), load('learning/agentpult-teacher.mjs')]);
 verifyFrozenRuntime(config);
 const manifestSha256 = hashFile(manifestPath), configSha256 = hashFile(manifest.environmentConfig);
-const native = readJson(config.nativeConfig), registry = { schema: 'native-ladder-registry/1', anchor: manifest.anchor, entrants: [] };
+const nativePath = manifest.nativeConfigOverride ?? config.nativeConfig;
+const native = readJson(nativePath), nativeConfigSha256 = hashFile(nativePath);
+let nativeImplementation = null, verifyNativeOverride = null;
+if (manifest.nativeConfigOverride) {
+  const originalNative = readJson(config.nativeConfig);
+  const permitted = new Set(['worker', 'workerSha256', 'workerSourceRoot', 'workerSourceSha256', 'implementationVersion', 'referenceWorkerSha256']);
+  const remaining = value => Object.fromEntries(Object.entries(value).filter(([key]) => !permitted.has(key)).sort(([a], [b]) => a.localeCompare(b)));
+  if (identityHash(remaining(native)) !== identityHash(remaining(originalNative))
+    || native.referenceWorkerSha256 !== originalNative.workerSha256
+    || native.workerSha256 !== manifest.nativeQualification?.workerSha256
+    || hashFile(manifest.nativeQualification.receipt) !== manifest.nativeQualification.sha256)
+    throw Error('qualified native override must preserve the exact scenario, helper and reference identity');
+  const { verifyLocalInputs } = await load('integrations/local-worker/probe.mjs');
+  verifyNativeOverride = () => verifyLocalInputs(native);
+  verifyLocalInputs(native);
+  nativeImplementation = { implementationVersion: native.implementationVersion, workerSha256: native.workerSha256,
+    workerSourceSha256: native.workerSourceSha256, referenceWorkerSha256: native.referenceWorkerSha256,
+    qualificationReceiptSha256: manifest.nativeQualification.sha256 };
+}
+const registry = { schema: 'native-ladder-registry/1', anchor: manifest.anchor, entrants: [] };
 const behavior = { bundle: config.filePins[path.join(config.runtimeRoot, 'integrations/local-worker/agent-bundle.mjs')],
   history: 'complete-game', deterministic: true };
 for (const entrant of manifest.entrants) {
@@ -62,6 +81,10 @@ if (matchSchedule.length * 2 > maximumGames) throw Error('schedule exceeds decla
 const assertFrozenInputs = () => {
   for (const [file, digest] of Object.entries(sourcePins)) if (hashFile(new URL(file)) !== digest) throw Error('evaluation source changed');
   if (hashFile(manifestPath) !== manifestSha256 || hashFile(manifest.environmentConfig) !== configSha256) throw Error('run inputs changed');
+  if (hashFile(nativePath) !== nativeConfigSha256 || hashFile(native.worker) !== native.workerSha256) throw Error('native execution changed');
+  if (manifest.nativeConfigOverride && hashFile(manifest.nativeQualification.receipt) !== manifest.nativeQualification.sha256)
+    throw Error('native qualification changed');
+  verifyNativeOverride?.();
   verifyFrozenRuntime(config);
   for (const e of manifest.entrants) {
     if (['ppo', 'prepared'].includes(e.kind) && hashFile(e.checkpoint) !== e.sha256) throw Error('candidate changed');
@@ -82,7 +105,9 @@ const stop = reason => { stopReason ??= reason; abort.abort(); };
 const interrupted = () => stop('operator-interrupted');
 process.on('SIGINT', interrupted); process.on('SIGTERM', interrupted);
 const timer = setTimeout(() => stop('global-wall-budget'), manifest.maximumWallSeconds * 1000);
-const common = { schema: 'native-ladder-block/1', environmentSha256: identityHash({ lock: config.lockSha256, platform: config.platform }),
+const environmentIdentity = { lock: config.lockSha256, platform: config.platform };
+if (nativeImplementation) environmentIdentity.nativeImplementation = nativeImplementation;
+const common = { schema: 'native-ladder-block/1', environmentSha256: identityHash(environmentIdentity),
   scenarioSha256: identityHash(config.scenario), split: manifest.split, protocolSha256: manifestSha256,
   failureContract: identityHash({ semantics: 'policy-forfeit-command-cap-draw-shared-invalid/1',
     maxCommands: manifest.maximumGameCommands, maxSeconds: manifest.maximumGameSeconds }), receiptSha256: manifestSha256 };
@@ -91,6 +116,7 @@ function report(final = false) {
   const result = { schema: 'native-ladder-run-receipt/1', state: complete ? 'completed' : final ? 'incomplete' : 'running',
     at: new Date().toISOString(), processId: process.pid,
     registry, blocks: blocks.map(b => ({ ...b, fixedEndpoint: complete })), manifestSha256, configSha256, analysisAlpha,
+    nativeImplementation, nativeConfigSha256,
     runnerSha256: sourcePins[import.meta.url], sourcePins, plannedPairs: matchSchedule.length, workers: manifest.workers,
     elapsedSeconds: (Date.now() - started) / 1000, stopReason, promotion: false };
   save('receipt.json', result); save('report.json', summarizeNativeLadder(registry, result.blocks, { alpha: analysisAlpha }));

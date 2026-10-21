@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
   "revision": 5,
-  "at": "2026-10-21T03:16:49.979Z",
+  "at": "2026-10-21T03:31:03.464Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -221,7 +221,7 @@
   "active": {
     "id": "model7-overnight-001",
     "version": 3,
-    "status": "AlphaZero-style search/distillation design selected; executable qualification in progress; no training games or fits yet",
+    "status": "scientific design frozen; essential native end-to-end qualification required before collection",
     "protocol": "repro/model7-overnight-001/protocol-v3.json"
   },
   "rankedApproaches": [
@@ -240,7 +240,7 @@
     "confidence": 0.95,
     "intervalRadius": 0.060020174457495044,
     "minimumPowerAtScorePointSix": 0.8053880543047711,
-    "candidateNomination": "last fully verified single search-distillation trajectory update before10:00UTC, complete search player frozen before unseen confirmation",
+    "candidateNomination": "Last fully verified update of the single search-distillation trajectory before actual six-hour deadline; freeze full player/source/config before unseen confirmation.",
     "resources": "six CPU lanes after capacity check; 8h operational cap; actual costs and failures retained",
     "stopping": "fixed endpoint, no outcome-based stopping; incomplete campaigns cannot claim the fixed-endpoint result"
   },
@@ -252,10 +252,10 @@
     "id": "model7-overnight-001",
     "method": "information-set determinization search plus policy/value distillation",
     "protocol": "repro/model7-overnight-001/protocol-v3.json",
-    "startUtc": "2026-10-21T04:00:00Z",
-    "deadlineUtc": "2026-10-21T10:00:00Z",
+    "startUtc": null,
+    "deadlineUtc": null,
     "executionOwner": "01a15c50-d335-7125-9222-99c9415960e5",
-    "status": "AlphaZero-style search/distillation design selected; executable qualification in progress; no training games or fits yet",
+    "status": "scientific design frozen; essential native end-to-end qualification required before collection",
     "promotion": false,
     "externalReuseDecision": {
       "repository": "https://github.com/Trevon-Woods-AI-Portfolio/PokemonTCG_Deep_RL_Agent",
@@ -275,7 +275,10 @@
       "complete supported legal-choice-set targets with explicit fallback",
       "iterative search-guided selfplay and fixed ladder anchors",
       "verified faster native copy runtime, separately versioned adoption"
-    ]
+    ],
+    "startPolicy": "asap-after-qualification",
+    "allocatedSeconds": 21600,
+    "protocolSha256": "d7ccae28d42dd7c5a8b610ded8cd08a61863589aae315577b0b24fa8646e8b5a"
   },
   "completedPreservation": {
     "ppoStrengthCurve": {

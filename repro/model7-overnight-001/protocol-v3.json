@@ -1,7 +1,7 @@
 {
   "schema": "model7-overnight-design/1",
   "version": 3,
-  "status": "predeclared; executable qualification in progress",
+  "status": "scientific design frozen; essential native end-to-end qualification required before collection",
   "at": "2026-10-21T03:11:22.253Z",
   "experiment": "model7-overnight-001",
   "oneTrainingTrajectory": true,
@@ -59,7 +59,10 @@
     "rootDomain": "Complete native-validated semantic legal choices; compare canonical root domain across determinizations. Correct unordered optional/multicard enumeration only when complete domain<=128; explicit legacy route otherwise.",
     "fallback": "Unsupported root reconstruction/domain gets an attributed existing policy/ranker/helper choice and NO invented search visit target; unsupported search child is a bounded learned-value leaf. Report coverage and failures separately.",
     "values": "Leaf prediction is from toPlay perspective, convert to explicit root perspective; repeated same-player decisions do not alternate signs blindly. Terminal winner determines exact -1/0/+1.",
-    "rng": "Independent per-game searchSeed; derive root/world streams from searchSeed, observed seat and decision index. Actual native game seed is excluded from the policy/provider input."
+    "rng": "Independent per-game searchSeed; derive root/world streams from searchSeed, observed seat and decision index. Actual native game seed is excluded from the policy/provider input. Split each training game searchSeed by physical seat outside the root-normalized policy; final pairs have separate independently predeclared search seeds per candidate seat.",
+    "seatConvention": "Hypothetical native world seats are root-relative: human is the acting root player (you), opponent is the other player. Physical match seats are used only outside provider to assign actual natural outcomes.",
+    "informationSetConsistency": "Share action priors/Q/visits only by acting-player visible observation plus actor-visible observation/action history and canonical encoded legal domain; never key policy selection by hidden world/handle/RNG/other-player private history. Keep transition handles world-local and distinct observable outcomes in distinct information sets.",
+    "opponentUncertainty": "Separate deck/history-conditioned hidden-card belief from uncertainty over opponent policies. Actual training population is50%currentsearch/25%frozenreference/25%scriptedteacher bygames. Current-network simulated opponent responses are a declared surrogate, not a proven minimax or equilibrium policy. Preserve nontransitive cross-play cells and mixtures."
   },
   "learning": {
     "objective": "CE(root visit distribution, current legal policy) + MSE(tanh(rawcritic), natural seat-perspective z) + L2 regularization",
@@ -76,8 +79,8 @@
     "output": "Immutable checkpoint and reload-verified receipt after each accepted fit; subsequent self-play uses latest fully verified model."
   },
   "training": {
-    "startUtc": "2026-10-21T04:00:00.000Z",
-    "deadlineUtc": "2026-10-21T10:00:00.000Z",
+    "startUtc": null,
+    "deadlineUtc": null,
     "allocatedSeconds": 21600,
     "workers": 4,
     "batchGames": 16,
@@ -30433,17 +30436,16 @@
       }
     ],
     "admission": "Fit only fully natural admitted games with accepted commands, valid privacy/source checks and genuine nonforced search targets. Report actual targeted/fallback decision counts and attempted/discarded games.",
-    "checkpointRule": "Last immutable fully admitted, reload-verified update completed before10:00UTC; no selection by observed wins.",
+    "checkpointRule": "Last immutable fully admitted, reload-verified update completed before actual deadlineUtc (actual qualified collection start+sixhours); no selection by wins.",
     "recovery": "Preserve partial/failed evidence and last valid checkpoint. No fabricated terminal labels, seed reuse, second trajectory or deadline extension; any retry follows predeclared unused seed order and records affected training distribution. Source/hash/privacy mismatch fails closed.",
-    "resources": "Six hours allocated to training separately from evaluation. Four collection lanes initially; measure actual search/native throughput and GPU fit cost. The old plain-policy capacity result is not an AZ throughput forecast."
+    "resources": "Six hours allocated to training separately from evaluation. Four collection lanes initially; measure actual search/native throughput and GPU fit cost. The old plain-policy capacity result is not an AZ throughput forecast.",
+    "startPolicy": "asap-after-qualification",
+    "timing": "trainingStartedAtUtc is the first actual declared self-play collection child spawn after essential native branch/source/target-binding checks. deadlineUtc=trainingStartedAtUtc+21600seconds, immutable across recovery. Preparation is excluded. firstSuccessfulUpdateAtUtc is separately recorded.",
+    "qualification": "Use held non-strength native branch/information-set/target-binding checks first. The first declared16-game training batch and its successful immutable fit/reload are the SAME single candidate trajectory, not a discarded qualification model. Its collection counts toward the six hours; continue that admitted checkpoint. No outcome-selected qualification data is silently reused for fitting."
   },
   "monitoring": {
     "dataRole": "development only; separate compute from training allocation",
-    "snapshotTimesUtc": [
-      "2026-10-21T06:00:00.000Z",
-      "2026-10-21T08:00:00.000Z"
-    ],
-    "snapshotRule": "last completed immutable checkpoint at each nominal time; asynchronous evaluation never reads mutable trainer weights",
+    "snapshotRule": "Last fully verified immutable checkpoint at actual trainingStartedAtUtc+2h and+4h; asynchronous evaluation never reads mutable trainer weights.",
     "seeds": [
       1291437175,
       2333628037,
@@ -30777,7 +30779,11 @@
       }
     ],
     "factory": "full AlphaZero-style candidate, same declared search budget as final",
-    "interpretation": "Two fixed development panels target only very large30-point excursions; no checkpoint selection or10-point inference from this panel."
+    "interpretation": "Two fixed development panels target only very large30-point excursions; no checkpoint selection or10-point inference from this panel.",
+    "snapshotOffsetsSeconds": [
+      7200,
+      14400
+    ]
   },
   "confirmation": {
     "schema": "model7-az-confirmation/1",
@@ -30785,7 +30791,7 @@
     "at": "2026-10-21T02:29:04.348Z",
     "environmentVersion": "tcg-agent-native/1.0.0",
     "environmentLockSha256": "e8c8d8c941c765a443219424f411a7c3ce884c30cc38852231302110c6a3b6cc",
-    "candidateSelection": "last verified single search-distillation trajectory update before10:00UTC, full player including search source/config frozen before unseen confirmation",
+    "candidateSelection": "Last fully verified update of the single search-distillation trajectory before actual six-hour deadline; freeze full player/source/config before unseen confirmation.",
     "candidateSelectionScope": "single authorized Model7 training trajectory",
     "comparison": "one complete search-guided Model7 player versus complete first-baseline on the unchanged frozen native game scenario",
     "independentSeedPairs": 512,
@@ -33410,5 +33416,15 @@
     "designEvaluation": "01a15c0e-d2bc-701b-8c34-117b198030f9"
   },
   "publicPreservation": "source/config/seeds/hash/results versioned; private weights,rawrecords,journals and input paths external",
-  "promotion": false
+  "promotion": false,
+  "nativeExecution": {
+    "referenceEnvironmentLockSha256": "e8c8d8c941c765a443219424f411a7c3ce884c30cc38852231302110c6a3b6cc",
+    "adoption": "qualified native-state-copy/1.0.0 for new actual games, same deck/helper/copy-mode inputs; separate hypothetical branch worker; no frozenD mutation",
+    "qualifiedActualWorkerSha256": "7a85f20df1616cc3d7b041f437b8a9c066800570a40bcf41e7ae34236507b83b",
+    "referenceWorkerSha256": "d471d0a1d7c05d23f34c555499ea21f299e306e19a8c3536222bae0af34c25c4",
+    "sourceCommit": "e90df7f572364d6631f44d03dbb192558098a959",
+    "qualification": "20independent paired-policy seeds, exact gameplay/behavior; full private qualification receipt/config/source hashes pinned in execution manifest",
+    "comparisonIdentity": "Both actual players share same declared qualified native worker; baseline player bytes unchanged. New native implementation gets an explicit separate ladder pool identity."
+  },
+  "frozenAtUtc": "2026-10-21T03:31:03.458Z"
 }

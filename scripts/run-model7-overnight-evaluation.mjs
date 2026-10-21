@@ -20,6 +20,10 @@ const sourceFiles = ['scripts/run-model7-overnight-evaluation.mjs', 'scripts/run
 const sourcePins = Object.fromEntries(sourceFiles.map(file => [path.resolve(file), hashFile(file)]));
 const inputPins = { [path.resolve(inputsPath)]: hashFile(inputsPath), [path.resolve(inputs.design)]: hashFile(inputs.design),
   [path.resolve(inputs.environmentConfig)]: hashFile(inputs.environmentConfig) };
+if (inputs.nativeConfigOverride) {
+  inputPins[path.resolve(inputs.nativeConfigOverride)] = hashFile(inputs.nativeConfigOverride);
+  inputPins[path.resolve(inputs.nativeQualification.receipt)] = hashFile(inputs.nativeQualification.receipt);
+}
 if (mode === '--preflight') {
   console.log(JSON.stringify({ preflight: true, sourcePins, inputPins, games: 0, fits: 0 }));
   process.exit(0);
@@ -31,6 +35,7 @@ const save = (name, value) => fs.writeFileSync(path.join(root, name), JSON.strin
 const startedAtUtc = new Date().toISOString();
 const panels = [];
 let phase = 'waiting-for-monitor', child = null, interrupted = false;
+let timing = null;
 function assertInputs() {
   for (const [file, sha256] of Object.entries({ ...sourcePins, ...inputPins })) assert.equal(hashFile(file), sha256, 'evaluation source/input changed');
   verifyFrozenRuntime(config);
@@ -45,7 +50,7 @@ function status() {
     } catch {}
   }
   save('status.json', { schema: 'model7-overnight-evaluation-status/1', phase, startedAtUtc, at: new Date().toISOString(),
-    supervisorPid: process.pid, runnerPid: child?.process.pid ?? null, current, panels, promotion: false });
+    trainingTiming: timing, supervisorPid: process.pid, runnerPid: child?.process.pid ?? null, current, panels, promotion: false });
 }
 const heartbeat = setInterval(status, 30000);
 process.on('SIGINT', () => { interrupted = true; child?.process.kill(); });
@@ -75,8 +80,10 @@ function selectCheckpoint(time) {
   const receiptPath = selected.checkpoint.replace(/\.pt$/, '.receipt.json');
   assert.equal(hashFile(receiptPath), selected.receiptSha256);
   const receipt = readJson(receiptPath);
-  assert.equal(receipt.reloadLogitsExact, true);
-  assert.equal(receipt.reloadValuesExact, true);
+  assert.equal(receipt.schema, 'native-alphazero-receipt/1');
+  assert.equal(receipt.reloadPolicyValueExact, true);
+  assert.equal(receipt.optimizerResetForNewObjective, true);
+  assert.equal(receipt.baseCheckpointSha256, design.initialization.originalOrdinarySha256);
   assert.equal(receipt.checkpointSha256, selected.checkpointSha256);
   return selected;
 }
@@ -108,13 +115,17 @@ async function runPanel(label, checkpoint, seeds, searchSeeds, split, workers, m
     checkpoint: checkpoint.checkpoint, sha256: checkpoint.checkpointSha256,
     factoryModule: player.factoryModule, factoryExport: player.factoryExport,
     factorySha256: hashFile(player.factoryModule), sourcePins: player.sourcePins,
-    factoryOptions: { ...player.playerConfig, runtimeRoot: player.runtimeRoot, seed: 81729, device: 'cpu' },
+    factoryOptions: { ...player.playerConfig, runtimeRoot: player.runtimeRoot, seed: 81729, device: 'cpu',
+      searchOptions: { ...player.playerConfig.searchOptions, determinizations: design.search.determinizations,
+        simulations: design.search.simulationsPerWorld, maxDepth: design.search.maximumDepth,
+        cPuct: design.search.cPuct, temperature: 0, rootNoise: false } },
     pins: { ordinary: checkpoint.checkpointSha256, selection: config.agent.selectionSha256, catalog: config.agent.catalogSha256,
       environmentLock: config.lockSha256, history: 'complete-game', deterministic: true,
       privatePlayerRuntimeSha256: hashFile(playerPath), method: design.method,
       search: { determinizations: design.search.determinizations, simulationsPerWorld: design.search.simulationsPerWorld,
         maximumDepth: design.search.maximumDepth, cPuct: design.search.cPuct, temperature: 0, rootNoise: false } } };
   const manifest = { schema: 'native-ladder-run/1', environmentConfig: inputs.environmentConfig, anchor: 'first-baseline',
+    nativeConfigOverride: inputs.nativeConfigOverride, nativeQualification: inputs.nativeQualification,
     split, promotion: false, entrants: [
       { kind: 'baseline', id: 'first-baseline', description: 'Exact frozen environment-v1 reference' },
       preparedEntrant], pairs: [[candidateId, 'first-baseline']], seeds, searchSeeds, workers,
@@ -156,16 +167,31 @@ function preserve() {
 save('pins.json', { sourcePins, inputPins });
 save('design.json', design); status();
 try {
-  for (const [index, time] of design.monitoring.snapshotTimesUtc.entries()) {
+  phase = 'waiting-for-actual-training-start'; status();
+  const trainingStatusPath = path.join(inputs.trainingDirectory, 'status.json');
+  while (!timing) {
+    if (fs.existsSync(trainingStatusPath)) {
+      const trainingStatus = readJson(trainingStatusPath);
+      const start = Date.parse(trainingStatus.trainingStartedAtUtc), deadline = Date.parse(trainingStatus.deadlineUtc);
+      if (Number.isFinite(start)) {
+        assert.equal(deadline - start, 21600000, 'actual training allocation must be six hours');
+        timing = { trainingStartedAtUtc: new Date(start).toISOString(), deadlineUtc: new Date(deadline).toISOString() };
+        save('training-timing.json', timing);
+      } else assert(!['failed', 'incomplete', 'completed'].includes(trainingStatus.state), 'training ended before actual collection start');
+    }
+    if (!timing) await waitUntil(Date.now() + 15000);
+  }
+  const snapshotTimes = design.monitoring.snapshotOffsetsSeconds.map(offset => Date.parse(timing.trainingStartedAtUtc) + offset * 1000);
+  for (const [index, time] of snapshotTimes.entries()) {
     phase = `waiting-for-monitor-${index + 1}`; status();
-    await waitUntil(Date.parse(time));
-    const selected = selectCheckpoint(Date.parse(time));
+    await waitUntil(time);
+    const selected = selectCheckpoint(time);
     if (!selected) { panels.push({ label: `monitor-${index + 1}`, state: 'unavailable', reason: 'no verified training update by nominal time' }); continue; }
     await runPanel(`monitor-${index + 1}`, selected, design.monitoring.seeds, design.monitoring.searchSeeds,
       'development', 2, 7200, .025);
   }
   phase = 'waiting-for-final-candidate'; status();
-  const deadline = Date.parse(design.training.deadlineUtc);
+  const deadline = Date.parse(timing.deadlineUtc);
   await waitUntil(deadline);
   const finalPath = path.join(inputs.trainingDirectory, 'final-candidate.json');
   while (!fs.existsSync(finalPath)) {
