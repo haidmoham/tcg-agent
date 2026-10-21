@@ -18,6 +18,14 @@ The [public project wiki](https://github.com/haidmoham/tcg-agent/wiki) is the ca
 
 The active reference is first-baseline in the frozen `tcg-agent-native/1.0.0` environment. See `docs/first-baseline-foundation.md` and `docs/first-baseline-preservation.json`. Older ModelN reports retain their historical names and describe completed runs. Follow current task authorization for new simulation research, preserve frozen runtime pins during comparisons, and keep private inputs and weights external.
 
+## Experiment adequacy
+
+Strength or performance conclusions require enough independent evidence to answer the question. Before a run, declare the decision-relevant effect, comparison, independent sampling unit, uncertainty criterion, and sample size/compute budget. Justify adequacy through power or precision planning, or a valid sequential design with declared stopping rules and justified uncertainty. Do not choose a tiny sample merely to finish cheaply or impose an arbitrary universal sample size.
+
+For paired games, count independent seed blocks for uncertainty. Multiple seats, decisions or frames from the same games are not independent replications. Small smoke, parity and debug runs are allowed when explicitly labeled non-strength engineering checks, with no strength or performance conclusion. Never present them as decisive experiments.
+
+If available resources cannot support a useful conclusion, state the limitation, redesign the comparison or report it as inconclusive. Inadequate evidence cannot justify promotion or a claim of no effect. Preserve original protocols and historical receipts; do not change a stopping rule after inspecting results and then claim its original uncertainty guarantee. See the [canonical evaluation guide](https://github.com/haidmoham/tcg-agent/wiki/Information-boundaries-and-evaluation#design-an-experiment-that-can-answer-the-question).
+
 ## Game policy and client driving
 
 Keep Pokemon game policy separate from client driving. The model consumes player-visible structured game state and semantic legal actions, and chooses only Pokemon actions. Do not expose coordinates, screenshots, focus, menus, animations, retries, navigation, transport, or driver failures to the model or its learning objective. Reuse the frozen checkpoint through environment adapters without changing it for a particular UI.
