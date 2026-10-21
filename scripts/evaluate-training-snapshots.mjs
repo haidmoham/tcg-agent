@@ -23,12 +23,27 @@ const [{verifyFrozenRuntime},{runNativeGame},{AgentBundle},{EntityPpoModelClient
   load('learning/model6-features.mjs'),load('integrations/local-worker/card-action-policy.mjs')]);
 const lock=verifyFrozenRuntime(config),native=read(config.nativeConfig),manifestSha256=hash(manifestPath),configSha256=hash(m.environmentConfig);
 for(const s of m.snapshots)assert.equal(hash(s.checkpoint),s.sha256,s.id);
+let previousCurve=null;
+if(m.recovery){
+  const previousDirectory=path.resolve(m.recovery.directory),previousProtocol=read(path.join(previousDirectory,'protocol.json'));
+  assert.equal(hash(path.join(previousDirectory,'protocol.json')),m.recovery.originalManifestSha256);
+  assert.equal(hash(path.join(previousDirectory,'strength-curve.json')),m.recovery.curveSha256);
+  for(const key of ['environmentConfig','snapshots','seeds','workers','maximumWallSeconds','maximumGameSeconds','maximumGameCommands'])
+    assert.deepEqual(m[key],previousProtocol[key],`recovery changed ${key}`);
+  previousCurve=read(path.join(previousDirectory,'strength-curve.json'));
+  assert.equal(previousCurve.manifestSha256,m.recovery.originalManifestSha256);
+  assert.equal(previousCurve.environmentLockSha256,config.lockSha256);
+}
 fs.mkdirSync(root,{recursive:true});
+if(m.recovery)fs.cpSync(m.recovery.directory,path.join(root,'prior-attempt'),{recursive:true});
 const save=(n,x)=>fs.writeFileSync(path.join(root,n),JSON.stringify(x,null,2)+'\n');
 const append=(n,x)=>fs.appendFileSync(path.join(root,n),JSON.stringify(x)+'\n');
 const started=Date.now(),points=[],abort=new AbortController();let stopReason=null;
+const originalStarted=m.recovery?Date.parse(m.recovery.originalStartedAt):started;
+const deadline=m.recovery?Date.parse(m.recovery.absoluteDeadline):started+m.maximumWallSeconds*1000;
+assert(Number.isFinite(deadline)&&deadline>started,'original evaluation deadline expired');
 const stop=reason=>{stopReason??=reason;abort.abort();};
-const timer=setTimeout(()=>stop('global-wall-budget'),m.maximumWallSeconds*1000);
+const timer=setTimeout(()=>stop('global-wall-budget'),deadline-started);
 const interrupted=()=>stop('operator-interrupted');process.on('SIGINT',interrupted);process.on('SIGTERM',interrupted);
 function frozen(snapshot){
   assert.equal(hash(manifestPath),manifestSha256);assert.equal(hash(m.environmentConfig),configSha256);
@@ -39,7 +54,8 @@ function report(final=false){
     at:new Date().toISOString(),stopReason,manifestSha256,environmentVersion:lock.version,environmentLockSha256:config.lockSha256,
     opponent:'first-baseline',selection:'unchanged frozen selector',history:'complete-game',
     dataRole:'development; repeated seeds across snapshots; unsuitable as fresh final confirmation',
-    elapsedSeconds:(Date.now()-started)/1000,points,promotion:false};
+    elapsedSeconds:(Date.now()-started)/1000,campaignWallSeconds:(Date.now()-originalStarted)/1000,
+    processId:process.pid,absoluteDeadline:new Date(deadline).toISOString(),recovery:m.recovery??null,points,promotion:false};
   save('strength-curve.json',r);
   const summary={...r,points:points.map(({blocks,...point})=>{
     const games=blocks.flatMap(b=>b.outcomes),routes={};
@@ -58,8 +74,22 @@ save('protocol.json',m);save('pins.json',{manifestSha256,configSha256,runnerSha2
 try{
   for(const snapshot of m.snapshots){
     if(stopReason)break;frozen(snapshot);
-    const point={id:snapshot.id,trainingGames:snapshot.trainingGames,optimizerSteps:snapshot.optimizerSteps,
-      checkpointSha256:snapshot.sha256,state:'running',blocks:[],started:new Date().toISOString()};points.push(point);report();
+    const previousPoint=previousCurve?.points.find(point=>point.id===snapshot.id);
+    if(previousPoint)assert.equal(previousPoint.checkpointSha256,snapshot.sha256);
+    const retainedBlocks=previousPoint?.blocks??[],retainedSlots=new Set();
+    for(const block of retainedBlocks){
+      assert.equal(block.status,'completed');assert.equal(block.seed,m.seeds[block.slot]);assert(!retainedSlots.has(block.slot));
+      assert.equal(block.outcomes.length,2);assert.deepEqual(new Set(block.outcomes.map(o=>o.candidateSeat)),new Set(['human','opponent']));
+      assert(block.outcomes.every(o=>['natural','policy-forfeit','command-cap-draw'].includes(o.status)&&[0,.5,1].includes(o.score)));
+      assert.equal(block.score,block.outcomes.reduce((sum,o)=>sum+o.score,0)/2);retainedSlots.add(block.slot);
+      for(const seat of ['human','opponent'])for(const suffix of ['journal.json','outcome.json','progress.jsonl']){
+        const name=`${snapshot.id}-block-${block.slot}-${seat}-${suffix}`,source=path.join(m.recovery.directory,name);
+        if(fs.existsSync(source))fs.copyFileSync(source,path.join(root,name));
+      }
+    }
+    const point={...previousPoint,id:snapshot.id,trainingGames:snapshot.trainingGames,optimizerSteps:snapshot.optimizerSteps,
+      checkpointSha256:snapshot.sha256,state:'running',blocks:structuredClone(retainedBlocks),started:new Date().toISOString()};points.push(point);report();
+    const pendingSlots=m.seeds.map((_,index)=>index).filter(index=>!retainedSlots.has(index));
     let next=0;
     async function lane(index){
       let ordinary,selection,candidate;
@@ -71,7 +101,7 @@ try{
         candidate=new EntityPpoModelClient({...config.ordinary,checkpoint:snapshot.checkpoint,modelRoot:path.dirname(snapshot.checkpoint)});
         save(`${snapshot.id}-lane-${index}-verified.json`,await Promise.all([ordinary.verify(),selection.verify(),candidate.verify()]));
         while(!stopReason){
-          const slot=next++;if(slot>=m.seeds.length)break;
+          const position=next++;if(position>=pendingSlots.length)break;const slot=pendingSlots[position];
           const seed=m.seeds[slot],outcomes=[];frozen(snapshot);
           for(const candidateSeat of ['human','opponent']){
             if(stopReason)break;
@@ -98,6 +128,11 @@ try{
                 onDecision:({seat,source})=>{const key=`${seat===candidateSeat?'candidate':'baseline'}:${source}`;counts[key]=(counts[key]??0)+1;},
                 onFrame:({entry})=>append(`${label}-progress.jsonl`,entry)});
               assert(result.summary.completedNaturally&&result.summary.rejected===0&&result.summary.privacyChecks>=2);
+              const previousJournal=m.recovery&&path.join(m.recovery.directory,`${label}-journal.json`);
+              if(previousJournal&&fs.existsSync(previousJournal)){
+                assert.deepEqual(result.journal,read(previousJournal),'replayed unpaired game changed');
+                append('recovery-replay-checks.jsonl',{label,exact:true,priorJournalSha256:hash(previousJournal)});
+              }
               save(`${label}-journal.json`,result.journal);
               outcomes.push({candidateSeat,status:'natural',score:result.summary.winnerSeat===null?.5:result.summary.winnerSeat===candidateSeat?1:0,
                 seconds:(Date.now()-begin)/1000,routes:counts,summary:result.summary});
