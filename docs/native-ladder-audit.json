@@ -1,0 +1,245 @@
+{
+  "schema": "native-ladder-audit/1",
+  "asOf": "2026-10-21T01:57:24.140Z",
+  "outcome": "A native measurement loop is implemented around the existing frozen runner. Historical confirmations import exactly and remain in separate compatibility pools. The cross-play smoke completed; no candidate is promoted.",
+  "foundation": {
+    "sourceCommit": "e131c892b30eec5183c3cbc71eb5b58ca2b44a57",
+    "environmentVersion": "tcg-agent-native/1.0.0",
+    "lockSha256": "e8c8d8c941c765a443219424f411a7c3ce884c30cc38852231302110c6a3b6cc",
+    "ordinarySha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+    "selectionSha256": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+    "packagingRepair": "Restore agent-bundle.mjs exact CRLF bytes from the preserved runtime; no logical change, lock update, checkpoint change or environment-version change."
+  },
+  "existingComponents": [
+    {
+      "source": "environment/native-game.mjs",
+      "reuse": "Authoritative seeded native games, semantic acceptance, seat histories, route counts, journals, privacy/RNG audits and bounded execution."
+    },
+    {
+      "source": "agents/first-baseline.mjs",
+      "reuse": "Verified unchanged actor and selector services; fresh per-seat history."
+    },
+    {
+      "source": "integrations/local-worker/agent-bundle.mjs",
+      "reuse": "Complete-game observe/propose/accepted boundary; ordinary/singleton/ranking/helper attribution."
+    },
+    {
+      "source": "scripts/compare-bootstrap-mirror.mjs",
+      "reuse": "Read-only adapter for completed paired BC and outcome confirmations; original protocols and receipts retained."
+    },
+    {
+      "source": "scripts/evaluate-training-snapshots.mjs (research branch)",
+      "reuse": "Read-only adapter consumes strength-curve.json, protocol.json and pins.json; no duplicate snapshot games."
+    },
+    {
+      "source": "src/evaluation-suite.mjs",
+      "limit": "Restricted regression engine, paired bootstrap and tiny scripted policies. Its thousands of games/second do not measure native learned-player throughput."
+    },
+    {
+      "source": "src/ladder-records.mjs",
+      "limit": "Observed TCG Live records and observed rating series. Native estimated ratings remain a distinct schema and command."
+    }
+  ],
+  "implementation": {
+    "registry": "Frozen full-player signatures include weights, selector, catalog, history and routing. Native environment/scenario/failure contract/split define pools.",
+    "scheduler": "Fixed manifest pairs and independent seed blocks; both player seats. Up to two CPU lanes, persistent inference services, fresh histories. No adaptive matchmaking.",
+    "persistence": "Fresh private run directory; accepted-command journals, per-game outcomes, block JSONL, immutable input/source hashes, inference counters and progressive report.",
+    "ratings": "Anchor-relative 400 log10(score/(1-score)), with two-sided paired-block Hoeffding bounds. Infinite estimates remain explicitly unbounded. No transitive global rating fit; every cross-play edge is retained.",
+    "uncertainty": "95% cell intervals and Bonferroni simultaneous 95% anchor intervals. No endpoint inference from a running preview. No anytime significance claim.",
+    "failures": "Policy exceptions forfeit; command caps draw; shared/ambiguous engine failures invalidate the whole seed pair. All attempts and failure counts remain visible. Native rejection is never silently awarded as a win.",
+    "evidenceSafety": "Duplicate seed/matchup/pool evidence is rejected; changed player signatures fail. Missing cross-play cells stay unmeasured. Development and consumed-confirmation results cannot become fresh confirmation."
+  },
+  "historical": {
+    "report": "native-ladder-historical.json",
+    "reportSha256": "f83a7ba028d433e0376cb8f9e07dea9e55ecc63a495779f7afa841d12233bd57",
+    "games": 128,
+    "independentPairs": 64,
+    "pools": 2,
+    "conclusion": "Neither retained candidate is distinguishable from its own frozen reference under the retained conservative pair bounds.",
+    "poolReason": "Comparator SHA256 differs. Exact native/model/catalog/deck pins alone do not establish identical complete evaluation contracts; no automatic bridge to environment-v1.",
+    "energySearch": {
+      "critic": {
+        "wins": 8,
+        "losses": 12
+      },
+      "readiness": {
+        "wins": 12,
+        "losses": 8
+      },
+      "admission": "Excluded from mirrored-Hammerpult pools: Basic Box versus Hammerpult fixture, different worker/evaluator and prompt routing. Keep as separately attributed screens."
+    }
+  },
+  "integrationSmoke": {
+    "state": "completed",
+    "games": 6,
+    "naturalGames": 6,
+    "seconds": 376.594,
+    "workers": 1,
+    "gamesPerWallHour": 57.3561979213689,
+    "pairs": [
+      {
+        "a": "first-baseline",
+        "b": "scripted-teacher",
+        "seed": 1043201001,
+        "score": 0
+      },
+      {
+        "a": "outcome-ppo",
+        "b": "first-baseline",
+        "seed": 1043201001,
+        "score": 0.5
+      },
+      {
+        "a": "outcome-ppo",
+        "b": "scripted-teacher",
+        "seed": 1043201001,
+        "score": 0
+      }
+    ],
+    "interpretation": "One seed per matchup, development only. Initial runner was hardened for source pinning/persistence after this integration run; retain as operational evidence, not a strength or performance comparison."
+  },
+  "measuredCosts": [
+    {
+      "workload": "Human bootstrap confirmation",
+      "games": 64,
+      "workers": 2,
+      "wallSeconds": 2269.918,
+      "gamesPerWallHour": 101.50146392953401,
+      "receiptSha256": "cec0b4b838a644fb5263ffebd6747519b7c3813914fe653cd4acb350b17fb088",
+      "scope": "Completed native games, CPU inference, protocol preflight/audits/output/cleanup. Concurrent host load uncontrolled; neither is a controlled performance comparison."
+    },
+    {
+      "workload": "Outcome PPO confirmation",
+      "games": 64,
+      "workers": 2,
+      "wallSeconds": 1893.477,
+      "gamesPerWallHour": 121.6809076635206,
+      "receiptSha256": "2ccd107cc11a2843f051e6843b086aef938d1f57dc70f61e2ea1f6cbde8a974f",
+      "scope": "Completed native games, CPU inference, protocol preflight/audits/output/cleanup. Concurrent host load uncontrolled; neither is a controlled performance comparison."
+    }
+  ],
+  "estimates": {
+    "basis": "Retained complete-game wall rates plus the one-lane integration smoke, not extrapolation from the restricted regression engine.",
+    "games32TwoLanesMinutes": [
+      15,
+      25
+    ],
+    "games64TwoLanesMinutes": [
+      30,
+      50
+    ],
+    "threeEntrantRoundRobin16PairsPerEdge": {
+      "games": 96,
+      "wallHours": [
+        0.8,
+        1.6
+      ]
+    },
+    "uncertaintyCost": {
+      "pairs32HalfWidth95": 0.24008069782998018,
+      "pairsNeededForPointScore060LowerBoundAbove050": 185,
+      "games": 370,
+      "estimatedWallHoursAt60To120GamesPerHour": [
+        3.0833333333333335,
+        6.166666666666667
+      ],
+      "note": "Bound geometry only, not a power calculation or authorization for a larger run. Sixty-four games screen large effects; they cannot reliably resolve small gains with this conservative interval."
+    }
+  },
+  "gpu": {
+    "measuredGpuThroughput": null,
+    "actualDevice": "cpu",
+    "batchApiCapacity": 64,
+    "assessment": "Existing model API accepts up to 64 encoded decisions per request, but frozen native games advance through sequential legality/projection/IPC. No new GPU throughput or utilization claim is supported. Batch ready decisions across independent environments only after measuring inference share; changing device/runtime gets a separate identity and equivalence checks. CPU simulation parallelism and read-only snapshot ingestion provide useful work immediately.",
+    "meteredCpuInference": {
+      "workload": "Two completed baseline-versus-AgentPult-scripted games on one CPU lane, plus model preflight/cleanup; shared host load uncontrolled.",
+      "requests": 204,
+      "requestLatencyMilliseconds": 2150.060399999991,
+      "wallSeconds": 145.359,
+      "fractionOfWall": 0.014791381338616743,
+      "optimisticEndToEndSpeedupIfAllMeasuredRequestLatencyVanished": 1.0150134510178301,
+      "note": "One run, not CPU/GPU comparison. Client counters time awaited model requests including their IPC; model loading and feature encoding are outside these counters. The Amdahl bound is workload-specific and optimistic; it says nothing about fitting or dual-neural self-play. No GPU throughput measurement was made."
+    }
+  },
+  "researchLoop": {
+    "owner": "01a15c0e-d2bc-701b-8c34-117b198030f9",
+    "reservedSeeds": [
+      "1043101001..1043101016 singleton routing development",
+      "1043102001..1043102008 snapshot development shared across updates"
+    ],
+    "sourceOwnership": "Research owns evaluate-training-snapshots, singleton routing, research ledger and repro folders. Ladder changes stay disjoint.",
+    "steps": [
+      "Trainer saves an immutable completed checkpoint and hash; do not evaluate a file still being written.",
+      "Research snapshot panel evaluates saved updates versus frozen first-baseline and persists paired receipts.",
+      "ladder:report ingests those receipts without launching simulations; show uncertainty, every cross-play edge and failure rate.",
+      "Use fixed reference opponents and a small predeclared development schedule to choose the next controlled change. Shared development seeds can compare snapshots, but are not final holdouts.",
+      "Freeze the selected candidate and entire environment, reserve untouched confirmation seeds, then run a fixed fresh confirmation. Retain negatives and never replace the anchor automatically.",
+      "User retains ranked deployment approval."
+    ],
+    "additionalArchivedCandidates": "Completed four-update control/gamma1/entropy005 arms in model-six-ppo-2026-10-20-r1 are candidates for future frozen evaluation, not evidence of strength. The prior failed zero-update attempt and stale context2 status snapshots must not be interpreted as current work or completed evaluations."
+  },
+  "immediatelyAvailable": [
+    "Read-only ratings/matrix reports from preserved receipts and the active snapshot panel.",
+    "Frozen baseline, existing AgentPult scripted policy and saved PPO candidates run through one environment-v1 pool.",
+    "Register the next immutable checkpoint and add fixed candidate/anchor/teacher edges without another simulator or trainer.",
+    "Keep the current research, human bootstrap and prompted-selection work independent; no new demonstration or framework blocks evaluation."
+  ],
+  "deferred": [
+    "Small-gain confirmation requires a deliberate larger compute budget or a separately justified estimator change.",
+    "No global scalar ranking is inferred for unplayed/nontransitive matchups.",
+    "Search adapters, broader deck populations, GPU batching and adaptive matchmaking can follow evidence; none blocks the current loop."
+  ],
+  "commands": {
+    "run": "npm run ladder:native -- <private-manifest.json> <fresh-private-output>",
+    "report": "npm run ladder:report -- <private-sources.json> <fresh-report.json>",
+    "example": "experiments/native-ladder-development.example.json",
+    "snapshotSource": {
+      "type": "training-snapshots",
+      "receipt": "<panel>/strength-curve.json",
+      "protocol": "<panel>/protocol.json",
+      "pins": "<panel>/pins.json"
+    },
+    "nativeSource": {
+      "type": "native-ladder",
+      "receipt": "<run>/receipt.json"
+    },
+    "manifest": "{\"anchor\":\"first-baseline\",\"sources\":[<source entries>]}"
+  },
+  "promotion": false,
+  "rankedActions": 0,
+  "finalSourceVerification": {
+    "state": "completed",
+    "games": 2,
+    "naturalGames": 2,
+    "wallSeconds": 145.359,
+    "workers": 1,
+    "receiptSha256": "458b8b8956b55df04ef58463691502b96be84a5f6cc3fad45abfa307386596e1",
+    "report": "native-ladder-smoke.json",
+    "sourcePins": {
+      "run-native-ladder.mjs": "f64cf418102a1032485f79c2643121705e7f3256728f41df83193a6e2becf801",
+      "native-ladder.mjs": "152e42696fdc95eacece7cb7fd687a101b5c93bc5cc488d1f5437d486065ed17"
+    },
+    "originalBaselinesReverified": true,
+    "sharedFailures": 0,
+    "nativeRejections": 0,
+    "retainedStartupFailure": "One intermediate smoke attempt failed before any game after a local naming edit; its zero-pair receipt is preserved separately. The final exact-source run completed."
+  },
+  "verification": {
+    "publicTests": {
+      "passed": 218,
+      "skipped": 3,
+      "failed": 0
+    },
+    "targetedTests": 5,
+    "testedContracts": [
+      "seed-pair uncertainty unit",
+      "duplicate/changed-player rejection",
+      "environment/scenario/split isolation",
+      "invalid partial-pair exclusion and failure visibility",
+      "fixed-endpoint inference gate",
+      "simple scheduling"
+    ],
+    "endToEnd": "128 historical native game receipts imported, 6 natural cross-play integration games, 2 final source-pinned native games, and live snapshot adapter exercised.",
+    "privateArtifacts": "Task workspace ignored runs/ladder-audit and runs/ladder-smoke-{001,002,003}; prepared runtime, models and historical archives remained external and unchanged."
+  }
+}

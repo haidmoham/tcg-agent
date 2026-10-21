@@ -1,0 +1,51 @@
+{
+  "schema": "native-ladder-run/1",
+  "environmentConfig": "E:/private/first-baseline-v1/first-baseline.json",
+  "anchor": "first-baseline",
+  "split": "development",
+  "promotion": false,
+  "entrants": [
+    {
+      "kind": "baseline",
+      "description": "Exact frozen environment-v1 reference",
+      "id": "first-baseline"
+    },
+    {
+      "catalogPath": "E:/private/teacher-catalog.json",
+      "kind": "teacher",
+      "description": "Existing AgentPult scripted public-view policy with pinned helper fallback",
+      "id": "scripted-teacher",
+      "catalogSha256": "f8e6687fc45fa93e2bcbb838b968f45caff16d22cfb0d407eff69ba886603af2"
+    },
+    {
+      "checkpoint": "E:/private/outcome-update-4.pt",
+      "sha256": "6d7e87af45c4fd6272757cb161a73584aef4f2d52903b0a041ddbfad04529828",
+      "kind": "ppo",
+      "description": "Preserved fixed fourth PPO update, shared frozen selector",
+      "id": "outcome-ppo"
+    }
+  ],
+  "pairs": [
+    [
+      "first-baseline",
+      "scripted-teacher"
+    ],
+    [
+      "outcome-ppo",
+      "first-baseline"
+    ],
+    [
+      "outcome-ppo",
+      "scripted-teacher"
+    ]
+  ],
+  "seeds": [
+    1043201001
+  ],
+  "workers": 1,
+  "maximumWallSeconds": 900,
+  "maximumGameSeconds": 240,
+  "maximumGameCommands": 900,
+  "purpose": "six-game integration smoke; no strength or promotion conclusion",
+  "seedNote": "Consumed integration seed for reproduction only; reserve fresh development seeds for new evidence and separate untouched confirmation seeds."
+}

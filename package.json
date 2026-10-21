@@ -19,6 +19,8 @@
     "local:native": "node scripts/native.mjs",
     "play": "node scripts/play-checkpoint.mjs",
     "ladder:summary": "node scripts/ladder-records.mjs",
+    "ladder:native": "node scripts/run-native-ladder.mjs",
+    "ladder:report": "node scripts/report-native-ladder.mjs",
     "bench": "node scripts/benchmark.mjs",
     "tutorial": "node scripts/serve-tutorial.mjs",
     "profile": "node --cpu-prof --cpu-prof-dir=runs scripts/benchmark.mjs --games 1000 --repeats 1 --output runs/profile-benchmark.json",

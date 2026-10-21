@@ -1,0 +1,454 @@
+{
+  "schema": "native-ladder-report/1",
+  "anchor": "first-baseline-legacy",
+  "promotion": false,
+  "entrants": [
+    {
+      "id": "human-bootstrap",
+      "agentSha256": "cbe244ac7f7c2137f99ad5ab2bb4ccd525a9d8ed53243b15aead3c01ddb65d42",
+      "description": "Fixed human two-head BC candidate; no promotion",
+      "pins": {
+        "ordinary": "d64e3574a88c99cc1c21baeee506a565a9d39a94f608c910e59ad4561573891a",
+        "selection": "e7c2e1bea18d8246c3f2503a609e41dbed04cedf94b783cc5268747d0ca22544",
+        "catalog": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04",
+        "routing": "ordinary-singleton-ppo-ranking-selector/1",
+        "history": "comparator-context/1",
+        "deterministic": true
+      }
+    },
+    {
+      "id": "first-baseline-legacy",
+      "agentSha256": "c2a8c2f61b5e0502a37626f16b02e0b336528f182a7eddb665632d97d3e9607b",
+      "description": "Frozen reference through archived paired comparator",
+      "pins": {
+        "ordinary": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+        "selection": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+        "catalog": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04",
+        "routing": "ordinary-singleton-ppo-ranking-selector/1",
+        "history": "comparator-context/1",
+        "deterministic": true
+      }
+    },
+    {
+      "id": "outcome-ppo",
+      "agentSha256": "d55440cd85e99c383b01d0972583c6e523dd322518f3c7e28ab59a26a640c055",
+      "description": "Fixed fourth outcome PPO update; no promotion",
+      "pins": {
+        "ordinary": "6d7e87af45c4fd6272757cb161a73584aef4f2d52903b0a041ddbfad04529828",
+        "selection": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+        "catalog": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04",
+        "routing": "ordinary-singleton-ppo-ranking-selector/1",
+        "history": "comparator-context/1",
+        "deterministic": true
+      }
+    }
+  ],
+  "pointwiseConfidence": 0.95,
+  "simultaneousAnchorConfidence": 0.95,
+  "method": "Anchor-relative 400*log10(score/(1-score)); pairwise scores retain nontransitivity. Two-sided Hoeffding bounds over independent seed pairs. Not Live Elo. No transitive global fit.",
+  "pools": [
+    {
+      "id": "d4f9a6498996850bd2bbfa43132d104c7d7580fa0a75d76f82afb9d324bd091b",
+      "environmentSha256": "6c8fab0c63db36ecae4707ae900c3e6f0a341782c1b0b597792ffeaf6b4ab88a",
+      "scenarioSha256": "8ade2f9dd1d893a1198dd243f291e0f48375068642557be558d7f7e115be5abc",
+      "split": "consumed-confirmation",
+      "failureContract": "a1c6b0bcf9249bf5d6f1b15fede8d64c9a2c3ce04aa1e0412fbe00c1e4f53fdf",
+      "cells": [
+        {
+          "a": "human-bootstrap",
+          "b": "first-baseline-legacy",
+          "independentPairs": 32,
+          "attemptedPairs": 32,
+          "games": 64,
+          "attemptedGames": 64,
+          "analysisStatus": "fixed-endpoint",
+          "wins": 27,
+          "losses": 37,
+          "draws": 0,
+          "score": 0.421875,
+          "interval": [
+            0.18179430217001982,
+            0.6619556978299802
+          ],
+          "rating": -54.73518396320307,
+          "ratingInterval": [
+            -261.3128928619163,
+            116.74212182343469
+          ],
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": 0,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "human-bootstrap",
+          "b": "outcome-ppo",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "first-baseline-legacy",
+          "b": "human-bootstrap",
+          "independentPairs": 32,
+          "attemptedPairs": 32,
+          "games": 64,
+          "attemptedGames": 64,
+          "analysisStatus": "fixed-endpoint",
+          "wins": 37,
+          "losses": 27,
+          "draws": 0,
+          "score": 0.578125,
+          "interval": [
+            0.3380443021700198,
+            0.8182056978299802
+          ],
+          "rating": 54.735183963203085,
+          "ratingInterval": [
+            -116.74212182343469,
+            261.3128928619163
+          ],
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": 0,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "first-baseline-legacy",
+          "b": "outcome-ppo",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "outcome-ppo",
+          "b": "human-bootstrap",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "outcome-ppo",
+          "b": "first-baseline-legacy",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        }
+      ],
+      "ratings": [
+        {
+          "id": "human-bootstrap",
+          "independentPairs": 32,
+          "score": 0.421875,
+          "interval": [
+            0.1602088650746349,
+            0.6835411349253651
+          ],
+          "rating": -54.73518396320307,
+          "ratingInterval": [
+            -287.793896766494,
+            133.77895557479616
+          ],
+          "familywiseDistinguishable": false
+        },
+        {
+          "id": "first-baseline-legacy",
+          "rating": 0,
+          "fixed": true
+        },
+        {
+          "id": "outcome-ppo",
+          "independentPairs": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "familywiseDistinguishable": false
+        }
+      ],
+      "attemptedGames": 64,
+      "gameSeconds": 4468.057000000001,
+      "naturalGames": 64,
+      "naturalGamesPerSummedGameHour": 51.56603866065271
+    },
+    {
+      "id": "efbb396d316ad23d803197ac168b494a2cbc380c23da8051428066ae77ef0146",
+      "environmentSha256": "1e6c33b0c97d797a48a17098af06e5631e69b6b7fa3f0dbb6265748e2aa6032a",
+      "scenarioSha256": "8ade2f9dd1d893a1198dd243f291e0f48375068642557be558d7f7e115be5abc",
+      "split": "consumed-confirmation",
+      "failureContract": "a1c6b0bcf9249bf5d6f1b15fede8d64c9a2c3ce04aa1e0412fbe00c1e4f53fdf",
+      "cells": [
+        {
+          "a": "human-bootstrap",
+          "b": "first-baseline-legacy",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "human-bootstrap",
+          "b": "outcome-ppo",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "first-baseline-legacy",
+          "b": "human-bootstrap",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "first-baseline-legacy",
+          "b": "outcome-ppo",
+          "independentPairs": 32,
+          "attemptedPairs": 32,
+          "games": 64,
+          "attemptedGames": 64,
+          "analysisStatus": "fixed-endpoint",
+          "wins": 42,
+          "losses": 22,
+          "draws": 0,
+          "score": 0.65625,
+          "interval": [
+            0.4161693021700198,
+            0.8963306978299802
+          ],
+          "rating": 112.3306438302777,
+          "ratingInterval": [
+            -58.806753681097966,
+            374.72723814528564
+          ],
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": 0,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "outcome-ppo",
+          "b": "human-bootstrap",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "outcome-ppo",
+          "b": "first-baseline-legacy",
+          "independentPairs": 32,
+          "attemptedPairs": 32,
+          "games": 64,
+          "attemptedGames": 64,
+          "analysisStatus": "fixed-endpoint",
+          "wins": 22,
+          "losses": 42,
+          "draws": 0,
+          "score": 0.34375,
+          "interval": [
+            0.10366930217001982,
+            0.5838306978299802
+          ],
+          "rating": -112.33064383027767,
+          "ratingInterval": [
+            -374.72723814528564,
+            58.80675368109798
+          ],
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": 0,
+          "fixedEndpointDistinguishable": false
+        }
+      ],
+      "ratings": [
+        {
+          "id": "human-bootstrap",
+          "independentPairs": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "familywiseDistinguishable": false
+        },
+        {
+          "id": "first-baseline-legacy",
+          "rating": 0,
+          "fixed": true
+        },
+        {
+          "id": "outcome-ppo",
+          "independentPairs": 32,
+          "score": 0.34375,
+          "interval": [
+            0.08208386507463489,
+            0.6054161349253651
+          ],
+          "rating": -112.33064383027767,
+          "ratingInterval": [
+            -419.41808241061483,
+            74.36586743809937
+          ],
+          "familywiseDistinguishable": false
+        }
+      ],
+      "attemptedGames": 64,
+      "gameSeconds": 3772.3160000000003,
+      "naturalGames": 64,
+      "naturalGamesPerSummedGameHour": 61.076537596532205
+    }
+  ],
+  "sources": [
+    {
+      "type": "paired-comparator",
+      "receiptSha256": "cec0b4b838a644fb5263ffebd6747519b7c3813914fe653cd4acb350b17fb088",
+      "state": "completed",
+      "elapsedSeconds": 2269.918
+    },
+    {
+      "type": "paired-comparator",
+      "receiptSha256": "2ccd107cc11a2843f051e6843b086aef938d1f57dc70f61e2ea1f6cbde8a974f",
+      "state": "completed",
+      "elapsedSeconds": 1893.477
+    }
+  ],
+  "interpretation": "Missing edges are unmeasured. Running panels are operational previews, not fixed-endpoint evidence. Consumed confirmation is historical development evidence. Promotion always requires a predeclared fresh confirmation and user approval."
+}
