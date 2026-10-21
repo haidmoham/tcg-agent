@@ -71,6 +71,34 @@
       "changedDecisions": 29,
       "conclusion": "exploratory lead; independent confirmation required",
       "promoted": false
+    },
+    {
+      "id": "legacy-model6-three-arm-pilot-r1",
+      "evidence": {
+        "receiptName": "model-six-ppo-2026-10-20-r1/pilot-receipt.json",
+        "sha256": "8394ecd42ec391b455f6675ce3e8940be14b24ef836a0a5496ed0c3094ad3d6a",
+        "visibility": "private preserved receipt"
+      },
+      "status": "pilot-paused",
+      "arms": {
+        "control": {
+          "batchUpdates": 4,
+          "naturalTrainingGames": 68,
+          "checkpointSha256": "391e5545c303317a81bd82b4ea355681aed657ae4950c58847a26b49155f70c1"
+        },
+        "gamma1": {
+          "batchUpdates": 4,
+          "naturalTrainingGames": 70,
+          "checkpointSha256": "a43bebb1ef2e98b5aa223747b2d794054aa7ff0bb4e7acb055b1095d31212bd8"
+        },
+        "entropy005": {
+          "batchUpdates": 4,
+          "naturalTrainingGames": 72,
+          "checkpointSha256": "cd4eab34b88965401372eacef3f9b51a1e6bedb73fdf2b6d0e7b71c634966912"
+        }
+      },
+      "conclusion": "Existing trained gamma and entropy variants; matched held-out strength conclusion not established by this audit. Training outcomes are not strength evidence.",
+      "promoted": false
     }
   ],
   "active": {

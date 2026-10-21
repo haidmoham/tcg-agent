@@ -17,6 +17,8 @@ Sources: `docs/supervised-bootstrap.md`, `docs/model7-outcome-pilot-result.json`
 
 The native harness already supplies actor-visible projection, authoritative legality/acceptance, seeded complete games, Energy facts and paired comparisons. `AgentBundle` supplies per-seat history and ordinary/singleton/ranking routing. The baseline comparator sends mandatory singleton prompts to the ordinary PPO actor with native-validated masks, and optional/multi-card prompts to the separate selector. Training learned 393 singleton choices but left 250 ranking decisions frozen in the outcome pilot. This identifies a measurable decision boundary, not a proven ceiling or a reason to exclude harder choices.
 
+A targeted older-archive check also found the preserved `model-six-ppo-2026-10-20-r1/pilot-receipt.json`: control, gamma=1 and higher-entropy arms each reached four updates (68, 70 and 72 natural training games). Its receipt explicitly says training outcomes are not held-out strength evidence; a matched strength conclusion was not established in this audit. The earlier non-r1 campaign failed before its first update despite completing collection. These artifacts prevent treating gamma/entropy variants as untried or the implementation failure as an algorithm failure. Older context2 archive status files still say `running`; storage snapshots alone do not establish an active workload. The ladder owner has their exact locations for historical-anchor inspection.
+
 ## Ranked next approaches
 
 Ranking is a judgment about **information gained per local compute-hour**, not a measured probability of success. Costs below are prospective wall time at two CPU lanes; aggregate CPU time has not been measured. No paid cloud resource or GPU allocation is implied.

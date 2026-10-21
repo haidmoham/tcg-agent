@@ -10,6 +10,7 @@ const root=path.resolve(directory),read=n=>JSON.parse(fs.readFileSync(path.join(
 const hash=p=>createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 const r=read('receipt.json'),pins=read('pins.json');
 assert.equal(r.state,'completed');assert.equal(r.stopReason,null);assert.equal(r.invalidBlocks,0);
+assert.equal(r.validBlocks,16);assert.equal(r.blocks.length,16);assert.equal(r.completedScoredGames,32);
 const interventions=fs.readFileSync(path.join(root,'interventions.jsonl'),'utf8').trim().split('\n').filter(Boolean).map(JSON.parse);
 const totals={ordinary:0,baselineSingleton:0,candidateSingleton:0,ranking:0,helper:0,disagreements:0};
 const checks=[],games=r.blocks.flatMap(b=>b.outcomes);
@@ -39,7 +40,7 @@ const result={schema:'singleton-routing-public-result/1',status:'completed',sour
   score:r.score,interval95:r.interval95,intervalMethod:r.intervalMethod,
   allNatural:true,invalidBlocks:0,policyForfeits:0,commandCapDraws:0,rejectedCommands:0,
   routeCounts:totals,candidateGamesWithChangedChoices:new Set(interventions.filter(x=>x.changed).map(x=>x.label)).size,
-  candidateSingletonsWithMultipleLegalCandidates:interventions.filter(x=>x.choices>1).length,
+  candidateSingletonsWithMultipleOfferedChoices:interventions.filter(x=>x.choices>1).length,
   privacyChecks:games.reduce((s,g)=>s+g.summary.privacyChecks,0),
   opponentHandExchanges:games.reduce((s,g)=>s+g.summary.opponentHandExchanges,0),
   actualCost:{wallSeconds:r.elapsedSeconds,summedGameSeconds:games.reduce((s,g)=>s+g.seconds,0),
