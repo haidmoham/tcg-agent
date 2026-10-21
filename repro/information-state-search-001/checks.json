@@ -1,0 +1,75 @@
+{
+  "schema": "information-state-search-engineering/1",
+  "at": "2026-10-21T03:48:11.042Z",
+  "purpose": "Non-strength engineering checks; no whole-game performance, strength or full Standard fidelity claim",
+  "implementationVersion": "information-search/0.2.0-history-constrained",
+  "workerSha256": "153d4a6f25db9747f6937efcc8877f7be8a5092a2929c4e2595f9d912d60fe48",
+  "sourceSha256": {
+    "Indigo.Live.Engine.csproj": "c688351b3cac57ea1c640b6de948aa6023ac8245c61bb864c3aec7c8a466e572",
+    "MatchWorker.cs": "fb92a08511de028ebc2cb3216520cc74480ed5300ddd26528c2dded405e25cd5",
+    "MatchWorker.Energy.cs": "e99b4182af365161b4c69c8f6d6dc8cc621e52651092cb8f90e23b9feb6d8ded",
+    "MatchWorker.InformationSearch.cs": "1300f74cdf4d97f4f5f9d13d11272e4d87027c827dea73a770670153011b432c",
+    "MatchWorker.Offers.cs": "971176d81c7bc556c6322483ef5c6608084eaba60e0f38287abb7c13894e1a44",
+    "MatchWorker.Presentation.cs": "1a1dd04aecdb1585bf1cd752def7034d6268fd1aac450f90b831982abffa7010",
+    "MatchWorker.Projection.cs": "89273b0d6b6b291455b6f60efd93ed6b820a714bf00f1fd55a724557bd1a199c",
+    "MatchWorker.Selections.cs": "141ab2fad18c314c6114e836ca81e1f6bab926b119d6891eaca2269eaa5fbbf2",
+    "NativeStateCopier.cs": "15862a1ebf8d329d3c39f5dd7157b316d57d20aa9abf0c8d9bb57635b6e4d7f3",
+    "OfflineAudit.cs": "4f72b8b5955730edaa41f2312d7b36e62b41002a93ae08abe3f617dd41415b7a",
+    "OfflineSession.cs": "734bf6a9ba68877ede55ea99156b3013a8d59d6f081a3671ff1a7d6e8fab41c9",
+    "OfflineTurnPreflight.cs": "804e016230ede27a3fe263bb54ff0e1f2e14db313fbae0ec29d3980c140f15d2",
+    "Program.cs": "8273096eb0d3b3cede16cdebc42dcc6f9b650b1254fa8abb38a1e286b96d664b",
+    "ProgramInputs.cs": "426acaa76b74726d94de7d5daedae82b7670bd940a4c67b4d6a403c4f402f2a3"
+  },
+  "rootScope": "Settled ordinary actor-relative roots in fixed Hammer mirror scenario; pending root queues explicitly unsupported; native descendant prompts supported",
+  "rootFixtures": {
+    "fromOneRecordedGame": true,
+    "ordinaryRoots": 20,
+    "exactEncoded": 20,
+    "orderedDomainAndParentIsolation": 20
+  },
+  "tree": {
+    "mockValues": true,
+    "worlds": 2,
+    "simulationsPerWorld": 8,
+    "totalVisits": 16,
+    "promptResumed": true,
+    "parentAuthorityAndRngUnchanged": true,
+    "hiddenInputPerturbationInvariant": true,
+    "noAuthoritativeMatchCreated": true
+  },
+  "constraints": {
+    "syntheticSamples": 6,
+    "countsPerSeat": [
+      60,
+      60
+    ],
+    "knownCardsExcludedFromPrizes": true,
+    "orderedTopAndBottom": true,
+    "unorderedBottomBlocks": true,
+    "nativeDrawHonorsKnownTop": true
+  },
+  "ledgerChecks": {
+    "purpose": "Non-strength synthetic actor-knowledge engineering check",
+    "passed": true,
+    "checks": [
+      "recon",
+      "red-card-bottom-order",
+      "deck-search-unselected-known",
+      "dudunsparce-attachments",
+      "crispin-one-and-two",
+      "setup-prize-exclusion",
+      "creation-and-gap-diagnostics",
+      "meowth-optional-trigger",
+      "lillie-and-stamp-shuffle",
+      "opponent-public-excluded",
+      "snapshot-isolation"
+    ]
+  },
+  "limitations": [
+    "Not a full Bayesian history posterior; sampled hidden worlds are a determinization approximation.",
+    "Known deck membership/order constraints are tracked from actor-visible observations and commands.",
+    "KO snapshot identity is a representative: pinned deck has only two unfiltered existence consumers and no game-rule consumers.",
+    "Actual model search-to-target/fit integration is execution/research owner responsibility.",
+    "Frozen reference and model bytes are unchanged."
+  ]
+}
