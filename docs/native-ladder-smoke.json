@@ -1,0 +1,254 @@
+{
+  "schema": "native-ladder-report/1",
+  "anchor": "first-baseline",
+  "promotion": false,
+  "entrants": [
+    {
+      "id": "first-baseline",
+      "agentSha256": "49b0c40dc4b81ed27be594f19e748cab60c550fc19caf448c07542acbdeaba22",
+      "description": "Exact frozen environment-v1 reference",
+      "pins": {
+        "ordinary": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+        "selection": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+        "catalog": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04",
+        "bundle": "682b74a3110ed67c87675899fd522ed6c9962853dbc5ce8532514b59ed644f60",
+        "history": "complete-game",
+        "deterministic": true
+      }
+    },
+    {
+      "id": "scripted-teacher",
+      "agentSha256": "10887dc5b71f20e6ba816704c25587d9dedba0d11a491c71f6f95f691f45b914",
+      "description": "Existing AgentPult scripted public-view policy with pinned helper fallback",
+      "pins": {
+        "teacher": "ed22f45b8daf904ce5c017dbb128f14f2344b29392fa107592c1d87d18a6c849",
+        "catalog": "f8e6687fc45fa93e2bcbb838b968f45caff16d22cfb0d407eff69ba886603af2",
+        "adapter": "native-ladder-teacher/1",
+        "bundle": "682b74a3110ed67c87675899fd522ed6c9962853dbc5ce8532514b59ed644f60",
+        "history": "complete-game",
+        "deterministic": true
+      }
+    },
+    {
+      "id": "outcome-ppo",
+      "agentSha256": "cbded51b2ca367e1b541e0c116d98cedeb1161b93c694ad45a6d4cb51b4ffbba",
+      "description": "Preserved fixed fourth PPO update, shared frozen selector",
+      "pins": {
+        "ordinary": "6d7e87af45c4fd6272757cb161a73584aef4f2d52903b0a041ddbfad04529828",
+        "selection": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+        "catalog": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04",
+        "bundle": "682b74a3110ed67c87675899fd522ed6c9962853dbc5ce8532514b59ed644f60",
+        "history": "complete-game",
+        "deterministic": true
+      }
+    }
+  ],
+  "pointwiseConfidence": 0.95,
+  "simultaneousAnchorConfidence": 0.95,
+  "method": "Anchor-relative 400*log10(score/(1-score)); pairwise scores retain nontransitivity. Two-sided Hoeffding bounds over independent seed pairs. Not Live Elo. No transitive global fit.",
+  "pools": [
+    {
+      "id": "a337e323dd5337ffbdc752fcd5ff38de2988520238d63dcb687bd30bc4cbaa24",
+      "environmentSha256": "5a4935bf0b7dbe1dec68e499def5277b6bc7681cb26e21480d3683bc3830bc8b",
+      "scenarioSha256": "4b50e69f7cc0fd72d090db2e2bba11ce96900be9b2187d35ce261664d346b474",
+      "split": "development",
+      "failureContract": "e75f68407ce52213ee467f55768307a4315268908f69135adeb631ca7d711115",
+      "cells": [
+        {
+          "a": "first-baseline",
+          "b": "scripted-teacher",
+          "independentPairs": 1,
+          "attemptedPairs": 1,
+          "games": 2,
+          "attemptedGames": 2,
+          "analysisStatus": "fixed-endpoint",
+          "wins": 1,
+          "losses": 1,
+          "draws": 0,
+          "score": 0.5,
+          "interval": [
+            0,
+            1
+          ],
+          "rating": 0,
+          "ratingInterval": [
+            "-Infinity",
+            "Infinity"
+          ],
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": 0,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "first-baseline",
+          "b": "outcome-ppo",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "scripted-teacher",
+          "b": "first-baseline",
+          "independentPairs": 1,
+          "attemptedPairs": 1,
+          "games": 2,
+          "attemptedGames": 2,
+          "analysisStatus": "fixed-endpoint",
+          "wins": 1,
+          "losses": 1,
+          "draws": 0,
+          "score": 0.5,
+          "interval": [
+            0,
+            1
+          ],
+          "rating": 0,
+          "ratingInterval": [
+            "-Infinity",
+            "Infinity"
+          ],
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": 0,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "scripted-teacher",
+          "b": "outcome-ppo",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "outcome-ppo",
+          "b": "first-baseline",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "outcome-ppo",
+          "b": "scripted-teacher",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        }
+      ],
+      "ratings": [
+        {
+          "id": "first-baseline",
+          "rating": 0,
+          "fixed": true
+        },
+        {
+          "id": "scripted-teacher",
+          "independentPairs": 1,
+          "score": 0.5,
+          "interval": [
+            0,
+            1
+          ],
+          "rating": 0,
+          "ratingInterval": [
+            "-Infinity",
+            "Infinity"
+          ],
+          "familywiseDistinguishable": false
+        },
+        {
+          "id": "outcome-ppo",
+          "independentPairs": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "familywiseDistinguishable": false
+        }
+      ],
+      "attemptedGames": 2,
+      "gameSeconds": 138.392,
+      "naturalGames": 2,
+      "naturalGamesPerSummedGameHour": 52.02612867795826
+    }
+  ],
+  "sources": [
+    {
+      "type": "native-ladder",
+      "receiptSha256": "458b8b8956b55df04ef58463691502b96be84a5f6cc3fad45abfa307386596e1",
+      "state": "completed",
+      "elapsedSeconds": 145.359
+    }
+  ],
+  "interpretation": "Missing edges are unmeasured. Running panels are operational previews, not fixed-endpoint evidence. Consumed confirmation is historical development evidence. Promotion always requires a predeclared fresh confirmation and user approval."
+}
