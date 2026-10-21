@@ -1,0 +1,20 @@
+{
+  "schema": "alphazero-empty-prompt-recovery/1",
+  "date": "2026-10-21",
+  "fixCommit": "84c984c",
+  "scope": "Engineering recovery, not strength evidence; no optimizer update was performed by this audit.",
+  "cause": "The complete legal-action encoder rejected a simulated zero-choice prompt with min=max=0 before it could be resolved as a forced native transition.",
+  "reproduction": "Replayed both preserved failed games' accepted semantic command streams with the declared native worker, reconstructed complete safe own-seat histories, and repeated the failing search using the same independent search stream and actual initialized model.",
+  "cases": [
+    {"actualRootRevision": 106, "actualRootOrdinaryActions": 24, "failedChildRevision": 110, "before": "current complete legal candidate list required", "afterRealVisits": 16, "afterExpansions": 17, "afterForcedTransitions": 3, "afterSharedInformationSetHits": 1},
+    {"actualRootRevision": 97, "actualRootOrdinaryActions": 13, "failedChildRevision": 100, "before": "current complete legal candidate list required", "afterRealVisits": 16, "afterExpansions": 17, "afterForcedTransitions": 2, "afterSharedInformationSetHits": 5}
+  ],
+  "fix": "Only a zero-choice min=max=0 prompt is special-cased. Its empty semantic answer must pass the current native validator. Search advances it nondestructively to the next scorable or terminal state, preserving the actor-visible observation/action history, with a 32-forced-transition bound. An actual forced root emits no training sample. Other encoding errors remain errors.",
+  "runtimeFiles": {
+    "agents/alphazero-agent.mjs": "9efe23a673546868d23c5f74a394e00cd058b090112ae48a103ab58d02f26241",
+    "learning/alphazero-search.mjs": "5c016b56e52c04b61646f72542a77620ed200e1e3b8e727dd21262ae28d03465"
+  },
+  "verification": {"javascriptChecksPassed": 14, "javascriptChecksFailed": 0, "frozenBaselineBytesUnchanged": true, "syntheticValuesOrPolicyTargetsAdded": false},
+  "privateEvidence": "Exact views, safe histories, independent seeds and reproduction scripts remain in the private task workspace; they are not included in this public receipt.",
+  "executionHandoff": "Research and execution accepted recovery of the same initialized lineage on fresh predeclared batch-2 seeds, excluding the entire failed batch from gradients, with explicit source/config amendment and metadata-only source reseal. The original six-hour deadline remains unchanged. Execution owns actual resumption and learning-update receipts."
+}

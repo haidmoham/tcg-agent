@@ -1,0 +1,291 @@
+{
+  "schema": "cabt-reuse-audit/1",
+  "date": "2026-10-21",
+  "decision": "Retain and optimize the current simulator. Reuse reviewed algorithmic ideas and independently implement the AlphaZero loop; do not begin a Rust simulator rewrite on the available evidence.",
+  "sourceSnapshots": {
+    "agent": {
+      "repository": "https://github.com/Trevon-Woods-AI-Portfolio/PokemonTCG_Deep_RL_Agent",
+      "commit": "192bf1b4bc0f17a44d11b684cd2dbdf83875b253",
+      "license": "MIT",
+      "implementation": "agent/pokeagent.py",
+      "implementationBlob": "950870ea165aeb70b82999d7cb0ccf3dee2bd77b"
+    },
+    "kaggle": {
+      "repository": "https://github.com/Kaggle/kaggle-environments",
+      "commit": "272ea3eb54023ee4adb951fc4525ac28dc359674",
+      "publicRootLicense": "Apache-2.0",
+      "cabtVersion": "Public wrapper defaults to engine version 2; documentation identifies itself as 0.1.0."
+    }
+  },
+  "rightsAndAccess": {
+    "agentCode": "The author's MIT license explicitly permits reuse with its copyright/permission notice. No foreign source text or weights were copied into the independent native AlphaZero implementation.",
+    "publicWrapper": "The official Kaggle repository contains Python wrappers and platform binaries under a repository-level Apache-2.0 license. No separate engine-source license was verified. The repository license must not be treated as proof of rights to separately distributed competition engine source, data or trained weights.",
+    "competitionData": "The official Data tab labels its license Subject to Competition Rules and blocks the card CSV/source download until sign-in/rule acceptance. Rules 2.4 limit supplied data/source to competition purpose and period, require deletion after conclusion, and limit redistribution; 3.18(f) also states restrictions on outside use of competition-trained models.",
+    "outsideCompetition": "Outside-competition engine/data/weight reuse is not cleared by the inspected evidence. Competition ending does not supply an affirmative outside-use grant. Generic algorithmic learning and appropriately licensed code reuse remain separate.",
+    "actionTaken": "Viewed official rules/data without joining, signing in, accepting rules, downloading gated data, loading foreign weights, installing CABT or executing its engine.",
+    "state": "Gated access unavailable; no action-time approval requested or pending, no auto-review denial, no uncertain external mutation."
+  },
+  "deck": {
+    "source": "learning/agentpult-deck.json plus read-only comparison against the pinned frozen environment bundle's realDeckRows and zoroarkDeckRows",
+    "environmentTag": "environment-v1.0.0",
+    "nativeVersion": "tcg-agent-native/1.0.0",
+    "orderedSourceIdsSha256": "33353baee4928160844e04c61362341d40260b51cc1a048be1117cd2455ce4a7",
+    "cards": [
+      {
+        "count": 4,
+        "name": "Dreepy",
+        "set": "ASC",
+        "number": 158,
+        "category": "pokemon"
+      },
+      {
+        "count": 4,
+        "name": "Drakloak",
+        "set": "ASC",
+        "number": 159,
+        "category": "pokemon"
+      },
+      {
+        "count": 3,
+        "name": "Dragapult ex",
+        "set": "ASC",
+        "number": 160,
+        "category": "pokemon"
+      },
+      {
+        "count": 2,
+        "name": "Munkidori",
+        "set": "ASC",
+        "number": 99,
+        "category": "pokemon"
+      },
+      {
+        "count": 2,
+        "name": "Budew",
+        "set": "ASC",
+        "number": 16,
+        "category": "pokemon"
+      },
+      {
+        "count": 1,
+        "name": "Dunsparce",
+        "set": "JTG",
+        "number": 120,
+        "category": "pokemon"
+      },
+      {
+        "count": 1,
+        "name": "Dudunsparce",
+        "set": "TEF",
+        "number": 129,
+        "category": "pokemon"
+      },
+      {
+        "count": 1,
+        "name": "Meowth ex",
+        "set": "POR",
+        "number": 62,
+        "category": "pokemon"
+      },
+      {
+        "count": 1,
+        "name": "Fezandipiti ex",
+        "set": "ASC",
+        "number": 142,
+        "category": "pokemon"
+      },
+      {
+        "count": 4,
+        "name": "Lillie's Determination",
+        "set": "MEG",
+        "number": 119,
+        "category": "trainer"
+      },
+      {
+        "count": 3,
+        "name": "Boss's Orders",
+        "set": "MEG",
+        "number": 114,
+        "category": "trainer"
+      },
+      {
+        "count": 2,
+        "name": "Crispin",
+        "set": "SCR",
+        "number": 133,
+        "category": "trainer"
+      },
+      {
+        "count": 1,
+        "name": "Rosa's Encouragement",
+        "set": "POR",
+        "number": 84,
+        "category": "trainer"
+      },
+      {
+        "count": 4,
+        "name": "Poké Pad",
+        "set": "POR",
+        "number": 81,
+        "category": "trainer"
+      },
+      {
+        "count": 4,
+        "name": "Crushing Hammer",
+        "set": "POR",
+        "number": 71,
+        "category": "trainer"
+      },
+      {
+        "count": 4,
+        "name": "Buddy-Buddy Poffin",
+        "set": "ASC",
+        "number": 184,
+        "category": "trainer"
+      },
+      {
+        "count": 3,
+        "name": "Night Stretcher",
+        "set": "ASC",
+        "number": 196,
+        "category": "trainer"
+      },
+      {
+        "count": 3,
+        "name": "Ultra Ball",
+        "set": "MEG",
+        "number": 131,
+        "category": "trainer"
+      },
+      {
+        "count": 1,
+        "name": "Unfair Stamp",
+        "set": "TWM",
+        "number": 165,
+        "category": "trainer"
+      },
+      {
+        "count": 1,
+        "name": "Special Red Card",
+        "set": "CRI",
+        "number": 82,
+        "category": "trainer"
+      },
+      {
+        "count": 2,
+        "name": "Risky Ruins",
+        "set": "MEG",
+        "number": 127,
+        "category": "trainer"
+      },
+      {
+        "count": 3,
+        "name": "Fire Energy",
+        "set": "MEE",
+        "number": 2,
+        "category": "energy"
+      },
+      {
+        "count": 3,
+        "name": "Darkness Energy",
+        "set": "MEE",
+        "number": 7,
+        "category": "energy"
+      },
+      {
+        "count": 3,
+        "name": "Psychic Energy",
+        "set": "MEE",
+        "number": 5,
+        "category": "energy"
+      }
+    ],
+    "mechanicalAliases": {
+      "ASC-158": "TWM-128",
+      "ASC-159": "TWM-129",
+      "ASC-160": "TWM-130",
+      "ASC-99": "TWM-95",
+      "ASC-184": "TEF-144",
+      "MEE-2": "MEE-10",
+      "MEE-7": "MEE-15",
+      "MEE-5": "MEE-13"
+    },
+    "coverage": "Exact 24-identity/60-card recipe verified locally. All CABT numeric ID/printing joins and rules parity remain unverified; the official registry CSV is gated. Similar Dragapult names in another author's deck do not establish this exact recipe.",
+    "mustExercise": [
+      "Dragapult Phantom Dive damage allocations",
+      "Munkidori damage movement",
+      "Budew Item lock",
+      "Dudunsparce draw/shuffle and repeated actions",
+      "Crispin attach/search/discard sequence",
+      "Ultra Ball discard cost and search",
+      "Crushing Hammer randomness and energy target",
+      "Poffin optional/multicard searches",
+      "Unfair Stamp knockout condition",
+      "Special Red Card and Risky Ruins effects",
+      "ordinary play/attack/retreat/ability and all prompted selections"
+    ]
+  },
+  "capabilities": {
+    "verifiedPublicCode": [
+      "game.battle_start checks two 60-card lists and calls the native library via ctypes without a GUI.",
+      "game.battle_select takes a list of option indices; current Python Battle state is process-global.",
+      "Public sim.py loads Windows, Linux x64/arm64 and macOS native libraries; GameInitialize/BattleStart have no exposed seed argument in the inspected binding.",
+      "cabt.json defaults to BO3/version2; legacy version1 forces BO1; episodeSteps=10000000, runTimeout=6000, remainingOverageTime=600."
+    ],
+    "documentedNotExecuted": [
+      "The API documents MAIN actions and typed card, energy, attack, count, yes/no and damage-counter prompt contexts.",
+      "SearchBegin accepts hypothesized hidden deck/prize/hand allocations, manual_coin optionally controls coins; SearchStep returns a search state ID; SearchEnd/Release free search resources."
+    ],
+    "unverified": [
+      "Native engine rule correctness for the pinned deck.",
+      "Exact repeatable seeding, RNG/clock behavior and replay parity.",
+      "Nondestructive branch semantics, clone cost, limits, native thread safety and search correctness.",
+      "Same-process parallel independent games; process isolation is the practical inference from wrapper singleton state, not a measured scaling result."
+    ]
+  },
+  "agentCodeReview": {
+    "verified": [
+      "The complete repository tree contains one Python implementation and four weight files; it does not contain the advertised PPO trainer/rewarder/rollout pipeline.",
+      "Script lines335-412 encode/evaluate a leaf, form exponentiated action-score priors and create search children.",
+      "Lines358-370 construct exactly64 candidate lists from maxCount, omit optional lower cardinalities and stop carrying when the last index is exhausted; repeated candidates are possible.",
+      "Lines426-435 independently sample hidden zones without subtracting visible cards or conserving multiplicity across zones.",
+      "Lines437-480 run25 PUCT-like expansions with explicit root perspective and choose maximum-visit action; root Dirichlet noise is mixed into raw scores before exponentiation.",
+      "The script returns no training sample and records visualization actions, not search policy targets/behavior log probabilities/optimizer updates.",
+      "Its demo reuses one agent/deck across both acting seats and ten games; it is not independent strength or ablation evidence."
+    ],
+    "unavailable": [
+      "No reproducible strength result or controlled ablation was executed.",
+      "The claimed AlphaZero-plus-PPO training combination cannot be verified from checked-in code.",
+      "No behavior-ratio or on-policy correctness claim can be made for missing PPO code."
+    ]
+  },
+  "benchmark": {
+    "matchedWholeGameBenchmark": false,
+    "cabtGamesExecuted": 0,
+    "reason": "Exact deck registry/source access and outside-competition engine permission were unavailable; no engine installation/execution was performed. No matched deck, policy/action burden, completion semantics, hardware or concurrency benchmark exists.",
+    "existingNativeNumbers": "Provided historical native games/hour and fixed-replay copy diagnostics are separate evidence, not CABT comparisons."
+  },
+  "adaptation": {
+    "concreteMigrationWork": [
+      "Resolve engine/data permissions and reproducible package version.",
+      "Join all24 exact printings/mechanical identities to CABT IDs and verify each effect/prompt.",
+      "Replace cg.api card/attack embeddings and action IDs with native semantic identities, or adapt every native observation/prompt.",
+      "Qualify hidden-information projection, seed/replay, branching and process lifecycle.",
+      "Run a predeclared matched whole-game timing panel and an adequate strength comparison before changing engine."
+    ],
+    "supportedTransfer": "Native AlphaZero implementation retains existing actor/critic tensors and simulator; adds complete bounded legal sets, shared information-set PUCT, search-visit policy targets, tanh outcome values, natural-outcome supervised updates and explicit fallbacks. It imports no foreign weights and makes no CABT strength or Nash/exploitability claim.",
+    "remainingQualification": "Native hypothetical-state reconstruction, multiset/history consistency, actual search coverage and game latency require end-to-end qualification by the engine/execution owners."
+  },
+  "primarySources": [
+    "https://www.kaggle.com/competitions/pokemon-tcg-ai-battle/rules",
+    "https://www.kaggle.com/competitions/pokemon-tcg-ai-battle/data",
+    "https://github.com/Kaggle/kaggle-environments/blob/master/LICENSE",
+    "https://matsuoinstitute.github.io/cabt/api.html",
+    "https://matsuoinstitute.github.io/cabt/sim.html",
+    "https://github.com/Trevon-Woods-AI-Portfolio/PokemonTCG_Deep_RL_Agent/blob/main/LICENSE",
+    "https://arxiv.org/html/1712.01815v1",
+    "https://arxiv.org/html/1911.08265v2",
+    "https://arxiv.org/html/2007.13544v2",
+    "https://arxiv.org/abs/2206.15378"
+  ]
+}
