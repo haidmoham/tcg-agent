@@ -1,0 +1,44 @@
+{
+  "schema": "search-factory-ledger-composition/1",
+  "at": "2026-10-21T04:19:44.875Z",
+  "status": "Prepared and engineering-qualified, not adopted",
+  "sourceSha256": {
+    "factory": "76cade034875ebd93e82ca9f53d2119b8162e08e348ac9ae2bf06498cb3d4064",
+    "parentFactory": "9efe23a673546868d23c5f74a394e00cd058b090112ae48a103ab58d02f26241",
+    "ledger": "3e3bf6ce40e777b80d30d04dc91794303ecb7b174493b10dd13f898f702d69af",
+    "nativeWorker": "595f0705690bbfc321ca95a9ffc6f40d2457ee03889bba65e721f88e93528247",
+    "patch": "3d43c08defd1ba474b8b0f70188b52ce19050845c9356e61e7d519cb39f83ed9",
+    "checkpoint": "b91885409acfb5c0e427d86a784f537cc3308292f053128dafc5bce42d813e21"
+  },
+  "integration": "One actor ledger per game; all actor-visible revisions from creation; authority-accepted commands only; root-relative public information and known-deck constraints. Ordinary/prompt policy, PUCT budget, helpers and model weights unchanged.",
+  "beliefScope": "actor-history-constrained-declared-deck/1; conditions on known physical own-deck cards, retained top/bottom constraints and public native bench order. Approximate determinizations, not full Bayesian posterior. Supersedes029 current-view-only belief, therefore a research protocol/source amendment is required before live adoption.",
+  "proof": {
+    "roots": 109,
+    "exactEncodedAndLedger": 109,
+    "realBottomConstraintRoots": 44,
+    "actualModelSearches": [
+      {
+        "revision": 9,
+        "visits": 16,
+        "authorityAndRngUnchanged": true
+      },
+      {
+        "revision": 144,
+        "visits": 16,
+        "authorityAndRngUnchanged": true
+      },
+      {
+        "revision": 170,
+        "visits": 16,
+        "authorityAndRngUnchanged": true
+      }
+    ],
+    "oneRetainedGame": true,
+    "noStrengthOrPerformanceClaim": true
+  },
+  "limitations": [
+    "The34.4% conditional search speed gain compares032 with031. It is not a measured029-to032 live gain; reconstruction/history corrections may change search decisions versus029.",
+    "Live currently029 without ledger. Binary-only adoption is invalid.",
+    "Research/execution own the protocol amendment and clean adoption boundary; no live source changed."
+  ]
+}

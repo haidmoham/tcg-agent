@@ -9,7 +9,7 @@ if(!manifestPath||process.argv.length>4||resume&&resume!=='--resume')throw Error
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 const hash=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const manifest=read(manifestPath),protocol=read(manifest.protocol),manifestSha256=hash(manifestPath),root=manifest.outputDirectory;
-if(manifest.schema!=='model7-alphazero-execution/1'||![3,4].includes(protocol.version)||hash(manifest.protocol)!==manifest.protocolSha256)
+if(manifest.schema!=='model7-alphazero-execution/1'||![3,4,5].includes(protocol.version)||hash(manifest.protocol)!==manifest.protocolSha256)
   throw Error('Pinned AlphaZero version-three execution required');
 if(!resume&&fs.existsSync(root))throw Error('Fresh run required; inspect prior effects before resume');
 fs.mkdirSync(root,{recursive:true});
@@ -70,7 +70,8 @@ function admit(pending,completedAtUtc) {
     reloadVerified:true,batchIndex:pending.batchIndex,parentCheckpointSha256:pending.parent,receiptSha256:hash(receiptPath),
     updateCount:receipt.updateCount,runtimeRoot:manifest.runtimeRoot,factoryModule:manifest.factoryModule,
     factorySha256:hash(manifest.factoryModule),sourcePins:manifest.sourcePins,playerConfig:manifest.playerConfig,
-    factoryExport:'openSearchDistillationPlayer',episodeRunner:manifest.episodeRunner,trainingMethod:'alphazero-search-outcome/1'};
+    factoryExport:'openSearchDistillationPlayer',episodeRunner:manifest.episodeRunner,
+    beliefScope:manifest.beliefScope??'current-view-constrained-declared-deck/1',trainingMethod:'alphazero-search-outcome/1'};
   const announcementsPath=path.join(root,'checkpoint-announcements.jsonl');
   const announced=fs.existsSync(announcementsPath)?fs.readFileSync(announcementsPath,'utf8').trim().split('\n').filter(Boolean).map(JSON.parse):[];
   if(!announced.some(row=>row.checkpointSha256===announcement.checkpointSha256))fs.appendFileSync(announcementsPath,JSON.stringify(announcement)+'\n');
@@ -78,6 +79,7 @@ function admit(pending,completedAtUtc) {
   status();event({type:'checkpoint-admitted',...announcement});
 }
 const pulse=setInterval(()=>{try{status();}catch(error){event({type:'heartbeat-write-delayed',code:error.code,reason:error.message});}},15000);
+let boundaryPaused=false;
 try {
   assertPins();save('player-runtime.json',{runtimeRoot:manifest.runtimeRoot,factoryModule:manifest.factoryModule,
     factoryExport:'openSearchDistillationPlayer',sourcePins:manifest.sourcePins,playerConfig:manifest.playerConfig,episodeRunner:manifest.episodeRunner});
@@ -91,6 +93,11 @@ try {
   while(!asap&&Date.now()<start&&!cancelled)await new Promise(resolve=>setTimeout(resolve,Math.min(15000,start-Date.now())));
   if(cancelled)throw Error('operator-interrupted');state.state='running';status();
   for(let index=state.nextBatch;index<protocol.training.batches.length&&remaining()>1&&!cancelled;index++) {
+    const pauseFile=path.join(root,'pause-before-next-batch.json');
+    if(fs.existsSync(pauseFile)) {
+      boundaryPaused=true;state.state='paused';state.phase='operator-boundary-pause';
+      event({type:'operator-boundary-pause',nextBatchIndex:protocol.training.batches[index].index,requestSha256:hash(pauseFile)});status();break;
+    }
     const batch=protocol.training.batches[index],directory=path.join(root,`batch-${batch.index}`);
     state.nextBatch=index+1;state.phase='collection';state.batchIndex=batch.index;status();assertPins();
     const planPath=path.join(root,`batch-${batch.index}-plan.json`),wall=Math.min(protocol.training.maximumCollectionSecondsPerBatch,Math.max(1,remaining()-5));
@@ -101,6 +108,10 @@ try {
     const receiptPath=path.join(directory,'receipt.json'),receipt=fs.existsSync(receiptPath)?read(receiptPath):null;
     event({type:'collection-complete',batchIndex:batch.index,...collected,naturalGames:receipt?.naturalGames??null,records:receipt?.recordsCount??null});
     if(receipt?.stopReason==='integrity-failure')throw Error('Self-play integrity failure; inspect preserved evidence');
+    if(collected.expired&&remaining()<=1||receipt?.stopReason==='batch-wall-budget'&&wall<protocol.training.maximumCollectionSecondsPerBatch) {
+      state.skippedBatches.push({batchIndex:batch.index,reason:'training-deadline-whole-batch-excluded',receiptSha256:receipt?hash(receiptPath):null});
+      state.phase='training-deadline';status();break;
+    }
     if(collected.code!==0||collected.expired||receipt?.completed!==true||receipt.naturalGames!==16||receipt.recordsCount<2) {
       state.skippedBatches.push({batchIndex:batch.index,reason:'whole-batch-excluded',receiptSha256:receipt?hash(receiptPath):null});status();
       if(protocol.version>=4)throw Error('Whole batch excluded; diagnose preserved game failure before another collection');
@@ -122,12 +133,14 @@ try {
     else if(!fitted.expired&&remaining()>1)throw Error('AlphaZero fit failed; inspect retained stderr and uncertain output before resume');
     delete state.pendingUpdate;state.phase='between-batches';status();
   }
-  if(cancelled)throw Error('operator-interrupted');assertPins();state.state='completed';state.phase='finished';state.finishedAtUtc=new Date().toISOString();
+  if(cancelled)throw Error('operator-interrupted');assertPins();
+  if(!boundaryPaused){state.state='completed';state.phase='finished';state.finishedAtUtc=new Date().toISOString();
   save('final-candidate.json',{schema:'model7-alphazero-final-candidate/1',available:state.completedBatchUpdates>0,
-    ...state.lastAnnouncement,checkpoint:state.checkpoint,checkpointSha256:state.checkpointSha256,
+    ...state.lastAnnouncement,checkpoint:state.lastAnnouncement?.checkpoint??state.checkpoint,
+    checkpointSha256:state.lastAnnouncement?.checkpointSha256??state.checkpointSha256,
     completedTrainingGames:state.completedTrainingGames,completedBatchUpdates:state.completedBatchUpdates,
     optimizerSteps:state.optimizerSteps,completedAtUtc:state.lastAnnouncement?.completedAtUtc??null,
-    manifestSha256,protocolSha256:manifest.protocolSha256,promoted:false,strength:'Unmeasured; separate fresh gameplay confirmation required'});
+    manifestSha256,protocolSha256:manifest.protocolSha256,promoted:false,strength:'Unmeasured; separate fresh gameplay confirmation required'});}
 } catch(error) {state.state='failed';state.failures.push({at:new Date().toISOString(),phase:state.phase,reason:error.message});event({type:'supervisor-failed',reason:error.message});process.exitCode=2;}
 finally {clearInterval(pulse);status();save('receipt.json',state);process.removeListener('SIGINT',interrupt);process.removeListener('SIGTERM',interrupt);
   if(read(ownerPath).pid===process.pid)fs.unlinkSync(ownerPath);}
