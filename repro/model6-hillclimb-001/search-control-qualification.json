@@ -1,0 +1,85 @@
+{
+  "schema": "search-control-qualification-summary/1",
+  "at": "2026-10-21T11:09:46.464Z",
+  "classification": "Non-strength engineering checks on retained inspected development material",
+  "policy": {
+    "receiptSha256": "589348a04cbb9854ee229889b51bdc7f4d409054055795294389f85d5b38cb19",
+    "scriptSha256": "647a5e1d1570ab50506b0fd93b440f0cd3d26c52df102c7cba54427d18a5f9c0",
+    "baselineSha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+    "checkpointSha256": "b91885409acfb5c0e427d86a784f537cc3308292f053128dafc5bce42d813e21",
+    "sourceGuardFiles": 14,
+    "ordinaryContexts": 86,
+    "exactOrdinaryActions": 86,
+    "maximumSelectedLogProbabilityError": 0,
+    "maximumTanhValueError": 2.943491728135683e-8,
+    "sources": [
+      {
+        "sha256": "6eec7a4fdee432f2f073012b771b0c50dd9343ae0f7f6df15472d14e0842c0b7",
+        "type": "previously-inspected-human-development"
+      },
+      {
+        "sha256": "ccad8116c35b8758cc508d3b3043e1e8d19b75e8ea10429b876a66ef3a4ff451",
+        "type": "previously-inspected-human-development"
+      },
+      {
+        "sha256": "0dccecc6cba6e1f549c89708b5af48fc300a53ab705c2c0be38a56c3e4a0c449",
+        "type": "retained-native-engineering-root"
+      },
+      {
+        "sha256": "79d3288d47deb6d536403445e18f2e82fcd9a27555ca172ab17e0c6ea26d858e",
+        "type": "retained-native-engineering-root"
+      }
+    ]
+  },
+  "history": {
+    "receiptSha256": "88a300a2bc0914db387bbfbc3d46060557f4fc5a4b915fa0f66202272c3bf80a",
+    "scriptSha256": "4797c96d7518ec18be2d1a9d6090ee7fd1aae7cf6b44832ec7d842121f42a967",
+    "wrapperSha256": "fb13e44d2b5b048038b084222915242ffc8a8e84e60d3d05701e2b8f8f713597",
+    "referenceBundleSha256": "682b74a3110ed67c87675899fd522ed6c9962853dbc5ce8532514b59ed644f60",
+    "searchAgentSha256": "76cade034875ebd93e82ca9f53d2119b8162e08e348ac9ae2bf06498cb3d4064",
+    "offered": 145,
+    "accepted": 145,
+    "results": [
+      {
+        "sourceSha256": "6eec7a4fdee432f2f073012b771b0c50dd9343ae0f7f6df15472d14e0842c0b7",
+        "offered": 73,
+        "accepted": 73,
+        "routes": {
+          "helper": 10,
+          "ordinary": 43,
+          "ranking": 6,
+          "singleton": 14
+        },
+        "contextAndRouteExact": true
+      },
+      {
+        "sourceSha256": "ccad8116c35b8758cc508d3b3043e1e8d19b75e8ea10429b876a66ef3a4ff451",
+        "offered": 72,
+        "accepted": 72,
+        "routes": {
+          "helper": 9,
+          "ordinary": 41,
+          "ranking": 9,
+          "singleton": 13
+        },
+        "contextAndRouteExact": true
+      }
+    ]
+  },
+  "stageObservations": {
+    "encodedBytes": 1420596,
+    "encodeMilliseconds": 63.04279999999835,
+    "stringifyMilliseconds": 11.287299999996321,
+    "baselineRpcMilliseconds": 867.6071999999922,
+    "initialRpcMilliseconds": 887.930900000003,
+    "caveat": "One-record calls on retained contexts under concurrent gameplay, including cold first inference. RPC includes transport, Python parsing/tensorization and inference; not exclusive kernel time, a speed comparison or end-to-end collection profile."
+  },
+  "interpretation": "The retained single-record path spent more time in scoring RPC than JavaScript encoding. RPC includes Python parsing/tensorization/inference and transport; this does not isolate that cost or establish whole-game bottlenecks or speedups. Investigate the actual collector path alongside the upstream JSON-free encoder/transport work.",
+  "remaining": [
+    "Actual native prompt-proposal and natural complete-game wrapper qualification",
+    "Fresh predeclared diagnostic gameplay; neither engineering check measures strength"
+  ],
+  "newGames": 0,
+  "newFits": 0,
+  "promotion": false
+}

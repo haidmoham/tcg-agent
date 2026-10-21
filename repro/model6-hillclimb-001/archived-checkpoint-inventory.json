@@ -1,0 +1,128 @@
+{
+  "schema": "archived-checkpoint-inventory/1",
+  "at": "2026-10-21T11:12:33.1702616Z",
+  "privateIndexSha256": "bab2ba58e2622d32d9c9193a0bd34475037d7addeed9672a699328162e8df299",
+  "checkpointFiles": 236,
+  "distinctSerializedFileHashes": 214,
+  "interpretation": "Distinct serialized file hashes do not imply distinct policies or compatible complete players. No models loaded or games run.",
+  "archives": [
+    {
+      "archiveId": "baselines-2026-10-20",
+      "checkpointFiles": 2,
+      "distinctSerializedFileHashes": 2,
+      "bytes": 20640
+    },
+    {
+      "archiveId": "client-viewings",
+      "checkpointFiles": 1,
+      "distinctSerializedFileHashes": 1,
+      "bytes": 3171864
+    },
+    {
+      "archiveId": "first-baseline-2026-10-21",
+      "checkpointFiles": 2,
+      "distinctSerializedFileHashes": 2,
+      "bytes": 4166972
+    },
+    {
+      "archiveId": "model-five-2026-10-20",
+      "checkpointFiles": 62,
+      "distinctSerializedFileHashes": 62,
+      "bytes": 29300680
+    },
+    {
+      "archiveId": "model-four-2026-10-20",
+      "checkpointFiles": 1,
+      "distinctSerializedFileHashes": 1,
+      "bytes": 249904
+    },
+    {
+      "archiveId": "model-seven-2026-10-21",
+      "checkpointFiles": 40,
+      "distinctSerializedFileHashes": 29,
+      "bytes": 94896276
+    },
+    {
+      "archiveId": "model-six-cohort-2026-10-20",
+      "checkpointFiles": 28,
+      "distinctSerializedFileHashes": 28,
+      "bytes": 86634431
+    },
+    {
+      "archiveId": "model-six-energy-2026-10-20",
+      "checkpointFiles": 1,
+      "distinctSerializedFileHashes": 1,
+      "bytes": 891361
+    },
+    {
+      "archiveId": "model-six-energy-context2-2026-10-20",
+      "checkpointFiles": 1,
+      "distinctSerializedFileHashes": 1,
+      "bytes": 966433
+    },
+    {
+      "archiveId": "model-six-ppo-2026-10-20",
+      "checkpointFiles": 3,
+      "distinctSerializedFileHashes": 3,
+      "bytes": 2919990
+    },
+    {
+      "archiveId": "model-six-ppo-2026-10-20-r1",
+      "checkpointFiles": 12,
+      "distinctSerializedFileHashes": 12,
+      "bytes": 34460640
+    },
+    {
+      "archiveId": "model-six-ppo-context2-2026-10-20",
+      "checkpointFiles": 6,
+      "distinctSerializedFileHashes": 6,
+      "bytes": 12432702
+    },
+    {
+      "archiveId": "model-six-ppo-context2-recovery-2026-10-20",
+      "checkpointFiles": 30,
+      "distinctSerializedFileHashes": 30,
+      "bytes": 92890320
+    },
+    {
+      "archiveId": "model-three-2026-10-20",
+      "checkpointFiles": 41,
+      "distinctSerializedFileHashes": 41,
+      "bytes": 47773676
+    },
+    {
+      "archiveId": "research-loop-2026-10-21",
+      "checkpointFiles": 6,
+      "distinctSerializedFileHashes": 4,
+      "bytes": 14673704
+    }
+  ],
+  "otherFamilies": "Preserved candidate material. Match complete runtime, catalog, action/selection contracts, helper/history, scenario and source guards before head-to-head use. File availability does not establish compatibility or population strength.",
+  "checkpointsLoadedByInventory": 0,
+  "gamesRunByInventory": 0,
+  "fits": 0,
+  "promotion": false,
+  "reusableControlEvidence": [
+    {
+      "id": "first-baseline",
+      "ordinary": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+      "selector": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+      "role": "champion; frozen full runtime"
+    },
+    {
+      "id": "outcome-ppo-update-2",
+      "sha256": "3f91db62062650725bab92bf40640a782fbe87d5dc9cd2f06fcab28a7bbcd714",
+      "role": "fixed behavior-diversity control;12source guards matched, no demonstrated strength superiority"
+    },
+    {
+      "id": "alphazero-initial-recovery-v4",
+      "sha256": "b91885409acfb5c0e427d86a784f537cc3308292f053128dafc5bce42d813e21",
+      "role": "same original actor tensors, metadata reseal/new objective; current14guards and retained ordinary policy parity verified"
+    },
+    {
+      "id": "model7-final",
+      "sha256": "0dbbf400c5aaabf06340a2e8d6c20a6c099d6128f79485c5caa421c41393fc1d",
+      "role": "frozen search/policy diagnostic and independent confirmation; no partial-score selection"
+    }
+  ]
+}

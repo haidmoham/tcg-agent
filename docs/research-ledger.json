@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
-  "revision": 9,
-  "at": "2026-10-21T10:42:00Z",
+  "revision": 10,
+  "at": "2026-10-21T11:16:38.567Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -372,30 +372,49 @@
     }
   ],
   "active": {
-    "id": "model7-overnight-001",
-    "version": 3,
-    "status": "scientific design frozen; essential native end-to-end qualification required before collection",
-    "protocol": "repro/model7-overnight-001/protocol-v3.json"
+    "id": "model6-hillclimb-001",
+    "version": 2,
+    "status": "Actual routing-comparison gameplay running; first planned analysis at128independent pairs",
+    "protocol": "repro/model6-hillclimb-001/protocol-v2.json",
+    "gamesStartedAtUtc": "2026-10-21T10:37:15.423Z",
+    "champion": "first-baseline",
+    "newTraining": false,
+    "concurrentFinalConfirmation": {
+      "id": "model7-overnight-001",
+      "independentPairs": 512,
+      "maximumWallSeconds": 86400,
+      "unchanged": true
+    },
+    "nextDiagnostic": "repro/model6-hillclimb-001/search-diagnostic-protocol.json"
   },
   "rankedApproaches": [
-    "decision-specific prompt policy coverage",
-    "bounded own-turn search with fixed readiness evaluator",
-    "terminal-outcome Monte Carlo action values"
+    "Small reversible first-baseline variants with stable opponent instruments and fresh confirmation",
+    "Demonstrably stronger scripted/hybrid teacher followed by independently evaluated imitation",
+    "Controlled same-policy search-on/off diagnosis before further search distillation"
   ],
   "currentSampleAdequacy": {
-    "correction": "Small routing/checkpoint panels are exploratory diagnostics and cannot resolve modest strength gains. Original protocols and observations remain preserved.",
-    "decisionRelevantEffect": 0.1,
-    "independentUnit": "seed pair, not seats or decisions",
-    "nextExperiment": "model7-overnight-001",
-    "protocol": "repro/model7-overnight-001/protocol-v3.json",
-    "independentPairs": 512,
-    "games": 1024,
-    "confidence": 0.95,
-    "intervalRadius": 0.060020174457495044,
-    "minimumPowerAtScorePointSix": 0.8053880543047711,
-    "candidateNomination": "Last fully verified update of the single search-distillation trajectory before actual six-hour deadline; freeze full player/source/config before unseen confirmation.",
-    "resources": "six CPU lanes after capacity check; 8h operational cap; actual costs and failures retained",
-    "stopping": "fixed endpoint, no outcome-based stopping; incomplete campaigns cannot claim the fixed-endpoint result"
+    "comparison": "Routing-only variant versus unchanged first-baseline, followed by reference-mixture expansion only if anchor passes",
+    "protocol": "repro/model6-hillclimb-001/protocol-v2.json",
+    "independentUnit": "opening-seed block with both seat roles; never decisions/frames",
+    "anchorLooks": [
+      128,
+      256,
+      512,
+      800
+    ],
+    "anchorLookAlphas": [
+      0.00025,
+      0.00075,
+      0.0015,
+      0.01
+    ],
+    "meaningfulTarget": "10percentage-point direct-anchor advantage; futility can rule out this target without ruling out smaller gains",
+    "expandedMaximumBlocks": 1600,
+    "expandedMaximumGames": 4800,
+    "expandedEndpointAlpha": 0.0125,
+    "mixtureEndpointPowerAtTruePointOneAdvantage": "Hoeffding lower bound above82%; this is endpoint power, not a guarantee that every joint advancement gate passes",
+    "stopping": "Predeclared looks/futility and fixed final gate; no changes from partial win scores",
+    "priorM7Design": "Historical adequacy entry at7fdb4de and retained protocol-v3; later86400s budget amendment and original512pair endpoint remain unchanged"
   },
   "supersededBeforeExecution": {
     "experiment": "ppo-checkpoint-confirmation-001",
@@ -609,15 +628,47 @@
     "hypothesis": "Existing frozen selector improves mandatory-singleton choices compared with the first-baseline PPO actor; previous 16-pair screen was inconclusive.",
     "controlledChange": "Mandatory-singleton route only; exact ordinary/selector weights and complete reference history/helper preserved.",
     "source": "Existing AgentBundle singleton/ranking routes; no new model or foreign weights",
-    "budget": {"maximumIndependentBlocks": 1600, "maximumGames": 4800, "workers": "1spare lane;6after final verified/preserved", "maximumCampaignSeconds": 259200},
+    "budget": {
+      "maximumIndependentBlocks": 1600,
+      "maximumGames": 4800,
+      "workers": "1spare lane;6after final verified/preserved",
+      "maximumCampaignSeconds": 259200
+    },
     "comparison": "50% fixed anchor,25% scripted teacher,25% compatible archived outcome PPO update2, with incumbent controls sharing each nonanchor seed block",
     "uncertainty": "Anchor futility looks128/256/512/800pairs with alpha .00025/.00075/.0015/.01, sum .0125; expanded mixture/teacher/archived endpoints each .0125. Mixture radius about .063 and endpoint power above82% at true +.10; these are not a universal sample threshold.",
-    "actualCost": {"gamesStartedAtUtc": "2026-10-21T10:37:15.423Z", "firstNaturalGameSeconds": 65.925, "newFits": 0, "finalCostPending": true},
+    "actualCost": {
+      "gamesStartedAtUtc": "2026-10-21T10:37:15.423Z",
+      "firstNaturalGameSeconds": 65.925,
+      "newFits": 0,
+      "finalCostPending": true
+    },
     "conclusion": "No new strength result yet. First-baseline remains champion; candidate gate requires mixture and direct-anchor advantage, then fresh independent confirmation.",
     "diagnosticFinding": "Model7 search wrapper changes mandatory-singleton routing relative to baseline. This is a verified interface confound, not a proven cause of regression.",
     "nextAction": "Run declared anchor futility screen before buying full reference mix. Search diagnostic wrappers and576-pair-per-contrast plan are written; actual-runtime parity qualification follows, then diagnostics at the anchor boundary. Qualify dated exact Limitless opponent decks for a separate fixed diverse-deck schedule.",
     "searchDiagnosticProtocol": "repro/model6-hillclimb-001/search-diagnostic-protocol.json",
-    "headroom": {"cpuPercentMean": 59.730945187374594, "cpuPercentMaximum": 72.99492716484136, "freeMemoryGiB": 6.186737060546875, "measurementSeconds": 10},
-    "expectedCost": "Full conditional4800games roughly20-26hours on6lanes from retained receipts; staged futility avoids routine full-panel cost. One-lane first32-pair execution chunk roughly1-1.5hours; capacity expands only at clean chunk boundaries."
+    "headroom": {
+      "cpuPercentMean": 59.730945187374594,
+      "cpuPercentMaximum": 72.99492716484136,
+      "freeMemoryGiB": 6.186737060546875,
+      "measurementSeconds": 10
+    },
+    "expectedCost": "Full conditional4800games roughly20-26hours on6lanes from retained receipts; staged futility avoids routine full-panel cost. One-lane first32-pair execution chunk roughly1-1.5hours; capacity expands only at clean chunk boundaries.",
+    "controlQualification": "repro/model6-hillclimb-001/search-control-qualification.json",
+    "supportReview": "repro/model6-hillclimb-001/support-review-summary.json"
+  },
+  "historicalApproachRanking": {
+    "ranking": [
+      "decision-specific prompt policy coverage",
+      "bounded own-turn search with fixed readiness evaluator",
+      "terminal-outcome Monte Carlo action values"
+    ],
+    "status": "Initial exploratory ranking; superseded by the user-approved Model6-centered improvement strategy. Original protocols and results remain retained."
+  },
+  "reusablePopulationInventory": "repro/model6-hillclimb-001/archived-checkpoint-inventory.json",
+  "upstreamReferencePolicy": {
+    "source": "AGENTS.md",
+    "canonical": "https://github.com/haidmoham/tcg-agent/wiki/Training-data-and-baselines#upstream-reference-system",
+    "reference": "https://github.com/Michal1337/pkmn-kaggle",
+    "scope": "Working learning/execution system and supplied environments are upstream references until evidence justifies divergence; profile actual costs and qualify reuse, preserve running experiments."
   }
 }

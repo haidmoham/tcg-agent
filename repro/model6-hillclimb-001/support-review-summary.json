@@ -1,0 +1,68 @@
+{
+  "schema": "model6-hillclimb-support-summary/1",
+  "reviewSha256": "e87bf6ac3cb72c59b84b58a1bffc4d37ade9663b2c9eaee58434f3fc88195cc1",
+  "completedAtUtc": "2026-10-21T10:44:30.919Z",
+  "hashChecks": 234,
+  "mismatches": [],
+  "factoryCompatible": true,
+  "archivedPpoRuntimeSourceGuardsMatched": 12,
+  "sixDecks": {
+    "bundleManifestSha256": "6a9aa787b063a539b0d40ba201163aaf5dc6f6d46f21141c6889edd04204d0f0",
+    "deckResolutionSha256": "382f26a5577945e17712dab4dc9e5ae2aca8a33604ca1b0c4f5431d9ca717f1b",
+    "exactPrintingIdentities": 96,
+    "nativePrograms": 116,
+    "decks": [
+      {
+        "id": "basic-box",
+        "cards": 60,
+        "orderedSourceIdsSha256": "3382cbe1a527c9341f0d71999f494dec2648a6eddeb9190e60f4bf82c06190f1",
+        "source": "https://labs.limitlesstcg.com/0077/player/2115/decklist"
+      },
+      {
+        "id": "seaking",
+        "cards": 60,
+        "orderedSourceIdsSha256": "5efe9a76aecf4a89c7dd66f83900e5cdb5ac60595bfb9fb20fcd966110b11846",
+        "source": "https://labs.limitlesstcg.com/0077/player/0509/decklist"
+      },
+      {
+        "id": "dhelmise",
+        "cards": 60,
+        "orderedSourceIdsSha256": "98c77f4c87dc4b05db57bdf5a55b93bda85d4108156fd79824202c8d3bd46680",
+        "source": "https://labs.limitlesstcg.com/0077/player/0900/decklist"
+      },
+      {
+        "id": "hydrapple",
+        "cards": 60,
+        "orderedSourceIdsSha256": "85cdd482be60c4787c7088a166d62c7db5e925ab38545fb5ee26e73b3528c9c4",
+        "source": "https://labs.limitlesstcg.com/0077/player/0591/decklist"
+      },
+      {
+        "id": "alakazam",
+        "cards": 60,
+        "orderedSourceIdsSha256": "973d7be1b7514becd8600cef17ec8579a080b360e451fd2cb15296ff8d6def46",
+        "source": "https://labs.limitlesstcg.com/0077/player/1229/decklist"
+      },
+      {
+        "id": "hammerpult",
+        "cards": 60,
+        "orderedSourceIdsSha256": "33353baee4928160844e04c61362341d40260b51cc1a048be1117cd2455ce4a7",
+        "source": "https://labs.limitlesstcg.com/0071/player/0103/decklist"
+      }
+    ],
+    "scope": "Retained exact-state replay parity, not new replay execution, strength or a universal speedup claim.",
+    "legalityScope": "Retained 2026-10-20 International Standard TEF-30C check, not a fresh current-list legality claim."
+  },
+  "futureScenarioCorrections": [
+    {
+      "finding": "Hardcoded seatOrder [0,1] with policy-seat swaps changes which deck the candidate pilots under heterogeneous decks. Preserve fixed AgentPult deck assignment when swapping seats in a future scenario protocol."
+    },
+    {
+      "finding": "Native override deliberately disallows bundle/deck changes and locks bundle hashes. Future deck population needs a separately versioned scenario/environment lock while preserving frozen baseline agent bits; do not weaken frozen v1."
+    },
+    {
+      "finding": "Stored labels/hash metadata describe Hammerpult/Hydrapple, but both complete deck rows, source rows and ordered IDs are identical Hammerpult arrays. Both actual ordered-ID hashes are 33353baee4928160844e04c61362341d40260b51cc1a048be1117cd2455ce4a7. Preserve immutable original; derive future scenario identity from actual arrays."
+    }
+  ],
+  "currentScenarioChanged": false,
+  "promotion": false
+}
