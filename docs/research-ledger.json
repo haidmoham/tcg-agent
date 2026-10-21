@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
   "revision": 6,
-  "at": "2026-10-21T03:36:17.811Z",
+  "at": "2026-10-21T03:39:43.867Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -252,10 +252,10 @@
     "id": "model7-overnight-001",
     "method": "AlphaZero-inspired information-set search and supervised policy/value distillation",
     "protocol": "repro/model7-overnight-001/protocol-v3.json",
-    "startUtc": null,
-    "deadlineUtc": null,
+    "startUtc": "2026-10-21T03:38:11.728Z",
+    "deadlineUtc": "2026-10-21T09:38:11.728Z",
     "executionOwner": "01a15c50-d335-7125-9222-99c9415960e5",
-    "status": "awaiting final native scope and real policy/value root proof; no collection/fit yet",
+    "status": "collecting first declared16-game batch; no admitted update at launch record",
     "promotion": false,
     "externalReuseDecision": {
       "decision": "Native AlphaZero-inspired search distillation selected under latest user instruction; PPO plans remain unexecuted history.",
@@ -278,7 +278,8 @@
     "timing": "ASAP after essential qualification; six hours from first declared collection spawn",
     "independentConfirmationPairs": 512,
     "beliefScope": "Current visible facts and decisionContext plus declared deck multiset; not complete historical posterior. Unsupported roots explicitly fallback with no fake visit targets.",
-    "externalAudit": "https://github.com/haidmoham/tcg-agent/blob/codex/trevon-prior-adapter/repro/cabt-reuse-audit-2026-10-21.json"
+    "externalAudit": "https://github.com/haidmoham/tcg-agent/blob/codex/trevon-prior-adapter/repro/cabt-reuse-audit-2026-10-21.json",
+    "launchEvidence": "repro/model7-overnight-001/launch.json"
   },
   "completedPreservation": {
     "ppoStrengthCurve": {

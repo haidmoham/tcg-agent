@@ -1,0 +1,34 @@
+{
+  "schema": "model7-overnight-launch/1",
+  "at": "2026-10-21T03:39:43.867Z",
+  "experiment": "model7-overnight-001",
+  "purpose": "launch provenance and engineering qualification; no strength result",
+  "protocolSha256": "66006c2ebfc81d16a97ed69156d996f42fd1070518701f1e51391bb9e9326a35",
+  "executionManifestSha256": "7b346685b5a03b653e53f0aff2a63bb0d402c3a4337caac8d08edb8afaeaff11",
+  "initializedCheckpointSha256": "002cd518618791cda004545b5410dde602dc27d85a063917e724b8b9f70d6f03",
+  "trainingStartedAtUtc": "2026-10-21T03:38:11.728Z",
+  "deadlineUtc": "2026-10-21T09:38:11.728Z",
+  "allocatedTrainingSeconds": 21600,
+  "completedTrainingGames": 0,
+  "completedBatchUpdates": 0,
+  "firstSuccessfulUpdateAtUtc": null,
+  "rootQualification": {
+    "receiptSha256": "60fd2e634b471cf249b09f74df309160854607907d695bc95d62ff6f3b19028c",
+    "valid": true,
+    "totalVisits": 16,
+    "fullRootEncodingExact": true,
+    "exactSelectedTargetBinding": true,
+    "seconds": 4.5095461
+  },
+  "measurement": {
+    "monitorOffsetsSeconds": [
+      7200,
+      14400
+    ],
+    "finalIndependentPairs": 512,
+    "finalGames": 1024,
+    "finalSearchThroughputQualified": false,
+    "resourceReview": "Search-guided full-game costs must validate provisional eight-hour confirmation budget and360s training/240s evaluation game limits. No confirmation outcomes observed; no sample reduction or changed uncertainty guarantee."
+  },
+  "promotion": false
+}
