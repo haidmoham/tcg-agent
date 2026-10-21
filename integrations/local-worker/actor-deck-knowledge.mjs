@@ -50,6 +50,8 @@ export class ActorDeckKnowledgeTracker {
     this.complete = true;
     this.issues = new Map();
     this.lastRevision = null;
+    this.ownNativeBenchOrder = [];
+    this.opponentNativeBenchOrder = [];
   }
 
   issue(code, detail) {
@@ -87,6 +89,15 @@ export class ActorDeckKnowledgeTracker {
       this.issue('observation-revision-gap', `${this.lastRevision} -> ${view.revision}`);
     if (this.lastRevision === view.revision) return this.snapshot();
     this.lastRevision = view.revision;
+    const updateBenchOrder = (previousOrder, bench) => {
+      const visibleIds = (bench ?? []).map(card => card.instanceId).filter(Boolean);
+      const visible = new Set(visibleIds);
+      const retained = previousOrder.filter(id => visible.has(id));
+      return [...retained, ...visibleIds.filter(id => !retained.includes(id))];
+    };
+    // Native InsertCardEntity appends bench arrivals, including evolved successors and outgoing actives.
+    this.ownNativeBenchOrder = updateBenchOrder(this.ownNativeBenchOrder, view.you?.bench);
+    this.opponentNativeBenchOrder = updateBenchOrder(this.opponentNativeBenchOrder, view.opponent?.bench);
     if (view.status !== 'playing' && !this.started) {
       this.previous = clone(view);
       return this.snapshot();
@@ -214,6 +225,8 @@ export class ActorDeckKnowledgeTracker {
   snapshot() {
     return clone({ schema: 'actor-deck-knowledge/1', complete: this.complete,
       ownDeck: { knownCards: [...this.known.values()], top: this.top, bottomBlocks: this.bottomBlocks },
+      boardLayout: { ownNativeBenchOrder: this.ownNativeBenchOrder,
+        opponentNativeBenchOrder: this.opponentNativeBenchOrder },
       diagnostics: [...this.issues.values()] });
   }
 }

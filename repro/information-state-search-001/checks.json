@@ -1,14 +1,14 @@
 {
   "schema": "information-state-search-engineering/1",
-  "at": "2026-10-21T03:48:11.042Z",
+  "at": "2026-10-21T03:57:52.103Z",
   "purpose": "Non-strength engineering checks; no whole-game performance, strength or full Standard fidelity claim",
-  "implementationVersion": "information-search/0.2.0-history-constrained",
-  "workerSha256": "153d4a6f25db9747f6937efcc8877f7be8a5092a2929c4e2595f9d912d60fe48",
+  "implementationVersion": "information-search/0.3.0-native-layout",
+  "workerSha256": "8492eee9849bca1f786f6d65f59ec754e9bee63f8602292f06ee44917dcfd81a",
   "sourceSha256": {
     "Indigo.Live.Engine.csproj": "c688351b3cac57ea1c640b6de948aa6023ac8245c61bb864c3aec7c8a466e572",
     "MatchWorker.cs": "fb92a08511de028ebc2cb3216520cc74480ed5300ddd26528c2dded405e25cd5",
     "MatchWorker.Energy.cs": "e99b4182af365161b4c69c8f6d6dc8cc621e52651092cb8f90e23b9feb6d8ded",
-    "MatchWorker.InformationSearch.cs": "1300f74cdf4d97f4f5f9d13d11272e4d87027c827dea73a770670153011b432c",
+    "MatchWorker.InformationSearch.cs": "5050f5a25184590f720aeedfcec8b6ed51ca8905490bf97a36ebf433161546b8",
     "MatchWorker.Offers.cs": "971176d81c7bc556c6322483ef5c6608084eaba60e0f38287abb7c13894e1a44",
     "MatchWorker.Presentation.cs": "1a1dd04aecdb1585bf1cd752def7034d6268fd1aac450f90b831982abffa7010",
     "MatchWorker.Projection.cs": "89273b0d6b6b291455b6f60efd93ed6b820a714bf00f1fd55a724557bd1a199c",
@@ -20,12 +20,14 @@
     "Program.cs": "8273096eb0d3b3cede16cdebc42dcc6f9b650b1254fa8abb38a1e286b96d664b",
     "ProgramInputs.cs": "426acaa76b74726d94de7d5daedae82b7670bd940a4c67b4d6a403c4f402f2a3"
   },
-  "rootScope": "Settled ordinary actor-relative roots in fixed Hammer mirror scenario; pending root queues explicitly unsupported; native descendant prompts supported",
+  "actorLedgerSha256": "3e3bf6ce40e777b80d30d04dc91794303ecb7b174493b10dd13f898f702d69af",
+  "rootScope": "Settled ordinary actor-relative roots, fixed 60-card/24-identity Hammer mirror roster, complete actor ledger from creation; pending root queues explicitly unsupported; native descendant prompts supported",
   "rootFixtures": {
     "fromOneRecordedGame": true,
-    "ordinaryRoots": 20,
-    "exactEncoded": 20,
-    "orderedDomainAndParentIsolation": 20
+    "ordinaryRoots": 109,
+    "exactEncoded": 109,
+    "orderedDomainAndParentIsolation": 109,
+    "realBottomConstraintRoots": 44
   },
   "tree": {
     "mockValues": true,
@@ -49,27 +51,22 @@
     "nativeDrawHonorsKnownTop": true
   },
   "ledgerChecks": {
-    "purpose": "Non-strength synthetic actor-knowledge engineering check",
+    "purpose": "Non-strength synthetic native bench-order engineering check",
     "passed": true,
     "checks": [
-      "recon",
-      "red-card-bottom-order",
-      "deck-search-unselected-known",
-      "dudunsparce-attachments",
-      "crispin-one-and-two",
-      "setup-prize-exclusion",
-      "creation-and-gap-diagnostics",
-      "meowth-optional-trigger",
-      "lillie-and-stamp-shuffle",
-      "opponent-public-excluded",
+      "active-bench-swaps-append-on-both-sides",
+      "evolved-successors-append-despite-stable-display",
       "snapshot-isolation"
-    ]
+    ],
+    "nativeReference": "MatchBoard.InsertCardEntity p1Bench.Add/p2Bench.Add; insertionIndex applies only to prizes"
   },
   "limitations": [
-    "Not a full Bayesian history posterior; sampled hidden worlds are a determinization approximation.",
-    "Known deck membership/order constraints are tracked from actor-visible observations and commands.",
-    "KO snapshot identity is a representative: pinned deck has only two unfiltered existence consumers and no game-rule consumers.",
-    "Actual model search-to-target/fit integration is execution/research owner responsibility.",
-    "Frozen reference and model bytes are unchanged."
+    "Determinization approximation, not a full Bayesian history posterior.",
+    "Known physical deck membership and top/bottom constraints retained from actor-visible observations and own commands.",
+    "Iono is absent from this pinned roster; no claim of its support.",
+    "Native bench insertion order and evolution cooldown preserved.",
+    "KO identity representative is extensionally equivalent for two unfiltered existence consumers in this roster; not a general card-engine claim.",
+    "Actual-model search-to-target/fit integration remains executor/research responsibility.",
+    "Frozen reference and model bytes unchanged."
   ]
 }

@@ -270,6 +270,13 @@ internal sealed partial class MatchWorker
             var benchPos = one ? BoardPos.Player1Bench : BoardPos.Player2Bench;
             var active = side["active"] is JObject face ? Make(face, activePos) : null;
             var bench = ((JArray)side["bench"]!).Children<JObject>().Select(face => Make(face, benchPos)).ToList();
+            branch.benchDisplayOrder[seat] = bench.Select(card => card.entityID).ToList();
+            var nativeBenchOrder = ((JArray?)knowledge["boardLayout"]?[one ? "ownNativeBenchOrder" : "opponentNativeBenchOrder"]
+                ?? throw new InvalidDataException("actor-visible native bench-order history required")).Values<string>().ToArray();
+            if (nativeBenchOrder.Length != bench.Count || nativeBenchOrder.Distinct().Count() != bench.Count
+                || nativeBenchOrder.Any(id => !bench.Any(card => card.entityID == id)))
+                throw new InvalidDataException("bench-order history contradicts visible board");
+            bench = nativeBenchOrder.Select(id => bench.Single(card => card.entityID == id)).ToList();
             var discard = ((JArray)side["discard"]!).Children<JObject>().Select(face => Make(face, one ? BoardPos.Player1Discard : BoardPos.Player2Discard)).ToList();
             if (one) { board.p1Active = active; board.p1Bench = bench; board.p1Discard = discard;
                 board.p1Hand = ((JArray)view["hand"]!).Children<JObject>().Select(face => Make(face, BoardPos.Player1Hand)).ToList(); }
@@ -346,6 +353,15 @@ internal sealed partial class MatchWorker
             if (evolved) SearchMeta(card, MetaDataKey.CardEvolveThisTurn,
                 card.attachedPokemon.Count > 0 ? CardCache.Get(card.attachedPokemon[0].cardSourceID).cardName : "unknown prior evolution",
                 state, PlayerDuration.UntilBeforeEndOfMyTurn);
+            if (entered || evolved)
+            {
+                var cooldown = bundle.Programs.Rules.gameActions.SelectMany(action => action.subActions).OfType<ApplyStatusEffect>()
+                    .First(apply => apply.statusEffect is EvolveEffects effect && effect.effectTag == EvolveEffects.EffectTag.EvolveCoolDown
+                        && effect.duration == PlayerDuration.UntilEndOfThisTurn).statusEffect;
+                var applied = new AppliedStatusEffect(card, card, cooldown, cooldown.duration, state,
+                    "public-evolve-cooldown-" + card.entityID, "MovePokemonCardIntoPlay", "", ActionType.Game) { activated = true };
+                typeof(MatchEntity).GetMethod("AddStatusEffect", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(card, [applied]);
+            }
         }
         foreach (var (card, condition) in publicConditions)
         {
