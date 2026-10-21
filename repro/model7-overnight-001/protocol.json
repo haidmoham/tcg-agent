@@ -20707,7 +20707,8 @@
     "admission": "fit only all64natural accepted episodes with no errors/exclusions/rejections and <=16384total records; no reward for incomplete or failed games",
     "checkpointRule": "last fully admitted, immutable, reload-verified update completed before10:00Z; no outcome-based checkpoint selection",
     "stopping": "fixed absolute deadline; validity/resource failure may stop training and must retain all partial evidence; preserve last verified checkpoint. Never start a competing trained candidate.",
-    "engine": "pin before launch; use qualified speed gain only with explicit differential evidence and source identity; do not wait past start for infrastructure or change a running comparison"
+    "engine": "pin before launch; use qualified speed gain only with explicit differential evidence and source identity; do not wait past start for infrastructure or change a running comparison",
+    "recovery": "On a batch with any excluded/time-limited/fatal game, discard the entire batch from gradients, retain all raw evidence, and advance to the next predeclared64-game batch with the SAME last valid parent; do not refill based on outcomes. Source/hash/privacy mismatch fails closed. No partial fits, second trajectory, seed reuse or deadline extension. Any skipped batches and resulting training-distribution limitation are reported."
   },
   "monitoring": {
     "dataRole": "development only; separate compute from training allocation",
