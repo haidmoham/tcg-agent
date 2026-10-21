@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
-  "revision": 2,
-  "at": "2026-10-21T01:49:36.665Z",
+  "revision": 3,
+  "at": "2026-10-21T02:29:37.822Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -167,5 +167,20 @@
     "decision-specific prompt policy coverage",
     "bounded own-turn search with fixed readiness evaluator",
     "terminal-outcome Monte Carlo action values"
-  ]
+  ],
+  "currentSampleAdequacy": {
+    "correction": "Small routing/checkpoint panels are exploratory diagnostics and cannot resolve modest strength gains. Original protocols and observations remain preserved.",
+    "decisionRelevantEffect": 0.1,
+    "independentUnit": "seed pair, not seats or decisions",
+    "nextExperiment": "ppo-checkpoint-confirmation-001",
+    "protocol": "repro/ppo-checkpoint-confirmation-001/protocol.json",
+    "independentPairs": 512,
+    "games": 1024,
+    "confidence": 0.95,
+    "intervalRadius": 0.060020174457495044,
+    "minimumPowerAtScorePointSix": 0.8053880543047711,
+    "candidateNomination": "highest completed development score among four frozen PPO snapshots; tie picks fewer training games",
+    "resources": "six CPU lanes after capacity check; 8h operational cap; actual costs and failures retained",
+    "stopping": "fixed endpoint, no outcome-based stopping; incomplete campaigns cannot claim the fixed-endpoint result"
+  }
 }

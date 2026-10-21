@@ -1,4 +1,4 @@
-// Small fixed schedule over the existing frozen native boundary. No optimizer or promotion.
+// Fixed paired schedule over the frozen native boundary. No optimizer or promotion.
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -10,12 +10,17 @@ if (!manifestPath || !output || process.argv.length !== 4) throw Error('usage: r
 const sourcePins = Object.fromEntries([new URL(import.meta.url), new URL('../src/native-ladder.mjs', import.meta.url)]
   .map(file => [file.href, hashFile(file)]));
 const manifest = readJson(manifestPath), config = readJson(manifest.environmentConfig), root = path.resolve(output);
-if (manifest.schema !== 'native-ladder-run/1' || manifest.split !== 'development' || manifest.promotion !== false
-  || !Number.isSafeInteger(manifest.workers) || manifest.workers < 1 || manifest.workers > 2
-  || !Number.isSafeInteger(manifest.maximumWallSeconds) || manifest.maximumWallSeconds < 1 || manifest.maximumWallSeconds > 3600
+const maximumGames = manifest.maximumGames ?? 128;
+if (manifest.schema !== 'native-ladder-run/1' || !['development', 'confirmation'].includes(manifest.split) || manifest.promotion !== false
+  || !Number.isSafeInteger(manifest.workers) || manifest.workers < 1 || manifest.workers > 8
+  || !Number.isSafeInteger(maximumGames) || maximumGames < 2 || maximumGames > 4096
+  || !Number.isSafeInteger(manifest.maximumWallSeconds) || manifest.maximumWallSeconds < 1 || manifest.maximumWallSeconds > 86400
   || !Number.isSafeInteger(manifest.maximumGameSeconds) || manifest.maximumGameSeconds < 1 || manifest.maximumGameSeconds > 240
   || !Number.isSafeInteger(manifest.maximumGameCommands) || manifest.maximumGameCommands < 1 || manifest.maximumGameCommands > 1500)
-  throw Error('bounded predeclared development run required');
+  throw Error('bounded predeclared native run required');
+if (manifest.split === 'confirmation' && (!manifest.strengthPlan?.effect || !manifest.strengthPlan?.independentUnit
+  || !manifest.strengthPlan?.uncertainty || !manifest.strengthPlan?.sampleJustification))
+  throw Error('confirmation requires a decision-relevant sample justification');
 if (fs.existsSync(root)) throw Error('fresh output required');
 const load = file => import(pathToFileURL(path.join(config.runtimeRoot, file)));
 const [{ verifyFrozenRuntime }, { runNativeGame }, { AgentBundle }, { EntityPpoModelClient },
@@ -43,7 +48,7 @@ for (const entrant of manifest.entrants) {
   registry.entrants.push({ id: entrant.id, description: entrant.description, pins, agentSha256: identityHash(pins) });
 }
 const matchSchedule = scheduleMatches(registry, manifest.pairs, manifest.seeds);
-if (matchSchedule.length * 2 > 128) throw Error('development run exceeds 128-game budget');
+if (matchSchedule.length * 2 > maximumGames) throw Error('schedule exceeds declared game budget');
 const assertFrozenInputs = () => {
   for (const [file, digest] of Object.entries(sourcePins)) if (hashFile(new URL(file)) !== digest) throw Error('evaluation source changed');
   if (hashFile(manifestPath) !== manifestSha256 || hashFile(manifest.environmentConfig) !== configSha256) throw Error('run inputs changed');
@@ -70,6 +75,7 @@ const common = { schema: 'native-ladder-block/1', environmentSha256: identityHas
 function report(final = false) {
   const complete = final && !stopReason && blocks.length === matchSchedule.length;
   const result = { schema: 'native-ladder-run-receipt/1', state: complete ? 'completed' : final ? 'incomplete' : 'running',
+    at: new Date().toISOString(), processId: process.pid,
     registry, blocks: blocks.map(b => ({ ...b, fixedEndpoint: complete })), manifestSha256, configSha256,
     runnerSha256: sourcePins[import.meta.url], sourcePins, plannedPairs: matchSchedule.length, workers: manifest.workers,
     elapsedSeconds: (Date.now() - started) / 1000, stopReason, promotion: false };
