@@ -1,0 +1,310 @@
+{
+  "schema": "native-ladder-report/1",
+  "anchor": "first-baseline",
+  "promotion": false,
+  "entrants": [
+    {
+      "id": "first-baseline",
+      "description": "Exact frozen environment-v1 reference",
+      "pins": {
+        "ordinary": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+        "selection": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+        "catalog": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04",
+        "bundle": "682b74a3110ed67c87675899fd522ed6c9962853dbc5ce8532514b59ed644f60",
+        "history": "complete-game",
+        "deterministic": true
+      },
+      "agentSha256": "49b0c40dc4b81ed27be594f19e748cab60c550fc19caf448c07542acbdeaba22"
+    },
+    {
+      "id": "model7.monitor-1",
+      "description": "Single search-distillation Model7 trajectory monitor-1",
+      "pins": {
+        "ordinary": "6eee73475111204038bbf3782b05209f8f5e8402b51f3b7b5d7ab831bc41fb87",
+        "selection": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+        "catalog": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04",
+        "environmentLock": "e8c8d8c941c765a443219424f411a7c3ce884c30cc38852231302110c6a3b6cc",
+        "history": "complete-game",
+        "deterministic": true,
+        "privatePlayerIdentitySha256": "2ddc21e57b0897ddcd5c2d2528ccca1b695bbc36d79dc7208f43bf051a294ebb",
+        "method": "information-set determinization search and policy/value distillation inspired by AlphaZero",
+        "beliefScope": "actor-history-constrained-declared-deck/1",
+        "search": {
+          "determinizations": 2,
+          "simulationsPerWorld": 8,
+          "maximumDepth": 8,
+          "cPuct": 1.25,
+          "temperature": 0,
+          "rootNoise": false
+        },
+        "factory": "76cade034875ebd93e82ca9f53d2119b8162e08e348ac9ae2bf06498cb3d4064",
+        "factoryExport": "openSearchDistillationPlayer",
+        "privateSourceManifestSha256": "64b386fef9d67e97a003200f6016647516ca748015ec5778b69b925aab01ea4d"
+      },
+      "agentSha256": "bceb8a949218ea9a952224ee866929f27b71cf8ad771db236a2d4e35e1b0cca5"
+    },
+    {
+      "id": "model7.monitor-2",
+      "description": "Single search-distillation Model7 trajectory monitor-2",
+      "pins": {
+        "ordinary": "03be367e8934423cd17471694b66996a7e207e37ad33a9cb2dffdc1393977dd2",
+        "selection": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+        "catalog": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04",
+        "environmentLock": "e8c8d8c941c765a443219424f411a7c3ce884c30cc38852231302110c6a3b6cc",
+        "history": "complete-game",
+        "deterministic": true,
+        "privatePlayerIdentitySha256": "2ddc21e57b0897ddcd5c2d2528ccca1b695bbc36d79dc7208f43bf051a294ebb",
+        "method": "information-set determinization search and policy/value distillation inspired by AlphaZero",
+        "beliefScope": "actor-history-constrained-declared-deck/1",
+        "search": {
+          "determinizations": 2,
+          "simulationsPerWorld": 8,
+          "maximumDepth": 8,
+          "cPuct": 1.25,
+          "temperature": 0,
+          "rootNoise": false
+        },
+        "factory": "76cade034875ebd93e82ca9f53d2119b8162e08e348ac9ae2bf06498cb3d4064",
+        "factoryExport": "openSearchDistillationPlayer",
+        "privateSourceManifestSha256": "64b386fef9d67e97a003200f6016647516ca748015ec5778b69b925aab01ea4d"
+      },
+      "agentSha256": "b4790ca929c61f7d9a721749ff34c0d80322b8be4e7eb02f42bdd7913ea15ba3"
+    }
+  ],
+  "pointwiseConfidence": 0.975,
+  "simultaneousAnchorConfidence": 0.975,
+  "method": "Anchor-relative 400*log10(score/(1-score)); pairwise scores retain nontransitivity. Two-sided Hoeffding bounds over independent seed pairs. Not Live Elo. No transitive global fit.",
+  "pools": [
+    {
+      "id": "d1c00b51455089d3e89dd65607ba6a779f66fdf3408989dfea91207d71d8c2cd",
+      "environmentSha256": "51356ad612361df3e6124e3a606d81411b4c9ea13be84eda59f7ef03e4e78318",
+      "scenarioSha256": "4b50e69f7cc0fd72d090db2e2bba11ce96900be9b2187d35ce261664d346b474",
+      "split": "development",
+      "failureContract": "68f7e330f1a282c331f991d072ffaffc8d8b2708e131997ffeb806b81f025adc",
+      "cells": [
+        {
+          "a": "first-baseline",
+          "b": "model7.monitor-1",
+          "independentPairs": 64,
+          "attemptedPairs": 64,
+          "games": 128,
+          "attemptedGames": 128,
+          "analysisStatus": "fixed-endpoint",
+          "wins": 95,
+          "losses": 33,
+          "draws": 0,
+          "score": 0.7421875,
+          "interval": [
+            0.5571616015874002,
+            0.9272133984125998
+          ],
+          "rating": 183.6838661643841,
+          "ratingInterval": [
+            39.89436268183939,
+            442.051302413126
+          ],
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": 0,
+          "fixedEndpointDistinguishable": true
+        },
+        {
+          "a": "first-baseline",
+          "b": "model7.monitor-2",
+          "independentPairs": 64,
+          "attemptedPairs": 64,
+          "games": 128,
+          "attemptedGames": 128,
+          "analysisStatus": "fixed-endpoint",
+          "wins": 102,
+          "losses": 26,
+          "draws": 0,
+          "score": 0.796875,
+          "interval": [
+            0.6118491015874002,
+            0.9819008984125998
+          ],
+          "rating": 237.45072951643982,
+          "ratingInterval": [
+            79.05749238286404,
+            693.7642558904797
+          ],
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": 0,
+          "fixedEndpointDistinguishable": true
+        },
+        {
+          "a": "model7.monitor-1",
+          "b": "first-baseline",
+          "independentPairs": 64,
+          "attemptedPairs": 64,
+          "games": 128,
+          "attemptedGames": 128,
+          "analysisStatus": "fixed-endpoint",
+          "wins": 33,
+          "losses": 95,
+          "draws": 0,
+          "score": 0.2578125,
+          "interval": [
+            0.07278660158740022,
+            0.44283839841259975
+          ],
+          "rating": -183.6838661643841,
+          "ratingInterval": [
+            -442.0513024131261,
+            -39.894362681839404
+          ],
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": 0,
+          "fixedEndpointDistinguishable": true
+        },
+        {
+          "a": "model7.monitor-1",
+          "b": "model7.monitor-2",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        },
+        {
+          "a": "model7.monitor-2",
+          "b": "first-baseline",
+          "independentPairs": 64,
+          "attemptedPairs": 64,
+          "games": 128,
+          "attemptedGames": 128,
+          "analysisStatus": "fixed-endpoint",
+          "wins": 26,
+          "losses": 102,
+          "draws": 0,
+          "score": 0.203125,
+          "interval": [
+            0.018099101587400218,
+            0.38815089841259975
+          ],
+          "rating": -237.45072951643985,
+          "ratingInterval": [
+            -693.7642558904801,
+            -79.05749238286406
+          ],
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": 0,
+          "fixedEndpointDistinguishable": true
+        },
+        {
+          "a": "model7.monitor-2",
+          "b": "model7.monitor-1",
+          "independentPairs": 0,
+          "attemptedPairs": 0,
+          "games": 0,
+          "attemptedGames": 0,
+          "analysisStatus": "unmeasured",
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "score": null,
+          "interval": null,
+          "rating": null,
+          "ratingInterval": null,
+          "failures": {
+            "policy-forfeit": 0,
+            "command-cap-draw": 0,
+            "shared-invalid": 0
+          },
+          "failureRate": null,
+          "fixedEndpointDistinguishable": false
+        }
+      ],
+      "ratings": [
+        {
+          "id": "first-baseline",
+          "rating": 0,
+          "fixed": true
+        },
+        {
+          "id": "model7.monitor-1",
+          "independentPairs": 64,
+          "score": 0.2578125,
+          "interval": [
+            0.058689936156737205,
+            0.45693506384326277
+          ],
+          "rating": -183.6838661643841,
+          "ratingInterval": [
+            -482.0676259226606,
+            -29.998910793523535
+          ],
+          "familywiseDistinguishable": true
+        },
+        {
+          "id": "model7.monitor-2",
+          "independentPairs": 64,
+          "score": 0.203125,
+          "interval": [
+            0.004002436156737205,
+            0.40224756384326277
+          ],
+          "rating": -237.45072951643985,
+          "ratingInterval": [
+            -958.3735451969726,
+            -68.81117289445353
+          ],
+          "familywiseDistinguishable": true
+        }
+      ],
+      "attemptedGames": 256,
+      "gameSeconds": 27880.903,
+      "naturalGames": 256,
+      "naturalGamesPerSummedGameHour": 33.05488348063906
+    }
+  ],
+  "sources": [
+    {
+      "type": "native-ladder",
+      "receiptSha256": "91db35f9a31b2557846fcdb383680a575a5cf76c1d72d4c68188ac5131f4cf7a",
+      "state": "completed",
+      "elapsedSeconds": 7600.963
+    },
+    {
+      "type": "native-ladder",
+      "receiptSha256": "5e4fd6b5b976586a4f72117f63e16c9c2486851dd39f7107bb2eae7bf4fff1d2",
+      "state": "completed",
+      "elapsedSeconds": 6490.323
+    }
+  ],
+  "plannedMonitorFamilyConfidence": 0.95,
+  "uniqueDevelopmentSeedBlocks": 64,
+  "completedPairedComparisons": 128,
+  "sharedDevelopmentSeedPanel": true,
+  "interpretation": "Each checkpoint cell retains the predeclared97.5% paired interval; Bonferroni95% coverage across two planned monitors. Shared64seeds are not128independent global seeds. Missing direct checkpoint-to-checkpoint edge is unmeasured; no monotonic-strength or component-cause inference. Automatic aggregate anchor ratings are conservative secondary summaries."
+}

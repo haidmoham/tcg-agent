@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
-  "revision": 7,
-  "at": "2026-10-21T07:56:52.044Z",
+  "revision": 8,
+  "at": "2026-10-21T09:50:13.862Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -293,6 +293,82 @@
         "includes": "128journals, pair receipts, candidate checkpoint/reload receipt, complete pinned player inputs and frozen reference inputs",
         "verified": true
       }
+    },
+    {
+      "id": "model7-overnight-monitor-2",
+      "status": "completed",
+      "hypothesis": "The predeclared four-hour snapshot may improve complete-game score versus first-baseline.",
+      "sourcePaper": "https://arxiv.org/html/1712.01815v1",
+      "controlledComparison": "Whole frozen checkpoint and complete search/history player versus first-baseline on the fixed mirrored native scenario; shared development seeds with monitor1, not a component ablation.",
+      "protocol": "repro/model7-overnight-001/protocol-v5.json",
+      "budget": {
+        "independentPairs": 64,
+        "games": 128,
+        "workers": 2,
+        "maximumWallSeconds": 14400,
+        "analysisAlpha": 0.025,
+        "monitorFamilyCount": 2
+      },
+      "nomination": {
+        "rule": "Last fully verified immutable checkpoint at actual trainingStartedAtUtc+2h and+4h; asynchronous evaluation never reads mutable trainer weights.",
+        "checkpointSha256": "03be367e8934423cd17471694b66996a7e207e37ad33a9cb2dffdc1393977dd2",
+        "completedAtUtc": "2026-10-21T07:31:19.276Z",
+        "completedTrainingGames": 176,
+        "completedBatchUpdates": 11,
+        "optimizerSteps": 984,
+        "trainingUpdateReceiptSha256": "89a85fb1943915ce3d206ef4f26f536e1437b506659c41a69469a3ae8797713d"
+      },
+      "result": "docs/model7-overnight-monitor-2-result.json",
+      "ladderResult": "docs/native-ladder-model7-monitor-2.json",
+      "evaluation": {
+        "a": "model7.monitor-2",
+        "b": "first-baseline",
+        "independentPairs": 64,
+        "attemptedPairs": 64,
+        "games": 128,
+        "attemptedGames": 128,
+        "analysisStatus": "fixed-endpoint",
+        "wins": 26,
+        "losses": 102,
+        "draws": 0,
+        "score": 0.203125,
+        "interval": [
+          0.018099101587400218,
+          0.38815089841259975
+        ],
+        "rating": -237.45072951643985,
+        "ratingInterval": [
+          -693.7642558904801,
+          -79.05749238286406
+        ],
+        "failures": {
+          "policy-forfeit": 0,
+          "command-cap-draw": 0,
+          "shared-invalid": 0
+        },
+        "failureRate": 0,
+        "fixedEndpointDistinguishable": true
+      },
+      "actualCost": {
+        "wallSeconds": 6490.323,
+        "summedGameSeconds": 12868.066,
+        "workers": 2,
+        "device": "CPU",
+        "cpuCoreSeconds": null,
+        "fittingUpdates": 0
+      },
+      "uncertainty": "Two-sided97.5% Hoeffding over64 independent seed pairs; Bonferroni simultaneous95% across two planned monitors.",
+      "conclusion": "Negative fixed-endpoint development result: this four-hour complete player is below parity against first-baseline. No inference of a difference between monitor checkpoints or final candidate strength.",
+      "nextAction": "Complete already-running independent512-pair final confirmation unchanged; no tuning or candidate selection from confirmation outcomes.",
+      "preservation": {
+        "archiveId": "model7-overnight-monitor-2",
+        "verifiedFiles": 807,
+        "pinnedSourceFiles": 342,
+        "manifestSha256": "51bfbfef0e6ec549530396ae18834655f2608c6a48faedf4979e08b170264b9a",
+        "includes": "128journals,pair receipts,candidate checkpoint/reload receipt and complete pinned player/reference inputs",
+        "verified": true
+      },
+      "promotion": false
     }
   ],
   "active": {
@@ -332,7 +408,7 @@
     "startUtc": "2026-10-21T03:38:11.728Z",
     "deadlineUtc": "2026-10-21T09:38:11.728Z",
     "executionOwner": "01a15c50-d335-7125-9222-99c9415960e5",
-    "status": "training continues unchanged; monitor1 completed negative, monitor2 running on fixed pre-cutoff nomination; final confirmation pending",
+    "status": "training completed; both intermediate monitors below parity; fixed final candidate undergoing independent confirmation",
     "promotion": false,
     "externalReuseDecision": {
       "decision": "Native AlphaZero-inspired search distillation selected under latest user instruction; PPO plans remain unexecuted history.",
@@ -361,7 +437,8 @@
     "evaluationResourceReview": "repro/model7-overnight-001/evaluation-resource-plan-001.json",
     "excludedTrainingBatches": [
       1,
-      2
+      2,
+      22
     ],
     "evaluationResourceAuthorization": {
       "plan": "repro/model7-overnight-001/evaluation-resource-plan-001.json",
@@ -373,7 +450,7 @@
       "campaign": 3,
       "pid": 45568,
       "armedAtUtc": "2026-10-21T04:29:28.361Z",
-      "status": "monitor2 running; fixed-cutoff nomination preserved",
+      "status": "independent final confirmation running; no partial score published",
       "playerIdentity": "immutable per-announcement runtime/factory/source/config; never latest static wrapper",
       "monitorSnapshotTimesUtc": [
         "2026-10-21T05:38:11.728Z",
@@ -385,7 +462,9 @@
       "finalMaximumWallSeconds": 86400,
       "maximumGameSeconds": 3600,
       "monitorMaximumWallSeconds": 14400,
-      "monitorWorkers": 2
+      "monitorWorkers": 2,
+      "runnerPid": 11880,
+      "sourceAndSeedContractUnchanged": true
     },
     "adoptionDecision": "repro/model7-overnight-001/adoption-decision-001.json",
     "currentRunningBeliefScope": "actor-history-constrained-declared-deck/1",
@@ -399,13 +478,13 @@
       "strength": "unmeasured; no promotion"
     },
     "currentTrainingObservation": {
-      "observedAtUtc": "2026-10-21T07:56:52.044Z",
-      "statusAtUtc": "2026-10-21T07:56:40.307Z",
-      "completedTrainingGames": 192,
-      "completedBatchUpdates": 12,
-      "optimizerSteps": 1072,
-      "currentBatch": 15,
-      "checkpointSha256": "66c28d0ef276e76f7cbeace120ef7f76696e0b6b314ffd0569bf1ad69c037b87"
+      "observedAtUtc": "2026-10-21T09:50:13.862Z",
+      "state": "completed",
+      "finishedAtUtc": "2026-10-21T09:38:08.437Z",
+      "admittedNaturalGames": 304,
+      "admittedUpdates": 19,
+      "optimizerSteps": 1649,
+      "finalCheckpointSha256": "0dbbf400c5aaabf06340a2e8d6c20a6c099d6128f79485c5caa421c41393fc1d"
     },
     "monitorResults": [
       {
@@ -422,8 +501,15 @@
       },
       {
         "id": "monitor-2",
-        "status": "running; no partial-strength conclusion",
-        "cutoffUtc": "2026-10-21T07:38:11.728Z",
+        "status": "completed",
+        "result": "docs/model7-overnight-monitor-2-result.json",
+        "wins": 26,
+        "losses": 102,
+        "score": 0.203125,
+        "interval": [
+          0.018099101587400218,
+          0.38815089841259975
+        ],
         "nomination": {
           "rule": "Last fully verified immutable checkpoint at actual trainingStartedAtUtc+2h and+4h; asynchronous evaluation never reads mutable trainer weights.",
           "checkpointSha256": "03be367e8934423cd17471694b66996a7e207e37ad33a9cb2dffdc1393977dd2",
@@ -434,7 +520,8 @@
           "trainingUpdateReceiptSha256": "89a85fb1943915ce3d206ef4f26f536e1437b506659c41a69469a3ae8797713d"
         }
       }
-    ]
+    ],
+    "trainingCompletion": "repro/model7-overnight-001/training-completion.json"
   },
   "completedPreservation": {
     "ppoStrengthCurve": {
@@ -444,6 +531,13 @@
     "capacityCheck": {
       "archiveName": "research-loop-2026-10-21/confirmation-capacity-001",
       "allCopiedFilesHashVerified": true
+    },
+    "model7Training": {
+      "archiveId": "model-seven-2026-10-21/overnight-001",
+      "verifiedFiles": 3364,
+      "manifestSha256": "3bde6576af47771b9f091fbf4d1dd38d460b9134c479d41f9270dd36514bb739",
+      "independentlyRehashed": true,
+      "finalCheckpointSha256": "0dbbf400c5aaabf06340a2e8d6c20a6c099d6128f79485c5caa421c41393fc1d"
     }
   },
   "supersededDesigns": [
@@ -480,15 +574,32 @@
       },
       {
         "id": "model7.monitor-2",
-        "status": "fixed pre-cutoff nominee being measured; no partial-result conclusion"
+        "agentSha256": "b4790ca929c61f7d9a721749ff34c0d80322b8be4e7eb02f42bdd7913ea15ba3",
+        "checkpointSha256": "03be367e8934423cd17471694b66996a7e207e37ad33a9cb2dffdc1393977dd2",
+        "measurement": "64paired seeds/128natural games versus first-baseline; below parity with predeclared97.5% interval",
+        "retention": "complete frozen player and negative evidence retained for diagnostic cross-play",
+        "strategicSpecialistAdvantage": "unmeasured; not claimed",
+        "promotion": false,
+        "addedToTrainingMixture": false
       },
       {
-        "id": "model7.final",
-        "status": "not yet nominated;512fresh confirmation pairs remain independent"
+        "id": "model7.confirmation",
+        "agentSha256": "530304cc2a68bb793f63613a877be29a74afc137a7ba897012c3a6f9d8c47737",
+        "checkpointSha256": "0dbbf400c5aaabf06340a2e8d6c20a6c099d6128f79485c5caa421c41393fc1d",
+        "status": "frozen; independent512-pair confirmation in progress; no partial score or strength conclusion",
+        "selection": "last fully admitted learning update before original09:38:11.728Z deadline; not selected by wins",
+        "promotion": false,
+        "addedToTrainingMixture": false
       }
     ],
     "trainingMixtureChanged": false,
     "promotion": false,
-    "additionalTrainedCandidatesLaunchedFromThisResult": 0
+    "additionalTrainedCandidatesLaunchedFromThisResult": 0,
+    "canonicalMeasuredMonitors": "docs/native-ladder-model7-monitors.json",
+    "uniqueDevelopmentSeedBlocks": 64,
+    "completedPairedComparisons": 128,
+    "sharedSeedPanelNotPooledForGlobalIndependence": true,
+    "trainingComplete": true,
+    "finalConfirmationIndependent": true
   }
 }

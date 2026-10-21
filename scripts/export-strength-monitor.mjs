@@ -21,6 +21,11 @@ assert.equal(receipt.blocks.length, design.monitoring.independentPairsPerSnapsho
 assert.equal(receipt.plannedPairs, design.monitoring.independentPairsPerSnapshot);
 const candidate = manifest.entrants.find(entrant => entrant.kind === 'prepared');
 assert(candidate);
+const monitorIndex = Number(candidate.id.match(/\.monitor-(\d+)$/)?.[1]);
+assert([1, 2].includes(monitorIndex));
+const snapshotOffsetSeconds = design.monitoring.snapshotOffsetsSeconds[monitorIndex - 1];
+const snapshotCutoffUtc = new Date(Date.parse(design.training.startUtc) + snapshotOffsetSeconds * 1000).toISOString();
+assert(Date.parse(manifest.nomination.completedAtUtc) <= Date.parse(snapshotCutoffUtc));
 assert.equal(hashFile(candidate.checkpoint), candidate.sha256);
 assert.equal(hashFile(candidate.factoryModule), candidate.factorySha256);
 for (const [file, digest] of Object.entries(candidate.sourcePins)) assert.equal(hashFile(file), digest);
@@ -66,6 +71,7 @@ for (const game of games) for (const [source, count] of Object.entries(game.rout
 }
 const result = {
   schema: 'model7-strength-monitor-result/1', status: 'completed', at: receipt.at,
+  monitorIndex, snapshotOffsetSeconds, snapshotCutoffUtc,
   dataRole: 'predeclared development monitor; independent final confirmation remains untouched',
   designSha256: hashFile(designPath), privateManifestSha256: receipt.manifestSha256,
   privateReceiptSha256: hashFile(path.join(directory, 'receipt.json')), runnerSha256: receipt.runnerSha256,
@@ -74,7 +80,7 @@ const result = {
   comparison, plannedMonitorCount: 2, pointwiseConfidence: .975, simultaneousMonitorConfidence: .95,
   uncertainty: 'Two-sided97.5% Hoeffding over64 independent seed pairs; Bonferroni simultaneous95% across two planned monitors.',
   demonstratesRegressionAtThisCheckpoint: comparison.interval[1] < .5,
-  scope: 'This complete two-hour player versus first-baseline in the fixed mirrored native scenario; not the final candidate or a component ablation.',
+  scope: 'This complete nominated checkpoint/player versus first-baseline in the fixed mirrored native scenario; not the final candidate or a component ablation.',
   naturalGames: games.length, privacyChecks: games.reduce((total, game) => total + game.summary.privacyChecks, 0),
   candidateDecisionRoutes: routes,
   actualCost: { wallSeconds: receipt.elapsedSeconds, summedGameSeconds: report.pools[0].gameSeconds,

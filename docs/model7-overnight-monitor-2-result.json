@@ -1,0 +1,445 @@
+{
+  "schema": "model7-strength-monitor-result/1",
+  "status": "completed",
+  "at": "2026-10-21T09:33:04.333Z",
+  "monitorIndex": 2,
+  "snapshotOffsetSeconds": 14400,
+  "snapshotCutoffUtc": "2026-10-21T07:38:11.728Z",
+  "dataRole": "predeclared development monitor; independent final confirmation remains untouched",
+  "designSha256": "d0431cd3db68576e7aa59dffd281c320b06a2d2b6f0873b0325f139b900a8d64",
+  "privateManifestSha256": "ad2f1ff58619b05471bb1397ae19b7a207a849998431d094dc85f8e287dc9e26",
+  "privateReceiptSha256": "5e4fd6b5b976586a4f72117f63e16c9c2486851dd39f7107bb2eae7bf4fff1d2",
+  "runnerSha256": "2985430667946a0e482293e9a98cdf7176da9647eec36b983f0b4dae204bc867",
+  "exporterSha256": "d20adb3f7127d6eb84f830b7eff4d2fcd870a7a57e5dbddcea36a0b71f04bbae",
+  "candidate": {
+    "id": "model7.monitor-2",
+    "description": "Single search-distillation Model7 trajectory monitor-2",
+    "pins": {
+      "ordinary": "03be367e8934423cd17471694b66996a7e207e37ad33a9cb2dffdc1393977dd2",
+      "selection": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+      "catalog": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04",
+      "environmentLock": "e8c8d8c941c765a443219424f411a7c3ce884c30cc38852231302110c6a3b6cc",
+      "history": "complete-game",
+      "deterministic": true,
+      "privatePlayerIdentitySha256": "2ddc21e57b0897ddcd5c2d2528ccca1b695bbc36d79dc7208f43bf051a294ebb",
+      "method": "information-set determinization search and policy/value distillation inspired by AlphaZero",
+      "beliefScope": "actor-history-constrained-declared-deck/1",
+      "search": {
+        "determinizations": 2,
+        "simulationsPerWorld": 8,
+        "maximumDepth": 8,
+        "cPuct": 1.25,
+        "temperature": 0,
+        "rootNoise": false
+      },
+      "factory": "76cade034875ebd93e82ca9f53d2119b8162e08e348ac9ae2bf06498cb3d4064",
+      "factoryExport": "openSearchDistillationPlayer",
+      "privateSourceManifestSha256": "64b386fef9d67e97a003200f6016647516ca748015ec5778b69b925aab01ea4d"
+    },
+    "agentSha256": "b4790ca929c61f7d9a721749ff34c0d80322b8be4e7eb02f42bdd7913ea15ba3"
+  },
+  "nomination": {
+    "rule": "Last fully verified immutable checkpoint at actual trainingStartedAtUtc+2h and+4h; asynchronous evaluation never reads mutable trainer weights.",
+    "checkpointSha256": "03be367e8934423cd17471694b66996a7e207e37ad33a9cb2dffdc1393977dd2",
+    "completedAtUtc": "2026-10-21T07:31:19.276Z",
+    "completedTrainingGames": 176,
+    "completedBatchUpdates": 11,
+    "optimizerSteps": 984,
+    "trainingUpdateReceiptSha256": "89a85fb1943915ce3d206ef4f26f536e1437b506659c41a69469a3ae8797713d"
+  },
+  "nativeImplementation": {
+    "implementationVersion": "native-state-copy/1.0.0",
+    "workerSha256": "7a85f20df1616cc3d7b041f437b8a9c066800570a40bcf41e7ae34236507b83b",
+    "workerSourceSha256": {
+      "Indigo.Live.Engine.csproj": "c688351b3cac57ea1c640b6de948aa6023ac8245c61bb864c3aec7c8a466e572",
+      "MatchWorker.cs": "426c9501299cd4231cd3cb1362b9d8fdb89897b269bba75dbea8a8808d4f7bd2",
+      "MatchWorker.Energy.cs": "e99b4182af365161b4c69c8f6d6dc8cc621e52651092cb8f90e23b9feb6d8ded",
+      "MatchWorker.Offers.cs": "971176d81c7bc556c6322483ef5c6608084eaba60e0f38287abb7c13894e1a44",
+      "MatchWorker.Presentation.cs": "1a1dd04aecdb1585bf1cd752def7034d6268fd1aac450f90b831982abffa7010",
+      "MatchWorker.Projection.cs": "89273b0d6b6b291455b6f60efd93ed6b820a714bf00f1fd55a724557bd1a199c",
+      "MatchWorker.Selections.cs": "141ab2fad18c314c6114e836ca81e1f6bab926b119d6891eaca2269eaa5fbbf2",
+      "NativeStateCopier.cs": "15862a1ebf8d329d3c39f5dd7157b316d57d20aa9abf0c8d9bb57635b6e4d7f3",
+      "OfflineAudit.cs": "4f72b8b5955730edaa41f2312d7b36e62b41002a93ae08abe3f617dd41415b7a",
+      "OfflineSession.cs": "734bf6a9ba68877ede55ea99156b3013a8d59d6f081a3671ff1a7d6e8fab41c9",
+      "OfflineTurnPreflight.cs": "804e016230ede27a3fe263bb54ff0e1f2e14db313fbae0ec29d3980c140f15d2",
+      "Program.cs": "aba1453e6bb19f22c5232930b9920929661998800cd7cb52339f3d8ca39873c5",
+      "ProgramInputs.cs": "426acaa76b74726d94de7d5daedae82b7670bd940a4c67b4d6a403c4f402f2a3"
+    },
+    "referenceWorkerSha256": "d471d0a1d7c05d23f34c555499ea21f299e306e19a8c3536222bae0af34c25c4",
+    "qualificationReceiptSha256": "5863663e0e93dc06a846b78133bc4e76001fe48435d929f9d4bbf7aa176ab38e"
+  },
+  "comparison": {
+    "a": "model7.monitor-2",
+    "b": "first-baseline",
+    "independentPairs": 64,
+    "attemptedPairs": 64,
+    "games": 128,
+    "attemptedGames": 128,
+    "analysisStatus": "fixed-endpoint",
+    "wins": 26,
+    "losses": 102,
+    "draws": 0,
+    "score": 0.203125,
+    "interval": [
+      0.018099101587400218,
+      0.38815089841259975
+    ],
+    "rating": -237.45072951643985,
+    "ratingInterval": [
+      -693.7642558904801,
+      -79.05749238286406
+    ],
+    "failures": {
+      "policy-forfeit": 0,
+      "command-cap-draw": 0,
+      "shared-invalid": 0
+    },
+    "failureRate": 0,
+    "fixedEndpointDistinguishable": true
+  },
+  "plannedMonitorCount": 2,
+  "pointwiseConfidence": 0.975,
+  "simultaneousMonitorConfidence": 0.95,
+  "uncertainty": "Two-sided97.5% Hoeffding over64 independent seed pairs; Bonferroni simultaneous95% across two planned monitors.",
+  "demonstratesRegressionAtThisCheckpoint": true,
+  "scope": "This complete nominated checkpoint/player versus first-baseline in the fixed mirrored native scenario; not the final candidate or a component ablation.",
+  "naturalGames": 128,
+  "privacyChecks": 814,
+  "candidateDecisionRoutes": {
+    "helper": 623,
+    "alphazero-search": 2450,
+    "alphazero-selector-fallback": 428,
+    "alphazero-forced": 126
+  },
+  "actualCost": {
+    "wallSeconds": 6490.323,
+    "summedGameSeconds": 12868.066,
+    "workers": 2,
+    "device": "CPU",
+    "cpuCoreSeconds": null,
+    "fittingUpdates": 0
+  },
+  "blocks": [
+    {
+      "seed": 1291437175,
+      "score": 0,
+      "pairReceiptSha256": "1c3580879f214cc238bc3c52846424ced715872246dfe880e7bf298a31f3677e"
+    },
+    {
+      "seed": 2333628037,
+      "score": 0.5,
+      "pairReceiptSha256": "623716e550bdd908284f2005b13cc6348fc2732124c11feb6d060c38b854455c"
+    },
+    {
+      "seed": 3631403625,
+      "score": 0.5,
+      "pairReceiptSha256": "adb711fae06c36e6676d893aa8128275442226b351bff466c4265db8c0844eb8"
+    },
+    {
+      "seed": 438379946,
+      "score": 0.5,
+      "pairReceiptSha256": "fd2a8677634383ab5c59b7664c7032cf2d82a990526cba1966321e614e48319f"
+    },
+    {
+      "seed": 1523244516,
+      "score": 0,
+      "pairReceiptSha256": "6ea8a3b62bb4a3062e00c4a6a69d3d1918fa0a56029fa6f7365147766d6b8100"
+    },
+    {
+      "seed": 253534736,
+      "score": 0,
+      "pairReceiptSha256": "4def466c93f6c3dd2851da143af0aa4c064e31642add86789913ca086a6b6c91"
+    },
+    {
+      "seed": 4200076672,
+      "score": 0.5,
+      "pairReceiptSha256": "d149e0f93f45cb37886a93d5e3dc736ee7ec24067ebcfa0e2acd4603b6f40bfc"
+    },
+    {
+      "seed": 3077233345,
+      "score": 0,
+      "pairReceiptSha256": "3cb909cbfbd9313513c6d198294ec46c1292852d3df477fe08134334790d9e9c"
+    },
+    {
+      "seed": 2955693525,
+      "score": 0,
+      "pairReceiptSha256": "92d21f434495a2066ffb1e5c98504d9cc07d47c600bd3cb23336a1e36649f75c"
+    },
+    {
+      "seed": 1072539278,
+      "score": 0,
+      "pairReceiptSha256": "8a04f9ad7600ac2ca8253de5a07cfc8af93a356a17952a01180971aa8e1837a5"
+    },
+    {
+      "seed": 1156074284,
+      "score": 0.5,
+      "pairReceiptSha256": "77635f9611773450bd3428fd390b9e2a237298f45f5686d730d4821bfeda89b1"
+    },
+    {
+      "seed": 784170958,
+      "score": 0,
+      "pairReceiptSha256": "dae083e1cfb7bb02dce6f95dd7309e5f47c5d21c512b47b702848d52a54578d1"
+    },
+    {
+      "seed": 2194829453,
+      "score": 1,
+      "pairReceiptSha256": "569f273c62795a143a28e7b2c2426aae7f1dbd0a6dd9fc2a19a42fb6cdcb119f"
+    },
+    {
+      "seed": 980469237,
+      "score": 0,
+      "pairReceiptSha256": "db9af75ac7ebe6f2022967735356c79655a4bfaeee8e7071f27408a5649b17d7"
+    },
+    {
+      "seed": 2283739100,
+      "score": 0,
+      "pairReceiptSha256": "8446a30fdb9cff09b86017f275ca6dd3bd1603cc406f4fda6fbc1347a78016a9"
+    },
+    {
+      "seed": 540615307,
+      "score": 0.5,
+      "pairReceiptSha256": "547bb3395d4c9ab53f5a35af60e1cf0d360ef8d2e7a90ad0ede8cf468547f2e2"
+    },
+    {
+      "seed": 2034696831,
+      "score": 0,
+      "pairReceiptSha256": "0d93c7c191aac20514f5e7b8c4c530720db8bb817a6686f60cfb365363ee7ae4"
+    },
+    {
+      "seed": 3604099668,
+      "score": 0,
+      "pairReceiptSha256": "a42ee39f981a8fc7623653fa486eeb9993fd59e94726c0086585eb1a070bc25e"
+    },
+    {
+      "seed": 4176063757,
+      "score": 0.5,
+      "pairReceiptSha256": "42c3077d927c465a309434cc838288174090b088816116142969dffd84d7367f"
+    },
+    {
+      "seed": 4253035415,
+      "score": 0,
+      "pairReceiptSha256": "a06c581bf224ff52e3b9f4bcc52587bc43ad703c61d52dd23abd05237197a8a9"
+    },
+    {
+      "seed": 2852972339,
+      "score": 0,
+      "pairReceiptSha256": "d595596f430abf27acccc0fac39ea80a7337264f6ca367e2f6e1d8bf6ca9e17a"
+    },
+    {
+      "seed": 2456680241,
+      "score": 0,
+      "pairReceiptSha256": "3a703106c97914e183d92527a89f1d26d559fa3892af371b236b0f9a4b6fb797"
+    },
+    {
+      "seed": 3309263143,
+      "score": 0,
+      "pairReceiptSha256": "09f061b78e0185493b2625575bc6a9e0cd801d6a54a8795f0d05a65dd5f97d16"
+    },
+    {
+      "seed": 556912052,
+      "score": 0,
+      "pairReceiptSha256": "976503455c0101035c1c4099b04b776ea3ea1a4687ab65d0e6321d466935cb2c"
+    },
+    {
+      "seed": 2490137703,
+      "score": 0,
+      "pairReceiptSha256": "48f607fec763996b288a40b233328bd0d0d87ead300dc53e8e8b2fefebfab68f"
+    },
+    {
+      "seed": 533325902,
+      "score": 0,
+      "pairReceiptSha256": "208643a211195a5328dcae1a1358617106686172c7df05fbd012b1a29e6963c0"
+    },
+    {
+      "seed": 2080494236,
+      "score": 0.5,
+      "pairReceiptSha256": "54eafbda4911063e2c118d430e47523ed770889054bcb3515fbe65b31b171804"
+    },
+    {
+      "seed": 3334129089,
+      "score": 0,
+      "pairReceiptSha256": "f429e59c99907f63fe836e2fd7dfc33d7875fd553c7301ee8217355700068d9c"
+    },
+    {
+      "seed": 3756701608,
+      "score": 0.5,
+      "pairReceiptSha256": "3f331a81bfa968e84bcce868bf72b92b5f3ae982d89f74a07786932e0691734a"
+    },
+    {
+      "seed": 2738663931,
+      "score": 1,
+      "pairReceiptSha256": "9afacb58226ea0edd6c767ee7c676dab6255ee76f4a1e08495f9251f5e575f5e"
+    },
+    {
+      "seed": 3439644481,
+      "score": 0,
+      "pairReceiptSha256": "900c917b90f3823ed84cfa5ded62396e7660759d11afbf051591281c7af9c89a"
+    },
+    {
+      "seed": 665184992,
+      "score": 0,
+      "pairReceiptSha256": "76fdf115e151f3d319c1a0178918d31bbcb4ec5318fb5e23ae3968b9be40211c"
+    },
+    {
+      "seed": 593976229,
+      "score": 0.5,
+      "pairReceiptSha256": "1e1842186cffa45d628445b02f7d512a4705daae9fad3397752dae2baff73fc0"
+    },
+    {
+      "seed": 2508311104,
+      "score": 1,
+      "pairReceiptSha256": "4a144d57c9300835badda5b7f4c42b152ec77fc18d3436aee70a09995fe8e4ad"
+    },
+    {
+      "seed": 2548410748,
+      "score": 0.5,
+      "pairReceiptSha256": "2053f28f7e610877c4b742c8a00236f8f5ad0e4e6302efbe66e1bdb55104ac69"
+    },
+    {
+      "seed": 52604918,
+      "score": 0,
+      "pairReceiptSha256": "50b831f73b454aed305535554e3e56c04dfebd592af66ce834ad7b6dff317e1a"
+    },
+    {
+      "seed": 3253542019,
+      "score": 0,
+      "pairReceiptSha256": "132ab1179bc742783ea1405b0f6b19027089e70bf60c28bd6572682470b2a642"
+    },
+    {
+      "seed": 2460778365,
+      "score": 0.5,
+      "pairReceiptSha256": "f3628d0a1323e15c6e75ea24cf346d4e8c02851b8fefce496fead5f0510ccf29"
+    },
+    {
+      "seed": 3591633069,
+      "score": 0,
+      "pairReceiptSha256": "cd4f8828fa4911dd305e4c769eaf2684c0f26258225de84b735a256866d57977"
+    },
+    {
+      "seed": 1542789514,
+      "score": 0,
+      "pairReceiptSha256": "ed594a75481d6b9c76eea713276f0c462c340ca68b574fe634d363abf548f667"
+    },
+    {
+      "seed": 3373512052,
+      "score": 0,
+      "pairReceiptSha256": "897c6f467bb9c1dbc150fa225ebe888db1dd7a9ce218d11f649bc5ceaa526ea0"
+    },
+    {
+      "seed": 1228603353,
+      "score": 0.5,
+      "pairReceiptSha256": "5c1a6f2a3a5cf51c0392e80822cbea12d18a25b598359cef9a2e2de45717278b"
+    },
+    {
+      "seed": 426523045,
+      "score": 0,
+      "pairReceiptSha256": "b6e43ea7e96afd621b9d59b5688b5fc86536ccd6c831e56e59f7231d9d602641"
+    },
+    {
+      "seed": 3024925014,
+      "score": 0,
+      "pairReceiptSha256": "c1a0e541586f17af7167f7f0f1ea2a648d5d0e394d47f4bbeb9021487eb942c5"
+    },
+    {
+      "seed": 358337968,
+      "score": 0,
+      "pairReceiptSha256": "b907e7144a01af646a01cb06bb02c99b2c92faa96d33e94f0e30623609c7f6c0"
+    },
+    {
+      "seed": 4110302543,
+      "score": 0,
+      "pairReceiptSha256": "290e163ecdaebf750daa9d57d083de4d705f32b793c9b1150de030dc712f355c"
+    },
+    {
+      "seed": 1398064897,
+      "score": 0,
+      "pairReceiptSha256": "1d28ed8a64a0613b339053e07da31ad3669bfcda973298a98a00f29e1a6efd3e"
+    },
+    {
+      "seed": 1871538490,
+      "score": 0,
+      "pairReceiptSha256": "5dd6fc2b8d1e245a5960757311222f7d59f88df054e1099406f3c67cecbde8b8"
+    },
+    {
+      "seed": 3724661414,
+      "score": 0,
+      "pairReceiptSha256": "e9c9098745d1312e7eb404ae85e9eebfdd91c94579bc4db2db18432f57343aa0"
+    },
+    {
+      "seed": 2515144728,
+      "score": 0,
+      "pairReceiptSha256": "5d436434a038d661f6c6325a06739e6a42359e36edf950c3ea4c830b53a9d998"
+    },
+    {
+      "seed": 3003642188,
+      "score": 0,
+      "pairReceiptSha256": "199e8544259b05dad449bf83f23a1e3740883945f0b9c48fc85526ad8a061932"
+    },
+    {
+      "seed": 972303064,
+      "score": 0.5,
+      "pairReceiptSha256": "2492fab3c2c2b34a903dc187195847a21a64a9b21938a9edbb6a6ca3996ef816"
+    },
+    {
+      "seed": 3080391271,
+      "score": 0.5,
+      "pairReceiptSha256": "2a66ea51aa00519675ad6fd503ec60682c20e34b8f8bdf9161a79bfaeb7778e4"
+    },
+    {
+      "seed": 225662418,
+      "score": 0.5,
+      "pairReceiptSha256": "948433c3e6ce6f9b78d716d7457e501c63fe849979a5eb78bc27a9a3d9ef0dcf"
+    },
+    {
+      "seed": 535514725,
+      "score": 0.5,
+      "pairReceiptSha256": "d7351b1a0cb4dd5e25043238eee6976b67abb2191084d409a43a5dbcd1fc735b"
+    },
+    {
+      "seed": 2130027565,
+      "score": 0.5,
+      "pairReceiptSha256": "5df7f64323a1b3040d547411cc394adfff76cf1042787f937692ded29d572cd5"
+    },
+    {
+      "seed": 1329033698,
+      "score": 0,
+      "pairReceiptSha256": "555a42e726ea2304feba1e0f2acfec59bbeae0c7629b6adfd5c3de4c4aa7322b"
+    },
+    {
+      "seed": 42882493,
+      "score": 0,
+      "pairReceiptSha256": "d845c0e8cf0e369bd81d7921d954a731ecf222a07df739a89038fa7b0cef015a"
+    },
+    {
+      "seed": 3117384525,
+      "score": 0,
+      "pairReceiptSha256": "2e6a1a3472aef03dc04c46df5fbe411c5de46c2802e921b53c8d6bf3b4e1593d"
+    },
+    {
+      "seed": 3168708090,
+      "score": 0,
+      "pairReceiptSha256": "86a9909dcec67aa1a07332770fe62ede52b1376dc001b039dbf4e4fe9eadc576"
+    },
+    {
+      "seed": 3255009555,
+      "score": 0,
+      "pairReceiptSha256": "3ca678cf270cda8414d4e2b97bd7022a76a6010af2d89a565fc694a77f9abfef"
+    },
+    {
+      "seed": 2480053507,
+      "score": 0.5,
+      "pairReceiptSha256": "23d2672fb487914e5e75d66b681982436cef1e630d133899006919ad8012788c"
+    },
+    {
+      "seed": 1692397104,
+      "score": 0.5,
+      "pairReceiptSha256": "8ee3642bae42660f1f6c7f1f12fcb3335290d0b75e81a2ff3dcb03125d638258"
+    },
+    {
+      "seed": 182886819,
+      "score": 0,
+      "pairReceiptSha256": "e852ba049f010b3fd14b389aafd032b074ce53627f0fb22f287cd18facf73eeb"
+    }
+  ],
+  "promotion": false
+}
