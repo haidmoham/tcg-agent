@@ -1,0 +1,33 @@
+{
+  "schema": "model7-source-adoption-decision/1",
+  "at": "2026-10-21T04:28:32.722Z",
+  "decision": "qualified next-boundary adoption selected",
+  "sourceCommit": "fc659642ca85434050d368e3662b94498e349cad",
+  "hypothesis": "Conditioning hypothetical worlds on retained actor-visible own-deck facts removes an identified class of inconsistent worlds and may improve the whole player.",
+  "evidence": {
+    "retainedRoots": 109,
+    "exactLedgerAndEncodedRoots": 109,
+    "rootsWithActualBottomConstraints": 44,
+    "actualModelSixteenVisitSearches": 3,
+    "authorityAndRngUnchanged": true,
+    "proofSha256": "bd2f544094ec4a62eb9a9e350041017d8a381eb64bc56ae88eba8fb1b22126bc",
+    "noFitInQualification": true
+  },
+  "controlledChanges": [
+    "fresh per-game actor deck-knowledge tracker",
+    "factory observes all safe revisions and accepted pre-command choices",
+    "032 native hypothetical worker honors covered known-card/order constraints and public bench order"
+  ],
+  "unchanged": [
+    "last trained model,optimizer,RNG and update count at metadata reseal",
+    "2worlds x8simulations,depth8 and training objectives",
+    "actual native-game worker and frozen first-baseline",
+    "training seed lists,512fresh confirmation pairs and09:38:11.728Zdeadline"
+  ],
+  "cost": "Preparation and archived-pack qualification overlap usablebatch4. No production interruption until guaranteed prelaunch boundary.",
+  "strengthConclusion": null,
+  "throughputConclusion": "No measured029-to032 live gain. Reported031-to032 comparison is a separate conditional experiment and does not establish this adoption speedup.",
+  "causalLimitation": "Whole-player final confirmation combines training and search/belief improvements; no component attribution absent ablations.",
+  "protocol": "repro/model7-overnight-001/protocol-v5.json",
+  "promotion": false
+}
