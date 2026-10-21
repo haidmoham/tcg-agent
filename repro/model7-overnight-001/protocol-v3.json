@@ -54,7 +54,7 @@
     },
     "evaluationRootNoise": false,
     "knownDeckAssumption": "Declared pinned mirrored Hammerpult sixty is part of this fixed native scenario; it is not read from actual hidden live zones.",
-    "informationBoundary": "Construct all unknown zones solely from actor-visible current state, public history, declared deck multisets and independent searchSeed; conserve card multiplicity across all zones including own hidden deck/prizes and opponent hand/deck/prizes. Never clone actual authoritative hidden board or use actual native RNG state/seed as search input.",
+    "informationBoundary": "Construct unknown zones solely from actor-visible current state, decisionContext, declared deck multisets and independent searchSeed; conserve multiplicities. Never clone authoritative hidden state or use actual native RNG state/seed. Current reconstruction does not consume complete publicHistory as a posterior constraint; the admitted belief is a current-view constrained approximation, not a complete history-consistent solver.",
     "branchContract": "begin(rootView,publicHistory,knownDecks,seed); observe(handle)->safeView,toPlay,result; step->fresh nondestructive child; validate(handle,semanticCommand); close(handle); shutdown. Native wire envelope normalized by provider.",
     "rootDomain": "Complete native-validated semantic legal choices; compare canonical root domain across determinizations. Correct unordered optional/multicard enumeration only when complete domain<=128; explicit legacy route otherwise.",
     "fallback": "Unsupported root reconstruction/domain gets an attributed existing policy/ranker/helper choice and NO invented search visit target; unsupported search child is a bounded learned-value leaf. Report coverage and failures separately.",
@@ -62,7 +62,13 @@
     "rng": "Independent per-game searchSeed; derive root/world streams from searchSeed, observed seat and decision index. Actual native game seed is excluded from the policy/provider input. Split each training game searchSeed by physical seat outside the root-normalized policy; final pairs have separate independently predeclared search seeds per candidate seat.",
     "seatConvention": "Hypothetical native world seats are root-relative: human is the acting root player (you), opponent is the other player. Physical match seats are used only outside provider to assign actual natural outcomes.",
     "informationSetConsistency": "Share action priors/Q/visits only by acting-player visible observation plus actor-visible observation/action history and canonical encoded legal domain; never key policy selection by hidden world/handle/RNG/other-player private history. Keep transition handles world-local and distinct observable outcomes in distinct information sets.",
-    "opponentUncertainty": "Separate deck/history-conditioned hidden-card belief from uncertainty over opponent policies. Actual training population is50%currentsearch/25%frozenreference/25%scriptedteacher bygames. Current-network simulated opponent responses are a declared surrogate, not a proven minimax or equilibrium policy. Preserve nontransitive cross-play cells and mixtures."
+    "opponentUncertainty": "Separate deck/history-conditioned hidden-card belief from uncertainty over opponent policies. Actual training population is50%currentsearch/25%frozenreference/25%scriptedteacher bygames. Current-network simulated opponent responses are a declared surrogate, not a proven minimax or equilibrium policy. Preserve nontransitive cross-play cells and mixtures.",
+    "seatSearchStreams": {
+      "human": "(task.searchSeed ^ 0x726f6f74) >>> 0",
+      "opponent": "(task.searchSeed ^ 0x6f70706f) >>> 0",
+      "root": "Root/world streams derive only from this independent per-seat search stream and own observed decision index."
+    },
+    "beliefScope": "Native qualification must identify supported states and explicit rejects, including semantic domain and public-fact equality. Retained historical known-card/order constraints that current reconstruction cannot honor must be rejected or conservatively represented before use; missing history conditioning must not be presented as exact belief inference. Report current-view approximation and root coverage separately."
   },
   "learning": {
     "objective": "CE(root visit distribution, current legal policy) + MSE(tanh(rawcritic), natural seat-perspective z) + L2 regularization",
@@ -33400,14 +33406,20 @@
   "externalCode": {
     "repository": "https://github.com/Trevon-Woods-AI-Portfolio/PokemonTCG_Deep_RL_Agent",
     "sourceCommit": "192bf1b4bc0f17a44d11b684cd2dbdf83875b253",
-    "role": "Selective implementation aid after correctness/license review. No foreign weights, missing trainer assumptions, or literal uncorrected search reuse."
+    "role": "Selective implementation aid after correctness/license review. No foreign weights, missing trainer assumptions, or literal uncorrected search reuse.",
+    "audit": {
+      "sourceCommit": "9fc1616",
+      "file": "repro/cabt-reuse-audit-2026-10-21.json",
+      "conclusion": "Public Trevon MIT source supplies no trainer/PPO update; native search/distillation is independently implemented. No CABT games or matched engine benchmark; retain native engine and optimize."
+    }
   },
   "limitations": [
     "Determinization search can suffer strategy fusion and is not an information-set equilibrium solver; quantify support and assumptions rather than claim ReBeL guarantees.",
     "Unsupported branch roots and large/unsupported prompt domains remain explicit fallback and supply no fake visit target. Sparse coverage cannot be presented as an implemented full-game search success.",
     "Whole-batch exclusions may correlate with policy behavior or game length and bias retained experience. Report attempted/admitted/discarded data by reason/opponent/seat/parent; do not call it unbiased.",
     "The candidate combines search, changed supervised objective and policy coverage; final whole-player comparison cannot causally identify component effects without ablations.",
-    "Fixed mirrored scenario and declared deck assumption do not establish other-deck or official-client strength."
+    "Fixed mirrored scenario and declared deck assumption do not establish other-deck or official-client strength.",
+    "Current root reconstruction uses visible current state and decision context, not complete historical order/reveal conditioning. Native source qualification scopes supported states; no complete history-posterior or game-theoretic equilibrium claim."
   ],
   "ownership": {
     "nativeInformationState": "01a15af3-1d10-7600-a424-df76e8bf40c0",
@@ -33426,5 +33438,9 @@
     "qualification": "20independent paired-policy seeds, exact gameplay/behavior; full private qualification receipt/config/source hashes pinned in execution manifest",
     "comparisonIdentity": "Both actual players share same declared qualified native worker; baseline player bytes unchanged. New native implementation gets an explicit separate ladder pool identity."
   },
-  "frozenAtUtc": "2026-10-21T03:31:03.458Z"
+  "frozenAtUtc": "2026-10-21T03:31:03.458Z",
+  "prelaunchAmendment": {
+    "at": "2026-10-21T03:35:35.007Z",
+    "reason": "Record exact implemented independent seat streams and current-view belief approximation before any candidate game/fit; scientific objective, seeds, stopping and sample sizes unchanged."
+  }
 }
