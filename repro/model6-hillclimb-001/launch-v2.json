@@ -1,0 +1,34 @@
+{
+  "schema": "model6-hillclimb-launch/1",
+  "launchedAtUtc": "2026-10-21T10:37:15.423Z",
+  "phase": "running",
+  "workers": 1,
+  "activePanel": "anchor-1",
+  "campaignSha256": "ab78d8f7dc648cab404b93eaf11495c8d32135a48149957d7405bc36ab44c523",
+  "protocolSha256": "9dd7481467b3c550c13fc7b67360ead5121940306c747fc9bdc5e2ce6d770e25",
+  "sourcePins": {
+    "scripts/run-native-ladder.mjs": "2985430667946a0e482293e9a98cdf7176da9647eec36b983f0b4dae204bc867",
+    "scripts/run-model6-hillclimb.mjs": "77ea3eb9cf89357611af40315ccfdfb5dc45924b669f7acb1587d4e2291b9198",
+    "scripts/model7-atomic-json.mjs": "077ed1b0b07c2ea64605ac8e219effc87e9f53583c92c4b10381a7a038c1ef6c",
+    "src/native-ladder.mjs": "522422caae86a7496bdfb21b93e28fc53c2ef026e577afbebe0d57d396fffadf",
+    "src/model6-hillclimb-analysis.mjs": "76b8fff986b71bf6d61c18727d01978bb995944326b90542b8dbb73326a8de5e",
+    "environment/frozen-runtime.mjs": "82754d93e97714435549a6ff248b79793e98fa66019afcbc230b501b844f972f",
+    "integrations/local-worker/probe.mjs": "4d0b7bbfabd5a7ee4d30660801caedb15212271b94160e97cdf7311ad8f2cb88",
+    "agents/first-baseline-singleton-ranker.mjs": "96247142f781d00fb210865fa6b8a6c4aa6ad217977525b69375db80865ecf28"
+  },
+  "headroom": {
+    "at": "2026-10-21T10:34:16.317Z",
+    "cpuPercentMean": 59.730945187374594,
+    "cpuPercentMaximum": 72.99492716484136,
+    "freeMemoryGiB": 6.186737060546875,
+    "logicalProcessors": 16,
+    "measurementSeconds": 10,
+    "caveat": "Short resource headroom sample, not a throughput or stability claim. One additional lane conservatively uses spare capacity; cap failures are explicit."
+  },
+  "firstNativeProgressPresent": true,
+  "previousVersion": {
+    "phase": "superseded-before-games",
+    "games": 0
+  },
+  "promotion": false
+}

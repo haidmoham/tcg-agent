@@ -1,0 +1,48 @@
+{
+  "schema": "frozen-search-diagnostic/1",
+  "status": "predeclared; factories unit-checked, actual-runtime qualification pending",
+  "hypothesis": "Whole-player Model7 regression may arise from search, learned policy changes, routing changes or their interaction. Separate search effects with routing held constant before designing another trained player.",
+  "contrasts": [
+    {"id": "initial-search", "a": "c175 initialization with current search on ordinary decisions and exact original baseline prompt routes", "b": "complete unchanged first-baseline", "factoryMode": "initial-baseline-routes-search", "initialAzCheckpointSha256": "b91885409acfb5c0e427d86a784f537cc3308292f053128dafc5bce42d813e21"},
+    {"id": "final-search", "a": "exact final Model7 full search player", "b": "same final checkpoint and deployed routing with search replaced by prior argmax", "factoryMode": "final-deployed-routes-prior", "checkpointSha256": "0dbbf400c5aaabf06340a2e8d6c20a6c099d6128f79485c5caa421c41393fc1d"}
+  ],
+  "controls": {
+    "routing": "First-baseline mandatory-singleton PPO route stays intact in initial-search contrast. Final contrast keeps the existing selector fallback in both players.",
+    "value": "Current tanh critic transform in both current-search adapters; no claimed independent value-transform ablation.",
+    "coverage": "Same current complete-domain enumeration, native legality validation, forced transition handling and explicit unsupported fallbacks. Initial-search prompt decisions delegate to exact reference proposal method.",
+    "history": "Fresh per-seat complete game history. Initial-search wrapper independently updates reference history and asserts visible contextual equality. Current actor-only deck ledger and hypothetical worker remain pinned.",
+    "information": "Only actor-visible reconstruction and independent search seeds. No true hidden-state clones or native RNG foreknowledge.",
+    "scenario": "Same frozen mirrored AgentPult scenario and qualified actual-game worker; diversified opponent decks get a separate fixed-schedule study."
+  },
+  "sample": {
+    "independentUnit": "Independent opening seed block with both seat assignments; search streams independently derived and predeclared",
+    "pairsPerContrast": 576,
+    "gamesPerContrast": 1152,
+    "totalGames": 2304,
+    "alphaPerContrast": 0.025,
+    "familyAlpha": 0.05,
+    "effect": "Search wins60% versus its corresponding policy-only control rather than50% parity",
+    "uncertainty": "Two-sided paired-block Hoeffding; radius sqrt(log80/(2*576))=about.06168",
+    "powerJustification": "At true.60 score, lower-bound rejection power exceeds81% by Hoeffding; no independence assumption between seats or decisions.",
+    "stopping": "Fixed576pairs per contrast, no outcome-dependent tuning or early selection; engineering failure retained with explicit recovery.",
+    "seeds": "Fresh namespace tcg-agent/search-diagnostic-001/v1, collision-audited against all declared training/development/confirmation inputs before actual qualification and launch. Native qualification games use a separate engineering namespace."
+  },
+  "execution": {
+    "priority": "First route-only anchor screen is already running; qualify these wrappers next. At anchor completion, prioritize diagnostic gameplay before another treatment. If route earns expansion, split available capacity by measured headroom rather than silently drop this diagnostic.",
+    "workers": "Up to6 total principal development lanes after final confirmation releases capacity; a measured spare lane can qualify or begin development sooner without altering finalconfirmation.",
+    "maximumSecondsPerContrast": 86400,
+    "maximumGameSeconds": 3600,
+    "maximumGameCommands": 900,
+    "budgetReview": "Use actual search-guided latency, not plain-policy throughput. Review scheduling before launch; preserve576pairs and no extra spending."
+  },
+  "qualificationRequired": ["Actual model services/reload and14source guards", "Initial c175 actor-logit/action parity on retained contexts", "Exact original prompt decisions and history parity", "Final prior-only legal/forced/fallback parity", "Natural native smoke and current search coverage/cost"],
+  "interpretation": "Within each contrast, search effect is isolated for that frozen policy/router. Comparing the two contrasts is not a clean training-only effect because their historical prompt routers differ. Do not assert critic error or sign failure without evidence.",
+  "wouldChangeRecommendation": {
+    "initialSearchHurts": "Keep baseline and repair/search-screen the teacher before distillation.",
+    "initialSearchHelpsFinalSearchHurts": "Investigate learned value/policy changes and calibration, with no new long blind training.",
+    "bothSearchContrastsHelp": "Search can earn a population place; separately compare learned-policy stacks and inspect target quality before student training.",
+    "inconclusive": "Preserve uncertainty and inspect coverage/calibration; do not declare no effect or promote."
+  },
+  "promotion": false,
+  "newTraining": false
+}

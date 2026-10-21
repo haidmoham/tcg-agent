@@ -1,0 +1,51 @@
+{
+  "schema": "model6-hillclimb-protocol/1",
+  "id": "model6-hillclimb-001",
+  "status": "predeclared-before-new-games",
+  "createdAtUtc": "2026-10-21T10:25:00Z",
+  "hypothesis": "The existing frozen selector may improve mandatory unordered single-card choices relative to first-baseline's PPO actor. Previous 18-14 results on 16 seed pairs were exploratory and did not demonstrate improvement.",
+  "candidate": {
+    "id": "first-baseline-singleton-ranker",
+    "controlledChange": "Only AgentBundle.route singleton becomes ranking. Ordinary actions, all other prompt routes, history, validation, helper and both checkpoints stay frozen.",
+    "ordinarySha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+    "selectionSha256": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+    "training": false
+  },
+  "comparison": {
+    "pilotDeck": "Frozen AgentPult scenario from first-baseline environment",
+    "referencePolicyMixture": {"first-baseline": 0.5, "scripted-teacher": 0.25, "outcome-ppo-update-2": 0.25},
+    "referencePolicyReason": "Stable anchor, existing rules teacher and compatible archived learned policy provide different behaviors. The archived policy is not claimed stronger.",
+    "opponentDecks": "This first routing experiment preserves the existing mirrored deck scenario. The separately authorized varied Limitless opponent-deck pool follows exact-list support qualification and gets its own fixed schedule; it is not silently mixed into this protocol.",
+    "independentUnit": "One independently generated opening-seed block. Candidate and incumbent share each nonbaseline opponent seed and exchange seats. Seats and decisions are not independent units.",
+    "baselineControl": "Identical deterministic first-baseline self-play has paired score exactly 0.5 under seat exchange and zero-sum outcomes. Candidate-baseline blocks subtract this constant; no self-play simulation is needed.",
+    "seedNamespace": "tcg-agent/model6-hillclimb-001/development/v1; SHA256 namespace:index first uint32, reject collisions with prior campaign manifests",
+    "strataBlocks": {"first-baseline": 800, "scripted-teacher": 400, "outcome-ppo-update-2": 400},
+    "totalIndependentBlocks": 1600,
+    "totalGames": 4800
+  },
+  "analysis": {
+    "score": "win=1, draw=0.5, loss=0",
+    "primary": "Fixed-mixture mean of candidate minus incumbent paired score; 1600 independent blocks, ranges width 1 for 800 anchor blocks and width 2 for 800 shared-opponent contrast blocks.",
+    "endpoints": ["mixture advantage", "direct anchor advantage", "teacher matchup advantage", "archived PPO matchup advantage"],
+    "familyAlpha": 0.05,
+    "endpointAlpha": 0.0125,
+    "interval": "Two-sided bounded-variable Hoeffding with Bonferroni allocation to four predeclared endpoints; retain pairing in matchup differences.",
+    "mixtureRadiusFormula": "sqrt(log(2/0.0125)*4000/(2*1600^2))",
+    "decisionRelevantEffect": "10 percentage-point mixture advantage; large 30-point matchup shifts for specialist endpoints",
+    "sampleJustification": "Mixture interval radius about 0.063; Hoeffding lower-tail bound gives at least 82% power for a true +0.10 advantage to clear zero. Matchup contrasts are explicitly less precise.",
+    "candidateGate": "Mixture lower bound >0 AND direct-anchor lower bound >0; then independent fresh confirmation is required before promotion. A supported matchup specialist can enter the population without replacing the champion.",
+    "stopping": "Fixed endpoints, no win-based stopping, extension or tuning. Engineering failures preserve raw evidence and require an explicit recovery amendment; incomplete samples cannot pass the gate."
+  },
+  "compute": {
+    "workers": 6,
+    "maximumWallSecondsPerPanel": 86400,
+    "maximumCampaignSeconds": 259200,
+    "maximumGameSeconds": 3600,
+    "maximumGameCommands": 900,
+    "nativeWorkerSha256": "7a85f20df1616cc3d7b041f437b8a9c066800570a40bcf41e7ae34236507b83b",
+    "nativeQualification": "Existing state-copy parity qualification; scenario remains byte-identical. No search or belief-scope change in this candidate.",
+    "scheduling": "Queue new gameplay until Model7 final confirmation finishes and is preserved. Do not change that campaign, use its seeds, or consume its partial outcomes for candidate selection. Source/math tests may run before capacity is released.",
+    "spending": "Existing local compute only"
+  },
+  "next": "Use observed controlled routing evidence and the frozen search-on/off diagnostic to choose subsequent small variants. Retain useful specialists. Distill only a demonstrated stronger teacher and independently test the student."
+}

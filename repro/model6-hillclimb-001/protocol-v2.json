@@ -1,0 +1,103 @@
+{
+  "schema": "model6-hillclimb-protocol/1",
+  "id": "model6-hillclimb-001",
+  "status": "predeclared-before-new-games",
+  "createdAtUtc": "2026-10-21T10:34:05.218Z",
+  "hypothesis": "The existing frozen selector may improve mandatory unordered single-card choices relative to first-baseline's PPO actor. Previous 18-14 results on 16 seed pairs were exploratory and did not demonstrate improvement.",
+  "candidate": {
+    "id": "first-baseline-singleton-ranker",
+    "controlledChange": "Only AgentBundle.route singleton becomes ranking. Ordinary actions, all other prompt routes, history, validation, helper and both checkpoints stay frozen.",
+    "ordinarySha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+    "selectionSha256": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+    "training": false
+  },
+  "comparison": {
+    "pilotDeck": "Frozen AgentPult scenario from first-baseline environment",
+    "referencePolicyMixture": {
+      "first-baseline": 0.5,
+      "scripted-teacher": 0.25,
+      "outcome-ppo-update-2": 0.25
+    },
+    "referencePolicyReason": "Stable anchor, existing rules teacher and compatible archived learned policy provide different behaviors. The archived policy is not claimed stronger.",
+    "opponentDecks": "This first routing experiment preserves the existing mirrored deck scenario. The separately authorized varied Limitless opponent-deck pool follows exact-list support qualification and gets its own fixed schedule; it is not silently mixed into this protocol.",
+    "independentUnit": "One independently generated opening-seed block. Candidate and incumbent share each nonbaseline opponent seed and exchange seats. Seats and decisions are not independent units.",
+    "baselineControl": "Identical deterministic first-baseline self-play has paired score exactly 0.5 under seat exchange and zero-sum outcomes. Candidate-baseline blocks subtract this constant; no self-play simulation is needed.",
+    "seedNamespace": "tcg-agent/model6-hillclimb-001/development/v2; SHA256 namespace:index first uint32 big-endian; audit prior declared seeds",
+    "strataBlocks": {
+      "first-baseline": 800,
+      "scripted-teacher": 400,
+      "outcome-ppo-update-2": 400
+    },
+    "totalIndependentBlocks": 1600,
+    "totalGames": 4800
+  },
+  "analysis": {
+    "score": "win=1, draw=0.5, loss=0",
+    "primary": "Fixed-mixture mean of candidate minus incumbent paired score; 1600 independent blocks, ranges width 1 for 800 anchor blocks and width 2 for 800 shared-opponent contrast blocks.",
+    "endpoints": [
+      "mixture advantage",
+      "direct anchor advantage",
+      "teacher matchup advantage",
+      "archived PPO matchup advantage"
+    ],
+    "familyAlpha": 0.05,
+    "endpointAlpha": 0.0125,
+    "interval": "Two-sided bounded-variable Hoeffding with Bonferroni allocation to four predeclared endpoints; retain pairing in matchup differences.",
+    "mixtureRadiusFormula": "sqrt(log(2/0.0125)*4000/(2*1600^2))",
+    "decisionRelevantEffect": "10 percentage-point mixture advantage; large 30-point matchup shifts for specialist endpoints",
+    "sampleJustification": "Mixture interval radius about 0.063; Hoeffding lower-tail bound gives at least 82% power for a true +0.10 advantage to clear zero. Matchup contrasts are explicitly less precise.",
+    "candidateGate": "Mixture lower bound >0 AND direct-anchor lower bound >0; then independent fresh confirmation is required before promotion. A supported matchup specialist can enter the population without replacing the champion.",
+    "stopping": "Fixed endpoints, no win-based stopping, extension or tuning. Engineering failures preserve raw evidence and require an explicit recovery amendment; incomplete samples cannot pass the gate.",
+    "anchorScreen": {
+      "cumulativeIndependentPairs": [
+        128,
+        256,
+        512,
+        800
+      ],
+      "lookAlphas": [
+        0.00025,
+        0.00075,
+        0.0015,
+        0.01
+      ],
+      "totalAlpha": 0.0125,
+      "futility": "At declared looks, stop this routing bet if the upper bound on direct anchor advantage is below +0.10. This rules out the target effect at the declared confidence, not all smaller gains.",
+      "advance": "Only after all800 anchor pairs, lower bound >0 required before expanded reference-mixture panels.",
+      "sampleJustification": "Final anchor interval radius .05755. Hoeffding power lower bound above94% at true +0.10; false futility at target controlled by allocated look alphas.",
+      "specialistLimitation": "If stopped at anchor screen, other opponent strengths remain unmeasured; preserve variant rather than claim no specialist value."
+    }
+  },
+  "compute": {
+    "workers": 6,
+    "maximumWallSecondsPerPanel": 86400,
+    "maximumCampaignSeconds": 259200,
+    "maximumGameSeconds": 3600,
+    "maximumGameCommands": 900,
+    "nativeWorkerSha256": "7a85f20df1616cc3d7b041f437b8a9c066800570a40bcf41e7ae34236507b83b",
+    "nativeQualification": "Existing state-copy parity qualification; scenario remains byte-identical. No search or belief-scope change in this candidate.",
+    "scheduling": "Use one spare lane alongside unchanged final confirmation only after fresh measured CPU mean<70%, max<85%, free RAM>4GiB; six lanes only after final completed, verified and preserved. Anchor is split into fixed32-pair execution chunks so capacity can change only at clean boundaries, independent of wins. No strength analysis except128/256/512/800 looks.",
+    "spending": "Existing local compute only",
+    "expectedCost": {
+      "sourceReceipts": [
+        "singleton-routing-001:32games1187.713wall seconds/2355.954summed game seconds",
+        "confirmation-capacity-001:12games232.04wall seconds/1081.815summed game seconds on6lanes"
+      ],
+      "projection": "Full4800games roughly20-26hours on6lanes, not a confidence interval or speedup claim. Anchor futility looks cost256/512/1024/1600games; roughly1.4/2.8/5.5/8.6hours using short six-lane workload scaling; startup and policy can differ.",
+      "reason": "Early anchor futility avoids routinely buying3200 reference-mixture games for an unpromising route."
+    },
+    "allowSpareLane": true,
+    "observedHeadroom": {
+      "at": "2026-10-21T10:34:16.317Z",
+      "cpuPercentMean": 59.730945187374594,
+      "cpuPercentMaximum": 72.99492716484136,
+      "freeMemoryGiB": 6.186737060546875,
+      "logicalProcessors": 16,
+      "measurementSeconds": 10,
+      "caveat": "Short resource headroom sample, not a throughput or stability claim. One additional lane conservatively uses spare capacity; cap failures are explicit."
+    }
+  },
+  "next": "Use observed controlled routing evidence and the frozen search-on/off diagnostic to choose subsequent small variants. Retain useful specialists. Distill only a demonstrated stronger teacher and independently test the student.",
+  "revision": 2,
+  "supersedes": "protocol.json; unused queue stopped prospectively before any games; old manifests retained"
+}

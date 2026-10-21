@@ -1,0 +1,23 @@
+{
+  "schema": "research-implementation-decision/1",
+  "caller": "Existing native-ladder prepared entrant opens openSingletonRankerPlayer, verifies the service, requests a fresh agent per seat/game and shuts it down.",
+  "ownership": {
+    "agents/first-baseline-singleton-ranker.mjs": "Policy treatment and unchanged frozen-service ownership",
+    "scripts/prepare-model6-hillclimb.mjs": "Immutable harness/manifests, seed collision audit and archived control identity",
+    "scripts/run-model6-hillclimb.mjs": "Capacity queue and bounded fixed-panel execution",
+    "src/model6-hillclimb-analysis.mjs": "Independent seed-block contrasts and family-adjusted uncertainty"
+  },
+  "alternatives": [
+    {"choice": "Change frozen AgentBundle directly", "decision": "Rejected because it changes the reference and live pinned environment."},
+    {"choice": "Small opt-in prepared-player wrapper", "decision": "Selected: reuse existing route/proposal methods; preserve source and weights, attribute only the singleton route change."},
+    {"choice": "New adaptive matchmaking or rating infrastructure", "decision": "Deferred: fixed manifests and paired comparison already answer the first decision."}
+  ],
+  "verification": ["Route-isolation test including ordinary/helper/waiting/terminal routes", "Paired uncertainty and sample-adequacy checks", "Incomplete/mismatched pairing rejection", "Source/config/checkpoint pins in immutable prepared manifests", "Independent execution-owner compatibility review"],
+  "diagnosticAudit": {
+    "finding": "Current Model7 prompt fallback routes supported mandatory singleton prompts to the frozen selector, while first-baseline uses the PPO actor. Naive same-weights search comparison therefore changes both search and routing.",
+    "causalStatus": "Actual source difference; not established as the cause of Model7 regression.",
+    "nextControl": "Initial weights with search must retain original prompt routes. Final Model7 prior-only must retain its deployed prompt routes. Value uses the current tanh transform in both search controls."
+  },
+  "noNewTraining": true,
+  "noChampionPromotion": true
+}

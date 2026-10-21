@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
-  "revision": 8,
-  "at": "2026-10-21T09:50:13.862Z",
+  "revision": 9,
+  "at": "2026-10-21T10:42:00Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -601,5 +601,23 @@
     "sharedSeedPanelNotPooledForGlobalIndependence": true,
     "trainingComplete": true,
     "finalConfirmationIndependent": true
+  },
+  "currentHillClimb": {
+    "id": "model6-hillclimb-001",
+    "protocol": "repro/model6-hillclimb-001/protocol-v2.json",
+    "status": "actual gameplay started10:37:15UTC on one measured spare lane; original unstarted queue/protocol preserved as superseded",
+    "hypothesis": "Existing frozen selector improves mandatory-singleton choices compared with the first-baseline PPO actor; previous 16-pair screen was inconclusive.",
+    "controlledChange": "Mandatory-singleton route only; exact ordinary/selector weights and complete reference history/helper preserved.",
+    "source": "Existing AgentBundle singleton/ranking routes; no new model or foreign weights",
+    "budget": {"maximumIndependentBlocks": 1600, "maximumGames": 4800, "workers": "1spare lane;6after final verified/preserved", "maximumCampaignSeconds": 259200},
+    "comparison": "50% fixed anchor,25% scripted teacher,25% compatible archived outcome PPO update2, with incumbent controls sharing each nonanchor seed block",
+    "uncertainty": "Anchor futility looks128/256/512/800pairs with alpha .00025/.00075/.0015/.01, sum .0125; expanded mixture/teacher/archived endpoints each .0125. Mixture radius about .063 and endpoint power above82% at true +.10; these are not a universal sample threshold.",
+    "actualCost": {"gamesStartedAtUtc": "2026-10-21T10:37:15.423Z", "firstNaturalGameSeconds": 65.925, "newFits": 0, "finalCostPending": true},
+    "conclusion": "No new strength result yet. First-baseline remains champion; candidate gate requires mixture and direct-anchor advantage, then fresh independent confirmation.",
+    "diagnosticFinding": "Model7 search wrapper changes mandatory-singleton routing relative to baseline. This is a verified interface confound, not a proven cause of regression.",
+    "nextAction": "Run declared anchor futility screen before buying full reference mix. Search diagnostic wrappers and576-pair-per-contrast plan are written; actual-runtime parity qualification follows, then diagnostics at the anchor boundary. Qualify dated exact Limitless opponent decks for a separate fixed diverse-deck schedule.",
+    "searchDiagnosticProtocol": "repro/model6-hillclimb-001/search-diagnostic-protocol.json",
+    "headroom": {"cpuPercentMean": 59.730945187374594, "cpuPercentMaximum": 72.99492716484136, "freeMemoryGiB": 6.186737060546875, "measurementSeconds": 10},
+    "expectedCost": "Full conditional4800games roughly20-26hours on6lanes from retained receipts; staged futility avoids routine full-panel cost. One-lane first32-pair execution chunk roughly1-1.5hours; capacity expands only at clean chunk boundaries."
   }
 }

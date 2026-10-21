@@ -1,0 +1,9 @@
+{
+  "schema": "prospective-analysis-verification/1",
+  "beforeFirstDeclaredAnalysisLook": true,
+  "finding": "The frozen execution snapshot's expanded-panel reporter applies .0125 to its final anchor display. The staged protocol allocates .01 to that final anchor look, with .0025 already allocated to earlier looks.",
+  "correction": "Canonical reporting recomputes the final anchor interval with .01, leaving mixture/teacher/archived at .0125. Run scripts/report-model6-hillclimb.mjs on the completed private campaign before interpreting or publishing a result.",
+  "affected": "Only a future expanded-panel displayed anchor interval. The running anchor-screen decision already uses the correct per-look allocation and remains unchanged. No game, policy, sample, stopping threshold, seed or live pinned source was changed.",
+  "preserved": "Original frozen execution source, raw result and all manifests remain reproducible; canonical result records raw-result/reporter/analysis hashes.",
+  "promotion": false
+}

@@ -80,3 +80,8 @@ scripts/qualify-model7-search-adoption.mjs -text
 integrations/local-worker/prepare-native-search.mjs -text
 integrations/local-worker/actor-deck-knowledge.mjs -text
 integrations/local-worker/MatchWorker.InformationSearch.cs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+scripts/prepare-model6-hillclimb.mjs -text
+scripts/run-model6-hillclimb.mjs -text
+scripts/report-model6-hillclimb.mjs -text
+src/model6-hillclimb-analysis.mjs -text
+repro/model6-hillclimb-001/** -text
