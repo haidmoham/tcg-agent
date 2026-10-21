@@ -176,7 +176,9 @@
       "Freeze the selected candidate and entire environment, reserve untouched confirmation seeds, then run a fixed fresh confirmation. Retain negatives and never replace the anchor automatically.",
       "User retains ranked deployment approval."
     ],
-    "additionalArchivedCandidates": "Completed four-update control/gamma1/entropy005 arms in model-six-ppo-2026-10-20-r1 are candidates for future frozen evaluation, not evidence of strength. The prior failed zero-update attempt and stale context2 status snapshots must not be interpreted as current work or completed evaluations."
+    "additionalArchivedCandidates": "Completed four-update control/gamma1/entropy005 arms in model-six-ppo-2026-10-20-r1 are candidates for future frozen evaluation, not evidence of strength. The prior failed zero-update attempt and stale context2 status snapshots must not be interpreted as current work or completed evaluations.",
+    "lastInspectedState": "The snapshot execution process was terminated by a tool-transport disconnect after two complete pairs (four scored games). The research owner is recovering within the original seed/checkpoint/deadline contract. Do not infer activity from a stale running status file.",
+    "recoveryIngestion": "Use the research owner canonical recovered receipt once available. Do not concatenate the interrupted receipt and recovered receipt: duplicate seed/matchup blocks must count once, and the reporter rejects duplicates. Running or incomplete panels remain previews."
   },
   "immediatelyAvailable": [
     "Read-only ratings/matrix reports from preserved receipts and the active snapshot panel.",
@@ -241,5 +243,53 @@
     ],
     "endToEnd": "128 historical native game receipts imported, 6 natural cross-play integration games, 2 final source-pinned native games, and live snapshot adapter exercised.",
     "privateArtifacts": "Task workspace ignored runs/ladder-audit and runs/ladder-smoke-{001,002,003}; prepared runtime, models and historical archives remained external and unchanged."
+  },
+  "entrantsActuallySimulated": [
+    {
+      "id": "first-baseline",
+      "role": "Fixed anchor",
+      "ordinarySha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+      "selectionSha256": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d"
+    },
+    {
+      "id": "scripted-teacher",
+      "role": "Existing original createAgentPultTeacher policy through the ladder adapter; distinct from the enhanced Model5 teacher used in prior PPO collection"
+    },
+    {
+      "id": "outcome-ppo",
+      "role": "Preserved fourth outcome PPO update with unchanged frozen selector",
+      "ordinarySha256": "6d7e87af45c4fd6272757cb161a73584aef4f2d52903b0a041ddbfad04529828",
+      "selectionSha256": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d"
+    }
+  ],
+  "newCandidateMilestone": {
+    "measurementExecuted": true,
+    "strengthSeparationDemonstrated": false,
+    "candidate": "outcome-ppo",
+    "freshEnvironmentV1Comparison": {
+      "games": 2,
+      "independentPairs": 1,
+      "wins": 1,
+      "losses": 1,
+      "score": 0.5,
+      "interval95": [
+        0,
+        1
+      ],
+      "conclusion": "Cannot distinguish from first-baseline; development integration evidence only."
+    },
+    "retainedLegacyComparison": {
+      "games": 64,
+      "independentPairs": 32,
+      "wins": 22,
+      "losses": 42,
+      "score": 0.34375,
+      "interval95": [
+        0.10366930217001982,
+        0.5838306978299802
+      ],
+      "conclusion": "No demonstrated improvement or separation under retained paired-block bounds; separate legacy pool."
+    },
+    "infrastructureEnabled": "Additional saved checkpoints can be measured through fixed paired schedules and read-only snapshot ingestion. The 64-game retrospective panel is not complete evidence."
   }
 }
