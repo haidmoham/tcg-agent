@@ -1,4 +1,4 @@
-"""Preserve the initialized training state while pinning a qualified source repair."""
+"""Preserve every training-state field while pinning a qualified source amendment."""
 
 import argparse
 import json
@@ -29,13 +29,15 @@ def main():
     parser.add_argument('checkpoint'); parser.add_argument('output')
     parser.add_argument('--catalog', required=True); parser.add_argument('--probe-records', required=True)
     parser.add_argument('--protocol-sha256', required=True)
+    parser.add_argument('--allow-trained', action='store_true')
     args = parser.parse_args()
     parent_sha = runtime.sha256(args.checkpoint)
     saved = torch.load(features.private_checkpoint(args.checkpoint), map_location='cpu', weights_only=True)
-    if saved['updateCount'] != 0 or saved['optimizer']['state']:
+    if not args.allow_trained and (saved['updateCount'] != 0 or saved['optimizer']['state']):
         raise ValueError('this recovery reseal is restricted to the unchanged pre-fit initialization')
     trainer = az.AlphaZeroTrainer.load(args.checkpoint, features.catalog_metadata(args.catalog), 'cpu')
-    probe = runtime.records(args.probe_records)[:64]
+    probe = [az.feature_record(row) if row.get('schema') == az.RECORD_SCHEMA else row
+             for row in runtime.records(args.probe_records)[:64]]
     before = trainer.score(probe)
     trainer.metadata = {**trainer.metadata, 'sourceHashes': runtime.source_hashes(),
                         'metadataResealParentSha256': parent_sha,
@@ -56,7 +58,7 @@ def main():
     receipt = {**trainer.metadata, 'schema': 'native-alphazero-receipt/1',
                'checkpoint': str(output), 'checkpointSha256': runtime.sha256(output),
                'metadataOnlyReseal': True, 'unchangedTrainingStateFields': unchanged,
-               'reloadPolicyValueExact': True, 'updateCount': 0, 'fits': 0,
+               'reloadPolicyValueExact': True, 'updateCount': trainer.update_count, 'fits': 0,
                'probeRecordsSha256': runtime.sha256(args.probe_records),
                'config': trainer.config}
     with output.with_suffix('.receipt.json').open('x', encoding='utf-8') as stream:
