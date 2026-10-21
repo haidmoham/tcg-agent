@@ -2,6 +2,8 @@
 
 A public, CPU-first Pokémon TCG simulation and learning project. **Full current Standard support is the target and is not complete.** The runnable reference profile has complete seeded games, legal choices, player-safe observations and replay. A pinned public Twinleaf integration executes modern printed-card conformance fixtures. Two bounded imitation checkpoints run on a private two-deck native profile. They are not competitive agents.
 
+The active reference agent is **[first-baseline](docs/first-baseline-foundation.md)**, the unchanged former Model6 update23 actor plus its pinned selector. The frozen `tcg-agent-native/1.0.0` environment reuses the existing native simulator and AgentBundle, with reproducible source and private-input pins. Start there for future player experiments; older ModelN reports retain their historical names.
+
 Open **[the visual tutorial](tutorial.html)** in a browser. It explains what transfers from VGC bots, where existing analytics fit, and which technical decisions remain the learner's work.
 
 The optional [checkpoint table](docs/checkpoint-play.md) lets a human play a saved ordinary-action model through the private native worker, with local Indigo card artwork and board styling. Its helper-controlled setup/prompts and learned opponent actions are labeled separately.
