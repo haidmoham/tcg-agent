@@ -11,11 +11,15 @@ const sourcePins = Object.fromEntries([new URL(import.meta.url), new URL('../src
   .map(file => [file.href, hashFile(file)]));
 const manifest = readJson(manifestPath), config = readJson(manifest.environmentConfig), root = path.resolve(output);
 const maximumGames = manifest.maximumGames ?? 128;
+const analysisAlpha = manifest.analysisAlpha ?? .05;
+const episodeRunner = manifest.episodeRunner;
+const maximumEpisodeSeconds = episodeRunner ? 3600 : 240;
 if (manifest.schema !== 'native-ladder-run/1' || !['development', 'confirmation'].includes(manifest.split) || manifest.promotion !== false
+  || !Number.isFinite(analysisAlpha) || analysisAlpha <= 0 || analysisAlpha >= 1
   || !Number.isSafeInteger(manifest.workers) || manifest.workers < 1 || manifest.workers > 8
   || !Number.isSafeInteger(maximumGames) || maximumGames < 2 || maximumGames > 4096
   || !Number.isSafeInteger(manifest.maximumWallSeconds) || manifest.maximumWallSeconds < 1 || manifest.maximumWallSeconds > 86400
-  || !Number.isSafeInteger(manifest.maximumGameSeconds) || manifest.maximumGameSeconds < 1 || manifest.maximumGameSeconds > 240
+  || !Number.isSafeInteger(manifest.maximumGameSeconds) || manifest.maximumGameSeconds < 1 || manifest.maximumGameSeconds > maximumEpisodeSeconds
   || !Number.isSafeInteger(manifest.maximumGameCommands) || manifest.maximumGameCommands < 1 || manifest.maximumGameCommands > 1500)
   throw Error('bounded predeclared native run required');
 if (manifest.split === 'confirmation' && (!manifest.strengthPlan?.effect || !manifest.strengthPlan?.independentUnit
@@ -29,14 +33,56 @@ const [{ verifyFrozenRuntime }, { runNativeGame }, { AgentBundle }, { EntityPpoM
   load('integrations/local-worker/entity-ppo-model.mjs'), load('integrations/local-worker/model6-model.mjs'),
   load('learning/model6-features.mjs'), load('integrations/local-worker/card-action-policy.mjs'), load('learning/agentpult-teacher.mjs')]);
 verifyFrozenRuntime(config);
+let runEpisode;
+const verifyEpisodeRunner = () => {
+  if (!episodeRunner) return;
+  if (!path.isAbsolute(episodeRunner.module) || !/^[a-f0-9]{64}$/.test(episodeRunner.sha256 ?? '')
+      || !episodeRunner.sourcePins || !Object.keys(episodeRunner.sourcePins).length
+      || episodeRunner.maximumGameSeconds !== 3600 || hashFile(episodeRunner.module) !== episodeRunner.sha256)
+    throw Error('explicit pinned extended-budget episode runner required');
+  for (const [file, digest] of Object.entries(episodeRunner.sourcePins))
+    if (hashFile(file) !== digest) throw Error('episode runner source changed');
+};
+verifyEpisodeRunner();
+if (episodeRunner) {
+  ({ runTrainingEpisode: runEpisode } = await import(pathToFileURL(episodeRunner.module)));
+  if (typeof runEpisode !== 'function') throw Error('episode runner export missing');
+}
 const manifestSha256 = hashFile(manifestPath), configSha256 = hashFile(manifest.environmentConfig);
-const native = readJson(config.nativeConfig), registry = { schema: 'native-ladder-registry/1', anchor: manifest.anchor, entrants: [] };
+const nativePath = manifest.nativeConfigOverride ?? config.nativeConfig;
+const native = readJson(nativePath), nativeConfigSha256 = hashFile(nativePath);
+let nativeImplementation = null, verifyNativeOverride = null;
+if (manifest.nativeConfigOverride) {
+  const originalNative = readJson(config.nativeConfig);
+  const permitted = new Set(['worker', 'workerSha256', 'workerSourceRoot', 'workerSourceSha256', 'implementationVersion', 'referenceWorkerSha256']);
+  const remaining = value => Object.fromEntries(Object.entries(value).filter(([key]) => !permitted.has(key)).sort(([a], [b]) => a.localeCompare(b)));
+  if (identityHash(remaining(native)) !== identityHash(remaining(originalNative))
+    || native.referenceWorkerSha256 !== originalNative.workerSha256
+    || native.workerSha256 !== manifest.nativeQualification?.workerSha256
+    || hashFile(manifest.nativeQualification.receipt) !== manifest.nativeQualification.sha256)
+    throw Error('qualified native override must preserve the exact scenario, helper and reference identity');
+  const { verifyLocalInputs } = await load('integrations/local-worker/probe.mjs');
+  verifyNativeOverride = () => verifyLocalInputs(native);
+  verifyLocalInputs(native);
+  nativeImplementation = { implementationVersion: native.implementationVersion, workerSha256: native.workerSha256,
+    workerSourceSha256: native.workerSourceSha256, referenceWorkerSha256: native.referenceWorkerSha256,
+    qualificationReceiptSha256: manifest.nativeQualification.sha256 };
+}
+const registry = { schema: 'native-ladder-registry/1', anchor: manifest.anchor, entrants: [] };
 const behavior = { bundle: config.filePins[path.join(config.runtimeRoot, 'integrations/local-worker/agent-bundle.mjs')],
   history: 'complete-game', deterministic: true };
 for (const entrant of manifest.entrants) {
-  if (!['baseline', 'ppo', 'teacher'].includes(entrant.kind)) throw Error('unsupported existing agent kind');
+  if (!['baseline', 'ppo', 'teacher', 'prepared'].includes(entrant.kind)) throw Error('unsupported agent kind');
   let pins;
-  if (entrant.kind === 'teacher') {
+  if (entrant.kind === 'prepared') {
+    if (hashFile(entrant.checkpoint) !== entrant.sha256 || hashFile(entrant.factoryModule) !== entrant.factorySha256
+      || !Object.keys(entrant.sourcePins ?? {}).length || entrant.pins?.ordinary !== entrant.sha256
+      || entrant.pins?.selection !== config.agent.selectionSha256 || entrant.pins?.catalog !== config.agent.catalogSha256)
+      throw Error('prepared player needs complete checkpoint, source and behavior pins');
+    for (const [file, digest] of Object.entries(entrant.sourcePins)) if (hashFile(file) !== digest) throw Error('prepared player source changed');
+    pins = { ...entrant.pins, factory: entrant.factorySha256, factoryExport: entrant.factoryExport ?? 'openJointChoicePlayer',
+      privateSourceManifestSha256: identityHash(Object.entries(entrant.sourcePins).sort(([a], [b]) => a.localeCompare(b))) };
+  } else if (entrant.kind === 'teacher') {
     if (hashFile(entrant.catalogPath) !== entrant.catalogSha256) throw Error('teacher catalog changed');
     pins = { teacher: config.filePins[path.join(config.runtimeRoot, 'learning/agentpult-teacher.mjs')],
       catalog: entrant.catalogSha256, adapter: 'native-ladder-teacher/1', ...behavior };
@@ -52,10 +98,19 @@ if (matchSchedule.length * 2 > maximumGames) throw Error('schedule exceeds decla
 const assertFrozenInputs = () => {
   for (const [file, digest] of Object.entries(sourcePins)) if (hashFile(new URL(file)) !== digest) throw Error('evaluation source changed');
   if (hashFile(manifestPath) !== manifestSha256 || hashFile(manifest.environmentConfig) !== configSha256) throw Error('run inputs changed');
+  if (hashFile(nativePath) !== nativeConfigSha256 || hashFile(native.worker) !== native.workerSha256) throw Error('native execution changed');
+  if (manifest.nativeConfigOverride && hashFile(manifest.nativeQualification.receipt) !== manifest.nativeQualification.sha256)
+    throw Error('native qualification changed');
+  verifyNativeOverride?.();
+  verifyEpisodeRunner();
   verifyFrozenRuntime(config);
   for (const e of manifest.entrants) {
-    if (e.kind === 'ppo' && hashFile(e.checkpoint) !== e.sha256) throw Error('candidate changed');
+    if (['ppo', 'prepared'].includes(e.kind) && hashFile(e.checkpoint) !== e.sha256) throw Error('candidate changed');
     if (e.kind === 'teacher' && hashFile(e.catalogPath) !== e.catalogSha256) throw Error('teacher changed');
+    if (e.kind === 'prepared') {
+      if (hashFile(e.factoryModule) !== e.factorySha256) throw Error('candidate factory changed');
+      for (const [file, digest] of Object.entries(e.sourcePins)) if (hashFile(file) !== digest) throw Error('candidate source changed');
+    }
   }
 };
 fs.mkdirSync(root, { recursive: true });
@@ -68,18 +123,22 @@ const stop = reason => { stopReason ??= reason; abort.abort(); };
 const interrupted = () => stop('operator-interrupted');
 process.on('SIGINT', interrupted); process.on('SIGTERM', interrupted);
 const timer = setTimeout(() => stop('global-wall-budget'), manifest.maximumWallSeconds * 1000);
-const common = { schema: 'native-ladder-block/1', environmentSha256: identityHash({ lock: config.lockSha256, platform: config.platform }),
+const environmentIdentity = { lock: config.lockSha256, platform: config.platform };
+if (nativeImplementation) environmentIdentity.nativeImplementation = nativeImplementation;
+const common = { schema: 'native-ladder-block/1', environmentSha256: identityHash(environmentIdentity),
   scenarioSha256: identityHash(config.scenario), split: manifest.split, protocolSha256: manifestSha256,
   failureContract: identityHash({ semantics: 'policy-forfeit-command-cap-draw-shared-invalid/1',
-    maxCommands: manifest.maximumGameCommands, maxSeconds: manifest.maximumGameSeconds }), receiptSha256: manifestSha256 };
+    maxCommands: manifest.maximumGameCommands, maxSeconds: manifest.maximumGameSeconds,
+    ...(episodeRunner ? { episodeRunnerSha256: episodeRunner.sha256 } : {}) }), receiptSha256: manifestSha256 };
 function report(final = false) {
   const complete = final && !stopReason && blocks.length === matchSchedule.length;
   const result = { schema: 'native-ladder-run-receipt/1', state: complete ? 'completed' : final ? 'incomplete' : 'running',
     at: new Date().toISOString(), processId: process.pid,
-    registry, blocks: blocks.map(b => ({ ...b, fixedEndpoint: complete })), manifestSha256, configSha256,
+    registry, blocks: blocks.map(b => ({ ...b, fixedEndpoint: complete })), manifestSha256, configSha256, analysisAlpha,
+    nativeImplementation, nativeConfigSha256,
     runnerSha256: sourcePins[import.meta.url], sourcePins, plannedPairs: matchSchedule.length, workers: manifest.workers,
     elapsedSeconds: (Date.now() - started) / 1000, stopReason, promotion: false };
-  save('receipt.json', result); save('report.json', summarizeNativeLadder(registry, result.blocks));
+  save('receipt.json', result); save('report.json', summarizeNativeLadder(registry, result.blocks, { alpha: analysisAlpha }));
   return result;
 }
 async function lane(index) {
@@ -87,14 +146,26 @@ async function lane(index) {
   try {
     const ordinary = new EntityPpoModelClient(config.ordinary), selection = new Model6ModelClient(config.selection);
     clients.push(ordinary, selection);
-    const models = new Map();
+    const models = new Map(), preparedPlayers = new Map();
     for (const e of manifest.entrants.filter(e => e.kind === 'ppo')) {
       const model = new EntityPpoModelClient({ ...config.ordinary, checkpoint: e.checkpoint, modelRoot: path.dirname(e.checkpoint) });
       clients.push(model); models.set(e.id, model);
     }
+    for (const entrant of manifest.entrants.filter(entrant => entrant.kind === 'prepared')) {
+      const factory = await import(pathToFileURL(entrant.factoryModule));
+      const openPlayer = factory[entrant.factoryExport ?? 'openJointChoicePlayer'];
+      if (typeof openPlayer !== 'function') throw Error('prepared player factory export missing');
+      const service = await openPlayer({ ...entrant.factoryOptions,
+        environmentConfig: manifest.environmentConfig, checkpoint: entrant.checkpoint, checkpointSha256: entrant.sha256,
+        selectionClient: selection, catalog: ordinary.catalog });
+      if (typeof service.verify !== 'function' || typeof service.newGame !== 'function' || typeof service.shutdown !== 'function')
+        throw Error('prepared player service contract incomplete');
+      clients.push(service); preparedPlayers.set(entrant.id, service);
+    }
     save(`lane-${index}-verified.json`, await Promise.all(clients.map(c => c.verify())));
-    function createEntrantAgent(id) {
+    function createEntrantAgent(id, searchSeed) {
       const e = manifest.entrants.find(e => e.id === id), pins = registry.entrants.find(e => e.id === id).pins;
+      if (e.kind === 'prepared') return preparedPlayers.get(id).newGame({ searchSeed });
       const agent = new AgentBundle({ ordinary: models.get(id) ?? ordinary, selection, catalog: ordinary.catalog,
         encode: features.encodeModel6Decision, supportsCardSelection: choices.supportsCardSelection,
         rankedPromptAnswers: choices.rankedPromptAnswers, pins, historyMode: 'complete-game', deterministic: true });
@@ -116,7 +187,8 @@ async function lane(index) {
       for (const aSeat of task.seats) {
         if (stopReason) break;
         const begin = Date.now(), label = `pair-${slot}-${aSeat}`;
-        const agents = Object.fromEntries(['human', 'opponent'].map(seat => [seat, createEntrantAgent(seat === aSeat ? task.a : task.b)]));
+        const searchSeed = manifest.searchSeeds?.[manifest.seeds.indexOf(task.seed)]?.[aSeat];
+        const agents = Object.fromEntries(['human', 'opponent'].map(seat => [seat, createEntrantAgent(seat === aSeat ? task.a : task.b, searchSeed)]));
         let policySeat = null;
         for (const [seat, agent] of Object.entries(agents)) {
           const propose = agent.propose.bind(agent);
@@ -133,6 +205,7 @@ async function lane(index) {
         let outcome;
         try {
           const game = await runNativeGame(native, { seed: task.seed, seatOrder: [0, 1], agents,
+            ...(runEpisode ? { runEpisode } : {}),
             maxCommands: manifest.maximumGameCommands, maxSeconds: manifest.maximumGameSeconds, auditEvery: 32, signal: abort.signal,
             onFrame: ({ entry }) => append(`${label}-progress.jsonl`, entry) });
           if (!game.summary.completedNaturally || game.summary.rejected !== 0 || game.summary.privacyChecks < 2)

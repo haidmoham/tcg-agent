@@ -1,0 +1,15 @@
+{
+  "schema": "native-evaluation-capacity-check/1",
+  "purpose": "Non-strength engineering check of six concurrent frozen native/model lanes; no comparative speedup or strength conclusion",
+  "state": "completed",
+  "workers": 6,
+  "games": 12,
+  "naturalGames": 12,
+  "failures": [],
+  "wallSeconds": 232.04,
+  "summedGameSeconds": 1081.815,
+  "maximumGameSeconds": 126.895,
+  "projected1024GameWallSeconds": 19800.746666666666,
+  "projectionCaveat": "Scheduling estimate from one short engineering workload, not a speedup claim or guaranteed sustained rate. Candidate seed distribution and concurrent work may change latency.",
+  "cpuCoreSeconds": null
+}

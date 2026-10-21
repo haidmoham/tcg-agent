@@ -1,0 +1,59 @@
+{
+  "schema": "model7-engineering-recovery/1",
+  "at": "2026-10-21T03:50:54.714Z",
+  "originalProtocolSha256": "66006c2ebfc81d16a97ed69156d996f42fd1070518701f1e51391bb9e9326a35",
+  "optimizerUpdatesBeforeAmendment": 0,
+  "attempts": [
+    {
+      "taskId": "az-batch-1-game-1",
+      "receiptSha256": "8f5b177a3ad5103b84aed3b4384d41ee34266d54298b2659de0335f27e87c504",
+      "natural": false,
+      "seconds": 316.367,
+      "records": 0,
+      "partialRecords": 66,
+      "roots": 66,
+      "searchSeconds": 284.3844320000002,
+      "errorCode": null,
+      "reason": "current complete legal candidate list required"
+    },
+    {
+      "taskId": "az-batch-1-game-2",
+      "receiptSha256": "798a4eba0e0bb795bece848aae9b863bf18484329e71e1482c20db864d5209ed",
+      "natural": true,
+      "seconds": 300.407,
+      "records": 61,
+      "partialRecords": 0,
+      "roots": 61,
+      "searchSeconds": 265.3717029,
+      "errorCode": null,
+      "reason": null
+    },
+    {
+      "taskId": "az-batch-1-game-3",
+      "receiptSha256": "bb9152ea89c517dae8e8eac61a4eabda969553870fcf0fe540f6aebae3cfe442",
+      "natural": false,
+      "seconds": 360.368,
+      "records": 0,
+      "partialRecords": 58,
+      "roots": 58,
+      "searchSeconds": 306.2272540000002,
+      "errorCode": "NATIVE_EPISODE_TIME_BUDGET",
+      "reason": "training episode time budget exhausted"
+    },
+    {
+      "taskId": "az-batch-1-game-4",
+      "receiptSha256": "9f62bf70979a6b704622bbd7b1ab74418c4fd06141573bfb85cda45be3e064f5",
+      "natural": false,
+      "seconds": 191.498,
+      "records": 0,
+      "partialRecords": 47,
+      "roots": 47,
+      "searchSeconds": 168.01641900000004,
+      "errorCode": null,
+      "reason": "current complete legal candidate list required"
+    }
+  ],
+  "allBatch1DataExcludedFromGradients": true,
+  "strengthConclusion": null,
+  "promotion": false
+}

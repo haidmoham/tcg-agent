@@ -1,11 +1,11 @@
 {
   "schema": "model7-overnight-design/1",
-  "status": "predeclared",
+  "status": "frozen",
   "at": "2026-10-21T02:39:41.517Z",
   "experiment": "model7-overnight-001",
   "oneTrainingTrajectory": true,
   "method": "larger-batch terminal-outcome PPO",
-  "rationale": "The24-game pilot offered only six natural games per update and showed no established strength gain. The four-checkpoint development panel was5-11,10-6,8-8,6-10: no monotonic gain; the intermediate lead is exploratory. Increase on-policy batch game diversity to reduce update sampling noise, while retaining verified objective, network, masks, optimizer, helpers and PPO settings. More data may still fail; fresh gameplay decides.",
+  "rationale": "The 24-game pilot offered only six natural games per update and showed no established strength gain. The four-checkpoint development panel was 5-11, 10-6, 8-8, 6-10: no monotonic gain; the intermediate lead is exploratory. Increase on-policy batch game diversity to reduce update sampling noise, while retaining verified objective, network, masks, optimizer, helpers and PPO settings. More data may still fail; fresh gameplay decides.",
   "priorArt": [
     {
       "source": "https://arxiv.org/abs/1707.06347",
@@ -60,8 +60,8 @@
     "maximumGameSeconds": 240,
     "maximumGameCommands": 600,
     "maximumCollectionSecondsPerBatch": 3600,
-    "opponents": "32 frozen first-baseline and32existing AgentPult teacher perbatch,16perseat peropponent; mirrored retained Hammerpult recipe",
-    "expectedThroughput": "Historical24-game pilot took858.827s at2lanes (~101 natural games/hour). Four-lane sustained throughput must be measured; no assumed2x speedup. Six-hour campaign reports actual completed games, batches and optimizer steps.",
+    "opponents": "32 frozen first-baseline and 32 existing AgentPult teacher games per batch, 16 per seat per opponent; mirrored retained Hammerpult recipe",
+    "expectedThroughput": "Historical 24-game pilot took 858.827 seconds at two lanes (~101 natural games/hour). Four-lane sustained throughput must be measured; no assumed 2x speedup. The six-hour campaign reports actual completed games, batches and optimizer steps.",
     "batches": [
       {
         "index": 1,
@@ -20707,7 +20707,8 @@
     "admission": "fit only all64natural accepted episodes with no errors/exclusions/rejections and <=16384total records; no reward for incomplete or failed games",
     "checkpointRule": "last fully admitted, immutable, reload-verified update completed before10:00Z; no outcome-based checkpoint selection",
     "stopping": "fixed absolute deadline; validity/resource failure may stop training and must retain all partial evidence; preserve last verified checkpoint. Never start a competing trained candidate.",
-    "engine": "pin before launch; use qualified speed gain only with explicit differential evidence and source identity; do not wait past start for infrastructure or change a running comparison"
+    "engine": "pin before launch; use qualified speed gain only with explicit differential evidence and source identity; do not wait past start for infrastructure or change a running comparison",
+    "recovery": "On a batch with any excluded/time-limited/fatal game, discard the entire batch from gradients, retain all raw evidence, and advance to the next predeclared64-game batch with the SAME last valid parent; do not refill based on outcomes. Source/hash/privacy mismatch fails closed. No partial fits, second trajectory, seed reuse or deadline extension. Any skipped batches and resulting training-distribution limitation are reported."
   },
   "monitoring": {
     "dataRole": "development only; separate compute from training allocation",
@@ -21346,5 +21347,21 @@
     "budgetSeparateFromTraining": true
   },
   "publicPreservation": "source/config/seeds/hash/results versioned; private weights,rawrecords,journals and input paths external",
-  "promotion": false
+  "promotion": false,
+  "limitations": [
+    "Whole-batch exclusion can correlate with policy behavior, game length or failure frequency and therefore select the training distribution. The retained data must not be described as an unbiased sample of all attempted play. Report attempted/admitted/discarded games and decisions by failure reason, opponent, seat, batch and parent checkpoint.",
+    "Discarding an affected batch can waste valid trajectories. This is a declared conservative reuse of the existing admission path, not proof that every discarded trajectory was unusable. No failure reward is invented and exclusions cannot establish an algorithm no-effect claim.",
+    "Existing ordinary/singleton learning leaves optional/multi-card selector/helper decisions frozen; this measures the chosen continuation rather than isolating that ceiling.",
+    "Final evidence is scenario-specific. Train/eval history adapter difference is explicit and broader-deck/client strength remains unmeasured."
+  ],
+  "frozenAtUtc": "2026-10-21T02:50:22.269Z",
+  "externalReuseDecision": {
+    "repository": "https://github.com/Trevon-Woods-AI-Portfolio/PokemonTCG_Deep_RL_Agent",
+    "sourceCommit": "192bf1b4bc0f17a44d11b684cd2dbdf83875b253",
+    "decision": "Retain the prepared categorical PPO training path for this one overnight run; pursue a separate source-only adaptation without an extra trained candidate.",
+    "evidence": "The checked-in Python code is inference/search, with no optimizer or PPO training pipeline. CABT-specific action enumeration and hidden allocation require correction before trustworthy native search targets. Reusing search decisions with pre-search actor log probabilities would not supply correct on-policy behavior ratios.",
+    "reuseOwner": "01a15c58-0bae-702b-b837-d3a42d69e0d7",
+    "licenseScope": "MIT source is available for attributed adaptation. Supplied competition-trained weights are not cleared for this independent ladder; separate owner is recording applicable terms.",
+    "remainingOpportunity": "Native search-target distillation or sparse scoring can be evaluated separately after the adapter is verified; do not silently combine it with this controlled continuation."
+  }
 }
