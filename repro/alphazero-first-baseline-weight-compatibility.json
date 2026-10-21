@@ -1,0 +1,11 @@
+{
+  "schema": "alphazero-first-baseline-weight-compatibility/1",
+  "baselineSha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+  "allStateDictTensorsExact": true,
+  "ordinarySingletonPolicyExact": true,
+  "newValueEqualsTanhOriginalCritic": true,
+  "newAdamEmpty": true,
+  "baselineUnchanged": true,
+  "probeScope": "synthetic engineering records with actual frozen weights/catalog; not whole-game parity or strength",
+  "parameters": 257299
+}
