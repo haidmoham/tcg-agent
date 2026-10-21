@@ -18,6 +18,10 @@ The [public project wiki](https://github.com/haidmoham/tcg-agent/wiki) is the ca
 
 The active reference is first-baseline in the frozen `tcg-agent-native/1.0.0` environment. See `docs/first-baseline-foundation.md` and `docs/first-baseline-preservation.json`. Older ModelN reports retain their historical names and describe completed runs. Follow current task authorization for new simulation research, preserve frozen runtime pins during comparisons, and keep private inputs and weights external.
 
+## Upstream reference system
+
+Treat [Michal1337/pkmn-kaggle](https://github.com/Michal1337/pkmn-kaggle) and the supplied Kaggle environments as upstream references across learning and execution until evidence justifies divergence. Start from their working system and interfaces: observation/encoding, legal selections, simulation collection, training, opponent populations and evaluation gates. Reuse suitable authorized components before inventing parallel machinery. Record the inspected upstream version, inherited invariants and evidence for departures. Verify implementation, access and licensing for actual reuse; distinguish author claims from reproduced results. Preserve actor visibility and training/evaluation parity, profile our own bottlenecks, and qualify source/config/behavior parity before adoption. Keep running comparisons and frozen references unchanged. See the [canonical upstream guidance](https://github.com/haidmoham/tcg-agent/wiki/Training-data-and-baselines#upstream-reference-system).
+
 ## Experiment adequacy
 
 Strength or performance conclusions require enough independent evidence to answer the question. Before a run, declare the decision-relevant effect, comparison, independent sampling unit, uncertainty criterion, and sample size/compute budget. Justify adequacy through power or precision planning, or a valid sequential design with declared stopping rules and justified uncertainty. Do not choose a tiny sample merely to finish cheaply or impose an arbitrary universal sample size.
