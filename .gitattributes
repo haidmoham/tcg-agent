@@ -52,3 +52,4 @@ environment/** -text
 integrations/local-worker/agent-bundle.mjs -text
 scripts/prepare-first-baseline.mjs -text
 scripts/verify-first-baseline.mjs -text
+scripts/run-model7-overnight.mjs -text
