@@ -1,0 +1,40 @@
+# Playing-strength research ledger
+
+Objective: improve complete-game results against frozen **first-baseline**, preserving its entire agent and runtime. Neither optimizer progress, imitation accuracy nor changed moves establishes strength. Research branch starts at `15a16da47966eed6b4a0d55dde5f9adbdfe55efc`; the foundation refactor owns the new baseline/environment entry points separately.
+
+Reference ordinary SHA256: `c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9`. Selector: `2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d`. Catalog: `65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04`. No promotion occurred.
+
+## Evidence audited on 2026-10-21
+
+| Experiment | Complete-game evidence | Conclusion |
+| --- | --- | --- |
+| Human two-head BC | 121 source decisions and four annotation overlays; 27–37 in 64 fresh games | No demonstrated improvement. Inspected games, annotations and evaluation seeds are development material. |
+| Outcome PPO pilot | 24 natural training games, 1,709 on-policy decisions, four batch updates / 67 optimizer steps; validation 1–7, confirmation 22–42 | No demonstrated improvement. Collection 858.827 s, fitting 81.050 s. Frozen optional/multi-card ranker remained outside outcome learning. |
+| Corrected critic attachment search, energy-search-018 | 8–12 / 20, 77 scored decisions, 47 changes; 1,384.537 s wall | No demonstrated benefit. Prior zero-coverage runs remain invalid strength experiments. |
+| Public Energy readiness, energy-search-019 | 12–8 / 20, 72 scored decisions, 29 changes; 1,096.832 s wall; paired 95% Hoeffding interval [0.1705, 1] | Worth an independent check, insufficient promotion evidence. Both search runs used Basic Box versus Hammerpult and selector routing for card prompts; their results are not directly interchangeable with the mirrored Hammerpult full reference-agent comparison. |
+
+Sources: `docs/supervised-bootstrap.md`, `docs/model7-outcome-pilot-result.json`, the preserved outcome pilot `run-002/receipt.json`, and task-9 `runs/energy-search-{018,019}/{analysis,final-integrity}.json`. Raw receipts, catalogs, native prerequisites and weights remain private. The ledger JSON records their hashes.
+
+The native harness already supplies actor-visible projection, authoritative legality/acceptance, seeded complete games, Energy facts and paired comparisons. `AgentBundle` supplies per-seat history and ordinary/singleton/ranking routing. The baseline comparator sends mandatory singleton prompts to the ordinary PPO actor with native-validated masks, and optional/multi-card prompts to the separate selector. Training learned 393 singleton choices but left 250 ranking decisions frozen in the outcome pilot. This identifies a measurable decision boundary, not a proven ceiling or a reason to exclude harder choices.
+
+## Ranked next approaches
+
+Ranking is a judgment about **information gained per local compute-hour**, not a measured probability of success. Costs below are prospective wall time at two CPU lanes; aggregate CPU time has not been measured. No paid cloud resource or GPU allocation is implied.
+
+| Rank | Approach and transferable source | Smallest informative test | Expected cost and decision value |
+| --- | --- | --- | --- |
+| 1 | Decision-specific policy coverage, including selection. [Xiao et al.](https://arxiv.org/html/2303.05197v2) explicitly compose policies for different stages and evaluate ablations in full games. Their failed hero-choice inclusion also shows that broader learning coverage is not automatically better. | Change only mandatory singleton routing from ordinary actor to the existing frozen selector. Both heads already exist; count disagreements and play fresh paired games. | About 15–25 minutes, hard cap 45 minutes, 32 games. Cheapest intervention with actual prompt coverage and no fitting. A large failure rejects this shortcut; a lead warrants independent confirmation. It does **not** answer whether training optional/multi-card decisions would help. |
+| 2 | Bounded own-turn search with an explicit evaluator. [Reinforced Greediness](https://github.com/ronaldosvieira/reinforced-greediness) uses current-turn best-first search and a linear evaluator. Adapt the method, never its game rules. | Independently confirm the fixed Energy019 evaluator with fresh seeds before expanding search breadth or distilling it. | Roughly 40–60 minutes for 64 games at its measured single-lane rate. Already implemented, positive but highly uncertain screen. Its fixture and prompt-routing differences require an explicit compatibility comparison before claiming a gain over the complete first-baseline agent. |
+| 3 | Terminal-outcome Monte Carlo action values. [DouZero](https://arxiv.org/abs/2106.06135) encodes variable legal actions; the [author implementation](https://raw.githubusercontent.com/kwai/DouZero/master/douzero/dmc/dmc.py) regresses action values on returns. | Reuse actor-visible encodings and simulation trajectories; fit a separate bounded action-value candidate, split by whole games, then evaluate complete play. Preserve the existing actor as control. | Approximately 30–60 minutes for a small collection/fit/screen, plus implementation. Can distinguish critic/action-value signal from PPO update noise, but few games and selection support remain limitations. The paper's days of four-GPU training do not predict desktop success. |
+
+[ReBeL](https://arxiv.org/abs/2007.13544) is relevant to future belief-aware search: imperfect information changes what a search value means. The present singleton test uses only the existing actor-visible offers and native legality. No sampled world or true hidden board enters either policy. Nothing here rules out future stochastic or hidden-information search; it needs its own correct information-state contract.
+
+## singleton-routing-001
+
+Hypothesis: the archived selector may rank mandatory single-card choices better than the frozen ordinary actor. The test is a diagnostic routing intervention, not training. Both agents have identical checkpoint bytes, helpers, history adapter, mirrored 60-card Hammerpult deck, native executable and runtime. Ordinary moves, optional/multi-card prompts, setup and unsupported choices retain the reference behavior. On each candidate singleton, both heads are queried on the same visible offer; only the chosen validated choice changes.
+
+Predeclared protocol: 16 independent seeds, `1043101001` through `1043101016`, both candidate seats per seed, fixed final analysis, two CPU lanes, maximum 2,700 s wall / 240 s per game / 900 commands. These are fresh development-screen seeds, disjoint from the retained PPO training/confirmation/replacement seeds and Energy019. No outcome-based checkpoint or early stopping. Shared harness/pin failures stop the run; policy failures are scored forfeits, command caps scored draws. The existing 64-game confirmation contract is preserved for any later promotion candidate.
+
+Executed runtime: preserved outcome-pilot archive, native worker `d471d0a1d7c05d23f34c555499ea21f299e306e19a8c3536222bae0af34c25c4`; all 63 runtime source/config files are pinned before play and checked between blocks and after play. This deliberately reuses the completed comparator's history semantics and does not adopt a moving foundation branch mid-comparison. See `repro/singleton-routing-001/protocol.json` and `scripts/compare-singleton-routing.mjs`.
+
+Status: running. Final result, intervention coverage, uncertainty, actual cost and next action will be recorded after all fixed blocks complete or an actual failure stops the run.

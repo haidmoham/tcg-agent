@@ -1,0 +1,167 @@
+{
+  "schema": "singleton-routing-protocol/1",
+  "status": "predeclared",
+  "at": "2026-10-21T01:28:15.399Z",
+  "change": "mandatory-singleton-ordinary-to-frozen-selector",
+  "baselineOrdinarySha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+  "baselineSelectionSha256": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+  "catalogSha256": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04",
+  "deckSha256": "33353baee4928160844e04c61362341d40260b51cc1a048be1117cd2455ce4a7",
+  "nativeConfigSha256": "aeb075c764e7e0714ee1cfeed8188d3a5bef362a980f8f1f49ae237257e6a3ed",
+  "nativeWorkerSha256": "d471d0a1d7c05d23f34c555499ea21f299e306e19a8c3536222bae0af34c25c4",
+  "bundleManifestSha256": "a49d1e575516854eb8ded19a1c83af761e9678e3598981188beb4cd07aecf29d",
+  "helperSha256": "40acf530ca787caaf446f515173b1ed0fd9cd6353e8313f44ac015d705d288b1",
+  "runtimeSourceHashes": {
+    "learning/agentpult-deck.json": "205bfaca30d271519cc28662a9a6fe3cdf1937af28ae80152de3c5b0d1bbfe57",
+    "learning/agentpult-teacher.mjs": "ed22f45b8daf904ce5c017dbb128f14f2344b29392fa107592c1d87d18a6c849",
+    "learning/baseline-cpu-lock.json": "a81d424e0f0b9d30b150454d9e14173253fd314f9bca2dbc167a4f72cd31a929",
+    "learning/card-action-features.mjs": "a3cd76ea299c94bca3ca62721641d5b2d51dbd9c402b97ba3cac8b1eed3a30a7",
+    "learning/card_action_torch.py": "be83687b13d6754f6513b6409b4d16e9e5fde1f8b19d28f09c95c409937f3d07",
+    "learning/entity-contract.json": "d905a52c901fe95ba53b2bcac9a4df725a85717394f2c0a19132dd59850e61a2",
+    "learning/entity-features.mjs": "b5a13991d678539ca588ebd3d2b8bb6155b4140d058e92858beb0f98b917396f",
+    "learning/entity_ppo.py": "85d6f302ea66501aa9fc2f8d8dcec94173f089439eabe88dfc0e2fedfd342e07",
+    "learning/entity_ppo_runtime.py": "7fc088a794f350e427abc1e85d7a03ed376da59b4e3c8a1dff2e77cf0cf37b29",
+    "learning/entity_torch.py": "39e1781300c601596f52d56201267a1351efcf8ac6cc2b0b5e50022ec4f63e5b",
+    "learning/masked_ppo.py": "ff55c778e5cdca3baec9870a18d0e4418d11fdb294bc0ee4799c6955ee9109ea",
+    "learning/masked_ppo_service.py": "2182b294740d2ef1644b1abfb60473411ab5e11a453c0dd4dc2b56fd622a35fb",
+    "learning/model-three-frozen-evaluation.json": "e18f1c5c7ec30a2ddd571aaa4f6f9a750cf07d7c7f8b42cb8c0d7570989bfc5c",
+    "learning/model-three-frozen-evaluation.superseded.json": "748a20f9d074e656c91e85b50969df2273332e13b7793c30188f64e1f684327c",
+    "learning/model-three-plan.json": "d48b60e44e2f8ac5d7f36d206266ea12c6eab2593eda04f609c8a047efcd91e8",
+    "learning/model-two-plan.json": "8a89124bb3f9b08eaa4cb708a214af475aed776c3997cc5a471c5f90a838be5c",
+    "learning/model5-teacher.mjs": "3f5556a2cb219d655723784769b0e673b295b7fef8278ce3238f8cdc69a23e15",
+    "learning/model6-contract.json": "a162d1fc80abc8ce594b1beab851c6b4bdcaf99eff0b4da47cfab77933885169",
+    "learning/model6-features.mjs": "a17b5f2121d369ae78b6746b3e7de21a4538df7f3d75779c1a43e6fe1664cc7b",
+    "learning/model6_torch.py": "da7e58c7c19e6fe699f507a73079b890cfb12b9dfc6dc092e2393f9b73b8a5e0",
+    "learning/native_torch.py": "d6d06f9b4804ad6361f8b1739ede4ba98562612439bf7e2cfddd8e029c028c95",
+    "learning/ppo_runtime.py": "1e31689a92eb76767e5d385a8e8f8e11aca989349c636ef42464fe4d223d3fed",
+    "learning/test_card_action.py": "09c73048be03e5b2c063e7c9e2d80f44303b73819fa5045411b63b688da844bf",
+    "learning/test_card_action_storage.py": "16219e9007c6b7e2ab81813aff3505c91b3c71f8200b90f163f44c6ece06f812",
+    "learning/test_masked_ppo.py": "f2c92342fd700713efdb055009d6bf922b5a85f2e7cb3bdd3b513f5df34ccda5",
+    "learning/test_native_torch.py": "e556a4027b73ff3fe99e47cd5c0eabb444a6fa2d0dc0d8e97c5ef86af428e6f8",
+    "learning/test_ppo_runtime.py": "7c315271e37d68e32a38832215ee9ae32e2bac2efd295f6570f7f809a0ba6737",
+    "learning/test_train_second.py": "855756e4b3d51c9aee89eb5786f3d17b1c961622a3f67d8a823476f957b5963e",
+    "learning/train_card_action.py": "7ae73388c6a9ae812824467b4cc7b07b47a56c537a0d4ad171c9f9c59296a9f1",
+    "learning/train_entity.py": "1f96f499d821ea07c9113c13446a0bd89a77882e05fdcf3b8558dc0ce8aba7cf",
+    "learning/train_fresh.py": "0f12dad4d41e29f38234b8b7669c780d3b964877e23989dd62a5c91d7cea18d8",
+    "learning/train_model6.py": "c00d306c4a22a1ddd46f709f14bb208000e85cfe0bf6e233817dea47e85efdbd",
+    "learning/train_second.py": "08ceed51412f3597745bcffbffe2fce7a18416e12122c81c677dbfc5dfb0e32b",
+    "integrations/local-worker/audit-runner.mjs": "33ab6f91acf455929c8261adef418e48d82507b23302997ad99d82f8818a5dfb",
+    "integrations/local-worker/baseline-decks.json": "54fcf46f0d00910f0ae2d33c45a841a83449182059817760416b70f98cfd3dbe",
+    "integrations/local-worker/baseline-prerequisites.json": "deff8e06082544001f3ff32afad73f89f51a9eec931eac21cadd8a1c675810a8",
+    "integrations/local-worker/benchmark.mjs": "396bbfa5c2f24b1abc1dac0b96585a56a524a2564a6683b8bac542fbafdee0a2",
+    "integrations/local-worker/card-action-model.mjs": "69be9b263bb6f922b44226e48d6e36c3c0f5dcdff1171550f120ab4ed9d7727e",
+    "integrations/local-worker/card-action-policy.mjs": "c54eccd0c0d27dacbf0a396f10d988c3d1a8806f4c6e09e98f753b33193ca0e1",
+    "integrations/local-worker/copy-comparison.mjs": "112bef85c552c05f13c3803a21887873b1710ba3fe1a2c64fa3466a4e09ae01c",
+    "integrations/local-worker/decision-domain.mjs": "f8ebfdb22ec7efb038b767d96462de9c767e815a372a958f7e0ecedca5e59581",
+    "integrations/local-worker/entity-model.mjs": "13e96ba372aa24ab9562c2418e8fbfd3a6f649253863df7256a01371ccd3cf1f",
+    "integrations/local-worker/entity-ppo-model.mjs": "cf2cd08cf4448461be2ca99763216f8656646ad4c2c7e65318417cd704af6f45",
+    "integrations/local-worker/gauntlet.mjs": "b88dc0a4316a4a4a06e99e04794a526d00fcc44e7832c7e516e473d137e5482c",
+    "integrations/local-worker/learning-features.mjs": "8bc323dfa1f7250d1d13ca16ce203ef7a7cb57c65560d80353cbf15118409797",
+    "integrations/local-worker/learning-model.mjs": "8d7d6cbf01557e38d509621172051ae964ede70b4d68bd624cddd0fd6510aac2",
+    "integrations/local-worker/learning-rollout.mjs": "197ed03b24cb700c08e9655a9858a43daa0f05e9d1ae24706d3dea5470259c51",
+    "integrations/local-worker/model6-model.mjs": "f7b095a7c4568ccc09b4003c9ca4daaae9552f05b62142e495a58b5395e51945",
+    "integrations/local-worker/model6-policy-view.mjs": "5abc2238f92a0f214a8b14a191a8f72e1dcf7c869c49315d8a91ae4e243487d2",
+    "integrations/local-worker/model6-training-episode.mjs": "221bd726ae515113668c15f52c9533b9604773619925c6f978b2feeebf9549d5",
+    "integrations/local-worker/native-bundle-manifest.json": "492cfe02343d2342df0c07089dff9d3e4a9ce6cdb06190d9c00a85f1113c7af9",
+    "integrations/local-worker/policy-view.mjs": "e72ee44ccb14856962c4416409801c8d09745ce1196a749c72cbe0b68db8cbc2",
+    "integrations/local-worker/ppo-model.mjs": "41bf9cbf4ecf0e3e6321545f68522e056ce1aa8bc7b83f5ce55f07d391970944",
+    "integrations/local-worker/prepare-audit.mjs": "2073fdfbd7a01a2483bb5a2522502220a58b7ea35ee21083c18eba8d1bf4d11b",
+    "integrations/local-worker/probe.mjs": "4d0b7bbfabd5a7ee4d30660801caedb15212271b94160e97cdf7311ad8f2cb88",
+    "integrations/local-worker/semantic-state.mjs": "d8e3e0405465e5accc83a832999120c80b14c7a92a8d70c74ca29fc7025baac9",
+    "integrations/local-worker/shadow-policy.mjs": "48355fa6710a9065b1f671ebc01aa989702ba21cefefb837ef92bf2b4516e845",
+    "integrations/local-worker/teacher.mjs": "c4ac99898d5367be99aa91237dd1e2c1bb3a0374a4d7462496bf54af2ae7d9a6",
+    "integrations/local-worker/three-mode-comparison.mjs": "27c928c6318ac9476de96f5a2657f926ce3bb4ef4dd94c68b7f617375d58b165",
+    "integrations/local-worker/training-episode.mjs": "100907bfb40ac836cc430d8c6822b5ad6923d9f57f9828adcf1c9d8b4d1fee22",
+    "integrations/local-worker/verify-audit.mjs": "d04855006815c4dc905b391837f43e441fd97188c2f3fc2693e3fee414870901",
+    "integrations/local-worker/warm-benchmark.mjs": "4398a16beb70fe1e73d4ec5df0498ce9e00cc8a04cf8920d72dfce332d3a8066",
+    "integrations/local-worker/warm-comparison.mjs": "376108ea11d3311613016ec2a19891e0ade1103feef803248e6d0eca09352d8d"
+  },
+  "blocks": [
+    {
+      "index": 0,
+      "seed": 1043101001
+    },
+    {
+      "index": 1,
+      "seed": 1043101002
+    },
+    {
+      "index": 2,
+      "seed": 1043101003
+    },
+    {
+      "index": 3,
+      "seed": 1043101004
+    },
+    {
+      "index": 4,
+      "seed": 1043101005
+    },
+    {
+      "index": 5,
+      "seed": 1043101006
+    },
+    {
+      "index": 6,
+      "seed": 1043101007
+    },
+    {
+      "index": 7,
+      "seed": 1043101008
+    },
+    {
+      "index": 8,
+      "seed": 1043101009
+    },
+    {
+      "index": 9,
+      "seed": 1043101010
+    },
+    {
+      "index": 10,
+      "seed": 1043101011
+    },
+    {
+      "index": 11,
+      "seed": 1043101012
+    },
+    {
+      "index": 12,
+      "seed": 1043101013
+    },
+    {
+      "index": 13,
+      "seed": 1043101014
+    },
+    {
+      "index": 14,
+      "seed": 1043101015
+    },
+    {
+      "index": 15,
+      "seed": 1043101016
+    }
+  ],
+  "seatCases": [
+    "human",
+    "opponent"
+  ],
+  "limits": {
+    "workers": 2,
+    "maximumWallSeconds": 2700,
+    "maximumGameSeconds": 240,
+    "maximumGameCommands": 900
+  },
+  "analysis": {
+    "unit": "two-game independent seed block",
+    "interval": "95% two-sided Hoeffding",
+    "look": "fixed final only",
+    "promotion": false
+  },
+  "stopping": "stop on shared harness or pin failure; policy failures are forfeits, command caps draws; no outcome-based early selection",
+  "purpose": "Development screen of routing/coverage, not a promotion or replacement of fixed 64-game confirmation",
+  "seedAudit": {
+    "disjointFrom": "retained PPO train/confirmation/replacements and Energy019",
+    "knownSeedCount": 70
+  }
+}
