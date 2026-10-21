@@ -53,3 +53,8 @@ integrations/local-worker/agent-bundle.mjs -text
 scripts/prepare-first-baseline.mjs -text
 scripts/verify-first-baseline.mjs -text
 scripts/run-model7-overnight.mjs -text
+integrations/local-worker/native-search-provider.mjs -text
+integrations/local-worker/alphazero-model.mjs -text
+scripts/alphazero-selfplay.mjs -text
+scripts/prepare-model7-alphazero.mjs -text
+scripts/run-model7-alphazero.mjs -text
