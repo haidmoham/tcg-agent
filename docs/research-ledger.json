@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
-  "revision": 4,
-  "at": "2026-10-21T02:47:22.567Z",
+  "revision": 5,
+  "at": "2026-10-21T03:16:49.979Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -220,8 +220,9 @@
   ],
   "active": {
     "id": "model7-overnight-001",
-    "status": "design frozen; execution preparation in progress",
-    "protocol": "repro/model7-overnight-001/protocol.json"
+    "version": 3,
+    "status": "AlphaZero-style search/distillation design selected; executable qualification in progress; no training games or fits yet",
+    "protocol": "repro/model7-overnight-001/protocol-v3.json"
   },
   "rankedApproaches": [
     "decision-specific prompt policy coverage",
@@ -233,13 +234,13 @@
     "decisionRelevantEffect": 0.1,
     "independentUnit": "seed pair, not seats or decisions",
     "nextExperiment": "model7-overnight-001",
-    "protocol": "repro/model7-overnight-001/protocol.json",
+    "protocol": "repro/model7-overnight-001/protocol-v3.json",
     "independentPairs": 512,
     "games": 1024,
     "confidence": 0.95,
     "intervalRadius": 0.060020174457495044,
     "minimumPowerAtScorePointSix": 0.8053880543047711,
-    "candidateNomination": "last fully verified update of the one authorized six-hour training trajectory; no selection by wins",
+    "candidateNomination": "last fully verified single search-distillation trajectory update before10:00UTC, complete search player frozen before unseen confirmation",
     "resources": "six CPU lanes after capacity check; 8h operational cap; actual costs and failures retained",
     "stopping": "fixed endpoint, no outcome-based stopping; incomplete campaigns cannot claim the fixed-endpoint result"
   },
@@ -249,12 +250,12 @@
   },
   "activeTrainingDesign": {
     "id": "model7-overnight-001",
-    "method": "64-game-batch outcome PPO",
-    "protocol": "repro/model7-overnight-001/protocol.json",
+    "method": "information-set determinization search plus policy/value distillation",
+    "protocol": "repro/model7-overnight-001/protocol-v3.json",
     "startUtc": "2026-10-21T04:00:00Z",
     "deadlineUtc": "2026-10-21T10:00:00Z",
     "executionOwner": "01a15c50-d335-7125-9222-99c9415960e5",
-    "status": "design frozen; execution preparation in progress",
+    "status": "AlphaZero-style search/distillation design selected; executable qualification in progress; no training games or fits yet",
     "promotion": false,
     "externalReuseDecision": {
       "repository": "https://github.com/Trevon-Woods-AI-Portfolio/PokemonTCG_Deep_RL_Agent",
@@ -264,7 +265,17 @@
       "reuseOwner": "01a15c58-0bae-702b-b837-d3a42d69e0d7",
       "licenseScope": "MIT source is available for attributed adaptation. Supplied competition-trained weights are not cleared for this independent ladder; separate owner is recording applicable terms.",
       "remainingOpportunity": "Native search-target distillation or sparse scoring can be evaluated separately after the adapter is verified; do not silently combine it with this controlled continuation."
-    }
+    },
+    "version": 3,
+    "trainingPopulation": "8current-search selfplay+4first-baseline+4scripted-teacher games per16; bothseats recordedinselfplay",
+    "optimizer": "newAdam forsupervised CE(rootvisits)+MSE(naturalz), noPPO",
+    "components": [
+      "first-baseline actor/critic warmstart",
+      "shared-information-set PUCT over independently constructed hypothetical native worlds",
+      "complete supported legal-choice-set targets with explicit fallback",
+      "iterative search-guided selfplay and fixed ladder anchors",
+      "verified faster native copy runtime, separately versioned adoption"
+    ]
   },
   "completedPreservation": {
     "ppoStrengthCurve": {
@@ -275,5 +286,24 @@
       "archiveName": "research-loop-2026-10-21/confirmation-capacity-001",
       "allCopiedFilesHashVerified": true
     }
-  }
+  },
+  "supersededDesigns": [
+    {
+      "version": 1,
+      "protocol": "repro/model7-overnight-001/protocol.json",
+      "method": "larger-batchPPO",
+      "trainingGames": 0,
+      "fits": 0,
+      "reason": "new user composition instruction"
+    },
+    {
+      "version": 2,
+      "protocol": "repro/model7-overnight-001/protocol-v2.json",
+      "method": "jointlegalsetPPO combinedcandidate",
+      "trainingGames": 0,
+      "fits": 0,
+      "reason": "new explicit user AlphaZero recipe instruction"
+    }
+  ],
+  "populationObjective": "Preserve strategically useful complete frozen players and nontransitive cross-play cells, not just champion weights. Train against stable ladder anchors; keep evaluation independent. No automatic promotion or extra training sweep."
 }

@@ -18,7 +18,7 @@ assert.equal(manifest.nomination.publicProtocolSha256, hashFile(publicProtocolPa
 assert.deepEqual(manifest.seeds, protocol.seeds);
 assert.equal(receipt.blocks.length, protocol.independentSeedPairs);
 assert.equal(receipt.plannedPairs, protocol.independentSeedPairs);
-const candidate = manifest.entrants.find(entrant => entrant.kind === 'ppo');
+const candidate = manifest.entrants.find(entrant => ['ppo', 'prepared'].includes(entrant.kind));
 assert(candidate);
 assert.equal(hashFile(candidate.checkpoint), candidate.sha256);
 assert.equal(receipt.registry.entrants.find(entrant => entrant.id === candidate.id).pins.ordinary, candidate.sha256);
@@ -65,7 +65,7 @@ const result = {
   protocolSha256: hashFile(publicProtocolPath), privateManifestSha256: receipt.manifestSha256,
   privateReceiptSha256: hashFile(path.join(evaluationDirectory, 'receipt.json')), runnerSha256: receipt.runnerSha256,
   candidate: { id: candidate.id, ordinarySha256: candidate.sha256,
-    selectionSha256: receipt.registry.entrants.find(entrant => entrant.id === candidate.id).pins.selection },
+    fullPlayerPins: receipt.registry.entrants.find(entrant => entrant.id === candidate.id).pins },
   nomination: manifest.nomination, comparison, strengthPlan: protocol.strengthPlan,
   demonstratesImprovement: comparison.interval[0] > .5,
   rulesOutTargetedTenPointGain: comparison.interval[1] < .6,

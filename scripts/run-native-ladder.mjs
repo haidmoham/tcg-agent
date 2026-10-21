@@ -36,9 +36,17 @@ const native = readJson(config.nativeConfig), registry = { schema: 'native-ladde
 const behavior = { bundle: config.filePins[path.join(config.runtimeRoot, 'integrations/local-worker/agent-bundle.mjs')],
   history: 'complete-game', deterministic: true };
 for (const entrant of manifest.entrants) {
-  if (!['baseline', 'ppo', 'teacher'].includes(entrant.kind)) throw Error('unsupported existing agent kind');
+  if (!['baseline', 'ppo', 'teacher', 'prepared'].includes(entrant.kind)) throw Error('unsupported agent kind');
   let pins;
-  if (entrant.kind === 'teacher') {
+  if (entrant.kind === 'prepared') {
+    if (hashFile(entrant.checkpoint) !== entrant.sha256 || hashFile(entrant.factoryModule) !== entrant.factorySha256
+      || !Object.keys(entrant.sourcePins ?? {}).length || entrant.pins?.ordinary !== entrant.sha256
+      || entrant.pins?.selection !== config.agent.selectionSha256 || entrant.pins?.catalog !== config.agent.catalogSha256)
+      throw Error('prepared player needs complete checkpoint, source and behavior pins');
+    for (const [file, digest] of Object.entries(entrant.sourcePins)) if (hashFile(file) !== digest) throw Error('prepared player source changed');
+    pins = { ...entrant.pins, factory: entrant.factorySha256, factoryExport: entrant.factoryExport ?? 'openJointChoicePlayer',
+      privateSourceManifestSha256: identityHash(Object.entries(entrant.sourcePins).sort(([a], [b]) => a.localeCompare(b))) };
+  } else if (entrant.kind === 'teacher') {
     if (hashFile(entrant.catalogPath) !== entrant.catalogSha256) throw Error('teacher catalog changed');
     pins = { teacher: config.filePins[path.join(config.runtimeRoot, 'learning/agentpult-teacher.mjs')],
       catalog: entrant.catalogSha256, adapter: 'native-ladder-teacher/1', ...behavior };
@@ -56,8 +64,12 @@ const assertFrozenInputs = () => {
   if (hashFile(manifestPath) !== manifestSha256 || hashFile(manifest.environmentConfig) !== configSha256) throw Error('run inputs changed');
   verifyFrozenRuntime(config);
   for (const e of manifest.entrants) {
-    if (e.kind === 'ppo' && hashFile(e.checkpoint) !== e.sha256) throw Error('candidate changed');
+    if (['ppo', 'prepared'].includes(e.kind) && hashFile(e.checkpoint) !== e.sha256) throw Error('candidate changed');
     if (e.kind === 'teacher' && hashFile(e.catalogPath) !== e.catalogSha256) throw Error('teacher changed');
+    if (e.kind === 'prepared') {
+      if (hashFile(e.factoryModule) !== e.factorySha256) throw Error('candidate factory changed');
+      for (const [file, digest] of Object.entries(e.sourcePins)) if (hashFile(file) !== digest) throw Error('candidate source changed');
+    }
   }
 };
 fs.mkdirSync(root, { recursive: true });
@@ -89,14 +101,26 @@ async function lane(index) {
   try {
     const ordinary = new EntityPpoModelClient(config.ordinary), selection = new Model6ModelClient(config.selection);
     clients.push(ordinary, selection);
-    const models = new Map();
+    const models = new Map(), preparedPlayers = new Map();
     for (const e of manifest.entrants.filter(e => e.kind === 'ppo')) {
       const model = new EntityPpoModelClient({ ...config.ordinary, checkpoint: e.checkpoint, modelRoot: path.dirname(e.checkpoint) });
       clients.push(model); models.set(e.id, model);
     }
+    for (const entrant of manifest.entrants.filter(entrant => entrant.kind === 'prepared')) {
+      const factory = await import(pathToFileURL(entrant.factoryModule));
+      const openPlayer = factory[entrant.factoryExport ?? 'openJointChoicePlayer'];
+      if (typeof openPlayer !== 'function') throw Error('prepared player factory export missing');
+      const service = await openPlayer({ ...entrant.factoryOptions,
+        environmentConfig: manifest.environmentConfig, checkpoint: entrant.checkpoint, checkpointSha256: entrant.sha256,
+        selectionClient: selection, catalog: ordinary.catalog });
+      if (typeof service.verify !== 'function' || typeof service.newGame !== 'function' || typeof service.shutdown !== 'function')
+        throw Error('prepared player service contract incomplete');
+      clients.push(service); preparedPlayers.set(entrant.id, service);
+    }
     save(`lane-${index}-verified.json`, await Promise.all(clients.map(c => c.verify())));
-    function createEntrantAgent(id) {
+    function createEntrantAgent(id, searchSeed) {
       const e = manifest.entrants.find(e => e.id === id), pins = registry.entrants.find(e => e.id === id).pins;
+      if (e.kind === 'prepared') return preparedPlayers.get(id).newGame({ searchSeed });
       const agent = new AgentBundle({ ordinary: models.get(id) ?? ordinary, selection, catalog: ordinary.catalog,
         encode: features.encodeModel6Decision, supportsCardSelection: choices.supportsCardSelection,
         rankedPromptAnswers: choices.rankedPromptAnswers, pins, historyMode: 'complete-game', deterministic: true });
@@ -118,7 +142,8 @@ async function lane(index) {
       for (const aSeat of task.seats) {
         if (stopReason) break;
         const begin = Date.now(), label = `pair-${slot}-${aSeat}`;
-        const agents = Object.fromEntries(['human', 'opponent'].map(seat => [seat, createEntrantAgent(seat === aSeat ? task.a : task.b)]));
+        const searchSeed = manifest.searchSeeds?.[manifest.seeds.indexOf(task.seed)]?.[aSeat];
+        const agents = Object.fromEntries(['human', 'opponent'].map(seat => [seat, createEntrantAgent(seat === aSeat ? task.a : task.b, searchSeed)]));
         let policySeat = null;
         for (const [seat, agent] of Object.entries(agents)) {
           const propose = agent.propose.bind(agent);

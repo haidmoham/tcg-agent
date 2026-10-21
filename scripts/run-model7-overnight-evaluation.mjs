@@ -93,7 +93,7 @@ async function command(script, args, directory, logName) {
     });
   } finally { fs.closeSync(log); }
 }
-async function runPanel(label, checkpoint, seeds, split, workers, maximumWallSeconds, analysisAlpha) {
+async function runPanel(label, checkpoint, seeds, searchSeeds, split, workers, maximumWallSeconds, analysisAlpha) {
   assertInputs();
   const directory = path.join(root, label), manifestPath = path.join(root, `${label}-manifest.json`);
   const candidateId = `model7.${label}`;
@@ -102,12 +102,24 @@ async function runPanel(label, checkpoint, seeds, split, workers, maximumWallSec
     completedTrainingGames: checkpoint.completedTrainingGames, completedBatchUpdates: checkpoint.completedBatchUpdates,
     optimizerSteps: checkpoint.optimizerSteps, trainingUpdateReceiptSha256: checkpoint.receiptSha256 };
   if (split === 'confirmation') nomination.publicProtocolSha256 = hashFile(path.join(root, 'confirmation-protocol.json'));
+  const playerPath = path.join(inputs.trainingDirectory, 'player-runtime.json'), player = readJson(playerPath);
+  assert.equal(player.factoryExport, 'openSearchDistillationPlayer');
+  const preparedEntrant = { kind: 'prepared', id: candidateId, description: `Single search-distillation Model7 trajectory ${label}`,
+    checkpoint: checkpoint.checkpoint, sha256: checkpoint.checkpointSha256,
+    factoryModule: player.factoryModule, factoryExport: player.factoryExport,
+    factorySha256: hashFile(player.factoryModule), sourcePins: player.sourcePins,
+    factoryOptions: { ...player.playerConfig, runtimeRoot: player.runtimeRoot, seed: 81729, device: 'cpu' },
+    pins: { ordinary: checkpoint.checkpointSha256, selection: config.agent.selectionSha256, catalog: config.agent.catalogSha256,
+      environmentLock: config.lockSha256, history: 'complete-game', deterministic: true,
+      privatePlayerRuntimeSha256: hashFile(playerPath), method: design.method,
+      search: { determinizations: design.search.determinizations, simulationsPerWorld: design.search.simulationsPerWorld,
+        maximumDepth: design.search.maximumDepth, cPuct: design.search.cPuct, temperature: 0, rootNoise: false } } };
   const manifest = { schema: 'native-ladder-run/1', environmentConfig: inputs.environmentConfig, anchor: 'first-baseline',
     split, promotion: false, entrants: [
       { kind: 'baseline', id: 'first-baseline', description: 'Exact frozen environment-v1 reference' },
-      { kind: 'ppo', id: candidateId, description: `Single Model7 trajectory ${label}`, checkpoint: checkpoint.checkpoint,
-        sha256: checkpoint.checkpointSha256 }], pairs: [[candidateId, 'first-baseline']], seeds, workers,
-    maximumGames: seeds.length * 2, maximumWallSeconds, maximumGameSeconds: 240, maximumGameCommands: 900,
+      preparedEntrant], pairs: [[candidateId, 'first-baseline']], seeds, searchSeeds, workers,
+    maximumGames: seeds.length * 2, maximumWallSeconds,
+    maximumGameSeconds: design.confirmation.maximumGameSeconds, maximumGameCommands: design.confirmation.maximumGameCommands,
     analysisAlpha, nomination, strengthPlan: split === 'confirmation' ? design.confirmation.strengthPlan : {
       effect: design.monitoring.question, independentUnit: 'paired seed block', uncertainty: design.monitoring.interval,
       sampleJustification: { radius: design.monitoring.intervalRadius, power: design.monitoring.powerLowerBoundAtThirtyPointShift } } };
@@ -149,7 +161,8 @@ try {
     await waitUntil(Date.parse(time));
     const selected = selectCheckpoint(Date.parse(time));
     if (!selected) { panels.push({ label: `monitor-${index + 1}`, state: 'unavailable', reason: 'no verified training update by nominal time' }); continue; }
-    await runPanel(`monitor-${index + 1}`, selected, design.monitoring.seeds, 'development', 2, 7200, .025);
+    await runPanel(`monitor-${index + 1}`, selected, design.monitoring.seeds, design.monitoring.searchSeeds,
+      'development', 2, 7200, .025);
   }
   phase = 'waiting-for-final-candidate'; status();
   const deadline = Date.parse(design.training.deadlineUtc);
@@ -164,7 +177,7 @@ try {
   assert.equal(final.checkpointSha256, checkpoint.checkpointSha256);
   assert.equal(final.checkpoint, checkpoint.checkpoint);
   save('confirmation-protocol.json', design.confirmation);
-  const directory = await runPanel('confirmation', checkpoint, design.confirmation.seeds, 'confirmation', 6,
+  const directory = await runPanel('confirmation', checkpoint, design.confirmation.seeds, design.confirmation.searchSeeds, 'confirmation', 6,
     design.confirmation.maximumWallSeconds, .05);
   phase = 'verifying-final-result'; status();
   const exported = await command('scripts/export-strength-confirmation.mjs', [directory, path.join(root, 'confirmation-protocol.json'),
