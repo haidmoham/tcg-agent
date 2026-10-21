@@ -53,7 +53,7 @@ Two CPU lanes and the current screen's observed first-eight-game throughput impl
 
 `scripts/evaluate-training-snapshots.mjs` reuses the frozen `runNativeGame` and `AgentBundle`. It writes detailed `strength-curve.json`, compact `strength-summary.json` and a readable `strength-progress.md` after each paired block. The same entry point can evaluate predeclared immutable snapshots during future training without opening trainer state for writing. This is a small arena built on the existing harness, not a second simulator or a new learning framework. The separate ladder owner can ingest its receipts for fixed-anchor cross-play.
 
-## Sample-adequacy correction and fresh confirmation
+## Sample-adequacy correction and unexecuted confirmation (historical)
 
 The user correctly rejected treating tiny panels followed by predictable uncertainty as useful strength experiments. The 32-game routing screen and 16-game-per-checkpoint curve are exploratory diagnostics. Their protocols and observations stay intact; neither can resolve modest improvements or establish no effect. The initial cost/sample proposals above are history, superseded by decision-relevant sizing.
 
@@ -71,7 +71,7 @@ The user subsequently authorized one new training trajectory, selected by04:00UT
 
 A non-strength six-worker capacity check completed12natural games in232.040s with no failures. Its rough full-comparison projection is5.5hours, with an eight-hour operational evaluation cap. This is scheduling evidence from a short workload, not a speedup claim; see `repro/model7-overnight-001/evaluation-capacity.json`. First-baseline remains unchanged.
 
-## Current Model7: AlphaZero-style information-set search and distillation
+## Initial AlphaZero recipe selection (historical version3)
 
 New direct user instruction supersedes the unexecuted PPO designs: use AlphaZero as a recipe while preserving one candidate,04:00–10:00UTC training, adequate independent evaluation and stronger reusable ladder population. Version3 is `repro/model7-overnight-001/protocol-v3.json`; no training games or fits occurred under versions1–2.
 
@@ -82,3 +82,11 @@ Primary [AlphaZero](https://arxiv.org/html/1712.01815v1) provides the policy/val
 The native branch builder, search/trainer and collector/execution have separate owners and are being integrated before launch. The branch builder must reconstruct from visible facts and declared deck multisets rather than clone the true hidden board. Unsupported roots are explicit fallback with no invented search target. Actual nonforced search coverage, parent/RNG isolation, model reload and complete-game latency must be demonstrated; plain-policy capacity timing does not predict this player’s search cost. Qualified native-copy speed work can be adopted only with explicit version/source/config identity before the new run; frozen first-baseline files remain untouched.
 
 Latest timing instruction: start actual collection as soon as essential end-to-end validity checks pass, with six full hours from that timestamp. Preparation is excluded; the first successful admitted update is reported separately. The first declared16-game batch/fit belongs to the same single trajectory. Development monitors move to actual start+2h/+4h and final confirmation follows the actual six-hour deadline. Earlier fixed04:00–10:00UTC descriptions remain historical scheduling plans.
+
+## Model7 two-hour development monitor
+
+The fixed+2h checkpoint (64training games,4updates,232optimizersteps) completed64independent pairs/128natural games against unchanged first-baseline on2026-10-21 at07:44:53UTC:33wins,95losses, score0.2578125. The predeclared97.5% paired Hoeffding interval is[0.07278660,0.44283840], with Bonferroni simultaneous95% coverage across the two planned monitors. This establishes below-parity strength for this complete checkpoint/player in the mirrored native scenario. It does not establish the final candidate's strength or identify a component cause. No errors, caps, forfeits or rejected games occurred. All128journals and64paired initial states were verified. See `model7-overnight-monitor-1-result.json` and canonical `native-ladder-model7-monitor-1.json`.
+
+The current version5 protocol, runtime adoption and live observations are recorded in `research-ledger.json`. Preserve this measured negative node and its complete runtime for diagnosis; specialist value against other opponents is unmeasured, and it is neither champion nor a new training opponent. The planned training mixture, second monitor, deadline and512fresh final confirmation pairs remain unchanged.
+
+One untested explanation is that bounded search magnifies value-estimation errors and distillation reinforces its choices. Later same-weight search-on/off evaluation and value calibration could distinguish this from other causes. No additional trained candidate or outcome-dependent intervention is launched.

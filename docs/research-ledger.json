@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
-  "revision": 6,
-  "at": "2026-10-21T04:29:56.008Z",
+  "revision": 7,
+  "at": "2026-10-21T07:56:52.044Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -216,6 +216,83 @@
         "trainingUpdates": 0
       },
       "conclusion": "Exploratory only: no established improvement or monotonic training gain. Small per-checkpoint n is not a decisive strength experiment."
+    },
+    {
+      "id": "model7-overnight-monitor-1",
+      "status": "completed",
+      "hypothesis": "The predeclared two-hour snapshot of the combined search/distillation player may improve complete-game score versus first-baseline.",
+      "sourcePaper": "https://arxiv.org/html/1712.01815v1",
+      "controlledComparison": "Whole frozen checkpoint and complete search/history player versus preserved first-baseline on the fixed mirrored native scenario; not a component ablation.",
+      "protocol": "repro/model7-overnight-001/protocol-v5.json",
+      "budget": {
+        "independentPairs": 64,
+        "games": 128,
+        "workers": 2,
+        "maximumWallSeconds": 14400,
+        "analysisAlpha": 0.025,
+        "monitorFamilyCount": 2
+      },
+      "nomination": {
+        "rule": "Last fully verified immutable checkpoint at actual trainingStartedAtUtc+2h and+4h; asynchronous evaluation never reads mutable trainer weights.",
+        "checkpointSha256": "6eee73475111204038bbf3782b05209f8f5e8402b51f3b7b5d7ab831bc41fb87",
+        "completedAtUtc": "2026-10-21T05:25:17.772Z",
+        "completedTrainingGames": 64,
+        "completedBatchUpdates": 4,
+        "optimizerSteps": 232,
+        "trainingUpdateReceiptSha256": "077850eb01128fd9c4beb532526476084624333512be24465355b12bc898c291"
+      },
+      "result": "docs/model7-overnight-monitor-1-result.json",
+      "ladderResult": "docs/native-ladder-model7-monitor-1.json",
+      "evaluation": {
+        "a": "model7.monitor-1",
+        "b": "first-baseline",
+        "independentPairs": 64,
+        "attemptedPairs": 64,
+        "games": 128,
+        "attemptedGames": 128,
+        "analysisStatus": "fixed-endpoint",
+        "wins": 33,
+        "losses": 95,
+        "draws": 0,
+        "score": 0.2578125,
+        "interval": [
+          0.07278660158740022,
+          0.44283839841259975
+        ],
+        "rating": -183.6838661643841,
+        "ratingInterval": [
+          -442.0513024131261,
+          -39.894362681839404
+        ],
+        "failures": {
+          "policy-forfeit": 0,
+          "command-cap-draw": 0,
+          "shared-invalid": 0
+        },
+        "failureRate": 0,
+        "fixedEndpointDistinguishable": true
+      },
+      "actualCost": {
+        "wallSeconds": 7600.963,
+        "summedGameSeconds": 15012.836999999996,
+        "workers": 2,
+        "device": "CPU",
+        "cpuCoreSeconds": null,
+        "fittingUpdates": 0
+      },
+      "uncertainty": "Two-sided97.5% Hoeffding over64 independent seed pairs; Bonferroni simultaneous95% across two planned monitors.",
+      "conclusion": "Negative fixed-endpoint development result: this two-hour complete player is below parity versus first-baseline in this scenario. Does not establish final candidate strength or identify the responsible component.",
+      "nextAction": "Continue the predeclared second monitor and independent512-pair final confirmation unchanged; do not select checkpoints or alter training from this result.",
+      "untestedHypothesis": "A shallow search guided by imperfect value estimates may steer play away from the strong warm-start policy, and search-target distillation may reinforce those choices. This has not been isolated; later same-weight search-on/off evaluation and value calibration could distinguish causes.",
+      "promotion": false,
+      "preservation": {
+        "archiveId": "model7-overnight-monitor-1",
+        "verifiedFiles": 807,
+        "pinnedSourceFiles": 342,
+        "manifestSha256": "a16283bb23cf214115299b5406ae8bdbf820f0ca6e66af25bbed6fe7d33d4755",
+        "includes": "128journals, pair receipts, candidate checkpoint/reload receipt, complete pinned player inputs and frozen reference inputs",
+        "verified": true
+      }
     }
   ],
   "active": {
@@ -255,7 +332,7 @@
     "startUtc": "2026-10-21T03:38:11.728Z",
     "deadlineUtc": "2026-10-21T09:38:11.728Z",
     "executionOwner": "01a15c50-d335-7125-9222-99c9415960e5",
-    "status": "first update admitted; usable v4batch4 continues; qualified history-ledger adoption reserved before unstartedbatch5",
+    "status": "training continues unchanged; monitor1 completed negative, monitor2 running on fixed pre-cutoff nomination; final confirmation pending",
     "promotion": false,
     "externalReuseDecision": {
       "decision": "Native AlphaZero-inspired search distillation selected under latest user instruction; PPO plans remain unexecuted history.",
@@ -277,15 +354,15 @@
     "protocolSha256": "d0431cd3db68576e7aa59dffd281c320b06a2d2b6f0873b0325f139b900a8d64",
     "timing": "ASAP after essential qualification; six hours from first declared collection spawn",
     "independentConfirmationPairs": 512,
-    "beliefScope": "Current visible facts and decisionContext plus declared deck multiset; not complete historical posterior. Unsupported roots explicitly fallback with no fake visit targets.",
+    "beliefScope": "actor-history-constrained-declared-deck/1 with complete-ledger guard; approximate determinizations, not full posterior",
     "externalAudit": "https://github.com/haidmoham/tcg-agent/blob/codex/trevon-prior-adapter/repro/cabt-reuse-audit-2026-10-21.json",
     "launchEvidence": "repro/model7-overnight-001/launch.json",
     "recovery": "repro/model7-overnight-001/recovery-001.json",
     "evaluationResourceReview": "repro/model7-overnight-001/evaluation-resource-plan-001.json",
     "excludedTrainingBatches": [
-      1
+      1,
+      2
     ],
-    "nextUnusedPredeclaredBatch": 2,
     "evaluationResourceAuthorization": {
       "plan": "repro/model7-overnight-001/evaluation-resource-plan-001.json",
       "sha256": "c7c92da2f7c2c94cfac33cf70a3354fab823ea40838f0033be34ece231cee3b8",
@@ -296,7 +373,7 @@
       "campaign": 3,
       "pid": 45568,
       "armedAtUtc": "2026-10-21T04:29:28.361Z",
-      "status": "armed waiting for monitor1",
+      "status": "monitor2 running; fixed-cutoff nomination preserved",
       "playerIdentity": "immutable per-announcement runtime/factory/source/config; never latest static wrapper",
       "monitorSnapshotTimesUtc": [
         "2026-10-21T05:38:11.728Z",
@@ -311,7 +388,7 @@
       "monitorWorkers": 2
     },
     "adoptionDecision": "repro/model7-overnight-001/adoption-decision-001.json",
-    "currentRunningBeliefScope": "v4current-view-only until qualified boundary adoption",
+    "currentRunningBeliefScope": "actor-history-constrained-declared-deck/1",
     "firstSuccessfulUpdate": {
       "completedAtUtc": "2026-10-21T04:23:51.056Z",
       "checkpointSha256": "10a6c5b442db37bbb86b42499019381c90997b20fd10c419d7323f3a19f5ea0b",
@@ -320,7 +397,44 @@
       "collectionSeconds": 943.753,
       "fittingSeconds": 11.658,
       "strength": "unmeasured; no promotion"
-    }
+    },
+    "currentTrainingObservation": {
+      "observedAtUtc": "2026-10-21T07:56:52.044Z",
+      "statusAtUtc": "2026-10-21T07:56:40.307Z",
+      "completedTrainingGames": 192,
+      "completedBatchUpdates": 12,
+      "optimizerSteps": 1072,
+      "currentBatch": 15,
+      "checkpointSha256": "66c28d0ef276e76f7cbeace120ef7f76696e0b6b314ffd0569bf1ad69c037b87"
+    },
+    "monitorResults": [
+      {
+        "id": "monitor-1",
+        "status": "completed",
+        "result": "docs/model7-overnight-monitor-1-result.json",
+        "wins": 33,
+        "losses": 95,
+        "score": 0.2578125,
+        "interval": [
+          0.07278660158740022,
+          0.44283839841259975
+        ]
+      },
+      {
+        "id": "monitor-2",
+        "status": "running; no partial-strength conclusion",
+        "cutoffUtc": "2026-10-21T07:38:11.728Z",
+        "nomination": {
+          "rule": "Last fully verified immutable checkpoint at actual trainingStartedAtUtc+2h and+4h; asynchronous evaluation never reads mutable trainer weights.",
+          "checkpointSha256": "03be367e8934423cd17471694b66996a7e207e37ad33a9cb2dffdc1393977dd2",
+          "completedAtUtc": "2026-10-21T07:31:19.276Z",
+          "completedTrainingGames": 176,
+          "completedBatchUpdates": 11,
+          "optimizerSteps": 984,
+          "trainingUpdateReceiptSha256": "89a85fb1943915ce3d206ef4f26f536e1437b506659c41a69469a3ae8797713d"
+        }
+      }
+    ]
   },
   "completedPreservation": {
     "ppoStrengthCurve": {
@@ -350,5 +464,31 @@
       "reason": "new explicit user AlphaZero recipe instruction"
     }
   ],
-  "populationObjective": "Preserve strategically useful complete frozen players and nontransitive cross-play cells, not just champion weights. Train against stable ladder anchors; keep evaluation independent. No automatic promotion or extra training sweep."
+  "populationObjective": "Preserve strategically useful complete frozen players and nontransitive cross-play cells, not just champion weights. Train against stable ladder anchors; keep evaluation independent. No automatic promotion or extra training sweep.",
+  "populationStatus": {
+    "anchor": "first-baseline preserved unchanged",
+    "nodes": [
+      {
+        "id": "model7.monitor-1",
+        "agentSha256": "bceb8a949218ea9a952224ee866929f27b71cf8ad771db236a2d4e35e1b0cca5",
+        "checkpointSha256": "6eee73475111204038bbf3782b05209f8f5e8402b51f3b7b5d7ab831bc41fb87",
+        "measurement": "64paired seeds/128natural games against first-baseline; below parity with predeclared97.5% interval",
+        "retention": "retain complete frozen source/config/checkpoint and negative measurement for reproducibility and diagnostic cross-play",
+        "strategicSpecialistAdvantage": "unmeasured; not claimed",
+        "promotion": false,
+        "addedToTrainingMixture": false
+      },
+      {
+        "id": "model7.monitor-2",
+        "status": "fixed pre-cutoff nominee being measured; no partial-result conclusion"
+      },
+      {
+        "id": "model7.final",
+        "status": "not yet nominated;512fresh confirmation pairs remain independent"
+      }
+    ],
+    "trainingMixtureChanged": false,
+    "promotion": false,
+    "additionalTrainedCandidatesLaunchedFromThisResult": 0
+  }
 }
