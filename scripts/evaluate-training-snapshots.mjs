@@ -40,7 +40,19 @@ function report(final=false){
     opponent:'first-baseline',selection:'unchanged frozen selector',history:'complete-game',
     dataRole:'development; repeated seeds across snapshots; unsuitable as fresh final confirmation',
     elapsedSeconds:(Date.now()-started)/1000,points,promotion:false};
-  save('strength-curve.json',r);return r;
+  save('strength-curve.json',r);
+  const summary={...r,points:points.map(({blocks,...point})=>{
+    const games=blocks.flatMap(b=>b.outcomes),routes={};
+    for(const g of games)for(const [route,n]of Object.entries(g.routes))routes[route]=(routes[route]??0)+n;
+    return {...point,completedBlocks:blocks.filter(b=>b.status==='completed').length,
+      naturalGames:games.filter(g=>g.status==='natural').length,policyForfeits:games.filter(g=>g.status==='policy-forfeit').length,
+      commandCapDraws:games.filter(g=>g.status==='command-cap-draw').length,sharedInvalid:games.filter(g=>g.status==='shared-invalid').length,
+      summedGameSeconds:games.reduce((s,g)=>s+g.seconds,0),routes};
+  })};
+  save('strength-summary.json',summary);
+  const rows=summary.points.map(point=>`| ${point.id} | ${point.trainingGames} | ${point.optimizerSteps} | ${point.state} | ${point.wins??0}-${point.losses??0}-${point.draws??0} | ${point.score?.toFixed(3)??'pending'} | ${point.interval95?.map(x=>x.toFixed(3)).join(' to ')??'pending'} |`);
+  fs.writeFileSync(path.join(root,'strength-progress.md'),`# PPO development strength\n\nOpponent: first-baseline. Shared development seeds; no promotion. ${r.state}.\n\n| Snapshot | Training games | Optimizer steps | Status | W-L-D | Score | Paired 95% interval |\n| --- | ---: | ---: | --- | --- | ---: | --- |\n${rows.join('\n')}\n`);
+  return r;
 }
 save('protocol.json',m);save('pins.json',{manifestSha256,configSha256,runnerSha256:hash(new URL(import.meta.url))});
 try{
