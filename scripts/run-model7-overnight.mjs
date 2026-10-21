@@ -82,7 +82,16 @@ function adoptUpdate(batch, checkpoint, parent, completedAtUtc) {
   state.lastAnnouncement=announcement;
   state.batches.push({...announcement,metrics:update.metrics});status();event({type:'checkpoint-admitted',...announcement});
 }
-const pulse=setInterval(status,15000);
+const pulse=setInterval(()=>{
+  if(state.phase==='collection' && state.batchIndex) {
+    const directory=path.join(manifest.runtimeRoot,'runs',`model7-overnight-001-batch-${state.batchIndex}`);
+    const receipts=fs.existsSync(directory)?fs.readdirSync(directory,{withFileTypes:true}).filter(entry=>entry.isDirectory())
+      .flatMap(entry=>{const file=path.join(directory,entry.name,'receipt.json');return fs.existsSync(file)?[read(file)]:[];}):[];
+    state.activeBatchProgress={finishedGames:receipts.length,naturalGames:receipts.filter(row=>row.completedNaturally===true).length,
+      decisions:receipts.reduce((sum,row)=>sum+(row.recordsCount??0)+(row.partialRecords??0),0)};
+  }
+  status();
+},15000);
 try {
   assertPins();
   if(resume && state.phase==='fitting' && state.pendingUpdate) {
@@ -108,6 +117,7 @@ try {
       maximumWallSeconds:wall,maximumGameSeconds:protocol.training.maximumGameSeconds,maximumGameCommands:protocol.training.maximumGameCommands});
     const collected=await command(process.execPath,['scripts/entity-ppo-rollout.mjs',manifest.nativeConfig,tag,planPath],`batch-${batch.index}-collection`,wall+4);
     state.collectionSeconds+=collected.seconds;assertPins();
+    delete state.activeBatchProgress;
     const rolloutDirectory=path.join(manifest.runtimeRoot,'runs',tag), receiptPath=path.join(rolloutDirectory,'receipt.json');
     const receipt=fs.existsSync(receiptPath)?read(receiptPath):null;
     const episodes=receipt?.episodes??(fs.existsSync(rolloutDirectory)?fs.readdirSync(rolloutDirectory,{withFileTypes:true}):[]).filter(entry=>entry.isDirectory())
@@ -138,7 +148,10 @@ try {
       rolloutDirectory,checkpoint,'--catalog',manifest.catalog,'--device','cuda'],`batch-${batch.index}-update`,remaining());
     state.fittingSeconds+=fitted.seconds;assertPins();event({type:'fitting-complete',batchIndex:batch.index,...fitted});
     if(fitted.code===0 && !fitted.expired && Date.now()<=deadline) adoptUpdate(batch,checkpoint,parent,fitted.completedAtUtc);
-    else {state.skippedBatches.push({batchIndex:batch.index,reason:'update-not-admitted',...fitted});status();}
+    else {
+      state.skippedBatches.push({batchIndex:batch.index,reason:'update-not-admitted',...fitted});status();
+      if(!fitted.expired && remaining()>1) throw Error('PPO update failed; inspect retained stderr and uncertain output before same-trajectory resume');
+    }
     delete state.pendingUpdate;state.phase='between-batches';status();
   }
   if(cancelled) throw Error('operator-interrupted');
