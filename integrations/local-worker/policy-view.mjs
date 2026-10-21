@@ -31,6 +31,7 @@ export class PolicyView {
     if (!['you', 'opponent'].includes(raw.turn)) fail('invalid turn');
     const aliases = new Map(this.#aliases);
     const visible = new Map();
+    const visibleDefinitions = new Set();
     const identify = rawId => {
       string(rawId);
       if (!aliases.has(rawId)) aliases.set(rawId, `card-${aliases.size + 1}`);
@@ -39,7 +40,14 @@ export class PolicyView {
     };
     const card = input => {
       object(input);
-      return { instanceId: identify(input.instanceId), printingId: string(input.printingId), category: string(input.category) };
+      const result = { instanceId: identify(input.instanceId), printingId: string(input.printingId), category: string(input.category) };
+      optional(result, input, 'definitionId', string);
+      if (input.owner != null) {
+        if (!['you', 'opponent'].includes(input.owner)) fail('invalid visible card owner');
+        result.owner = input.owner;
+      }
+      if (result.definitionId != null) visibleDefinitions.add(result.definitionId);
+      return result;
     };
     const creature = (input, owner) => {
       if (input === null) return null;
@@ -50,7 +58,9 @@ export class PolicyView {
         hp: integer(input.hp), damage: integer(input.damage), providedEnergy: integer(input.providedEnergy),
         currentRetreat: integer(input.currentRetreat), printedRetreat: integer(input.printedRetreat),
         conditions: list(input.conditions).map(string) };
+      visibleDefinitions.add(result.definitionId);
       optional(result, input, 'providedEnergyTypes', value => list(value).map(string));
+      for (const key of ['enteredPlayThisTurn', 'evolvedThisTurn']) optional(result, input, key, boolean);
       if (input.publicCards != null) {
         object(input.publicCards);
         result.publicCards = Object.fromEntries(['energy', 'tools', 'evolutions'].map(key => [key, list(input.publicCards[key]).map(card)]));
@@ -91,6 +101,14 @@ export class PolicyView {
         choices.set(choiceId, choice.id);
         const result = { id: choiceId };
         if (choice.card != null) result.card = card(choice.card);
+        if (choice.sourceCard != null) result.sourceCard = card(choice.sourceCard);
+        for (const key of ['sourceCardId', 'targetId']) {
+          if (choice[key] == null) continue;
+          string(choice[key]);
+          if (key === 'sourceCardId' && result.sourceCard && choice.sourceCard.instanceId !== choice[key]) fail('inconsistent choice source');
+          if (key === 'targetId' && result.card && choice.card.instanceId !== choice[key]) fail('inconsistent choice target');
+          if (visible.has(choice[key])) result[key] = visible.get(choice[key]);
+        }
         if (choice.instanceId != null) {
           string(choice.instanceId);
           if (result.card && choice.card.instanceId !== choice.instanceId) fail('inconsistent choice card');
@@ -115,13 +133,20 @@ export class PolicyView {
         result.allocationMode = input.allocationMode;
       }
       if (input.revealedCards != null) result.revealedCards = list(input.revealedCards).map(card);
+      if (input.context != null) {
+        const context = object(input.context);
+        result.context = {};
+        optional(result.context, context, 'selectionKind', string);
+        if (context.sourceCardId != null && visible.has(string(context.sourceCardId))) {
+          result.context.sourceCardId = visible.get(context.sourceCardId);
+          optional(result.context, context, 'actionKey', string);
+        }
+      }
       string(input.id);
       if ([...offers.prompts.values()].some(prompt => prompt.rawId === input.id)) fail('duplicate prompt');
       offers.prompts.set(id, { rawId: input.id, choices });
       return result;
     });
-    const visibleDefinitions = new Set([you.active, ...you.bench, opponent.active, ...opponent.bench]
-      .filter(Boolean).map(value => value.definitionId));
     const actions = list(raw.actions).map((input, index) => {
       object(input); string(input.id);
       if (!actionKinds.has(input.kind)) fail('unsupported action kind');
@@ -136,6 +161,10 @@ export class PolicyView {
         }
       }
       optional(result, input, 'attackName', string);
+      if (input.destinationZone != null) {
+        if (!['active', 'bench', 'stadium'].includes(input.destinationZone)) fail('unsupported destination zone');
+        result.destinationZone = input.destinationZone;
+      }
       if (input.actionKey != null) {
         const key = string(input.actionKey);
         if (visibleDefinitions.has(key.split('/')[0])) result.actionKey = key;
@@ -144,8 +173,29 @@ export class PolicyView {
     });
     const terminal = raw.status === 'finished' || raw.status === 'failed' || raw.result != null;
     if (terminal) { offers.actions.clear(); offers.prompts.clear(); }
+    let publicContext;
+    if (raw.publicContext != null) {
+      const input = object(raw.publicContext);
+      const knownValue = (entry, parse) => {
+        object(entry);
+        const known = boolean(entry.known);
+        return { known, value: known ? parse(entry.value) : null };
+      };
+      publicContext = { itemLock: {}, knockoutsDuringPreviousOpponentTurn: {} };
+      for (const owner of ['you', 'opponent']) {
+        const lock = object(object(input.itemLock)[owner]);
+        const entry = knownValue(lock, boolean);
+        entry.expiryKnown = boolean(lock.expiryKnown);
+        entry.remainingTurns = entry.expiryKnown ? integer(lock.remainingTurns) : null;
+        publicContext.itemLock[owner] = entry;
+        publicContext.knockoutsDuringPreviousOpponentTurn[owner] = knownValue(object(input.knockoutsDuringPreviousOpponentTurn)[owner], integer);
+      }
+      if (input.knockoutDrawEligible != null) publicContext.knockoutDrawEligible = Object.fromEntries(
+        ['you', 'opponent'].map(owner => [owner, knownValue(object(input.knockoutDrawEligible)[owner], boolean)]));
+    }
     const result = freeze({ source: raw.source, status: raw.status, result: null, revision,
       turn: raw.turn, turnNumber: integer(raw.turnNumber), hand, you, opponent, stadium,
+      ...(publicContext ? { publicContext } : {}),
       actions: terminal ? [] : actions, prompts: terminal ? [] : prompts });
     this.#aliases = aliases;
     this.#revision = revision;

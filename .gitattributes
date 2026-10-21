@@ -5,3 +5,43 @@ integrations/local-worker/native-bundle-manifest.json -text whitespace=blank-at-
 # Preserve the frozen loader's original final blank line as part of its hash.
 integrations/official-client/model5-frozen-source/** -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
 integrations/official-client/model6-frozen-source/** -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+
+# Model7 recorded source bytes; preserve existing client rules above.
+learning/entity_ppo.py -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+learning/entity_ppo_runtime.py -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+learning/model6_torch.py -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+learning/train_model6.py -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+learning/model6-contract.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+learning/model6-features.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+learning/entity_torch.py -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+learning/entity-contract.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+learning/entity-features.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+learning/model5-teacher.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/entity-ppo-model.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+learning/masked_ppo.py -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+learning/card_action_torch.py -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+learning/agentpult-teacher.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+repro/model7-outcome-001/source-overrides/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+repro/model7-outcome-001/native-source/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+# Exact recorded Model7 runtime bytes (checkpoint/source guards).
+integrations/local-worker/card-action-policy.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/entity-model.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/model6-model.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/model6-native-source/MatchWorker.Energy.cs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/model6-policy-view.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/model6-training-episode.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/native-source/MatchWorker.Offers.cs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/native-source/MatchWorker.Projection.cs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/policy-view.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/probe.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/semantic-state.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/training-episode.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+scripts/compare-bootstrap-mirror.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+scripts/entity-ppo-rollout.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+scripts/run-model7-outcome.mjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+# The final blank lines are part of these recorded source digests.
+integrations/local-worker/entity-model.mjs -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/entity-ppo-model.mjs -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+integrations/local-worker/model6-model.mjs -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
