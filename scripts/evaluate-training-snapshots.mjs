@@ -70,7 +70,15 @@ try{
             let policySeat=null,counts={};
             // Attribute proposal failures to their policy; shared environment failures remain invalid.
             for(const [seat,agent]of Object.entries(agents)){
-              const propose=agent.propose.bind(agent);agent.propose=async(...args)=>{try{return await propose(...args);}catch(e){policySeat=seat;throw e;}};
+              const propose=agent.propose.bind(agent);agent.propose=async(...args)=>{
+                try{
+                  const proposal=await propose(...args);
+                  if(proposal.decisions!=null){const decisions=proposal.decisions;proposal.decisions=(function*(){
+                    try{yield* decisions;}catch(e){policySeat=seat;throw e;}
+                  })();}
+                  return proposal;
+                }catch(e){policySeat=seat;throw e;}
+              };
             }
             try{
               const result=await runNativeGame(native,{agents,seed,seatOrder:[0,1],session:null,
