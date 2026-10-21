@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
-  "revision": 5,
-  "at": "2026-10-21T03:31:03.464Z",
+  "revision": 6,
+  "at": "2026-10-21T03:36:17.811Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -250,21 +250,17 @@
   },
   "activeTrainingDesign": {
     "id": "model7-overnight-001",
-    "method": "information-set determinization search plus policy/value distillation",
+    "method": "AlphaZero-inspired information-set search and supervised policy/value distillation",
     "protocol": "repro/model7-overnight-001/protocol-v3.json",
     "startUtc": null,
     "deadlineUtc": null,
     "executionOwner": "01a15c50-d335-7125-9222-99c9415960e5",
-    "status": "scientific design frozen; essential native end-to-end qualification required before collection",
+    "status": "awaiting final native scope and real policy/value root proof; no collection/fit yet",
     "promotion": false,
     "externalReuseDecision": {
-      "repository": "https://github.com/Trevon-Woods-AI-Portfolio/PokemonTCG_Deep_RL_Agent",
-      "sourceCommit": "192bf1b4bc0f17a44d11b684cd2dbdf83875b253",
-      "decision": "Retain the prepared categorical PPO training path for this one overnight run; pursue a separate source-only adaptation without an extra trained candidate.",
-      "evidence": "The checked-in Python code is inference/search, with no optimizer or PPO training pipeline. CABT-specific action enumeration and hidden allocation require correction before trustworthy native search targets. Reusing search decisions with pre-search actor log probabilities would not supply correct on-policy behavior ratios.",
-      "reuseOwner": "01a15c58-0bae-702b-b837-d3a42d69e0d7",
-      "licenseScope": "MIT source is available for attributed adaptation. Supplied competition-trained weights are not cleared for this independent ladder; separate owner is recording applicable terms.",
-      "remainingOpportunity": "Native search-target distillation or sparse scoring can be evaluated separately after the adapter is verified; do not silently combine it with this controlled continuation."
+      "decision": "Native AlphaZero-inspired search distillation selected under latest user instruction; PPO plans remain unexecuted history.",
+      "audit": "https://github.com/haidmoham/tcg-agent/blob/codex/trevon-prior-adapter/repro/cabt-reuse-audit-2026-10-21.json",
+      "foreignWeightsUsed": false
     },
     "version": 3,
     "trainingPopulation": "8current-search selfplay+4first-baseline+4scripted-teacher games per16; bothseats recordedinselfplay",
@@ -278,7 +274,11 @@
     ],
     "startPolicy": "asap-after-qualification",
     "allocatedSeconds": 21600,
-    "protocolSha256": "d7ccae28d42dd7c5a8b610ded8cd08a61863589aae315577b0b24fa8646e8b5a"
+    "protocolSha256": "66006c2ebfc81d16a97ed69156d996f42fd1070518701f1e51391bb9e9326a35",
+    "timing": "ASAP after essential qualification; six hours from first declared collection spawn",
+    "independentConfirmationPairs": 512,
+    "beliefScope": "Current visible facts and decisionContext plus declared deck multiset; not complete historical posterior. Unsupported roots explicitly fallback with no fake visit targets.",
+    "externalAudit": "https://github.com/haidmoham/tcg-agent/blob/codex/trevon-prior-adapter/repro/cabt-reuse-audit-2026-10-21.json"
   },
   "completedPreservation": {
     "ppoStrengthCurve": {
