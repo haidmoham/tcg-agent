@@ -1,4 +1,5 @@
 import { AgentBundle } from '../integrations/local-worker/agent-bundle.mjs';
+import { ActorDeckKnowledgeTracker } from '../integrations/local-worker/actor-deck-knowledge.mjs';
 import { AlphaZeroModelClient } from '../integrations/local-worker/alphazero-model.mjs';
 import { NativeSearchProvider } from '../integrations/local-worker/native-search-provider.mjs';
 import { createSearchEvaluator, runInformationSetSearch } from '../learning/alphazero-search.mjs';
@@ -12,22 +13,25 @@ export class SearchDistillationAgent extends AgentBundle {
     super(options);
     Object.assign(this, { providerFactory, evaluate, knownDecks, searchOptions, searchSeed });
     this.rootIndex = 0; this.publicHistory = []; this.provider = null; this.providerShutdown = null;
+    this.deckKnowledgeTracker = new ActorDeckKnowledgeTracker();
     this.searchCounts = { roots: 0, changedFromPrior: 0, forced: 0, fallbacks: {}, milliseconds: 0 };
   }
 
   observe(view) {
     const contextual = super.observe(view);
+    this.deckKnowledgeTracker.observe(view);
     if (this.publicHistory.at(-1)?.revision !== view.revision) {
       this.publicHistory.push({ revision: view.revision, turnNumber: view.turnNumber, turn: view.turn,
         hand: view.hand.map(card => ({ instanceId: card.instanceId, printingId: card.printingId })),
         usage: contextual.decisionContext.usage });
     }
     if (['finished', 'failed'].includes(view.status)) void this.shutdown();
-    return contextual;
+    return { ...contextual, deckKnowledge: this.deckKnowledgeTracker.snapshot() };
   }
 
   accepted(view, decision) {
     super.accepted(view, decision);
+    this.deckKnowledgeTracker.accepted(view, decision);
     this.publicHistory.push({ revision: view.revision, turnNumber: view.turnNumber, decision: structuredClone(decision) });
   }
 
@@ -104,7 +108,8 @@ export async function openSearchDistillationPlayer({ environmentConfig, runtimeR
   const options = { determinizations: 2, simulations: 8, maxDepth: 8, cPuct: 1.25, temperature: 0, rootNoise: false, ...searchOptions };
   const pins = Object.freeze({ ordinary: checkpointSha256, selection: environment.agent.selectionSha256,
     catalog: environment.agent.catalogSha256, method: 'alphazero-search-outcome/1',
-    approximation: 'declared-deck-information-set-puct/1', searchOptions: options, historyMode: 'complete-game' });
+    approximation: 'declared-deck-information-set-puct/1', beliefScope: 'actor-history-constrained-declared-deck/1',
+    searchOptions: options, historyMode: 'complete-game' });
   const games = new Set(); let closed = false;
   return {
     identity: pins,

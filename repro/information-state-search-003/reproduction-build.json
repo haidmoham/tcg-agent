@@ -1,0 +1,14 @@
+{
+  "schema": "native-search-reproduction-build-evidence/1",
+  "at": "2026-10-21T04:56:36.827Z",
+  "recipe": "integrations/local-worker/prepare-native-search.mjs",
+  "sourceFilesByteExactWithQualifiedPack": 14,
+  "qualifiedWorkerSha256": "595f0705690bbfc321ca95a9ffc6f40d2457ee03889bba65e721f88e93528247",
+  "independentlyRebuiltWorkerSha256": "18ac712769cd82ce68d79d0612dd4be23ade31a829539e644f22da5a34b95d50",
+  "searchRpcWired": true,
+  "invalidActorInformationRejected": true,
+  "games": 0,
+  "fits": 0,
+  "liveWorkerUntouched": true,
+  "scope": "Source/build/RPC engineering check, not whole-game equivalence, strength or performance evidence. Rebuild receipts record actual output binary pins; do not silently substitute a rebuilt binary for a frozen experiment artifact."
+}

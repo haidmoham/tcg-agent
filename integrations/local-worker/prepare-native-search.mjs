@@ -30,7 +30,7 @@ const diagnostics=replaceOnce(fs.readFileSync(program,'utf8'),'Console.Error.Wri
 if(digest(wire)!=='fb92a08511de028ebc2cb3216520cc74480ed5300ddd26528c2dded405e25cd5'
   ||digest(diagnostics)!=='8273096eb0d3b3cede16cdebc42dcc6f9b650b1254fa8abb38a1e286b96d664b')throw Error('Native search dispatch differs from qualified source');
 fs.writeFileSync(match,wire);fs.writeFileSync(program,diagnostics);
-const searchSource=fs.readFileSync(new URL('MatchWorker.InformationSearch.cs',import.meta.url),'utf8').replace(/\r?\n/g,'\r\n');
+const searchSource=fs.readFileSync(new URL('MatchWorker.InformationSearch.cs',import.meta.url),'utf8');
 if(digest(searchSource)!=='6a9b10ab3b8bb3fa864e0a5e08e4c93fd09ceea5a4f48e1e9560f2eef37185c2')throw Error('Qualified search source changed');
 fs.writeFileSync(path.join(source,'MatchWorker.InformationSearch.cs'),searchSource);
 const buildArguments=['build',path.join(source,'Indigo.Live.Engine.csproj'),'-c','Release','-o',path.join(output,'bin'),

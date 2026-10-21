@@ -79,4 +79,4 @@ scripts/adopt-model7-search.mjs -text
 scripts/qualify-model7-search-adoption.mjs -text
 integrations/local-worker/prepare-native-search.mjs -text
 integrations/local-worker/actor-deck-knowledge.mjs -text
-integrations/local-worker/MatchWorker.InformationSearch.cs -text
+integrations/local-worker/MatchWorker.InformationSearch.cs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
