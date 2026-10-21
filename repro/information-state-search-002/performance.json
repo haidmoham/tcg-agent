@@ -1,0 +1,283 @@
+{
+  "schema": "native-search-offer-snapshot-performance/1",
+  "at": "2026-10-21T04:10:01.857Z",
+  "status": "Qualified for the declared retained-position complete-search workload; live adoption remains explicit",
+  "change": "Copy the isolated frame snapshot and immutable operation/choice/prompt descriptors instead of enumerating the unchanged parent domain again before a simulated move. Post-move native domain generation remains unchanged.",
+  "implementationVersion": "information-search/0.4.0-offer-snapshot-candidate",
+  "referenceWorkerSha256": "8492eee9849bca1f786f6d65f59ec754e9bee63f8602292f06ee44917dcfd81a",
+  "candidateWorkerSha256": "595f0705690bbfc321ca95a9ffc6f40d2457ee03889bba65e721f88e93528247",
+  "sourceSha256": {
+    "Indigo.Live.Engine.csproj": "c688351b3cac57ea1c640b6de948aa6023ac8245c61bb864c3aec7c8a466e572",
+    "MatchWorker.cs": "fb92a08511de028ebc2cb3216520cc74480ed5300ddd26528c2dded405e25cd5",
+    "MatchWorker.Energy.cs": "e99b4182af365161b4c69c8f6d6dc8cc621e52651092cb8f90e23b9feb6d8ded",
+    "MatchWorker.InformationSearch.cs": "6a9b10ab3b8bb3fa864e0a5e08e4c93fd09ceea5a4f48e1e9560f2eef37185c2",
+    "MatchWorker.Offers.cs": "971176d81c7bc556c6322483ef5c6608084eaba60e0f38287abb7c13894e1a44",
+    "MatchWorker.Presentation.cs": "1a1dd04aecdb1585bf1cd752def7034d6268fd1aac450f90b831982abffa7010",
+    "MatchWorker.Projection.cs": "89273b0d6b6b291455b6f60efd93ed6b820a714bf00f1fd55a724557bd1a199c",
+    "MatchWorker.Selections.cs": "141ab2fad18c314c6114e836ca81e1f6bab926b119d6891eaca2269eaa5fbbf2",
+    "NativeStateCopier.cs": "15862a1ebf8d329d3c39f5dd7157b316d57d20aa9abf0c8d9bb57635b6e4d7f3",
+    "OfflineAudit.cs": "4f72b8b5955730edaa41f2312d7b36e62b41002a93ae08abe3f617dd41415b7a",
+    "OfflineSession.cs": "734bf6a9ba68877ede55ea99156b3013a8d59d6f081a3671ff1a7d6e8fab41c9",
+    "OfflineTurnPreflight.cs": "804e016230ede27a3fe263bb54ff0e1f2e14db313fbae0ec29d3980c140f15d2",
+    "Program.cs": "8273096eb0d3b3cede16cdebc42dcc6f9b650b1254fa8abb38a1e286b96d664b",
+    "ProgramInputs.cs": "426acaa76b74726d94de7d5daedae82b7670bd940a4c67b4d6a403c4f402f2a3"
+  },
+  "checkpointSha256": "b91885409acfb5c0e427d86a784f537cc3308292f053128dafc5bce42d813e21",
+  "comparison": {
+    "blocks": 20,
+    "worldsPerSearch": 2,
+    "simulationsPerWorld": 8,
+    "visitsPerSide": 320,
+    "model": "Same frozen actual AlphaZero policy/value model, CPU",
+    "timed": "Awaited full search, including native branches, Python inference, encoders, legal validation, IPC and handle release; cold startup and identity verification excluded; one warmup per side excluded",
+    "sampling": "One paired independent search seed and retained position; 20 positions stratified across one recorded game. Inference, native branches, encoding, legal validation, IPC and releases timed. No inference batching or search semantics change.",
+    "scope": "Conditional on one retained game position pool and this CPU/model/runtime. Do not treat its frames as independent games or extrapolate to complete-game throughput.",
+    "resource": "One sequential native/search lane plus one CPU inference service with configured math threads1; no GPU use, no live runtime mutation. Live owner reserves4training lanes, scheduled2lane monitors05:38/07:38UTC and6lane final after09:38.",
+    "ordering": "Alternate AB/BA by block; same warmed persistent worker per side, shared frozen CPU model. One excluded warmup per side.",
+    "planning": "For paired log-ratio SD0.25, n20 planned half-width0.1170 log units (~12.4%). This separates a true30% gain from the10% adoption threshold if observed variability meets the assumption; otherwise inconclusive.",
+    "uncertainty": "Fixed n20 paired log throughput ratios, two-sided 95% t19 CI, critical2.093024054; qualify only lower bound>1.10 and exact differential parity on every block.",
+    "stopping": "Fixed20 blocks, no early success; abort on error, parity mismatch or total budget, report incomplete/inconclusive. No extension after inspected results."
+  },
+  "performance": {
+    "geometricMeanRatio": 1.344321008803682,
+    "pairedLogSd": 0.06604075704988237,
+    "confidence95": [
+      1.3034062547677592,
+      1.3865201030763479
+    ],
+    "qualified": true,
+    "conditionalOnly": true,
+    "totalMilliseconds": {
+      "reference": 97781.58029999994,
+      "candidate": 71497.8721
+    },
+    "aggregateThroughputRatio": 1.3676152510278687,
+    "milliseconds": {
+      "reference": {
+        "minimum": 2010.0576,
+        "median": 4347.425349999998,
+        "maximum": 8709.367299999984
+      },
+      "candidate": {
+        "minimum": 1492.9694000000018,
+        "median": 3371.6785999999993,
+        "maximum": 6410.355900000002
+      }
+    }
+  },
+  "parity": {
+    "all20CompleteSearchResultsExact": true,
+    "all20ActorVisibleTracesExactAfterTransportIdCanonicalization": true,
+    "commandsMasksValuesVisitsTargetsUnchanged": true,
+    "threeAdditionalEngineeringRootsWithAuthorityAndRngChecks": true,
+    "readonlyDescriptorReview": {
+      "PlayerOperation": "sealed; eight public readonly fields of string/enum values; no writable fields or entity references",
+      "OfferedAction": "sealed readonly record properties; seat/revision and immutable PlayerOperation",
+      "OfferedChoice": "sealed readonly record; strings/integers only",
+      "OfferedPrompt": "sealed readonly record; strings/integers only"
+    },
+    "mutableStateIndependentlyCopied": [
+      "native authority graph",
+      "OfflineSeeds and emitted-seed list",
+      "frame JObject tree",
+      "action/choice/prompt dictionaries",
+      "search contexts and turn dictionaries",
+      "bench display lists"
+    ],
+    "reference031Unchanged": true
+  },
+  "pairs": [
+    {
+      "seed": 840001,
+      "retainedPositionIndex": 2,
+      "referenceMilliseconds": 2047.1797000000006,
+      "candidateMilliseconds": 1597.202199999998,
+      "ratio": 1.2817285751296883,
+      "parity": true,
+      "traceSha256": "45b1b3d772fa07f26329781a429f102a3a2e87e694775f8abfd46f29bc2f9e52"
+    },
+    {
+      "seed": 840002,
+      "retainedPositionIndex": 8,
+      "referenceMilliseconds": 2493.7078,
+      "candidateMilliseconds": 1880.2186000000002,
+      "ratio": 1.3262861031158824,
+      "parity": true,
+      "traceSha256": "b3e0eebf6738ee9fc21b34e7dec57955bc561a404190d2e5c6550b323a89b40e"
+    },
+    {
+      "seed": 840003,
+      "retainedPositionIndex": 13,
+      "referenceMilliseconds": 2010.0576,
+      "candidateMilliseconds": 1492.9694000000018,
+      "ratio": 1.3463488267073644,
+      "parity": true,
+      "traceSha256": "2ccf43ab3497d8c0c9a45f6209f5e5491ebce6f54286eb85df40cc3a6bf7da83"
+    },
+    {
+      "seed": 840004,
+      "retainedPositionIndex": 19,
+      "referenceMilliseconds": 2619.403699999999,
+      "candidateMilliseconds": 1946.7019,
+      "ratio": 1.3455597387560976,
+      "parity": true,
+      "traceSha256": "121ccc20aba680545560e616a5c3d7203bfd314bd21578df4370570a1666d143"
+    },
+    {
+      "seed": 840005,
+      "retainedPositionIndex": 24,
+      "referenceMilliseconds": 2860.698800000002,
+      "candidateMilliseconds": 2450.7167999999947,
+      "ratio": 1.1672906473730496,
+      "parity": true,
+      "traceSha256": "2288b5abbf650b6ad7259cb0e9da699265125b7754b3c4457e5a97d10f30bc3b"
+    },
+    {
+      "seed": 840006,
+      "retainedPositionIndex": 29,
+      "referenceMilliseconds": 3149.7514999999985,
+      "candidateMilliseconds": 2488.0637999999963,
+      "ratio": 1.2659448282636496,
+      "parity": true,
+      "traceSha256": "ef505057a4f052eaff9f9ccbba435abb6102b139365cf9b64cbfa72332e0d42f"
+    },
+    {
+      "seed": 840007,
+      "retainedPositionIndex": 35,
+      "referenceMilliseconds": 4132.9133,
+      "candidateMilliseconds": 3030.527000000002,
+      "ratio": 1.363760593454537,
+      "parity": true,
+      "traceSha256": "ea0f043a6c96fac0e8c3d9e4bcc985641976e6fba052d011f8ac7e3276d730e3"
+    },
+    {
+      "seed": 840008,
+      "retainedPositionIndex": 40,
+      "referenceMilliseconds": 5808.081299999998,
+      "candidateMilliseconds": 3884.4107000000004,
+      "ratio": 1.4952284267984324,
+      "parity": true,
+      "traceSha256": "3332631e02c2e2c937cfa9d5166f2b44c8f3e89d0c909ea235c3ccc268449bf1"
+    },
+    {
+      "seed": 840009,
+      "retainedPositionIndex": 46,
+      "referenceMilliseconds": 3870.6777,
+      "candidateMilliseconds": 3052.986300000004,
+      "ratio": 1.2678333014465197,
+      "parity": true,
+      "traceSha256": "bc892f278f667c124f245d84a04afd377896b0694e1e6ad9dcccac9a8da149c7"
+    },
+    {
+      "seed": 840010,
+      "retainedPositionIndex": 51,
+      "referenceMilliseconds": 8370.6391,
+      "candidateMilliseconds": 6410.355900000002,
+      "ratio": 1.3057994330704785,
+      "parity": true,
+      "traceSha256": "7cf8cbba18d20c1684c54b02cd0d8e19f75756586f622385d054bbba1fb5cce0"
+    },
+    {
+      "seed": 840011,
+      "retainedPositionIndex": 57,
+      "referenceMilliseconds": 4528.129799999995,
+      "candidateMilliseconds": 3406.830900000001,
+      "ratio": 1.3291325378080825,
+      "parity": true,
+      "traceSha256": "f5cbd41c69d536b1d67d6855e95a7925bcd288369e2961c1d0c7de0d60e9e5ba"
+    },
+    {
+      "seed": 840012,
+      "retainedPositionIndex": 62,
+      "referenceMilliseconds": 4614.3796,
+      "candidateMilliseconds": 3482.3378999999986,
+      "ratio": 1.3250809463378044,
+      "parity": true,
+      "traceSha256": "f80c68726da6f2fe8c3a83f2b399c0df258f7ba58f7bde66b1d5bb4325217382"
+    },
+    {
+      "seed": 840013,
+      "retainedPositionIndex": 68,
+      "referenceMilliseconds": 4166.7209,
+      "candidateMilliseconds": 3336.5262999999977,
+      "ratio": 1.2488200377740175,
+      "parity": true,
+      "traceSha256": "5a91f7332d680dda26b7bdc151e387afb7a1d7908660cc73db95d58448714054"
+    },
+    {
+      "seed": 840014,
+      "retainedPositionIndex": 73,
+      "referenceMilliseconds": 6317.908800000005,
+      "candidateMilliseconds": 4434.203900000008,
+      "ratio": 1.4248124223606393,
+      "parity": true,
+      "traceSha256": "58c4a84f614aaf2033d251aa25b000ef09179084d3b1cf4fc9099b4ec4527cc2"
+    },
+    {
+      "seed": 840015,
+      "retainedPositionIndex": 79,
+      "referenceMilliseconds": 8103.5876000000135,
+      "candidateMilliseconds": 5763.391799999998,
+      "ratio": 1.4060448918291513,
+      "parity": true,
+      "traceSha256": "446d8a85f82abf1cdca8aab9e0636b48f626ff7e0d14f1b059e4b2759a231d91"
+    },
+    {
+      "seed": 840016,
+      "retainedPositionIndex": 84,
+      "referenceMilliseconds": 8083.813999999984,
+      "candidateMilliseconds": 5483.914300000004,
+      "ratio": 1.4740956108668544,
+      "parity": true,
+      "traceSha256": "19b5637360088a168d5dbbd42ac4a8ef34a5526157006c9795ba5b69f954fac3"
+    },
+    {
+      "seed": 840017,
+      "retainedPositionIndex": 89,
+      "referenceMilliseconds": 7035.85189999998,
+      "candidateMilliseconds": 5071.725600000005,
+      "ratio": 1.3872698278471478,
+      "parity": true,
+      "traceSha256": "38e5b338a3f723363b3942e929eb64769328f2cefffab99c959adefca1631ded"
+    },
+    {
+      "seed": 840018,
+      "retainedPositionIndex": 95,
+      "referenceMilliseconds": 8709.367299999984,
+      "candidateMilliseconds": 5871.208599999984,
+      "ratio": 1.4834028039814509,
+      "parity": true,
+      "traceSha256": "8e3175af7ee803f11eb62ad632c59b4dbce3c3384e63a3c59c53b7a8ba14cd64"
+    },
+    {
+      "seed": 840019,
+      "retainedPositionIndex": 100,
+      "referenceMilliseconds": 6168.675300000003,
+      "candidateMilliseconds": 4261.958299999998,
+      "ratio": 1.447380491733109,
+      "parity": true,
+      "traceSha256": "f5af8b261748b8259b5d5e26f1e383c7be0714cf1f5123d7b3f0547f52e6dfbf"
+    },
+    {
+      "seed": 840020,
+      "retainedPositionIndex": 106,
+      "referenceMilliseconds": 2690.0345999999845,
+      "candidateMilliseconds": 2151.6218999999983,
+      "ratio": 1.2502357407683882,
+      "parity": true,
+      "traceSha256": "f67baf21b0dbe74d2ba37f32e0ecb5109ed04050bfb425f758e826cccad95e42"
+    }
+  ],
+  "limitations": [
+    "Twenty retained positions come from one recorded game; they are not twenty independent games.",
+    "This qualifies complete-search latency on the declared workload, not whole-game throughput or strength.",
+    "One native/search lane alongside the live owner allocation; aggregate host CPU/RAM counters unavailable.",
+    "No candidate adoption, fitting, live runtime or reference changes were performed."
+  ],
+  "artifacts": {
+    "protocolSha256": "d89ca65bbb3a2f83bd63d47d2bcf01b16925023e02894727f9e148cb1aa61e1c",
+    "resultSha256": "bdd4a0b9623dec437f87807cb064163c3a692d6d837c19963805a99bbdff7144",
+    "engineeringSha256": "46a9eaa8b1f879f8db4163a2c724e4d428a01359ea980f01831ed03f94ff9406",
+    "harnessSha256": "962eea83e5d3158e504e8720bf4353ff4bd4b9cd71ac4d028a15adbac4f7c306"
+  }
+}

@@ -200,7 +200,12 @@ internal sealed partial class MatchWorker
         foreach (var entry in benchDisplayOrder) child.benchDisplayOrder.Add(entry.Key, entry.Value.ToList());
         foreach (var entry in searchContexts) child.searchContexts.Add(entry.Key, (JObject)entry.Value.DeepClone());
         foreach (var entry in searchContextTurns) child.searchContextTurns.Add(entry.Key, entry.Value);
-        child.RebuildFrame();
+        child.frame = (JObject)frame!.DeepClone();
+        // Offers contain only readonly value descriptors. The copied authority
+        // has the same IDs and state; enumerate again only after its next move.
+        foreach (var entry in actions) child.actions.Add(entry.Key, entry.Value);
+        foreach (var entry in choices) child.choices.Add(entry.Key, entry.Value);
+        foreach (var entry in promptOffers) child.promptOffers.Add(entry.Key, entry.Value);
         return child;
     }
 
