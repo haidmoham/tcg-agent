@@ -39,7 +39,9 @@ Predeclared protocol: 16 independent seeds, `1043101001` through `1043101016`, b
 
 Executed runtime: preserved outcome-pilot archive, native worker `d471d0a1d7c05d23f34c555499ea21f299e306e19a8c3536222bae0af34c25c4`; all 63 runtime source/config files are pinned before play and checked between blocks and after play. This deliberately reuses the completed comparator's history semantics and does not adopt a moving foundation branch mid-comparison. See `repro/singleton-routing-001/protocol.json` and `scripts/compare-singleton-routing.mjs`.
 
-Status: running. Final result, intervention coverage, uncertainty, actual cost and next action will be recorded after all fixed blocks complete or an actual failure stops the run.
+Result: **18–14 / 32 natural games**, score 0.5625, paired 95% interval **[0.22297, 0.90203]**. All 16 blocks completed in **1,187.713 s wall** (summed game time 2,355.954 s, two CPU lanes; aggregate CPU-core time was not measured). There were no invalid blocks, forfeits, command-cap draws or rejected commands. The selector changed **93 / 572** treatment singleton choices, affecting **25 / 32** games. All initial state/deck pairs matched; the first command difference was at a recorded treatment in all 15 divergent pairs (one pair never diverged). There were 398 observation-privacy checks and 327 opponent-hand exchanges. Final checks preserved all 63 runtime pins, both checkpoints and the executed runner. See `singleton-routing-001-result.json` for the exact receipts and counts.
+
+Conclusion: an exploratory lead, **no demonstrated improvement and no promotion**. This shortcut has actual decision coverage, but the sample leaves modest effects unresolved. Keep first-baseline's route; defer independent routing confirmation while addressing the user's more useful immediate question about strength across existing PPO updates. No additional fitting was needed to obtain this result.
 
 ## Next: ppo-strength-curve-001
 

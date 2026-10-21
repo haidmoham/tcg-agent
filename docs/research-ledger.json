@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
-  "revision": 1,
-  "at": "2026-10-21T01:32:23.069Z",
+  "revision": 2,
+  "at": "2026-10-21T01:49:36.665Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -99,22 +99,66 @@
       },
       "conclusion": "Existing trained gamma and entropy variants; matched held-out strength conclusion not established by this audit. Training outcomes are not strength evidence.",
       "promoted": false
+    },
+    {
+      "id": "singleton-routing-001",
+      "hypothesis": "fixed selector improves mandatory singleton choices versus frozen ordinary actor",
+      "controlledChange": "mandatory-singleton routing only",
+      "protocol": "repro/singleton-routing-001/protocol.json",
+      "budget": {
+        "games": 32,
+        "independentSeedBlocks": 16,
+        "lanes": 2,
+        "wallSeconds": 2700,
+        "trainingUpdates": 0
+      },
+      "result": "docs/singleton-routing-001-result.json",
+      "games": 32,
+      "wins": 18,
+      "losses": 14,
+      "independentSeedBlocks": 16,
+      "score": 0.5625,
+      "interval95": [
+        0.2229746210648451,
+        0.9020253789351549
+      ],
+      "routeCounts": {
+        "ordinary": 3704,
+        "baselineSingleton": 544,
+        "candidateSingleton": 572,
+        "ranking": 544,
+        "helper": 465,
+        "disagreements": 93
+      },
+      "actualCost": {
+        "wallSeconds": 1187.713,
+        "summedGameSeconds": 2355.954,
+        "lanes": 2,
+        "device": "CPU",
+        "cpuCoreSeconds": null,
+        "cpuAccountingNote": "aggregate process CPU was not measured",
+        "trainingUpdates": 0
+      },
+      "conclusion": "18–14 is an exploratory lead, not demonstrated improvement. Preserve current first-baseline route.",
+      "nextAction": "measure existing PPO snapshot strength before another training bet",
+      "promoted": false
     }
   ],
   "active": {
-    "id": "singleton-routing-001",
+    "id": "ppo-strength-curve-001",
     "status": "running",
-    "hypothesis": "fixed selector improves mandatory singleton choices versus frozen ordinary actor",
-    "controlledChange": "mandatory-singleton routing only",
-    "protocol": "repro/singleton-routing-001/protocol.json",
+    "hypothesis": "fixed per-checkpoint development matches reveal whether the prior PPO update sequence improves or regresses before final confirmation",
+    "controlledChange": "candidate ordinary/singleton checkpoint; same seed panel and frozen opponent per snapshot",
+    "protocol": "repro/ppo-strength-curve-001/protocol.json",
     "budget": {
-      "games": 32,
-      "independentSeedBlocks": 16,
+      "snapshots": 4,
+      "gamesPerSnapshot": 16,
+      "independentSeedBlocksPerSnapshot": 8,
       "lanes": 2,
-      "wallSeconds": 2700,
+      "wallSeconds": 3600,
       "trainingUpdates": 0
     },
-    "nextAction": "complete fixed screen; record all outcomes and paired uncertainty"
+    "nextAction": "finish fixed development panel; retain negative measurements and choose next research experiment"
   },
   "rankedApproaches": [
     "decision-specific prompt policy coverage",

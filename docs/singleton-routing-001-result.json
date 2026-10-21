@@ -1,0 +1,199 @@
+{
+  "schema": "singleton-routing-public-result/1",
+  "status": "completed",
+  "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
+  "baselineOrdinarySha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+  "baselineSelectionSha256": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+  "workerSha256": "d471d0a1d7c05d23f34c555499ea21f299e306e19a8c3536222bae0af34c25c4",
+  "runnerSha256": "a1a8e5b6cb3e75c39443c95d0f99b2050127d1809b7521249d4f9a1071139ff3",
+  "manifestSha256": "78db5a1fec9514ccd6efa757343842e67b55adf2ea3795c65f36555502740d34",
+  "protocolSha256": "1c2a59a1f6a51d3b8f03a67356ed2ff14d844ec46e2c41ed54ed3507fea4c25d",
+  "privateReceiptSha256": "7a3aa2f72d09032a23254e7500335a1fcd21beab553d760bde222457098dd82b",
+  "interventionTraceSha256": "22220dbcc21e85546fcae848a9c2e21f7cecb5505ce10570e9362d9df32a44a9",
+  "games": 32,
+  "independentSeedBlocks": 16,
+  "wins": 18,
+  "losses": 14,
+  "draws": 0,
+  "score": 0.5625,
+  "interval95": [
+    0.2229746210648451,
+    0.9020253789351549
+  ],
+  "intervalMethod": "two-sided 95% Hoeffding over independent paired seed-block scores; fixed final analysis only",
+  "allNatural": true,
+  "invalidBlocks": 0,
+  "policyForfeits": 0,
+  "commandCapDraws": 0,
+  "rejectedCommands": 0,
+  "routeCounts": {
+    "ordinary": 3704,
+    "baselineSingleton": 544,
+    "candidateSingleton": 572,
+    "ranking": 544,
+    "helper": 465,
+    "disagreements": 93
+  },
+  "candidateGamesWithChangedChoices": 25,
+  "candidateSingletonsWithMultipleOfferedChoices": 520,
+  "privacyChecks": 398,
+  "opponentHandExchanges": 327,
+  "actualCost": {
+    "wallSeconds": 1187.713,
+    "summedGameSeconds": 2355.954,
+    "lanes": 2,
+    "device": "CPU",
+    "cpuCoreSeconds": null,
+    "cpuAccountingNote": "aggregate process CPU was not measured",
+    "trainingUpdates": 0
+  },
+  "uncertainty": "Development screen in one fixed mirrored deck, two correlated games per independent seed. No promotion; modest effects remain unresolved.",
+  "conclusion": "Exploratory lead only; independently confirm before promotion or expanding this routing change.",
+  "blocks": [
+    {
+      "index": 0,
+      "seed": 1043101001,
+      "score": 0,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 39,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 0
+    },
+    {
+      "index": 1,
+      "seed": 1043101002,
+      "score": 0.5,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 28,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 1
+    },
+    {
+      "index": 2,
+      "seed": 1043101003,
+      "score": 0.5,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 41,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 1
+    },
+    {
+      "index": 3,
+      "seed": 1043101004,
+      "score": 0.5,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 39,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 1
+    },
+    {
+      "index": 4,
+      "seed": 1043101005,
+      "score": 0.5,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 41,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 1
+    },
+    {
+      "index": 5,
+      "seed": 1043101006,
+      "score": 0.5,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 28,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 1
+    },
+    {
+      "index": 7,
+      "seed": 1043101008,
+      "score": 0.5,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 47,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 1
+    },
+    {
+      "index": 6,
+      "seed": 1043101007,
+      "score": 1,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 24,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 2
+    },
+    {
+      "index": 8,
+      "seed": 1043101009,
+      "score": 1,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 24,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 2
+    },
+    {
+      "index": 9,
+      "seed": 1043101010,
+      "score": 0.5,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 15,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 1
+    },
+    {
+      "index": 10,
+      "seed": 1043101011,
+      "score": 0.5,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 31,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 1
+    },
+    {
+      "index": 11,
+      "seed": 1043101012,
+      "score": 0.5,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 30,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 1
+    },
+    {
+      "index": 12,
+      "seed": 1043101013,
+      "score": 0.5,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 41,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 1
+    },
+    {
+      "index": 13,
+      "seed": 1043101014,
+      "score": 0.5,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 96,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 1
+    },
+    {
+      "index": 14,
+      "seed": 1043101015,
+      "score": 1,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": 16,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 2
+    },
+    {
+      "index": 15,
+      "seed": 1043101016,
+      "score": 0.5,
+      "initialStateAndDecksEqual": true,
+      "firstCommandDifference": -1,
+      "firstDifferenceAtTreatment": true,
+      "candidateWins": 1
+    }
+  ],
+  "promotion": false
+}
