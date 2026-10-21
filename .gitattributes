@@ -58,6 +58,7 @@ integrations/local-worker/alphazero-model.mjs -text
 scripts/alphazero-selfplay.mjs -text
 scripts/prepare-model7-alphazero.mjs -text
 scripts/run-model7-alphazero.mjs -text
+scripts/preserve-model7-alphazero.mjs -text
 learning/alphazero.py -text
 learning/alphazero_runtime.py -text
 learning/alphazero-search.mjs -text

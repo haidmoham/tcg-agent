@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {spawn} from 'node:child_process';
+import {spawn,spawnSync} from 'node:child_process';
 
 const [manifestPath,resume]=process.argv.slice(2);
 if(!manifestPath||process.argv.length>4||resume&&resume!=='--resume')throw Error('Usage: run-model7-alphazero <private-manifest> [--resume]');
@@ -128,3 +128,11 @@ try {
 } catch(error) {state.state='failed';state.failures.push({at:new Date().toISOString(),phase:state.phase,reason:error.message});event({type:'supervisor-failed',reason:error.message});process.exitCode=2;}
 finally {clearInterval(pulse);status();save('receipt.json',state);process.removeListener('SIGINT',interrupt);process.removeListener('SIGTERM',interrupt);
   if(read(ownerPath).pid===process.pid)fs.unlinkSync(ownerPath);}
+if(state.state==='completed'&&manifest.archiveDirectory) {
+  const begin=Date.now();
+  const result=spawnSync(process.execPath,['scripts/preserve-model7-alphazero.mjs',path.resolve(manifestPath),manifest.archiveDirectory],
+    {cwd:manifest.runtimeRoot,windowsHide:true,encoding:'utf8',timeout:1800000});
+  save('preservation.json',{at:new Date().toISOString(),state:result.status===0?'verified':'failed',
+    archiveDirectory:manifest.archiveDirectory,seconds:(Date.now()-begin)/1000,stdout:result.stdout,stderr:result.stderr,error:result.error?.message??null});
+  if(result.status!==0)process.exitCode=3;
+}

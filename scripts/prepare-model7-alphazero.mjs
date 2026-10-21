@@ -25,20 +25,31 @@ for(const key of ['worker','workerSha256','workerSourceRoot','workerSourceSha256
 if(native.workerSha256!=='7a85f20df1616cc3d7b041f437b8a9c066800570a40bcf41e7ae34236507b83b'
   ||native.implementationVersion!=='native-state-copy/1.0.0')throw Error('Qualified state-copy worker required');
 const {verifyLocalInputs}=await import(pathToFileURL(path.join(runtime,'integrations/local-worker/probe.mjs')));
-verifyLocalInputs(native);
 const sourcePins={},filePins={...prepared.filePins};
 const frozenEnvironment=read(inputs.environmentConfig);
 Object.assign(filePins,frozenEnvironment.filePins,{[path.resolve(inputs.environmentConfig)]:hash(inputs.environmentConfig),
   [path.resolve(inputs.performanceHandoff)]:hash(inputs.performanceHandoff)});
-function pinTree(directory,sources=false) {
+function pinTree(directory,sources=false,allBehavior=false) {
   for(const entry of fs.readdirSync(directory,{withFileTypes:true})) {
     const file=path.join(directory,entry.name);
-    if(entry.isDirectory()){if(!['__pycache__','runs'].includes(entry.name))pinTree(file,sources);}
-    else if(!entry.name.endsWith('.pyc')){filePins[file]=hash(file);if(sources&&/\.(mjs|py|json|cs)$/.test(file))sourcePins[file]=hash(file);}
+    if(entry.isDirectory()){if(!['__pycache__','runs'].includes(entry.name))pinTree(file,sources,allBehavior);}
+    else if(!entry.name.endsWith('.pyc')){filePins[file]=hash(file);if(sources&&(allBehavior||/\.(mjs|py|json|cs)$/.test(file)))sourcePins[file]=hash(file);}
   }
 }
+function snapshotNative(config,name) {
+  const folder=path.join(root,name);
+  fs.cpSync(path.dirname(config.worker),path.join(folder,'bin'),{recursive:true,errorOnExist:true,force:false});
+  fs.cpSync(config.workerSourceRoot,path.join(folder,'source'),{recursive:true,errorOnExist:true,force:false});
+  config.worker=path.join(folder,'bin',path.basename(config.worker));config.workerSourceRoot=path.join(folder,'source');
+  verifyLocalInputs(config);pinTree(folder,true,true);
+}
+snapshotNative(native,'actual-native-pack');
 const actualNative=path.join(root,'actual-native-state-copy.json');fs.writeFileSync(actualNative,JSON.stringify(native,null,2)+'\n',{flag:'wx'});
-const searchNative=read(inputs.searchNativeConfig);verifyLocalInputs(searchNative);
+const searchNative={...originalNative},searchBuild=read(inputs.searchNativeConfig);
+for(const key of ['worker','workerSha256','workerSourceRoot','workerSourceSha256','implementationVersion','referenceWorkerSha256'])
+  if(searchBuild[key]!==undefined)searchNative[key]=searchBuild[key];
+snapshotNative(searchNative,'search-native-pack');
+const searchNativePath=path.join(root,'search-native.json');fs.writeFileSync(searchNativePath,JSON.stringify(searchNative,null,2)+'\n',{flag:'wx'});
 for(const config of [native,searchNative]) {
   filePins[config.worker]=hash(config.worker);filePins[config.executable]=hash(config.executable);
   for(const [relative,digest]of Object.entries(config.workerSourceSha256??{})) {
@@ -47,7 +58,13 @@ for(const config of [native,searchNative]) {
   }
   pinTree(path.dirname(config.worker));
 }
-filePins[actualNative]=hash(actualNative);filePins[path.resolve(inputs.searchNativeConfig)]=hash(inputs.searchNativeConfig);
+filePins[actualNative]=hash(actualNative);sourcePins[actualNative]=hash(actualNative);
+filePins[searchNativePath]=hash(searchNativePath);sourcePins[searchNativePath]=hash(searchNativePath);
+for(const config of [native,searchNative]) {
+  const bundleManifest=path.join(config.bundleRoot,'manifest.json');sourcePins[bundleManifest]=hash(bundleManifest);
+  for(const row of read(bundleManifest).files){const file=path.join(config.bundleRoot,row.path);sourcePins[file]=hash(file);}
+  sourcePins[config.policyModule]=hash(config.policyModule);
+}
 const init=spawnSync(prepared.python,['-u','-m','learning.alphazero_runtime','init',prepared.initialCheckpoint,initial,
   '--catalog',prepared.catalog,'--probe-records',inputs.probeRecords],{cwd:runtime,windowsHide:true,encoding:'utf8',
   env:{...process.env,PYTHONUNBUFFERED:'1',PTCG_AGENT_MODEL_ROOT:prepared.modelDirectory}});
@@ -64,6 +81,7 @@ const playerConfig={providerOptions:{nativeConfig:searchNative,...(inputs.provid
 const modelConfig={...prepared.ordinaryConfig,runtimeRoot:runtime,checkpoint:initial,checkpointSha256:hash(initial)};
 const manifest={schema:'model7-alphazero-execution/1',at:new Date().toISOString(),protocol:localProtocol,protocolSha256:hash(localProtocol),
   startPolicy:protocol.training.startPolicy??'fixed-window',
+  archiveDirectory:inputs.archiveDirectory??null,
   runtimeRoot:runtime,outputDirectory:path.join(root,'overnight-run'),modelDirectory:prepared.modelDirectory,python:prepared.python,
   catalog:prepared.catalog,initialCheckpoint:initial,initialCheckpointSha256:hash(initial),initializationReceiptSha256:hash(initReceipt),
   factoryModule:path.join(runtime,'agents/alphazero-agent.mjs'),sourcePins,playerConfig,filePins,modelConfig,
