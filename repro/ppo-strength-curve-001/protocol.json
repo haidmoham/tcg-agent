@@ -1,0 +1,69 @@
+{
+  "schema": "training-strength-development-panel/1",
+  "status": "predeclared",
+  "at": "2026-10-21T01:37:37.102Z",
+  "environmentLockSha256": "e8c8d8c941c765a443219424f411a7c3ce884c30cc38852231302110c6a3b6cc",
+  "foundationSourceCommit": "e131c892b30eec5183c3cbc71eb5b58ca2b44a57",
+  "snapshots": [
+    {
+      "id": "update-1",
+      "trainingGames": 6,
+      "optimizerSteps": 32,
+      "sha256": "77abcc25d99ee8a0321d2f320b23548a018c89606e8900ea95cf0e807ea8ea2a",
+      "checkpointName": "update-1.pt"
+    },
+    {
+      "id": "update-2",
+      "trainingGames": 12,
+      "optimizerSteps": 46,
+      "sha256": "3f91db62062650725bab92bf40640a782fbe87d5dc9cd2f06fcab28a7bbcd714",
+      "checkpointName": "update-2.pt"
+    },
+    {
+      "id": "update-3",
+      "trainingGames": 18,
+      "optimizerSteps": 58,
+      "sha256": "1d67953babb52199c441bd14622fc9edbb2b67b0bb7b18763e24420eeb099cdd",
+      "checkpointName": "update-3.pt"
+    },
+    {
+      "id": "update-4",
+      "trainingGames": 24,
+      "optimizerSteps": 67,
+      "sha256": "6d7e87af45c4fd6272757cb161a73584aef4f2d52903b0a041ddbfad04529828",
+      "checkpointName": "update-4.pt"
+    }
+  ],
+  "seeds": [
+    1043102001,
+    1043102002,
+    1043102003,
+    1043102004,
+    1043102005,
+    1043102006,
+    1043102007,
+    1043102008
+  ],
+  "workers": 2,
+  "maximumWallSeconds": 3600,
+  "maximumGameSeconds": 240,
+  "maximumGameCommands": 900,
+  "promotion": false,
+  "analysis": {
+    "purpose": "retrospective measurement infrastructure and development strength curve across four fixed PPO updates",
+    "unit": "paired seed block per snapshot; seeds deliberately shared across snapshots",
+    "interval": "two-sided 95% Hoeffding at each fixed snapshot; exploratory, no multiplicity-adjusted improvement claim",
+    "selection": "all four updates fixed before outcomes; no checkpoint selection or promotion; final confirmation stays separately held out",
+    "trainingReward": "natural terminal -1/0/+1",
+    "retraining": 0
+  },
+  "resourceChoice": {
+    "basis": "singleton-routing-001 first eight games took 344.861 seconds on two CPU lanes",
+    "expectedWallSeconds": 2800,
+    "maximumGames": 64,
+    "note": "full block uncertainty retained; actual game latency may differ; no paid compute"
+  },
+  "seedAudit": {
+    "disjointFrom": "PPO training/confirmation/replacements and singleton-routing-001; all are now development seeds"
+  }
+}

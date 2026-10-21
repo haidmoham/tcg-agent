@@ -1,0 +1,96 @@
+{
+  "schema": "tcg-strength-research-ledger/1",
+  "revision": 1,
+  "at": "2026-10-21T01:32:23.069Z",
+  "objective": "measured complete-game playing strength",
+  "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
+  "reference": {
+    "name": "first-baseline",
+    "ordinarySha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+    "selectorSha256": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d"
+  },
+  "experiments": [
+    {
+      "id": "human-two-head-bc",
+      "evidence": {
+        "receiptName": "supervised-bootstrap.md",
+        "sha256": "38193241dd660fb7521a83f234cf9b8850ce7de2c990fc7be1838880d8b306d6",
+        "visibility": "public documentation"
+      },
+      "games": 64,
+      "wins": 27,
+      "losses": 37,
+      "conclusion": "no demonstrated improvement",
+      "promoted": false
+    },
+    {
+      "id": "outcome-ppo-001",
+      "evidence": {
+        "receiptName": "receipt.json",
+        "sha256": "c494e0643b3ab22a719af2b6e8eeba20ad11f7d8ea362476b1b1c338315f6fc6",
+        "visibility": "private preserved receipt"
+      },
+      "games": 64,
+      "wins": 22,
+      "losses": 42,
+      "trainingGames": 24,
+      "decisions": 1709,
+      "batchUpdates": 4,
+      "optimizerSteps": 67,
+      "collectionSeconds": 858.827,
+      "fittingSeconds": 81.05,
+      "conclusion": "no demonstrated improvement",
+      "promoted": false
+    },
+    {
+      "id": "energy-search-018",
+      "evidence": {
+        "receiptName": "analysis.json",
+        "sha256": "fdb52f8c19f638d948824aad560d728cbfb407a7df8e965a8d08216bce97da9a",
+        "visibility": "private preserved receipt"
+      },
+      "games": 20,
+      "wins": 8,
+      "losses": 12,
+      "scoredDecisions": 77,
+      "changedDecisions": 47,
+      "conclusion": "no demonstrated improvement",
+      "promoted": false
+    },
+    {
+      "id": "energy-search-019",
+      "evidence": {
+        "receiptName": "analysis.json",
+        "sha256": "eab32cbddd40715f1d834b9ad92507479269e4cdd5d9db87419a2e7184b2eadb",
+        "visibility": "private preserved receipt"
+      },
+      "games": 20,
+      "wins": 12,
+      "losses": 8,
+      "scoredDecisions": 72,
+      "changedDecisions": 29,
+      "conclusion": "exploratory lead; independent confirmation required",
+      "promoted": false
+    }
+  ],
+  "active": {
+    "id": "singleton-routing-001",
+    "status": "running",
+    "hypothesis": "fixed selector improves mandatory singleton choices versus frozen ordinary actor",
+    "controlledChange": "mandatory-singleton routing only",
+    "protocol": "repro/singleton-routing-001/protocol.json",
+    "budget": {
+      "games": 32,
+      "independentSeedBlocks": 16,
+      "lanes": 2,
+      "wallSeconds": 2700,
+      "trainingUpdates": 0
+    },
+    "nextAction": "complete fixed screen; record all outcomes and paired uncertainty"
+  },
+  "rankedApproaches": [
+    "decision-specific prompt policy coverage",
+    "bounded own-turn search with fixed readiness evaluator",
+    "terminal-outcome Monte Carlo action values"
+  ]
+}
