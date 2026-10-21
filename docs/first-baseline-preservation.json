@@ -1,0 +1,110 @@
+{
+  "schema": "first-baseline-preservation/1",
+  "environmentVersion": "tcg-agent-native/1.0.0",
+  "lockSha256": "e8c8d8c941c765a443219424f411a7c3ce884c30cc38852231302110c6a3b6cc",
+  "agent": {
+    "id": "first-baseline",
+    "version": "1",
+    "historicalName": "Model6 update23",
+    "ordinarySha256": "c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9",
+    "selectionSha256": "2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d",
+    "catalogSha256": "65398de4f776573bdb2b9d50e9441d27be5fe109b05d5122be961fb20c245f04"
+  },
+  "recordedGames": [
+    {
+      "seed": 3046566488,
+      "baselineSeat": "opponent",
+      "decisionsSha256": "eb58d4a7c44a472a96c4326260f9cd99539eb53f38c881eadda443536dd2b223",
+      "progressSha256": "9a3dbc6ddf51445e72987c66d830dd6c9f52f68029c63132754a0ef5d372cffb",
+      "outcomeSha256": "847cc1d99df08da82a2d7f9879a2eb37ef618202581c555d2fd7daf635bf8764",
+      "commands": 191,
+      "frames": 192,
+      "routes": {
+        "human": {
+          "retained-trace": 81,
+          "helper": 3
+        },
+        "opponent": {
+          "helper": 7,
+          "ordinary": 71,
+          "selection": 9,
+          "singleton": 20
+        }
+      },
+      "actorProjectionsExact": true,
+      "decisionsExact": true,
+      "terminalExact": true,
+      "nativeSeedCalls": 69,
+      "privacyChecks": 12
+    },
+    {
+      "seed": 3046566488,
+      "baselineSeat": "human",
+      "decisionsSha256": "172fa4e64bb94e68ab0e4f7fdd0d8da6d8cd295923a05a820389ae72806c95b2",
+      "progressSha256": "eb7915484c38d98f784e28cf5fe74110e49a09afb9a83df88c8bec06a4dce70b",
+      "outcomeSha256": "dd40310be2680c827244cffab1b9ca890f09a3d80221d3d98c97b552bb56fbca",
+      "commands": 223,
+      "frames": 224,
+      "routes": {
+        "human": {
+          "helper": 9,
+          "ordinary": 74,
+          "selection": 15,
+          "singleton": 14
+        },
+        "opponent": {
+          "retained-trace": 109,
+          "helper": 2
+        }
+      },
+      "actorProjectionsExact": true,
+      "decisionsExact": true,
+      "terminalExact": true,
+      "nativeSeedCalls": 97,
+      "privacyChecks": 14
+    }
+  ],
+  "recordedContexts": [
+    {
+      "eventsSha256": "6eec7a4fdee432f2f073012b771b0c50dd9343ae0f7f6df15472d14e0842c0b7",
+      "offered": 73,
+      "accepted": 73,
+      "contextExact": true
+    },
+    {
+      "eventsSha256": "ccad8116c35b8758cc508d3b3043e1e8d19b75e8ea10429b876a66ef3a4ff451",
+      "offered": 72,
+      "accepted": 72,
+      "contextExact": true
+    }
+  ],
+  "newExperiments": 0,
+  "trainingUpdates": 0,
+  "verified": true,
+  "servicesExited": true,
+  "verification": {
+    "node": "v24.18.0",
+    "tests": {
+      "total": 216,
+      "passed": 213,
+      "failed": 0,
+      "skipped": 3,
+      "skipReasons": [
+        "optional legacy checkpoint HTTP config absent",
+        "optional full native regression config absent; replaced for this slice by recorded-trace parity checks",
+        "optional public Twinleaf prerequisite absent"
+      ]
+    },
+    "at": "2026-10-21T01:35:15.961Z",
+    "scope": "Two consumed paired confirmation traces plus all145 retained human contexts; exact reference decisions/projections/terminal/RNG, no strategic-strength inference",
+    "referenceDecisions": {
+      "ordinary": 145,
+      "singleton": 34,
+      "ranking": 24,
+      "helper": 16
+    },
+    "totalAcceptedCommands": 414,
+    "totalFrames": 416,
+    "privacyChecks": 26
+  }
+}

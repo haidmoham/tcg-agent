@@ -1,4 +1,5 @@
 // Private, copy-only preparation. Never changes the training controller or its inputs.
+import { firstBaseline } from '../agents/first-baseline.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -18,6 +19,8 @@ const adoption = read(adoptionPath), campaign = read(path.join(source, 'cohort-c
 const chosen = adoption.retainedCheckpoint ? { checkpoint: adoption.retainedCheckpoint, checkpointSha256: adoption.checkpointSha256 } : adoption.firstUpdate;
 const receiptPath = adoption.originalReceipt ?? chosen.checkpoint.replace(/\.pt$/, '.receipt.json');
 const receipt = read(receiptPath);
+if (chosen.checkpointSha256 !== firstBaseline.ordinarySha256 || receipt.frozenSelectionSha256 !== firstBaseline.selectionSha256)
+  throw new Error('first-baseline requires the retained update23 actor and selector');
 if (sha(chosen.checkpoint) !== chosen.checkpointSha256 || !receipt.reloadLogitsExact || !receipt.reloadValuesExact)
   throw new Error('Completed checkpoint reload proof or digest missing.');
 for (const [name, digest] of Object.entries(receipt.sourceHashes)) if (sha(path.join(source, name)) !== digest)
@@ -55,7 +58,7 @@ const config = { schema: 'hammerpult-human-local/1', native, runtimeRoot: path.j
     frozenSelectionSha256: receipt.frozenSelectionSha256, device: 'cpu', seed: 81729 },
   selection: { executable: campaign.python, checkpoint: path.join(target, 'selection.pt'), modelRoot: target,
     catalogPath: path.join(target, 'catalog.json'), catalogSha256: receipt.catalogSha256, device: 'cpu', seed: 81729 },
-  deckSha256: pair.deckHashes, version: 'Model6 update23 · 20:53:20 UTC · cohort v4/001', sourceCheckpoint: chosen.checkpoint };
+  deckSha256: pair.deckHashes, version: 'first-baseline v1 (historical Model6 update23) · 20:53:20 UTC · cohort v4/001', sourceCheckpoint: chosen.checkpoint };
 if (sha(config.selection.checkpoint) !== receipt.frozenSelectionSha256) throw new Error('Frozen selection mismatch');
 fs.writeFileSync(path.join(target, 'config.json'), JSON.stringify(config, null, 2) + '\n', { flag: 'wx' });
 console.log(path.join(target, 'config.json'));

@@ -28,7 +28,7 @@ try {
   assert.equal((await fetch(base + '/art/TWM-130.png')).status, 200);
   assert.equal((await fetch(base + '/api/new', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://foreign.example' }, body: '{}' })).status, 403);
   receipt.checks.push('http-page-script-card-art', 'foreign-origin-rejected');
-  start = await call('new', { modelId: 'model6-pinned', deck: 0 }); assert.equal(start.status, 200); g = start.data.game;
+  start = await call('new', { modelId: 'first-baseline', deck: 0 }); assert.equal(start.status, 200); g = start.data.game;
   assert.equal(g.error, null); assert.equal(g.model.sha256, config.checkpointSha256);
   assert.equal(session.inputs.selected[0].length, 60);
   const initialRequest = request(g);
@@ -83,7 +83,7 @@ try {
   assert.ok(records.filter(r => r.type === 'human-submitted').every(r => r.behaviorSource === 'synthetic-smoke' && r.behaviorLogProbability === null));
   assert.ok(records.some(r => r.type === 'game-ended' && r.outcome));
   receipt.checks.push('natural-terminal', 'learned-model-actions', 'raw-and-encoded-records', 'unknown-prompt-masks-preserved', 'synthetic-excluded-from-human-labels');
-  const next = await call('new', { modelId: 'model6-pinned', deck: 0 }); assert.equal(next.status, 200);
+  const next = await call('new', { modelId: 'first-baseline', deck: 0 }); assert.equal(next.status, 200);
   const stopped = await call('interrupt', request(next.data.game)); assert.equal(stopped.status, 200); assert.equal(stopped.data.game.recording.status, 'interrupted');
   receipt.checks.push('restart-and-explicit-interruption');
 } catch (error) {

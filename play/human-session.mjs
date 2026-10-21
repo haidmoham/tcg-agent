@@ -1,3 +1,4 @@
+import { firstBaseline } from '../agents/first-baseline.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -8,17 +9,19 @@ import { DemonstrationJournal, digest, recoverInterrupted, ownRecordsRoot } from
 const read = p => JSON.parse(fs.readFileSync(p, 'utf8').replace(/^\uFEFF/, ''));
 const fail = (message, status = 400) => { throw Object.assign(new Error(message), { status }); };
 const offered = view => view.prompts.length || view.actions.length;
-export const humanDecks = [{ id: 0, name: 'Hammerpult · exact cohort 60' }, { id: 1, name: 'Hydrapple · Model6 opponent' }];
+export const humanDecks = [{ id: 0, name: 'Hammerpult · exact cohort 60' }, { id: 1, name: 'Hydrapple · first-baseline opponent' }];
 
 // The browser submits a semantic decision plus an immutable observation digest.
 // Native authority stays in the inherited worker/resolve/preview boundary.
 export class HumanSession extends PlaySession {
   constructor(config) {
-    super(config, [{ id: 'model6-pinned', name: 'Model6', version: config.version, sha256: config.checkpointSha256,
+    super(config, [{ id: 'first-baseline', name: 'first-baseline', version: 'first-baseline v1 (historical Model6 update23)', sha256: config.checkpointSha256,
       objective: 'Frozen CPU opponent; no training in this interface.', training: 'Completed cohort update; strength unverified.',
       decks: ['Human: exact Hammerpult 60', 'Opponent: exact Hydrapple 60'],
-      mechanics: ['Model6 ordinary actions and legal singleton card prompts; frozen selection model for other supported card prompts; attributed helper for remaining setup and prompts.'] }]);
+      mechanics: ['first-baseline ordinary actions and legal singleton card prompts; frozen selection model for other supported card prompts; attributed helper for remaining setup and prompts.'] }]);
     if (config.schema !== 'hammerpult-human-local/1') fail('Prepared local demonstration configuration required.');
+    if (config.checkpointSha256 !== firstBaseline.ordinarySha256 || config.model.frozenSelectionSha256 !== firstBaseline.selectionSha256)
+      fail('first-baseline requires the retained update23 actor and selector.');
     this.verifyPins();
     this.artAliases = read(config.model.catalogPath).printingAliases;
     if (digest(this.inputs.selected[0]) !== config.deckSha256.learner || digest(this.inputs.selected[1]) !== config.deckSha256.opponent)
@@ -87,7 +90,7 @@ export class HumanSession extends PlaySession {
   }
 
   async start(body) {
-    if (body.deck !== 0 || body.modelId !== this.models[0].id) fail('This table pins Hammerpult for you and Hydrapple for Model6.');
+    if (body.deck !== 0 || ![this.models[0].id, 'model6-pinned'].includes(body.modelId)) fail('This table pins Hammerpult for you and Hydrapple for first-baseline.');
     this.verifyPins();
     const [probe, projection, ppo, selection, features, choices, teacher] = await this.runtime;
     this.modules = { ...probe, PolicyView: projection.PolicyView, ...ppo, ...selection, ...features, ...choices };
@@ -99,7 +102,7 @@ export class HumanSession extends PlaySession {
       const bundle = { id: this.inputs.manifest.bundleId, cardsHash: this.inputs.pins.get('cardData.json'),
         rulesHash: this.inputs.pins.get('gameData.json'), runtimeHash: this.inputs.pins.get('MatchLogic.dll') };
       const seats = Object.fromEntries(['human', 'opponent'].map((seat, index) => [seat, {
-        accountId: `local-${seat}`, name: seat === 'human' ? 'You' : 'Model6', cards: this.inputs.selected[index] }]));
+        accountId: `local-${seat}`, name: seat === 'human' ? 'You' : 'first-baseline', cards: this.inputs.selected[index] }]));
       const seed = Number.parseInt(randomUUID().slice(0, 8), 16);
       const frame = await worker.request('create', { bundle, seats, offline: { seed, projectionCopyMode: this.inputs.copyMode } });
       await this.closeGame('new-game');
@@ -113,7 +116,7 @@ export class HumanSession extends PlaySession {
           .map(name => [name, digest(fs.readFileSync(new URL('../' + name, import.meta.url)))])) };
       this.game = { id, model: this.models[0], client, selectionClient, worker, humanDeck: 0, provenance,
         projectors: { human: new projection.PolicyView(), opponent: new projection.PolicyView() },
-        contexts: {}, activity: ['Frozen Model6 on CPU. Your submitted choices are retained for later imitation learning.'],
+        contexts: {}, activity: ['Frozen first-baseline on CPU. Your submitted choices are retained for later imitation learning.'],
         publicHistory: [], learnedDecisions: 0, helperDecisions: 0, commands: 0, humanDecisions: 0,
         policy: teacher.createModel5Teacher(read(this.config.teacherCatalog)),
         journal: new DemonstrationJournal(this.config.recordsRoot, id, pins, provenance) };
@@ -217,7 +220,7 @@ export class HumanSession extends PlaySession {
         if (action.kind === 'play' && card?.facts[supporter] === 1) context.usage.supporterPlayed.value = true;
       }
       g.commands++; if (seat === 'human') g.humanDecisions++;
-      if (attribution.startsWith('Model6')) g.learnedDecisions++; else if (seat === 'opponent') g.helperDecisions++;
+      if (attribution.startsWith('first-baseline') || attribution.startsWith('Model6')) g.learnedDecisions++; else if (seat === 'opponent') g.helperDecisions++;
       // Opponent private prompt choices are never sent to the browser history.
       const presentation = humanPresentation(view, g.frame.views[seat]);
       const displayAction = presentation.actions.find(a => a.id === decision.actionId);
@@ -246,7 +249,7 @@ export class HumanSession extends PlaySession {
       if (offered(g.views.human)) return;
       const view = g.views.opponent, prompt = view.prompts[0];
       if (view.status === 'playing' && !prompt && view.actions.length) {
-        await this.accept('opponent', await g.client.decide({ view }), 'Model6 ordinary'); continue;
+        await this.accept('opponent', await g.client.decide({ view }), 'first-baseline ordinary'); continue;
       }
       let candidates, attribution = 'Frozen helper';
       if (view.status === 'playing' && m.supportsCardSelection(view)) {
@@ -260,7 +263,7 @@ export class HumanSession extends PlaySession {
           }
           if (!encoded.legalMask.some(Boolean)) throw new Error('No legal opponent singleton selection');
           const [sample] = await g.client.act([encoded], { deterministic: true });
-          candidates = [{ promptId: prompt.id, choiceIds: [prompt.choices[sample.actionIndex].id] }]; attribution = 'Model6 singleton';
+          candidates = [{ promptId: prompt.id, choiceIds: [prompt.choices[sample.actionIndex].id] }]; attribution = 'first-baseline singleton';
         } else { candidates = m.rankedPromptAnswers(view, await g.selectionClient.rankChoices({ view })); attribution = 'Frozen selection model'; }
       } else candidates = g.policy(view);
       let accepted = false, count = 0;

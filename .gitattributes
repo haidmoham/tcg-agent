@@ -45,3 +45,10 @@ scripts/run-model7-outcome.mjs -text whitespace=blank-at-eol,blank-at-eof,space-
 integrations/local-worker/entity-model.mjs -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
 integrations/local-worker/entity-ppo-model.mjs -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
 integrations/local-worker/model6-model.mjs -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+
+# Frozen first-baseline foundation source bytes.
+agents/** -text
+environment/** -text
+integrations/local-worker/agent-bundle.mjs -text
+scripts/prepare-first-baseline.mjs -text
+scripts/verify-first-baseline.mjs -text
