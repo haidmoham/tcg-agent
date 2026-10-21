@@ -72,3 +72,5 @@ integrations/local-worker/alphazero-training-episode.mjs -text
 scripts/reseal-model7-alphazero.py -text
 scripts/prepare-model7-alphazero-recovery.mjs -text
 scripts/profile-alphazero-collection.mjs -text
+scripts/model7-atomic-json.mjs -text
+scripts/recover-model7-controller.mjs -text
