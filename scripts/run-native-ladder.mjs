@@ -12,12 +12,14 @@ const sourcePins = Object.fromEntries([new URL(import.meta.url), new URL('../src
 const manifest = readJson(manifestPath), config = readJson(manifest.environmentConfig), root = path.resolve(output);
 const maximumGames = manifest.maximumGames ?? 128;
 const analysisAlpha = manifest.analysisAlpha ?? .05;
+const episodeRunner = manifest.episodeRunner;
+const maximumEpisodeSeconds = episodeRunner ? 3600 : 240;
 if (manifest.schema !== 'native-ladder-run/1' || !['development', 'confirmation'].includes(manifest.split) || manifest.promotion !== false
   || !Number.isFinite(analysisAlpha) || analysisAlpha <= 0 || analysisAlpha >= 1
   || !Number.isSafeInteger(manifest.workers) || manifest.workers < 1 || manifest.workers > 8
   || !Number.isSafeInteger(maximumGames) || maximumGames < 2 || maximumGames > 4096
   || !Number.isSafeInteger(manifest.maximumWallSeconds) || manifest.maximumWallSeconds < 1 || manifest.maximumWallSeconds > 86400
-  || !Number.isSafeInteger(manifest.maximumGameSeconds) || manifest.maximumGameSeconds < 1 || manifest.maximumGameSeconds > 240
+  || !Number.isSafeInteger(manifest.maximumGameSeconds) || manifest.maximumGameSeconds < 1 || manifest.maximumGameSeconds > maximumEpisodeSeconds
   || !Number.isSafeInteger(manifest.maximumGameCommands) || manifest.maximumGameCommands < 1 || manifest.maximumGameCommands > 1500)
   throw Error('bounded predeclared native run required');
 if (manifest.split === 'confirmation' && (!manifest.strengthPlan?.effect || !manifest.strengthPlan?.independentUnit
@@ -31,6 +33,21 @@ const [{ verifyFrozenRuntime }, { runNativeGame }, { AgentBundle }, { EntityPpoM
   load('integrations/local-worker/entity-ppo-model.mjs'), load('integrations/local-worker/model6-model.mjs'),
   load('learning/model6-features.mjs'), load('integrations/local-worker/card-action-policy.mjs'), load('learning/agentpult-teacher.mjs')]);
 verifyFrozenRuntime(config);
+let runEpisode;
+const verifyEpisodeRunner = () => {
+  if (!episodeRunner) return;
+  if (!path.isAbsolute(episodeRunner.module) || !/^[a-f0-9]{64}$/.test(episodeRunner.sha256 ?? '')
+      || !episodeRunner.sourcePins || !Object.keys(episodeRunner.sourcePins).length
+      || episodeRunner.maximumGameSeconds !== 3600 || hashFile(episodeRunner.module) !== episodeRunner.sha256)
+    throw Error('explicit pinned extended-budget episode runner required');
+  for (const [file, digest] of Object.entries(episodeRunner.sourcePins))
+    if (hashFile(file) !== digest) throw Error('episode runner source changed');
+};
+verifyEpisodeRunner();
+if (episodeRunner) {
+  ({ runTrainingEpisode: runEpisode } = await import(pathToFileURL(episodeRunner.module)));
+  if (typeof runEpisode !== 'function') throw Error('episode runner export missing');
+}
 const manifestSha256 = hashFile(manifestPath), configSha256 = hashFile(manifest.environmentConfig);
 const nativePath = manifest.nativeConfigOverride ?? config.nativeConfig;
 const native = readJson(nativePath), nativeConfigSha256 = hashFile(nativePath);
@@ -85,6 +102,7 @@ const assertFrozenInputs = () => {
   if (manifest.nativeConfigOverride && hashFile(manifest.nativeQualification.receipt) !== manifest.nativeQualification.sha256)
     throw Error('native qualification changed');
   verifyNativeOverride?.();
+  verifyEpisodeRunner();
   verifyFrozenRuntime(config);
   for (const e of manifest.entrants) {
     if (['ppo', 'prepared'].includes(e.kind) && hashFile(e.checkpoint) !== e.sha256) throw Error('candidate changed');
@@ -110,7 +128,8 @@ if (nativeImplementation) environmentIdentity.nativeImplementation = nativeImple
 const common = { schema: 'native-ladder-block/1', environmentSha256: identityHash(environmentIdentity),
   scenarioSha256: identityHash(config.scenario), split: manifest.split, protocolSha256: manifestSha256,
   failureContract: identityHash({ semantics: 'policy-forfeit-command-cap-draw-shared-invalid/1',
-    maxCommands: manifest.maximumGameCommands, maxSeconds: manifest.maximumGameSeconds }), receiptSha256: manifestSha256 };
+    maxCommands: manifest.maximumGameCommands, maxSeconds: manifest.maximumGameSeconds,
+    ...(episodeRunner ? { episodeRunnerSha256: episodeRunner.sha256 } : {}) }), receiptSha256: manifestSha256 };
 function report(final = false) {
   const complete = final && !stopReason && blocks.length === matchSchedule.length;
   const result = { schema: 'native-ladder-run-receipt/1', state: complete ? 'completed' : final ? 'incomplete' : 'running',
@@ -186,6 +205,7 @@ async function lane(index) {
         let outcome;
         try {
           const game = await runNativeGame(native, { seed: task.seed, seatOrder: [0, 1], agents,
+            ...(runEpisode ? { runEpisode } : {}),
             maxCommands: manifest.maximumGameCommands, maxSeconds: manifest.maximumGameSeconds, auditEvery: 32, signal: abort.signal,
             onFrame: ({ entry }) => append(`${label}-progress.jsonl`, entry) });
           if (!game.summary.completedNaturally || game.summary.rejected !== 0 || game.summary.privacyChecks < 2)

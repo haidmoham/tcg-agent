@@ -9,6 +9,17 @@ const [inputsPath, mode] = process.argv.slice(2);
 assert(inputsPath && [undefined, '--preflight'].includes(mode),
   'usage: run-model7-overnight-evaluation <private-inputs.json> [--preflight]');
 const inputs = readJson(inputsPath), design = readJson(inputs.design), config = readJson(inputs.environmentConfig);
+const resourcePlan = inputs.resourcePlan ? readJson(inputs.resourcePlan) : null;
+if (resourcePlan) {
+  assert.equal(resourcePlan.schema, 'model7-evaluation-resource-amendment/1');
+  assert.equal(resourcePlan.independentSeedPairs, design.confirmation.independentSeedPairs);
+  assert.equal(resourcePlan.independentSeedPairs, 512);
+  if (mode !== '--preflight') assert.equal(resourcePlan.status, 'approved', 'evaluation resource amendment needs authorization');
+}
+const confirmationProtocol = resourcePlan ? { ...design.confirmation,
+  maximumGameSeconds: resourcePlan.maximumGameSeconds,
+  maximumWallSeconds: resourcePlan.finalMaximumWallSeconds,
+  resourceAmendmentSha256: hashFile(inputs.resourcePlan) } : design.confirmation;
 assert.equal(design.schema, 'model7-overnight-design/1');
 assert.equal(design.confirmation.seeds.length, 512);
 assert.equal(design.monitoring.seeds.length, 64);
@@ -20,12 +31,14 @@ const sourceFiles = ['scripts/run-model7-overnight-evaluation.mjs', 'scripts/run
 const sourcePins = Object.fromEntries(sourceFiles.map(file => [path.resolve(file), hashFile(file)]));
 const inputPins = { [path.resolve(inputsPath)]: hashFile(inputsPath), [path.resolve(inputs.design)]: hashFile(inputs.design),
   [path.resolve(inputs.environmentConfig)]: hashFile(inputs.environmentConfig) };
+if (inputs.resourcePlan) inputPins[path.resolve(inputs.resourcePlan)] = hashFile(inputs.resourcePlan);
 if (inputs.nativeConfigOverride) {
   inputPins[path.resolve(inputs.nativeConfigOverride)] = hashFile(inputs.nativeConfigOverride);
   inputPins[path.resolve(inputs.nativeQualification.receipt)] = hashFile(inputs.nativeQualification.receipt);
 }
 if (mode === '--preflight') {
-  console.log(JSON.stringify({ preflight: true, sourcePins, inputPins, games: 0, fits: 0 }));
+  console.log(JSON.stringify({ preflight: true, sourcePins, inputPins,
+    resourcePlanReady: resourcePlan?.status === 'approved', games: 0, fits: 0 }));
   process.exit(0);
 }
 const root = path.resolve(inputs.outputDirectory);
@@ -111,6 +124,8 @@ async function runPanel(label, checkpoint, seeds, searchSeeds, split, workers, m
   if (split === 'confirmation') nomination.publicProtocolSha256 = hashFile(path.join(root, 'confirmation-protocol.json'));
   const playerPath = path.join(inputs.trainingDirectory, 'player-runtime.json'), player = readJson(playerPath);
   assert.equal(player.factoryExport, 'openSearchDistillationPlayer');
+  if (confirmationProtocol.maximumGameSeconds > 240)
+    assert(player.episodeRunner, 'extended evaluation budget needs pinned episode runner');
   const preparedEntrant = { kind: 'prepared', id: candidateId, description: `Single search-distillation Model7 trajectory ${label}`,
     checkpoint: checkpoint.checkpoint, sha256: checkpoint.checkpointSha256,
     factoryModule: player.factoryModule, factoryExport: player.factoryExport,
@@ -126,12 +141,13 @@ async function runPanel(label, checkpoint, seeds, searchSeeds, split, workers, m
         maximumDepth: design.search.maximumDepth, cPuct: design.search.cPuct, temperature: 0, rootNoise: false } } };
   const manifest = { schema: 'native-ladder-run/1', environmentConfig: inputs.environmentConfig, anchor: 'first-baseline',
     nativeConfigOverride: inputs.nativeConfigOverride, nativeQualification: inputs.nativeQualification,
+    episodeRunner: player.episodeRunner,
     split, promotion: false, entrants: [
       { kind: 'baseline', id: 'first-baseline', description: 'Exact frozen environment-v1 reference' },
       preparedEntrant], pairs: [[candidateId, 'first-baseline']], seeds, searchSeeds, workers,
     maximumGames: seeds.length * 2, maximumWallSeconds,
-    maximumGameSeconds: design.confirmation.maximumGameSeconds, maximumGameCommands: design.confirmation.maximumGameCommands,
-    analysisAlpha, nomination, strengthPlan: split === 'confirmation' ? design.confirmation.strengthPlan : {
+    maximumGameSeconds: confirmationProtocol.maximumGameSeconds, maximumGameCommands: confirmationProtocol.maximumGameCommands,
+    analysisAlpha, nomination, strengthPlan: split === 'confirmation' ? confirmationProtocol.strengthPlan : {
       effect: design.monitoring.question, independentUnit: 'paired seed block', uncertainty: design.monitoring.interval,
       sampleJustification: { radius: design.monitoring.intervalRadius, power: design.monitoring.powerLowerBoundAtThirtyPointShift } } };
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
@@ -188,7 +204,7 @@ try {
     const selected = selectCheckpoint(time);
     if (!selected) { panels.push({ label: `monitor-${index + 1}`, state: 'unavailable', reason: 'no verified training update by nominal time' }); continue; }
     await runPanel(`monitor-${index + 1}`, selected, design.monitoring.seeds, design.monitoring.searchSeeds,
-      'development', 2, 7200, .025);
+      'development', resourcePlan?.monitorWorkers ?? 2, resourcePlan?.monitorMaximumWallSeconds ?? 7200, .025);
   }
   phase = 'waiting-for-final-candidate'; status();
   const deadline = Date.parse(timing.deadlineUtc);
@@ -202,9 +218,10 @@ try {
   assert(checkpoint && final.available === true, 'no admitted final candidate');
   assert.equal(final.checkpointSha256, checkpoint.checkpointSha256);
   assert.equal(final.checkpoint, checkpoint.checkpoint);
-  save('confirmation-protocol.json', design.confirmation);
-  const directory = await runPanel('confirmation', checkpoint, design.confirmation.seeds, design.confirmation.searchSeeds, 'confirmation', 6,
-    design.confirmation.maximumWallSeconds, .05);
+  save('confirmation-protocol.json', confirmationProtocol);
+  const directory = await runPanel('confirmation', checkpoint, design.confirmation.seeds, design.confirmation.searchSeeds,
+    'confirmation', resourcePlan?.finalWorkers ?? 6,
+    confirmationProtocol.maximumWallSeconds, .05);
   phase = 'verifying-final-result'; status();
   const exported = await command('scripts/export-strength-confirmation.mjs', [directory, path.join(root, 'confirmation-protocol.json'),
     path.join(root, 'public-result.json')], directory, 'verification.log');

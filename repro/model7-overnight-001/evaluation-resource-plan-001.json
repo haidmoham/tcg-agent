@@ -1,0 +1,26 @@
+{
+  "schema": "model7-evaluation-resource-amendment/1",
+  "status": "proposed",
+  "at": "2026-10-21T03:57:28.744Z",
+  "experiment": "model7-overnight-001",
+  "reason": "Actual search-guided selfplay natural game took300.407s with61searched roots, ofwhich265.372s search;232roots acrossfirstfourattempts averaged4.414s. Earlier plain-policy capacity timing does not qualify search-player evaluation.",
+  "independentSeedPairs": 512,
+  "games": 1024,
+  "maximumGameSeconds": 3600,
+  "finalMaximumWallSeconds": 86400,
+  "finalWorkers": 6,
+  "monitorMaximumWallSeconds": 14400,
+  "monitorWorkers": 2,
+  "monitorIndependentPairs": 64,
+  "planning": {
+    "singleCompletedSelfplayGameSeconds": 300.407,
+    "estimateCandidateVersusReferenceSeconds": 170,
+    "uncontended1024GamesAtSixWorkersHours": 8.059259259259258,
+    "limitations": "Only one completed development game; not a measured population mean, quantile or scaling guarantee. One searching seat should cost less than both searching seats, but game length and six-lane contention are unknown. Twenty-four-hour guard gives scheduling headroom, not statistical assurance of completion."
+  },
+  "analysis": "Keep same512freshpairs, score, paired95%Hoeffding and fixed endpoint. No confirmation outcomes observed. Timeouts/shared failures stop the comparison as incomplete; no fabricated labels or missing-pair completed claim.",
+  "driver": "Pinned3600s candidate episode runner; exact natural129-command/all-frame parity proved before adoption. Same runner for both actual players, original frozenD bytes untouched. New cap/module hash create explicit failure-contract identity.",
+  "authorizationRequired": "Parent/user review of24h localCPU final budget and changed evaluation failure contract before launch; no new purchases, services or credentials.",
+  "priorCampaign": "model7-overnight-evaluation-001 stopped while waiting; zero evaluation games; all source/input pins and operator-pause receipt retained.",
+  "promotion": false
+}
