@@ -1,22 +1,16 @@
-# Hammerpult human demonstration table
+# Run the local human table
 
-Open **http://127.0.0.1:3860/** on this computer. Choose **Start game**. Select setup and prompt options, then **Submit selection**; optional **Check selection** runs the native rules preview. Choose ordinary moves from the legal-action buttons, optionally filtering by a card. **Inspect** opens readable local card faces, attachments and status. Both public boards, your hand, zone counts, turn, checkpoint identity and inspectable board history remain available. Selected options have a blue outline and numbered text. Results use explicit text; red/green is never the only signal.
+Maintained documentation is in the [project wiki](https://github.com/haidmoham/tcg-agent/wiki/Run-the-local-human-table). Update that page when behavior changes.
+
+## Versioned preparation and identities
+
+This section preserves the retained demonstration-table reproduction and verification record. Use the wiki for maintained operating instructions. The retained launch command is `node scripts/play-human.mjs runs/human-local/config.json 3860`.
 
 The human deck is the existing cohort's exact Hammerpult sixty, SHA-256 of the ordered source array `33353baee4928160844e04c61362341d40260b51cc1a048be1117cd2455ce4a7`. The opponent uses the existing Hydrapple sixty, SHA-256 `85cdd482be60c4787c7088a166d62c7db5e925ab38545fb5ee26e73b3528c9c4`.
 
 The opponent is **first-baseline (historical Model6 update23), saved 2026-10-20 at 20:53:20 UTC**, from `cohort-v4-preflight/cohort-update-001.pt`, SHA-256 **`c175603c04df29723998efcd02dc7dc18ae9c1c2ad9953fae520adf0e7c515d9`**. The authoritative selection is `task-8/manual-freeze-20261020/selected-human-baseline.json`; its checkpoint and every runtime source hash match this private copy. It never follows newer checkpoints such as update27. The private copy includes the matching runtime source, catalog, native worker and bundle; startup verifies their hashes. The training controller and originals are untouched.
 
 first-baseline chooses ordinary moves and supported native-validated singleton card selections. The pinned compatible selection checkpoint (`2b245d6c1d3f91f9cb5d3b6c36663dca717f586581175e7d22588e24f20e6a3d`) ranks other supported card prompts; the frozen helper resolves remaining opponent setup/prompts. These sources are separately attributed. CPU inference uses one game worker and two small persistent model services. The page starts no training.
-
-## Launch and stop
-
-From the repository root, using existing Node 22+ and Python/PyTorch:
-
-```powershell
-node scripts/play-human.mjs runs/human-local/config.json 3860
-```
-
-No installation, public deployment or desktop package is needed. The server binds only `127.0.0.1`, accepts the exact loopback Host, and rejects foreign-origin commands. Stop a foreground launch with Ctrl+C. Closing a browser tab keeps the current game on the local server; reopening resumes it. **Stop game · retain interruption** ends a game explicitly. Starting a new game retains an unfinished previous game as interrupted. After a server crash the next launch marks unfinished journals interrupted; a torn final append is retained verbatim with an uncertainty warning. Games themselves do not resume across server restarts. Only one server may own a records directory.
 
 The original local session has a prepared private `runs/human-local/config.json`; that configuration is not included in this source checkout. To recreate a new private copy, run:
 
@@ -46,3 +40,5 @@ The existing native prompt controls handle groups, ordered selections, cancellat
 The thin architecture reuses `PlaySession`'s worker/semantic resolver and the existing card board, rather than making a second engine. `HumanSession` owns the browser submit boundary, frozen first-baseline inference and episode attribution. `DemonstrationJournal` owns durable raw events. A separate recorder behind the old automated Live dispatch would miss manual semantic choices and is intentionally outside this task.
 
 Source publication integrates authored commit `f13bef584474ee907bc73098b8db8b0c93b97803` with machine-specific setup paths replaced by explicit local directory arguments and the verification summary's private references sanitized. The retained verification predates that setup-only portability adjustment; it was not rerun for publication. Integration ran no tests, games, model loads, builds or training and did not access or change the existing local server. The source contains no synthetic/human raw records, screenshots, private assets or runtime configuration.
+
+The [pre-migration document](https://github.com/haidmoham/tcg-agent/blob/b9dc8f7fb2895ef36b34f5a643bca9d70b35fb5d/docs/human-local-play.md) preserves the original milestone discussion and inspected evidence. It is historical context, not a second current guide.

@@ -1,14 +1,14 @@
-# Play a saved checkpoint locally
+# Play a saved checkpoint
 
-The checkpoint table lets a human play the pinned native two-deck profile against a saved ordinary-action scorer. It adapts Indigo Live's physical-card board and bench rails, loads its existing board CSS, and serves cached Indigo card faces and Twinleaf's card back from local paths. No artwork, recovered programs or native binaries belong in this repository.
+Maintained documentation is in the [project wiki](https://github.com/haidmoham/tcg-agent/wiki/Play-a-saved-checkpoint). Update that page when behavior changes.
+
+## Versioned preparation and checkpoint identities
+
+This section preserves the retained checkpoint-table reproduction and verification record. Use the wiki for maintained operating instructions.
 
 The first saved opponent is `native-learning-training-v1`, SHA-256 `1c405966d9539aca89fdf49413663f327859ece6c74c96b12e4453490062fe43`. It has 1,953 parameters and learns legal-candidate supervised imitation of the frozen heuristic. Its receipt records 125 training labels, ten updates, and 40% agreement on 60 held-out decisions. These are pipeline checks, not competitive strength. Its legacy receipt does not itself specify training deck coverage, so the catalog leaves that coverage unknown. The default human deck is N's Zoroark ex, leaving Dragapult ex to the model. Both decks are playable in the native profile.
 
 Model 2 is `native-learning-training-v2 / best update 200`, SHA-256 `144180ba472cfe23e405eb7c47448e5c88e8148ac5440c5d38f37a54d7ad690b`. Its finalized UI receipt records 673 labels from 18 human-seat teacher games, including 302 Dragapult labels and 371 N's Zoroark labels. Its 49.08% agreement on 218 validation decisions was used to select the checkpoint. It is not an untouched final-test result. The frozen receipt marks paired native policy-role evaluation as pending; that evaluation is owned separately. The same 1,953-parameter scorer runs on CPU in the interface.
-
-The human chooses their own setup, ordinary actions, targets and prompts. The checkpoint chooses the opponent's ordinary actions. The frozen helper handles the opponent's setup and prompts. The optional **Use helper for my next choice** button advances one human choice and records that assistance. Preview and submission both use native selection validation. The table supports ordered choices, groups, authorized reveals and damage allocations. Additive damage counts omit unused targets; final-counter allocations retain zero states.
-
-## Launch
 
 Use Node 22 or newer and the already-installed Python/PyTorch runtime. No package install is needed. Prepare a private JSON config inside ignored `runs/` with these fields:
 
@@ -34,19 +34,7 @@ Use Node 22 or newer and the already-installed Python/PyTorch runtime. No packag
 
 Replace `native` with the entire existing pinned native config, including its hashes. Copy the frozen checkpoint into this checkout's ignored `runs/` directory. The Python loader requires that location. Keep the original training receipt and compare its checkpoint digest. The interface verifies the digest, schema, parameter count and loaded objective before admitting a new game. Add another registry entry only when its saved checkpoint and matching receipt exist. Inference always uses CPU to avoid competing with training.
 
-```powershell
-node scripts/play-checkpoint.mjs runs/play-local.json 3852
-```
-
-Open the printed `http://127.0.0.1:3852/` URL on this computer. The server binds only `127.0.0.1`, checks the Host header, and rejects foreign-origin mutations. This URL is not reachable from a phone. Stop the server with Ctrl+C. A new game closes the previous worker and model process. Closing a browser tab does not stop the server; reopening resumes its current game.
-
-The separate local config `runs/play-both-models.json` contains both saved checkpoints. Start it on another unused loopback port to preserve a game already running on port 3852:
-
-```powershell
-node scripts/play-checkpoint.mjs runs/play-both-models.json 3853
-```
-
-Model 2's finalized checkpoint and receipts are copied into ignored `runs/model-2/`; its training originals remain read-only. The catalog uses each receipt's `coverage.trainedOnLabel`, train collection deck/seat counts, `coverage.finalPolicyRoleEvaluation`, and `heldout.kind`. When supplied, `coverage.nativePins` must match the selected native runtime. Catalogs load at server startup, so changing a config does not update an existing server or game.
+The retained launch command is `node scripts/play-checkpoint.mjs runs/play-local.json 3852`. The separate two-checkpoint reproduction used `runs/play-both-models.json` on port 3853. Model 2's finalized checkpoint and receipts are copied into ignored `runs/model-2/`; its training originals remain read-only. The catalog uses each receipt's `coverage.trainedOnLabel`, train collection deck/seat counts, `coverage.finalPolicyRoleEvaluation`, and `heldout.kind`. When supplied, `coverage.nativePins` must match the selected native runtime.
 
 ## Verification
 
@@ -65,3 +53,5 @@ The executed [verification receipt](checkpoint-play-verification.json) records a
 The inspected local card cache covers 25 of the two decks' 38 distinct printings. The other 13 faces show their visible names and exact printing IDs. This does not reveal hidden cards, and missing artwork does not prevent play. Screenshots stay in ignored `runs/screenshots/`.
 
 The native profile remains private and bounded to these exact two decks. Full Standard support, exhaustive mechanics conformance, competitive strength and physical-phone usability remain unverified. The public Twinleaf engine is an independent comparator and does not replace the native rules authority in this interface.
+
+The [pre-migration document](https://github.com/haidmoham/tcg-agent/blob/b9dc8f7fb2895ef36b34f5a643bca9d70b35fb5d/docs/checkpoint-play.md) preserves the original milestone discussion and inspected evidence. It is historical context, not a second current guide.

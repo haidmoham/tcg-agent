@@ -14,7 +14,7 @@ Avoid discretionary Markdown files and unnecessary comments wherever possible. P
 
 Retain required agent instruction files, licenses, reproducibility instructions, immutable experiment/configuration/evidence artifacts and explicitly requested versioned research records. Keep experiment hypotheses, configurations, seeds, source and checkpoint hashes, results and negative findings traceable. Do not bulk-delete documents or rewrite frozen artifacts to match current prose.
 
-No canonical external documentation destination is configured. The repository wiki is disabled. Until an authorized destination with appropriate privacy is available, maintain relevant existing documents in place and prepare migrations without inventing links or publishing private content. Once migrated, keep concise verified pointers and one current source of truth.
+The [public project wiki](https://github.com/haidmoham/tcg-agent/wiki) is the canonical home for maintained explanations and user guides. Publish only sanitized project documentation there. Keep concise verified repository pointers, and preserve versioned reproduction instructions and historical evidence in source. Update the relevant wiki page with behavior changes rather than maintaining competing narratives. Private inputs, weights, datamine, raw journals and credentials remain external.
 
 The active reference is first-baseline in the frozen `tcg-agent-native/1.0.0` environment. See `docs/first-baseline-foundation.md` and `docs/first-baseline-preservation.json`. Older ModelN reports retain their historical names and describe completed runs. Follow current task authorization for new simulation research, preserve frozen runtime pins during comparisons, and keep private inputs and weights external.
 
