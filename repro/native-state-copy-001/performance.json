@@ -1,0 +1,58 @@
+{
+  "schema": "native-state-copy-performance/1",
+  "at": "2026-10-21T03:01:55.332Z",
+  "implementationVersion": "native-state-copy/1.0.0",
+  "referenceWorkerSha256": "d471d0a1d7c05d23f34c555499ea21f299e306e19a8c3536222bae0af34c25c4",
+  "candidateWorkerSha256": "7a85f20df1616cc3d7b041f437b8a9c066800570a40bcf41e7ae34236507b83b",
+  "protocol": {
+    "decisionRelevantEffect": 1.1,
+    "independentUnit": "fresh paired seed block; seats, frames and repeated games are not extra units",
+    "comparison": "candidate direct state copier versus original native serializer with identical frozen policy and seed",
+    "blocks": 20,
+    "confidence": "two-sided 95% Student t interval on paired log throughput ratios, df19 critical 2.093024054",
+    "adoption": "all parity checks pass, all 20 blocks natural with no errors or caps, and lower interval bound exceeds 1.10",
+    "planning": "Assume paired log-ratio SD 0.20. At n20 t19 half-width is 0.0936 log units, about 9.8% multiplicative precision. This can separate a true 30% gain from the 10% decision threshold. Actual uncertainty controls the verdict; if variability is greater or budget expires, report inconclusive.",
+    "budgetSeconds": 3600,
+    "stopping": "fixed 20 blocks or wall budget/error; no early success stopping or sample extension"
+  },
+  "uncertainty": {
+    "pairedSeedBlocks": 20,
+    "geometricMeanThroughputRatio": 1.2023223307285642,
+    "pairedLogRatioSd": 0.09305395395521605,
+    "confidence95": [
+      1.151084303951504,
+      1.2558411073855371
+    ],
+    "passesAdoptionCriterion": true
+  },
+  "summary": {
+    "baseline": {
+      "runs": 20,
+      "medianSeconds": 56.6019534,
+      "minSeconds": 4.500775900000008,
+      "maxSeconds": 98.62149349999987,
+      "medianGamesPerHour": 63.6020452255275
+    },
+    "candidate": {
+      "runs": 20,
+      "medianSeconds": 45.815494299999905,
+      "minSeconds": 3.3908245000000026,
+      "maxSeconds": 79.13078969999985,
+      "medianGamesPerHour": 78.5760375393354
+    }
+  },
+  "exactCommandsFramesSeedsAndOutcomes": true,
+  "errors": 0,
+  "rejections": 0,
+  "behaviorEquivalence": {
+    "pass": true,
+    "scope": "Exact recorded decisions and behavior samples, including old log probabilities and values"
+  },
+  "scope": "Twenty fresh paired seed blocks of first-baseline policy self-play with interleaved implementation order, plus excluded warmup each. One active simulator lane and two frozen CPU model services shared by both sides. Other research reports two native lanes. Host aggregate CPU/RAM unavailable.",
+  "limitations": [
+    "One active simulator lane, two shared persistent CPU model services; other research reported two native lanes.",
+    "No global host CPU/RAM sampler was available.",
+    "Measures complete collection games; fitting and model startup are excluded.",
+    "No strength or learning improvement claim."
+  ]
+}
