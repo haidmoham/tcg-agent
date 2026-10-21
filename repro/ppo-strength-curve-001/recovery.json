@@ -1,0 +1,21 @@
+{
+  "schema": "training-panel-recovery/1",
+  "reason": "execution transport failure followed by absent process",
+  "originalManifestSha256": "bb00fb6d770509b80ae1f4c6b24eff490de72cd8bbddc555add4acc19361c07a",
+  "priorCurveSha256": "90dce051eb08f6c66707ccbd1eabb4d8e52fc4d02d284f650495a0b93d520fda",
+  "completedSeedPairsRetained": 2,
+  "unscoredOriginalNaturalGames": 1,
+  "interruptedGameAttempts": 2,
+  "originalStartedAt": "2026-10-21T01:48:18.242Z",
+  "absoluteDeadline": "2026-10-21T02:48:18.242Z",
+  "deadlineExtended": false,
+  "controlParametersChanged": false,
+  "firstExecutedRunnerSha256": "e275345788940e1e31f552057a6729b16a2657d18153675cf2a0292a43a22c87",
+  "recoveryRunnerSha256": "941b77c0ba365f9546417de3b36d791b24b6336b7b6a5cc748400e736f4c5493",
+  "recoverySourceCommit": "2be370c",
+  "recoveryManifestSha256": "2f94cfc4772e9c8e969a251786bbbaba5307ced771feaf5209f044f1d9aa4e6c",
+  "unpairedJournalReplay": {
+    "exact": true,
+    "sha256": "714cbf10b610ee8daf02bfdc4469ea9f103d7a9a348f0b233f749b31d06afe94"
+  }
+}
