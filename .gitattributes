@@ -68,3 +68,7 @@ learning/test_alphazero.py -text
 learning/test_joint_choice_sets.py -text
 tests/alphazero-search.test.mjs -text
 tests/legal-choice-sets.test.mjs -text
+integrations/local-worker/alphazero-training-episode.mjs -text
+scripts/reseal-model7-alphazero.py -text
+scripts/prepare-model7-alphazero-recovery.mjs -text
+scripts/profile-alphazero-collection.mjs -text

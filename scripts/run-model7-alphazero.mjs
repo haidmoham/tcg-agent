@@ -8,7 +8,7 @@ if(!manifestPath||process.argv.length>4||resume&&resume!=='--resume')throw Error
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 const hash=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const manifest=read(manifestPath),protocol=read(manifest.protocol),manifestSha256=hash(manifestPath),root=manifest.outputDirectory;
-if(manifest.schema!=='model7-alphazero-execution/1'||protocol.version!==3||hash(manifest.protocol)!==manifest.protocolSha256)
+if(manifest.schema!=='model7-alphazero-execution/1'||![3,4].includes(protocol.version)||hash(manifest.protocol)!==manifest.protocolSha256)
   throw Error('Pinned AlphaZero version-three execution required');
 if(!resume&&fs.existsSync(root))throw Error('Fresh run required; inspect prior effects before resume');
 fs.mkdirSync(root,{recursive:true});
@@ -62,6 +62,7 @@ function admit(pending,completedAtUtc) {
     ||receipt.checkpointSha256!==hash(pending.checkpoint)||receipt.updateCount!==state.completedBatchUpdates+1)
     throw Error('AlphaZero update lineage/reload/deadline admission failed');
   state.checkpoint=pending.checkpoint;state.checkpointSha256=receipt.checkpointSha256;state.completedBatchUpdates++;
+  state.replayBatches=pending.replayBatches??state.replayBatches;
   state.completedTrainingGames+=16;state.optimizerSteps+=receipt.metrics.optimizerSteps;
   state.firstSuccessfulUpdateAtUtc??=completedAtUtc;
   const announcement={checkpoint:state.checkpoint,checkpointSha256:state.checkpointSha256,completedAtUtc,
@@ -69,7 +70,7 @@ function admit(pending,completedAtUtc) {
     reloadVerified:true,batchIndex:pending.batchIndex,parentCheckpointSha256:pending.parent,receiptSha256:hash(receiptPath),
     updateCount:receipt.updateCount,runtimeRoot:manifest.runtimeRoot,factoryModule:manifest.factoryModule,
     factorySha256:hash(manifest.factoryModule),sourcePins:manifest.sourcePins,playerConfig:manifest.playerConfig,
-    factoryExport:'openSearchDistillationPlayer',trainingMethod:'alphazero-search-outcome/1'};
+    factoryExport:'openSearchDistillationPlayer',episodeRunner:manifest.episodeRunner,trainingMethod:'alphazero-search-outcome/1'};
   const announcementsPath=path.join(root,'checkpoint-announcements.jsonl');
   const announced=fs.existsSync(announcementsPath)?fs.readFileSync(announcementsPath,'utf8').trim().split('\n').filter(Boolean).map(JSON.parse):[];
   if(!announced.some(row=>row.checkpointSha256===announcement.checkpointSha256))fs.appendFileSync(announcementsPath,JSON.stringify(announcement)+'\n');
@@ -79,7 +80,7 @@ function admit(pending,completedAtUtc) {
 const pulse=setInterval(status,15000);
 try {
   assertPins();save('player-runtime.json',{runtimeRoot:manifest.runtimeRoot,factoryModule:manifest.factoryModule,
-    factoryExport:'openSearchDistillationPlayer',sourcePins:manifest.sourcePins,playerConfig:manifest.playerConfig});
+    factoryExport:'openSearchDistillationPlayer',sourcePins:manifest.sourcePins,playerConfig:manifest.playerConfig,episodeRunner:manifest.episodeRunner});
   if(resume&&state.pendingUpdate) {
     const pending=state.pendingUpdate,receipt=pending.checkpoint.replace(/\.pt$/,'.receipt.json');
     if(state.checkpoint!==pending.checkpoint&&fs.existsSync(receipt))admit(pending,fs.statSync(receipt).mtime.toISOString());
@@ -101,17 +102,19 @@ try {
     event({type:'collection-complete',batchIndex:batch.index,...collected,naturalGames:receipt?.naturalGames??null,records:receipt?.recordsCount??null});
     if(receipt?.stopReason==='integrity-failure')throw Error('Self-play integrity failure; inspect preserved evidence');
     if(collected.code!==0||collected.expired||receipt?.completed!==true||receipt.naturalGames!==16||receipt.recordsCount<2) {
-      state.skippedBatches.push({batchIndex:batch.index,reason:'whole-batch-excluded',receiptSha256:receipt?hash(receiptPath):null});status();continue;
+      state.skippedBatches.push({batchIndex:batch.index,reason:'whole-batch-excluded',receiptSha256:receipt?hash(receiptPath):null});status();
+      if(protocol.version>=4)throw Error('Whole batch excluded; diagnose preserved game failure before another collection');
+      continue;
     }
     const recordPath=path.join(directory,'records.jsonl');
     if(hash(recordPath)!==receipt.recordsSha256)throw Error('Collected search targets changed');
-    state.replayBatches.push({batchIndex:batch.index,recordPath,sha256:hash(recordPath)});state.replayBatches=state.replayBatches.slice(-4);
-    const rows=state.replayBatches.flatMap(item=>{if(hash(item.recordPath)!==item.sha256)throw Error('Replay source changed');
+    const replayBatches=[...state.replayBatches,{batchIndex:batch.index,recordPath,sha256:hash(recordPath)}].slice(-4);
+    const rows=replayBatches.flatMap(item=>{if(hash(item.recordPath)!==item.sha256)throw Error('Replay source changed');
       return fs.readFileSync(item.recordPath,'utf8').trim().split('\n').filter(Boolean);}).slice(-16384);
     const replay=path.join(root,`batch-${batch.index}-replay.jsonl`);fs.writeFileSync(replay,rows.join('\n')+'\n',{flag:'wx'});
     if(remaining()<2)break;
     const checkpoint=path.join(manifest.modelDirectory,`alphazero-batch-${batch.index}.pt`);
-    state.pendingUpdate={batchIndex:batch.index,checkpoint,parent:state.checkpointSha256,replayRecords:rows.length};state.phase='fitting';status();
+    state.pendingUpdate={batchIndex:batch.index,checkpoint,parent:state.checkpointSha256,replayRecords:rows.length,replayBatches};state.phase='fitting';status();
     const fitted=await execute(manifest.python,['-u','-m','learning.alphazero_runtime','update',state.checkpoint,replay,checkpoint,
       '--catalog',manifest.catalog,'--device','cuda'],`batch-${batch.index}-update`,remaining());
     state.fittingSeconds+=fitted.seconds;assertPins();event({type:'fit-complete',batchIndex:batch.index,...fitted});

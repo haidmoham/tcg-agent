@@ -15,9 +15,10 @@ const save=(name,value)=>fs.writeFileSync(path.join(output,name),JSON.stringify(
 const pins={...plan.filePins,[path.resolve(planPath)]:hash(planPath)};
 const assertPins=()=>{for(const [file,digest] of Object.entries(pins))if(hash(file)!==digest)throw Error(`AlphaZero source/input changed: ${file}`);};
 const load=(root,file)=>import(pathToFileURL(path.join(root,file)));
-const [{openFirstBaseline},{runNativeGame},{createAgentPultTeacher},{openSearchDistillationPlayer}]=await Promise.all([
+const [{openFirstBaseline},{runNativeGame},{createAgentPultTeacher},{openSearchDistillationPlayer},{runTrainingEpisode}]=await Promise.all([
   load(environment.runtimeRoot,'agents/first-baseline.mjs'),load(environment.runtimeRoot,'environment/native-game.mjs'),
-  load(environment.runtimeRoot,'learning/agentpult-teacher.mjs'),load(plan.runtimeRoot,'agents/alphazero-agent.mjs')]);
+  load(environment.runtimeRoot,'learning/agentpult-teacher.mjs'),load(plan.runtimeRoot,'agents/alphazero-agent.mjs'),
+  load(plan.runtimeRoot,'integrations/local-worker/alphazero-training-episode.mjs')]);
 const episodes=[],started=Date.now(),abort=new AbortController();let next=0,stopped=null;
 const stop=reason=>{stopped??=reason;abort.abort();};
 const timer=setTimeout(()=>stop('batch-wall-budget'),plan.maximumWallSeconds*1000);
@@ -52,7 +53,7 @@ async function lane(index) {
       }));
       const begin=Date.now();
       try {
-        const game=await runNativeGame(native,{seed:task.seed,seatOrder:task.seatOrder??[0,1],agents,session,
+        const game=await runNativeGame(native,{runEpisode:runTrainingEpisode,seed:task.seed,seatOrder:task.seatOrder??[0,1],agents,session,
           maxSeconds:plan.maximumGameSeconds,maxCommands:plan.maximumGameCommands,auditEvery:32,signal:abort.signal,
           onFrame:({entry})=>fs.appendFileSync(path.join(directory,'progress.jsonl'),JSON.stringify(entry)+'\n'),
           onDecision:({seat,decision,source,sample,encoded})=>{
@@ -76,8 +77,9 @@ async function lane(index) {
           recordsPath:path.join(task.id,'records.jsonl'),recordsSha256:hash(path.join(directory,'records.jsonl'))};
       } catch(error) {
         fs.writeFileSync(path.join(directory,'partial-records.jsonl'),records.map(row=>JSON.stringify(row)).join('\n'));
-        episode={...task,completedNaturally:false,recordsCount:0,partialRecords:records.length,routes,errorCode:error.code??null,reason:error.message};
+        episode={...task,completedNaturally:false,recordsCount:0,partialRecords:records.length,routes,errorCode:error.code??null,reason:error.message,stack:error.stack};
         if(/source|privacy|checkpoint|catalog|identity|probability/i.test(error.message))stop('integrity-failure');
+        else stop('whole-batch-game-failure');
       } finally {
         for(const agent of gamePlayers)await (agent.shutdown?.()??agent.close?.());
       }
