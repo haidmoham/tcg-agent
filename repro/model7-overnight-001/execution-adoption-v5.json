@@ -50,6 +50,9 @@
     "naturalGames": 16,
     "newSearchTargets": 909,
     "replayTargets": 2209,
+    "collectionChildWallSeconds": 1055.543,
+    "collectorElapsedSeconds": 1055.396,
+    "updateWallSeconds": 26.955,
     "optimizerSteps": 70,
     "totalAdmittedGames": 48,
     "totalAdmittedUpdates": 3,
@@ -57,5 +60,5 @@
     "scope": "Learning/reload evidence only; independent gameplay confirmation pending."
   },
   "finalFallback": "Last announced verified learning checkpoint and its full player identity if no actual post-adoption fit is admitted.",
-  "limitations": ["No measured029-to032 live speedup is claimed; the separate conditional performance study compared031-to032.", "Belief reconstruction covers declared actor-visible constraints and remains approximate.", "Whole-player strength awaits independent fresh512-pair confirmation."]
+  "limitations": ["No measured029-to032 live speedup is claimed; the separate conditional performance study compared031-to032.", "Belief reconstruction covers declared actor-visible constraints and remains approximate.", "Completed-stage wall times omit externally interrupted child intervals; raw partial timing evidence is retained.", "Whole-player strength awaits independent fresh512-pair confirmation."]
 }
