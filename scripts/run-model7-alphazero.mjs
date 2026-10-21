@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {spawn,spawnSync} from 'node:child_process';
+import {writeAtomicJson} from './model7-atomic-json.mjs';
 
 const [manifestPath,resume]=process.argv.slice(2);
 if(!manifestPath||process.argv.length>4||resume&&resume!=='--resume')throw Error('Usage: run-model7-alphazero <private-manifest> [--resume]');
@@ -12,8 +13,7 @@ if(manifest.schema!=='model7-alphazero-execution/1'||![3,4].includes(protocol.ve
   throw Error('Pinned AlphaZero version-three execution required');
 if(!resume&&fs.existsSync(root))throw Error('Fresh run required; inspect prior effects before resume');
 fs.mkdirSync(root,{recursive:true});
-const save=(name,value)=>{const file=path.join(root,name),temp=`${file}.${process.pid}.tmp`;
-  fs.writeFileSync(temp,JSON.stringify(value,null,2)+'\n');fs.renameSync(temp,file);};
+const save=(name,value)=>writeAtomicJson(path.join(root,name),value);
 const event=value=>fs.appendFileSync(path.join(root,'events.jsonl'),JSON.stringify({at:new Date().toISOString(),...value})+'\n');
 const asap=manifest.startPolicy==='asap-after-qualification';
 let start=Date.parse(protocol.training.startUtc),deadline=Date.parse(protocol.training.deadlineUtc);
@@ -77,7 +77,7 @@ function admit(pending,completedAtUtc) {
   state.lastAnnouncement=announcement;state.batches.push({...announcement,metrics:receipt.metrics,replayRecords:pending.replayRecords});
   status();event({type:'checkpoint-admitted',...announcement});
 }
-const pulse=setInterval(status,15000);
+const pulse=setInterval(()=>{try{status();}catch(error){event({type:'heartbeat-write-delayed',code:error.code,reason:error.message});}},15000);
 try {
   assertPins();save('player-runtime.json',{runtimeRoot:manifest.runtimeRoot,factoryModule:manifest.factoryModule,
     factoryExport:'openSearchDistillationPlayer',sourcePins:manifest.sourcePins,playerConfig:manifest.playerConfig,episodeRunner:manifest.episodeRunner});

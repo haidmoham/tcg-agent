@@ -24,7 +24,7 @@ fs.cpSync(previous.runtimeRoot,runtime,{recursive:true,errorOnExist:true,force:f
   filter:file=>!file.split(path.sep).includes('__pycache__')&&!file.endsWith('.pyc')});
 const overrides=['learning/alphazero-search.mjs','agents/alphazero-agent.mjs',
   'integrations/local-worker/alphazero-training-episode.mjs','scripts/alphazero-selfplay.mjs',
-  'scripts/run-model7-alphazero.mjs','scripts/reseal-model7-alphazero.py','scripts/profile-alphazero-collection.mjs'];
+  'scripts/run-model7-alphazero.mjs','scripts/model7-atomic-json.mjs','scripts/reseal-model7-alphazero.py','scripts/profile-alphazero-collection.mjs'];
 const sourceChanges=[];
 for(const relative of overrides){const source=path.join(sourceRoot,relative),target=path.join(runtime,relative);
   sourceChanges.push({relative,before:fs.existsSync(target)?hash(target):null,after:hash(source)});fs.copyFileSync(source,target);}
