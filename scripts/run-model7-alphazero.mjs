@@ -15,14 +15,16 @@ fs.mkdirSync(root,{recursive:true});
 const save=(name,value)=>{const file=path.join(root,name),temp=`${file}.${process.pid}.tmp`;
   fs.writeFileSync(temp,JSON.stringify(value,null,2)+'\n');fs.renameSync(temp,file);};
 const event=value=>fs.appendFileSync(path.join(root,'events.jsonl'),JSON.stringify({at:new Date().toISOString(),...value})+'\n');
-const start=Date.parse(protocol.training.startUtc),deadline=Date.parse(protocol.training.deadlineUtc);
-if(deadline-start!==21600000)throw Error('Exact six-hour training allocation required');
+const asap=manifest.startPolicy==='asap-after-qualification';
+let start=Date.parse(protocol.training.startUtc),deadline=Date.parse(protocol.training.deadlineUtc);
+if(protocol.training.allocatedSeconds!==21600||!asap&&deadline-start!==21600000)throw Error('Exact six-hour training allocation required');
 const state=resume?read(path.join(root,'status.json')):{schema:'model7-alphazero-status/1',manifestSha256,
-  protocolSha256:manifest.protocolSha256,state:'scheduled',phase:'waiting',startUtc:protocol.training.startUtc,
-  deadlineUtc:protocol.training.deadlineUtc,checkpoint:manifest.initialCheckpoint,checkpointSha256:manifest.initialCheckpointSha256,
+  protocolSha256:manifest.protocolSha256,state:'scheduled',phase:'waiting',startUtc:asap?null:protocol.training.startUtc,
+  deadlineUtc:asap?null:protocol.training.deadlineUtc,checkpoint:manifest.initialCheckpoint,checkpointSha256:manifest.initialCheckpointSha256,
   completedTrainingGames:0,completedBatchUpdates:0,optimizerSteps:0,collectionSeconds:0,fittingSeconds:0,
   nextBatch:0,batches:[],skippedBatches:[],failures:[],replayBatches:[],promoted:false};
 if(state.manifestSha256!==manifestSha256||state.state==='completed')throw Error('Mismatched or completed execution');
+if(resume&&state.trainingStartedAtUtc){start=Date.parse(state.trainingStartedAtUtc);deadline=Date.parse(state.deadlineUtc);}
 const ownerPath=path.join(root,'supervisor-owner.json');
 if(fs.existsSync(ownerPath)) {
   const owner=read(ownerPath);try{process.kill(owner.pid,0);throw Error('Existing supervisor is still running');}
@@ -31,7 +33,7 @@ if(fs.existsSync(ownerPath)) {
 }
 fs.writeFileSync(ownerPath,JSON.stringify({pid:process.pid,manifestSha256}),{flag:'wx'});
 let child=null,cancelled=false;
-const remaining=()=>Math.max(0,Math.floor((deadline-Date.now())/1000));
+const remaining=()=>asap&&!state.trainingStartedAtUtc?21600:Math.max(0,Math.floor((deadline-Date.now())/1000));
 const status=()=>{state.at=new Date().toISOString();state.pid=process.pid;state.activeChildPid=child?.pid??null;save('status.json',state);};
 const assertPins=()=>{if(hash(manifestPath)!==manifestSha256)throw Error('Execution manifest changed');
   for(const [file,digest]of Object.entries(manifest.filePins))if(hash(file)!==digest)throw Error(`Pinned source/input changed: ${file}`);
@@ -40,6 +42,11 @@ const stop=processObject=>process.platform==='win32'?spawn('taskkill',['/PID',St
 const interrupt=()=>{cancelled=true;if(child)stop(child);};process.on('SIGINT',interrupt);process.on('SIGTERM',interrupt);
 async function execute(executable,args,label,seconds) {
   const stdout=fs.openSync(path.join(root,`${label}.stdout.log`),'ax'),stderr=fs.openSync(path.join(root,`${label}.stderr.log`),'ax'),began=Date.now();
+  if(label.endsWith('-collection')&&!state.trainingStartedAtUtc) {
+    start=began;deadline=asap?began+21600000:deadline;
+    state.trainingStartedAtUtc=new Date(began).toISOString();state.startUtc=state.trainingStartedAtUtc;
+    state.deadlineUtc=new Date(deadline).toISOString();event({type:'actual-collection-start',trainingStartedAtUtc:state.trainingStartedAtUtc,deadlineUtc:state.deadlineUtc});
+  }
   child=spawn(executable,args,{cwd:manifest.runtimeRoot,windowsHide:true,stdio:['ignore',stdout,stderr],
     env:{...process.env,PYTHONUNBUFFERED:'1',PTCG_AGENT_MODEL_ROOT:manifest.modelDirectory}});
   const current=child;let expired=false;status();
@@ -56,6 +63,7 @@ function admit(pending,completedAtUtc) {
     throw Error('AlphaZero update lineage/reload/deadline admission failed');
   state.checkpoint=pending.checkpoint;state.checkpointSha256=receipt.checkpointSha256;state.completedBatchUpdates++;
   state.completedTrainingGames+=16;state.optimizerSteps+=receipt.metrics.optimizerSteps;
+  state.firstSuccessfulUpdateAtUtc??=completedAtUtc;
   const announcement={checkpoint:state.checkpoint,checkpointSha256:state.checkpointSha256,completedAtUtc,
     completedTrainingGames:state.completedTrainingGames,completedBatchUpdates:state.completedBatchUpdates,optimizerSteps:state.optimizerSteps,
     reloadVerified:true,batchIndex:pending.batchIndex,parentCheckpointSha256:pending.parent,receiptSha256:hash(receiptPath),
@@ -79,8 +87,8 @@ try {
     delete state.pendingUpdate;
   } else if(resume&&state.phase==='collection')state.skippedBatches.push({batchIndex:state.nextBatch,reason:'interrupted-collection'});
   event({type:resume?'supervisor-resumed':'supervisor-scheduled',startUtc:state.startUtc,deadlineUtc:state.deadlineUtc});status();
-  while(Date.now()<start&&!cancelled)await new Promise(resolve=>setTimeout(resolve,Math.min(15000,start-Date.now())));
-  if(cancelled)throw Error('operator-interrupted');state.state='running';state.trainingStartedAtUtc??=new Date().toISOString();status();
+  while(!asap&&Date.now()<start&&!cancelled)await new Promise(resolve=>setTimeout(resolve,Math.min(15000,start-Date.now())));
+  if(cancelled)throw Error('operator-interrupted');state.state='running';status();
   for(let index=state.nextBatch;index<protocol.training.batches.length&&remaining()>1&&!cancelled;index++) {
     const batch=protocol.training.batches[index],directory=path.join(root,`batch-${batch.index}`);
     state.nextBatch=index+1;state.phase='collection';state.batchIndex=batch.index;status();assertPins();

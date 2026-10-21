@@ -27,6 +27,9 @@ if(native.workerSha256!=='7a85f20df1616cc3d7b041f437b8a9c066800570a40bcf41e7ae34
 const {verifyLocalInputs}=await import(pathToFileURL(path.join(runtime,'integrations/local-worker/probe.mjs')));
 verifyLocalInputs(native);
 const sourcePins={},filePins={...prepared.filePins};
+const frozenEnvironment=read(inputs.environmentConfig);
+Object.assign(filePins,frozenEnvironment.filePins,{[path.resolve(inputs.environmentConfig)]:hash(inputs.environmentConfig),
+  [path.resolve(inputs.performanceHandoff)]:hash(inputs.performanceHandoff)});
 function pinTree(directory,sources=false) {
   for(const entry of fs.readdirSync(directory,{withFileTypes:true})) {
     const file=path.join(directory,entry.name);
@@ -42,6 +45,7 @@ for(const config of [native,searchNative]) {
     const file=path.join(config.workerSourceRoot,relative);if(hash(file)!==digest)throw Error('Native authored source changed');
     filePins[file]=digest;sourcePins[file]=digest;
   }
+  pinTree(path.dirname(config.worker));
 }
 filePins[actualNative]=hash(actualNative);filePins[path.resolve(inputs.searchNativeConfig)]=hash(inputs.searchNativeConfig);
 const init=spawnSync(prepared.python,['-u','-m','learning.alphazero_runtime','init',prepared.initialCheckpoint,initial,
@@ -59,6 +63,7 @@ const searchOptions={determinizations:protocol.search.determinizations,simulatio
 const playerConfig={providerOptions:{nativeConfig:searchNative,...(inputs.providerOptions??{})},knownDecks,searchOptions};
 const modelConfig={...prepared.ordinaryConfig,runtimeRoot:runtime,checkpoint:initial,checkpointSha256:hash(initial)};
 const manifest={schema:'model7-alphazero-execution/1',at:new Date().toISOString(),protocol:localProtocol,protocolSha256:hash(localProtocol),
+  startPolicy:protocol.training.startPolicy??'fixed-window',
   runtimeRoot:runtime,outputDirectory:path.join(root,'overnight-run'),modelDirectory:prepared.modelDirectory,python:prepared.python,
   catalog:prepared.catalog,initialCheckpoint:initial,initialCheckpointSha256:hash(initial),initializationReceiptSha256:hash(initReceipt),
   factoryModule:path.join(runtime,'agents/alphazero-agent.mjs'),sourcePins,playerConfig,filePins,modelConfig,

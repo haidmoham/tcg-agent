@@ -5,7 +5,8 @@ function actorVisible(value) {
   if(!value || typeof value!=='object' || Array.isArray(value))throw unsupported('Actor-visible root object required');
   const visit=node=>{
     if(!node || typeof node!=='object')return;
-    if(node.opponent && Object.hasOwn(node.opponent,'hand'))throw unsupported('Opponent hidden hand cannot enter search');
+    if(node.opponent && ['hand','deck'].some(key=>Object.hasOwn(node.opponent,key)))throw unsupported('Opponent hidden zones cannot enter search');
+    if(node.you && ['deck','prizes'].some(key=>Array.isArray(node.you[key])))throw unsupported('Own hidden zones cannot enter search');
     if(['authority','workingBoard','views','p1Deck','p2Deck','p1Hand','p2Hand'].some(key=>Object.hasOwn(node,key)))
       throw unsupported('Privileged native state cannot enter search');
     for(const child of Object.values(node))visit(child);
