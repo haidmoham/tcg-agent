@@ -1,0 +1,472 @@
+{
+  "schema": "training-strength-curve-public-result/1",
+  "status": "completed",
+  "sourceFoundationCommit": "e131c892b30eec5183c3cbc71eb5b58ca2b44a57",
+  "environmentVersion": "tcg-agent-native/1.0.0",
+  "environmentLockSha256": "e8c8d8c941c765a443219424f411a7c3ce884c30cc38852231302110c6a3b6cc",
+  "opponent": "first-baseline",
+  "selection": "same frozen selector for every player",
+  "history": "complete-game",
+  "runnerSha256": "941b77c0ba365f9546417de3b36d791b24b6336b7b6a5cc748400e736f4c5493",
+  "privateManifestSha256": "2f94cfc4772e9c8e969a251786bbbaba5307ced771feaf5209f044f1d9aa4e6c",
+  "privateCurveSha256": "3eee1c0f9b9d38152b52bab0d096439393cfc5a2192c2556257b6bb3d87f7e72",
+  "seedPanel": [
+    1043102001,
+    1043102002,
+    1043102003,
+    1043102004,
+    1043102005,
+    1043102006,
+    1043102007,
+    1043102008
+  ],
+  "dataRole": "development; repeated seeds across snapshots; unsuitable as fresh final confirmation",
+  "intervalMethod": "per-snapshot two-sided 95% Hoeffding over independent paired seed blocks; exploratory, no multiplicity-adjusted claim",
+  "points": [
+    {
+      "id": "update-1",
+      "trainingGames": 6,
+      "optimizerSteps": 32,
+      "checkpointSha256": "77abcc25d99ee8a0321d2f320b23548a018c89606e8900ea95cf0e807ea8ea2a",
+      "games": 16,
+      "independentSeedBlocks": 8,
+      "wins": 5,
+      "losses": 11,
+      "draws": 0,
+      "score": 0.3125,
+      "interval95": [
+        0,
+        0.7926613956599604
+      ],
+      "naturalGames": 16,
+      "policyForfeits": 0,
+      "commandCapDraws": 0,
+      "sharedInvalid": 0,
+      "routes": {
+        "candidate:helper": 127,
+        "baseline:helper": 126,
+        "candidate:ordinary": 1108,
+        "baseline:ordinary": 1022,
+        "baseline:selection": 136,
+        "candidate:singleton": 331,
+        "candidate:selection": 156,
+        "baseline:singleton": 300
+      },
+      "summedGameSeconds": 1345.124,
+      "privacyChecks": 222,
+      "blocks": [
+        {
+          "slot": 1,
+          "seed": 1043102002,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 0,
+          "seed": 1043102001,
+          "score": 0,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 2,
+          "seed": 1043102003,
+          "score": 0,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 3,
+          "seed": 1043102004,
+          "score": 1,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 4,
+          "seed": 1043102005,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 5,
+          "seed": 1043102006,
+          "score": 0,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 6,
+          "seed": 1043102007,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 7,
+          "seed": 1043102008,
+          "score": 0,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "update-2",
+      "trainingGames": 12,
+      "optimizerSteps": 46,
+      "checkpointSha256": "3f91db62062650725bab92bf40640a782fbe87d5dc9cd2f06fcab28a7bbcd714",
+      "games": 16,
+      "independentSeedBlocks": 8,
+      "wins": 10,
+      "losses": 6,
+      "draws": 0,
+      "score": 0.625,
+      "interval95": [
+        0.14483860434003965,
+        1
+      ],
+      "naturalGames": 16,
+      "policyForfeits": 0,
+      "commandCapDraws": 0,
+      "sharedInvalid": 0,
+      "routes": {
+        "candidate:helper": 121,
+        "baseline:helper": 110,
+        "candidate:ordinary": 846,
+        "baseline:ordinary": 900,
+        "baseline:selection": 129,
+        "candidate:singleton": 232,
+        "candidate:selection": 100,
+        "baseline:singleton": 247
+      },
+      "summedGameSeconds": 1030.935,
+      "privacyChecks": 184,
+      "blocks": [
+        {
+          "slot": 1,
+          "seed": 1043102002,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 0,
+          "seed": 1043102001,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 2,
+          "seed": 1043102003,
+          "score": 1,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 3,
+          "seed": 1043102004,
+          "score": 0,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 4,
+          "seed": 1043102005,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 5,
+          "seed": 1043102006,
+          "score": 1,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 6,
+          "seed": 1043102007,
+          "score": 1,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 7,
+          "seed": 1043102008,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "update-3",
+      "trainingGames": 18,
+      "optimizerSteps": 58,
+      "checkpointSha256": "1d67953babb52199c441bd14622fc9edbb2b67b0bb7b18763e24420eeb099cdd",
+      "games": 16,
+      "independentSeedBlocks": 8,
+      "wins": 8,
+      "losses": 8,
+      "draws": 0,
+      "score": 0.5,
+      "interval95": [
+        0.019838604340039645,
+        0.9801613956599604
+      ],
+      "naturalGames": 16,
+      "policyForfeits": 0,
+      "commandCapDraws": 0,
+      "sharedInvalid": 0,
+      "routes": {
+        "candidate:helper": 109,
+        "baseline:helper": 122,
+        "candidate:ordinary": 853,
+        "baseline:ordinary": 975,
+        "baseline:selection": 132,
+        "candidate:singleton": 253,
+        "candidate:selection": 100,
+        "baseline:singleton": 293
+      },
+      "summedGameSeconds": 1072.491,
+      "privacyChecks": 196,
+      "blocks": [
+        {
+          "slot": 1,
+          "seed": 1043102002,
+          "score": 1,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 0,
+          "seed": 1043102001,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 2,
+          "seed": 1043102003,
+          "score": 1,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 3,
+          "seed": 1043102004,
+          "score": 0,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 4,
+          "seed": 1043102005,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 5,
+          "seed": 1043102006,
+          "score": 1,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 6,
+          "seed": 1043102007,
+          "score": 0,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 7,
+          "seed": 1043102008,
+          "score": 0,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "update-4",
+      "trainingGames": 24,
+      "optimizerSteps": 67,
+      "checkpointSha256": "6d7e87af45c4fd6272757cb161a73584aef4f2d52903b0a041ddbfad04529828",
+      "games": 16,
+      "independentSeedBlocks": 8,
+      "wins": 6,
+      "losses": 10,
+      "draws": 0,
+      "score": 0.375,
+      "interval95": [
+        0,
+        0.8551613956599604
+      ],
+      "naturalGames": 16,
+      "policyForfeits": 0,
+      "commandCapDraws": 0,
+      "sharedInvalid": 0,
+      "routes": {
+        "candidate:helper": 102,
+        "baseline:helper": 111,
+        "candidate:ordinary": 776,
+        "baseline:ordinary": 848,
+        "baseline:selection": 121,
+        "baseline:singleton": 251,
+        "candidate:singleton": 237,
+        "candidate:selection": 91
+      },
+      "summedGameSeconds": 890.3060000000002,
+      "privacyChecks": 176,
+      "blocks": [
+        {
+          "slot": 0,
+          "seed": 1043102001,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 1,
+          "seed": 1043102002,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 3,
+          "seed": 1043102004,
+          "score": 0,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 2,
+          "seed": 1043102003,
+          "score": 1,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 4,
+          "seed": 1043102005,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 5,
+          "seed": 1043102006,
+          "score": 0.5,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 6,
+          "seed": 1043102007,
+          "score": 0,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        },
+        {
+          "slot": 7,
+          "seed": 1043102008,
+          "score": 0,
+          "statuses": [
+            "natural",
+            "natural"
+          ]
+        }
+      ]
+    }
+  ],
+  "actualCost": {
+    "currentAttemptWallSeconds": 2164.6,
+    "campaignWallSeconds": 2815.824,
+    "summedScoredGameSeconds": 4338.856000000001,
+    "unscoredCompletedGameSeconds": 95.424,
+    "interruptedGameCpuCostMeasured": false,
+    "workers": 2,
+    "device": "CPU",
+    "cpuCoreSeconds": null,
+    "trainingUpdates": 0
+  },
+  "recovery": {
+    "retainedSeedPairs": 2,
+    "unscoredOriginalNaturalGames": 1,
+    "interruptedGameAttempts": 2,
+    "originalDeadline": "2026-10-21T02:48:18.242Z",
+    "deadlineExtended": false,
+    "priorCurveSha256": "90dce051eb08f6c66707ccbd1eabb4d8e52fc4d02d284f650495a0b93d520fda"
+  },
+  "conclusion": "Development measurements across four fixed checkpoints, not checkpoint selection or a promotion test. Final confirmation remains separate.",
+  "promotion": false
+}

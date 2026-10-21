@@ -11,7 +11,9 @@ const sourcePins = Object.fromEntries([new URL(import.meta.url), new URL('../src
   .map(file => [file.href, hashFile(file)]));
 const manifest = readJson(manifestPath), config = readJson(manifest.environmentConfig), root = path.resolve(output);
 const maximumGames = manifest.maximumGames ?? 128;
+const analysisAlpha = manifest.analysisAlpha ?? .05;
 if (manifest.schema !== 'native-ladder-run/1' || !['development', 'confirmation'].includes(manifest.split) || manifest.promotion !== false
+  || !Number.isFinite(analysisAlpha) || analysisAlpha <= 0 || analysisAlpha >= 1
   || !Number.isSafeInteger(manifest.workers) || manifest.workers < 1 || manifest.workers > 8
   || !Number.isSafeInteger(maximumGames) || maximumGames < 2 || maximumGames > 4096
   || !Number.isSafeInteger(manifest.maximumWallSeconds) || manifest.maximumWallSeconds < 1 || manifest.maximumWallSeconds > 86400
@@ -76,10 +78,10 @@ function report(final = false) {
   const complete = final && !stopReason && blocks.length === matchSchedule.length;
   const result = { schema: 'native-ladder-run-receipt/1', state: complete ? 'completed' : final ? 'incomplete' : 'running',
     at: new Date().toISOString(), processId: process.pid,
-    registry, blocks: blocks.map(b => ({ ...b, fixedEndpoint: complete })), manifestSha256, configSha256,
+    registry, blocks: blocks.map(b => ({ ...b, fixedEndpoint: complete })), manifestSha256, configSha256, analysisAlpha,
     runnerSha256: sourcePins[import.meta.url], sourcePins, plannedPairs: matchSchedule.length, workers: manifest.workers,
     elapsedSeconds: (Date.now() - started) / 1000, stopReason, promotion: false };
-  save('receipt.json', result); save('report.json', summarizeNativeLadder(registry, result.blocks));
+  save('receipt.json', result); save('report.json', summarizeNativeLadder(registry, result.blocks, { alpha: analysisAlpha }));
   return result;
 }
 async function lane(index) {

@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
-  "revision": 3,
-  "at": "2026-10-21T02:29:37.822Z",
+  "revision": 4,
+  "at": "2026-10-21T02:47:22.567Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -142,26 +142,86 @@
       "conclusion": "18–14 is an exploratory lead, not demonstrated improvement. Preserve current first-baseline route.",
       "nextAction": "measure existing PPO snapshot strength before another training bet",
       "promoted": false
+    },
+    {
+      "id": "ppo-strength-curve-001",
+      "status": "completed",
+      "hypothesis": "fixed per-checkpoint development matches reveal whether the prior PPO update sequence improves or regresses before final confirmation",
+      "controlledChange": "candidate ordinary/singleton checkpoint; same seed panel and frozen opponent per snapshot",
+      "protocol": "repro/ppo-strength-curve-001/protocol.json",
+      "budget": {
+        "snapshots": 4,
+        "gamesPerSnapshot": 16,
+        "independentSeedBlocksPerSnapshot": 8,
+        "lanes": 2,
+        "wallSeconds": 3600,
+        "trainingUpdates": 0
+      },
+      "attempt": 2,
+      "recovery": "Two complete pairs retained; interrupted pairs replayed after execution transport loss. Same protocol and original deadline.",
+      "games": 64,
+      "result": "docs/ppo-strength-curve-001-result.json",
+      "ladderResult": "docs/native-ladder-strength-curve-001.json",
+      "points": [
+        {
+          "id": "update-1",
+          "wins": 5,
+          "losses": 11,
+          "score": 0.3125,
+          "interval95": [
+            0,
+            0.7926613956599604
+          ]
+        },
+        {
+          "id": "update-2",
+          "wins": 10,
+          "losses": 6,
+          "score": 0.625,
+          "interval95": [
+            0.14483860434003965,
+            1
+          ]
+        },
+        {
+          "id": "update-3",
+          "wins": 8,
+          "losses": 8,
+          "score": 0.5,
+          "interval95": [
+            0.019838604340039645,
+            0.9801613956599604
+          ]
+        },
+        {
+          "id": "update-4",
+          "wins": 6,
+          "losses": 10,
+          "score": 0.375,
+          "interval95": [
+            0,
+            0.8551613956599604
+          ]
+        }
+      ],
+      "actualCost": {
+        "currentAttemptWallSeconds": 2164.6,
+        "campaignWallSeconds": 2815.824,
+        "summedScoredGameSeconds": 4338.856000000001,
+        "unscoredCompletedGameSeconds": 95.424,
+        "interruptedGameCpuCostMeasured": false,
+        "workers": 2,
+        "device": "CPU",
+        "cpuCoreSeconds": null,
+        "trainingUpdates": 0
+      },
+      "conclusion": "Exploratory only: no established improvement or monotonic training gain. Small per-checkpoint n is not a decisive strength experiment."
     }
   ],
   "active": {
-    "id": "ppo-strength-curve-001",
-    "status": "running",
-    "hypothesis": "fixed per-checkpoint development matches reveal whether the prior PPO update sequence improves or regresses before final confirmation",
-    "controlledChange": "candidate ordinary/singleton checkpoint; same seed panel and frozen opponent per snapshot",
-    "protocol": "repro/ppo-strength-curve-001/protocol.json",
-    "budget": {
-      "snapshots": 4,
-      "gamesPerSnapshot": 16,
-      "independentSeedBlocksPerSnapshot": 8,
-      "lanes": 2,
-      "wallSeconds": 3600,
-      "trainingUpdates": 0
-    },
-    "nextAction": "finish fixed development panel; retain negative measurements and choose next research experiment",
-    "attempt": 2,
-    "recovery": "Two complete pairs retained; interrupted pairs replayed after execution transport loss. Same protocol and original deadline.",
-    "privateProgress": "runs/ppo-strength-curve-001/evaluation-resume-002/strength-summary.json"
+    "id": "model7-overnight-001",
+    "status": "design frozen; execution preparation in progress",
+    "protocol": "repro/model7-overnight-001/protocol.json"
   },
   "rankedApproaches": [
     "decision-specific prompt policy coverage",
@@ -172,15 +232,48 @@
     "correction": "Small routing/checkpoint panels are exploratory diagnostics and cannot resolve modest strength gains. Original protocols and observations remain preserved.",
     "decisionRelevantEffect": 0.1,
     "independentUnit": "seed pair, not seats or decisions",
-    "nextExperiment": "ppo-checkpoint-confirmation-001",
-    "protocol": "repro/ppo-checkpoint-confirmation-001/protocol.json",
+    "nextExperiment": "model7-overnight-001",
+    "protocol": "repro/model7-overnight-001/protocol.json",
     "independentPairs": 512,
     "games": 1024,
     "confidence": 0.95,
     "intervalRadius": 0.060020174457495044,
     "minimumPowerAtScorePointSix": 0.8053880543047711,
-    "candidateNomination": "highest completed development score among four frozen PPO snapshots; tie picks fewer training games",
+    "candidateNomination": "last fully verified update of the one authorized six-hour training trajectory; no selection by wins",
     "resources": "six CPU lanes after capacity check; 8h operational cap; actual costs and failures retained",
     "stopping": "fixed endpoint, no outcome-based stopping; incomplete campaigns cannot claim the fixed-endpoint result"
+  },
+  "supersededBeforeExecution": {
+    "experiment": "ppo-checkpoint-confirmation-001",
+    "reason": "User authorized one new six-hour Model7 training candidate; allocate adequate final evaluation to that candidate instead. No old-checkpoint confirmation games played. Original unexecuted protocol remains historical; its unused fresh seeds transferred into the separately versioned overnight design."
+  },
+  "activeTrainingDesign": {
+    "id": "model7-overnight-001",
+    "method": "64-game-batch outcome PPO",
+    "protocol": "repro/model7-overnight-001/protocol.json",
+    "startUtc": "2026-10-21T04:00:00Z",
+    "deadlineUtc": "2026-10-21T10:00:00Z",
+    "executionOwner": "01a15c50-d335-7125-9222-99c9415960e5",
+    "status": "design frozen; execution preparation in progress",
+    "promotion": false,
+    "externalReuseDecision": {
+      "repository": "https://github.com/Trevon-Woods-AI-Portfolio/PokemonTCG_Deep_RL_Agent",
+      "sourceCommit": "192bf1b4bc0f17a44d11b684cd2dbdf83875b253",
+      "decision": "Retain the prepared categorical PPO training path for this one overnight run; pursue a separate source-only adaptation without an extra trained candidate.",
+      "evidence": "The checked-in Python code is inference/search, with no optimizer or PPO training pipeline. CABT-specific action enumeration and hidden allocation require correction before trustworthy native search targets. Reusing search decisions with pre-search actor log probabilities would not supply correct on-policy behavior ratios.",
+      "reuseOwner": "01a15c58-0bae-702b-b837-d3a42d69e0d7",
+      "licenseScope": "MIT source is available for attributed adaptation. Supplied competition-trained weights are not cleared for this independent ladder; separate owner is recording applicable terms.",
+      "remainingOpportunity": "Native search-target distillation or sparse scoring can be evaluated separately after the adapter is verified; do not silently combine it with this controlled continuation."
+    }
+  },
+  "completedPreservation": {
+    "ppoStrengthCurve": {
+      "archiveName": "research-loop-2026-10-21/ppo-strength-curve-001",
+      "allCopiedFilesHashVerified": true
+    },
+    "capacityCheck": {
+      "archiveName": "research-loop-2026-10-21/confirmation-capacity-001",
+      "allCopiedFilesHashVerified": true
+    }
   }
 }
