@@ -1,7 +1,7 @@
 {
   "schema": "tcg-strength-research-ledger/1",
   "revision": 6,
-  "at": "2026-10-21T03:57:28.744Z",
+  "at": "2026-10-21T04:01:52.748Z",
   "objective": "measured complete-game playing strength",
   "sourceBase": "15a16da47966eed6b4a0d55dde5f9adbdfe55efc",
   "reference": {
@@ -255,7 +255,7 @@
     "startUtc": "2026-10-21T03:38:11.728Z",
     "deadlineUtc": "2026-10-21T09:38:11.728Z",
     "executionOwner": "01a15c50-d335-7125-9222-99c9415960e5",
-    "status": "paused before first fit; immutable same-lineage recovery preparing after actual errors and timeout",
+    "status": "same-lineage v4 recovery resumed; first fit not yet verified",
     "promotion": false,
     "externalReuseDecision": {
       "decision": "Native AlphaZero-inspired search distillation selected under latest user instruction; PPO plans remain unexecuted history.",
@@ -285,7 +285,29 @@
     "excludedTrainingBatches": [
       1
     ],
-    "nextUnusedPredeclaredBatch": 2
+    "nextUnusedPredeclaredBatch": 2,
+    "evaluationResourceAuthorization": {
+      "plan": "repro/model7-overnight-001/evaluation-resource-plan-001.json",
+      "sha256": "c7c92da2f7c2c94cfac33cf70a3354fab823ea40838f0033be34ece231cee3b8",
+      "status": "approved under existing local-compute authority",
+      "trainingDeadlineUnchanged": true
+    },
+    "evaluationSupervisor": {
+      "campaign": 2,
+      "armedAtUtc": "2026-10-21T04:01:36.675Z",
+      "status": "armed waiting for first monitor",
+      "monitorSnapshotTimesUtc": [
+        "2026-10-21T05:38:11.728Z",
+        "2026-10-21T07:38:11.728Z"
+      ],
+      "confirmationAfterUtc": "2026-10-21T09:38:11.728Z",
+      "finalIndependentPairs": 512,
+      "finalWorkers": 6,
+      "finalMaximumWallSeconds": 86400,
+      "maximumGameSeconds": 3600,
+      "monitorMaximumWallSeconds": 14400,
+      "monitorWorkers": 2
+    }
   },
   "completedPreservation": {
     "ppoStrengthCurve": {
