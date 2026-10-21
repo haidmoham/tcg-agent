@@ -8,6 +8,13 @@ export function createSearchEvaluator({ model, catalog }) {
   return async ({ view, validate, leafOnly = false }) => {
     if (view.opponent?.hand != null || view.opponent?.deck != null) throw Error('actor-visible search observation required');
     if (view.status !== 'playing') throw unsupported('setup is delegated to the existing helper');
+    const prompt = view.prompts[0];
+    if (prompt && prompt.choices.length === 0 && prompt.min === 0 && prompt.max === 0) {
+      const forcedDecision = { promptId: prompt.id, choiceIds: [] };
+      if (typeof validate !== 'function' || await validate(forcedDecision) !== true)
+        throw Error('empty forced prompt requires native validation');
+      return { forcedDecision };
+    }
     const encoded = encodeModel6Decision(view, { catalog });
     if (leafOnly) {
       if (encoded.kind === 'selection') encoded.selectionCardinality = 1;
@@ -83,9 +90,9 @@ export async function runInformationSetSearch({ provider, rootView, publicHistor
       || !finite(cPuct) || cPuct <= 0 || ![0, 1].includes(temperature) || typeof rootNoise !== 'boolean')
     throw Error('bounded explicit information-set search configuration required');
   const random = randomStream(seed), handles = [], informationSets = new Map();
-  let commands, encoded, canonical, rootNode, expansions = 0, sharedInformationSetHits = 0, valueTotal = 0;
+  let commands, encoded, canonical, rootNode, expansions = 0, sharedInformationSetHits = 0, valueTotal = 0, forcedTransitions = 0;
   const check = () => { if (signal?.aborted) throw Object.assign(Error('search cancelled'), { code: 'SEARCH_CANCELLED' }); };
-  const makeNode = async (handle, histories, root = false) => {
+  const makeNode = async (handle, histories, root = false, forcedDepth = 0) => {
     check();
     const observation = await provider.observe(handle);
     const { view, toPlay, terminal } = observation;
@@ -102,6 +109,15 @@ export async function runInformationSetSearch({ provider, rootView, publicHistor
     } catch (error) {
       if (root || error.code !== 'UNSUPPORTED_SEARCH_DOMAIN') throw error;
       evaluation = await evaluate({ view, toPlay, leafOnly: true });
+    }
+    if (evaluation.forcedDecision) {
+      if (root) throw unsupported('forced empty root has no search policy target');
+      if (forcedDepth >= 32) throw Error('forced native transition bound exceeded');
+      const childHandle = await provider.step(handle, evaluation.forcedDecision);
+      handles.push(childHandle); forcedTransitions++;
+      const nextHistories = { ...histories, [toPlay]: [...histories[toPlay],
+        { observation: view, forcedAction: evaluation.forcedDecision }] };
+      return makeNode(childHandle, nextHistories, false, forcedDepth + 1);
     }
     if (!finite(evaluation.value) || Math.abs(evaluation.value) > 1.000001) throw Error('bounded actor-perspective search value required');
     if (evaluation.leafOnly) return { handle, histories, terminal: true, value: evaluation.value * (toPlay === rootPlayer ? 1 : -1) };
@@ -188,7 +204,7 @@ export async function runInformationSetSearch({ provider, rootView, publicHistor
     return { commands, encoded, visits, policyTarget, selectedIndex,
       decision: commands[selectedIndex], rootValue: valueTotal / total,
       diagnostics: { determinizations, simulationsPerWorld: simulations, totalSimulations: total, expansions, maxDepth,
-        informationSets: informationSets.size, sharedInformationSetHits,
+        informationSets: informationSets.size, sharedInformationSetHits, forcedTransitions,
         approximation: 'declared-deck-information-set-puct/1', seed, temperature, rootNoise } };
   } finally {
     const results = await Promise.allSettled(handles.reverse().map(handle => provider.release(handle)));

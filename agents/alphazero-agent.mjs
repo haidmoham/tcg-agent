@@ -50,6 +50,10 @@ export class SearchDistillationAgent extends AgentBundle {
       if (error.code !== 'UNSUPPORTED_SEARCH_DOMAIN') throw error;
       const result = this.fallback(view, error.message); result.decisions = await result.decisions; return result;
     }
+    if (root.forcedDecision) {
+      this.searchCounts.forced++;
+      return { source: 'alphazero-forced-empty', decisions: [root.forcedDecision] };
+    }
     if (root.encoded.legalMask.filter(Boolean).length === 1) {
       this.searchCounts.forced++;
       return { source: 'alphazero-forced', decisions: [root.commands[root.encoded.legalMask.indexOf(true)]] };

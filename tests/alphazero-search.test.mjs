@@ -68,3 +68,12 @@ test('branch failures are reported and all already-created handles are released'
   await assert.rejects(runInformationSetSearch(options(p)), /explicit native failure/);
   assert.equal(p.handles.size, 0);
 });
+
+test('native-validated empty prompts advance without invented policy or value outputs', async () => {
+  const p = provider();
+  const result = await runInformationSetSearch({ ...options(p), evaluate: async input => input.view.depth === 1
+    ? { forcedDecision: { promptId: 'empty', choiceIds: [] } } : evaluate(input) });
+  assert(result.diagnostics.forcedTransitions > 0);
+  assert.equal(result.visits.reduce((sum, n) => sum + n), 32);
+  assert.equal(p.handles.size, 0);
+});
